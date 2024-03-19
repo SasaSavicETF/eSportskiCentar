@@ -12,11 +12,14 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { SplitterModule } from 'primeng/splitter';
+import { DvoranaComponent } from './dvorana/dvorana.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GradComponent
+    GradComponent,
+    DvoranaComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +31,8 @@ import { SplitterModule } from 'primeng/splitter';
     DialogModule,
     InputTextModule,
     FormsModule,
-    SplitterModule
+    SplitterModule,
+    DropdownModule
   ],
   providers: [
     provideClientHydration()

@@ -1,0 +1,106 @@
+
+<div class="sadrzaj">
+    <div class="parent">
+        <div>
+            <h1>Dvorana</h1>
+        </div>
+        <!-- Modal za dodavanje -->
+        <div class="addDiv">
+            <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+            <p-dialog header="Dodavanje dvorane" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+                <div class="container">
+                   <form #addForm="ngForm" (ngSubmit)="onAddDvorana(addForm)">
+                        <label for="naziv_dvorane">Naziv dvorane</label>
+                        <input type="text" pInputText class="textInput" id="naziv_dvorane" ngModel name="nazivDvorane" required/>
+                        <label for="kapacitet">Kapacitet</label>
+                        <input type="number" pInputText class="textInput" id="kapacitet" ngModel name="kapacitet"/>
+                        <div class="form-group">
+                            <label for="duzina">Duzina</label>
+                            <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="duzina" ngModel name="duzina" required/>
+                            <label for="sirina">Sirina</label>
+                            <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="sirina" ngModel name="sirina" required/>
+                        </div>
+                        <div class="drop card flex justify-content-center">
+                            <p-dropdown class="custom-dd" [options]="grads" [(ngModel)]="selectedGrad" name="grad" optionLabel="nazivGrada" [showClear]="true" placeholder="Izaberi grad"></p-dropdown>
+                        </div>
+                        <label for="info">Info</label>
+                        <input type="text" pInputText class="textInput" id="info" ngModel name="info" required/>
+                        <div class="addBtn">
+                            <p-button type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                        </div>
+                    </form>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+    <div class="search card flex flex-wrap justify-content-center gap-3">
+        <span>
+
+        </span>
+        <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText (ngModelChange)="searchDvoranas(key.value)" #key="ngModel" ngModel/>
+        </span>
+    </div>
+    <p-table
+        [value]="dvoranas"
+        [paginator]="true"
+        [rows]="5"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Prikazano od {first}. do {last}. od ukupno {totalRecords} zapisa"
+        [rowsPerPageOptions]="[5, 10, 25, 50]"
+        paginatorLocale="en-US"
+    >
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 16.5%;">Naziv dvorane</th>
+            <th style="width: 16.5%">Grad</th>
+            <th style="width: 16.5%">Kapacitet</th>
+            <th style="width: 16.5%">Dužina</th>
+            <th style="width: 16.5%">Širina</th>
+            <th style="width: 16.5%">Opcije</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-dvorana>
+        <tr>
+            <td>{{ dvorana.nazivDvorane }}</td>
+            <td>{{ dvorana.grad.nazivGrada }}</td>
+            <td>{{ dvorana.kapacitet }}</td>
+            <td>{{ dvorana.duzina }} m</td>
+            <td>{{ dvorana.sirina }} m</td>
+            <td>
+                <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" styleClass="p-button-text" (click)="showEditDialog(dvorana)"></p-button>
+                <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger " (click)="showDeleteDialog(dvorana)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+    
+    </p-table>
+</div>
+
+<!--Modal za izmjenu(edit)-->
+<p-dialog header="Izmjena dvorane" [(visible)]="editVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+    <div class="container">
+        <!--<form #editForm="ngForm">
+            <input type="hidden" id="id_grad" ngModel="{{editGrad?.idGrad}}" name="idGrad"/>
+            <label for="naziv_grada">Naziv grada</label>
+            <input type="text" pInputText class="textInput" id="naziv_grada" ngModel="{{editGrad?.nazivGrada}}" name="nazivGrada" required/>
+            <div class="addBtn">
+                <p-button (onClick)="onUpdateGrad(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+            </div>
+        </form>-->
+    </div>
+</p-dialog>
+
+<!--Modal za brisanje-->
+<p-dialog header="Upozorenje" [(visible)]="deleteVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+    <div class="container">
+        <p>Da li zaista želite da obrišete zapis {{delDvorana?.nazivDvorane}}?</p>
+        <br>
+        <div class="addBtn">
+            <p-button (onClick)="closeDeleteDialog()" class="scndBtn" label="Odustani" severity="secondary"></p-button>
+            <p-button (onClick)="onDeleteDvorana(delIdDvorana)" label="Obriši" severity="danger"></p-button>
+        </div>
+    </div>
+</p-dialog>
