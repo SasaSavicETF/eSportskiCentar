@@ -13,9 +13,9 @@ public class Dvorana {
     @Basic
     @Column(name = "naziv_dvorane")
     private String nazivDvorane;
-    @Basic
+    /*@Basic
     @Column(name = "id_grad")
-    private int idGrad;
+    private int idGrad;*/
     @Basic
     @Column(name = "kapacitet")
     private Integer kapacitet;
@@ -28,6 +28,10 @@ public class Dvorana {
     @Basic
     @Column(name = "info")
     private String info;
+
+    @ManyToOne
+    @JoinColumn(name = "id_grad")
+    private Grad grad;
 
     public int getIdDvorana() {
         return idDvorana;
@@ -44,14 +48,14 @@ public class Dvorana {
     public void setNazivDvorane(String nazivDvorane) {
         this.nazivDvorane = nazivDvorane;
     }
-
+/*
     public int getIdGrad() {
         return idGrad;
     }
 
     public void setIdGrad(int idGrad) {
         this.idGrad = idGrad;
-    }
+    }*/
 
     public Integer getKapacitet() {
         return kapacitet;
@@ -85,6 +89,14 @@ public class Dvorana {
         this.info = info;
     }
 
+    public Grad getGrad() {
+        return grad;
+    }
+
+    public void setGrad(Grad grad) {
+        this.grad = grad;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -93,7 +105,7 @@ public class Dvorana {
         Dvorana dvorana = (Dvorana) o;
 
         if (idDvorana != dvorana.idDvorana) return false;
-        if (idGrad != dvorana.idGrad) return false;
+        //if (idGrad != dvorana.idGrad) return false;
         if (nazivDvorane != null ? !nazivDvorane.equals(dvorana.nazivDvorane) : dvorana.nazivDvorane != null)
             return false;
         if (kapacitet != null ? !kapacitet.equals(dvorana.kapacitet) : dvorana.kapacitet != null) return false;
@@ -108,7 +120,7 @@ public class Dvorana {
     public int hashCode() {
         int result = idDvorana;
         result = 31 * result + (nazivDvorane != null ? nazivDvorane.hashCode() : 0);
-        result = 31 * result + idGrad;
+        //result = 31 * result + idGrad;
         result = 31 * result + (kapacitet != null ? kapacitet.hashCode() : 0);
         result = 31 * result + (duzina != null ? duzina.hashCode() : 0);
         result = 31 * result + (sirina != null ? sirina.hashCode() : 0);

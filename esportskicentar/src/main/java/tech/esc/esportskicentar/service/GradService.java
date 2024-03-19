@@ -38,7 +38,7 @@ public class GradService
 
     public Grad findGradById(Integer id)
     {
-        return gradRepository.findGradByIdGrad(id).orElseThrow(() -> new UserNotFoundException("User by id " + id + " was not found"));
+        return gradRepository.findGradByIdGrad(id).orElseThrow(() -> new UserNotFoundException("Grad by id " + id + " was not found"));
     }
     public void deleteGrad(Integer id)
     {
