@@ -15,16 +15,16 @@
                         <label for="kapacitet">Kapacitet</label>
                         <input type="number" pInputText class="textInput" id="kapacitet" ngModel name="kapacitet"/>
                         <div class="form-group">
-                            <label for="duzina">Duzina</label>
+                            <label for="duzina">Dužina</label>
                             <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="duzina" ngModel name="duzina" required/>
-                            <label for="sirina">Sirina</label>
+                            <label for="sirina">Širina</label>
                             <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="sirina" ngModel name="sirina" required/>
                         </div>
                         <div class="drop card flex justify-content-center">
                             <p-dropdown class="custom-dd" [options]="grads" [(ngModel)]="selectedGrad" name="grad" optionLabel="nazivGrada" [showClear]="true" placeholder="Izaberi grad"></p-dropdown>
                         </div>
                         <label for="info">Info</label>
-                        <input type="text" pInputText class="textInput" id="info" ngModel name="info" required/>
+                        <textarea type="text" pInputText class="textInputL" id="info" ngModel name="info" required></textarea>
                         <div class="addBtn">
                             <p-button type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
                         </div>
@@ -71,6 +71,7 @@
             <td>{{ dvorana.sirina }} m</td>
             <td>
                 <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" styleClass="p-button-text" (click)="showEditDialog(dvorana)"></p-button>
+                <p-button icon="pi pi-info-circle" [rounded]="true" [text]="true" severity="success " (click)="showInfoDialog(dvorana)"></p-button>
                 <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger " (click)="showDeleteDialog(dvorana)"></p-button>
             </td>
         </tr>
@@ -82,14 +83,27 @@
 <!--Modal za izmjenu(edit)-->
 <p-dialog header="Izmjena dvorane" [(visible)]="editVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
     <div class="container">
-        <!--<form #editForm="ngForm">
-            <input type="hidden" id="id_grad" ngModel="{{editGrad?.idGrad}}" name="idGrad"/>
-            <label for="naziv_grada">Naziv grada</label>
-            <input type="text" pInputText class="textInput" id="naziv_grada" ngModel="{{editGrad?.nazivGrada}}" name="nazivGrada" required/>
-            <div class="addBtn">
-                <p-button (onClick)="onUpdateGrad(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+        <form #editForm="ngForm">
+            <input type="hidden" id="id_dvorana" ngModel="{{editDvorana?.idDvorana}}" name="idDvorana"/>
+            <label for="naziv_dvorane">Naziv dvorane</label>
+            <input type="text" pInputText class="textInput" id="naziv_dvorane" ngModel="{{editDvorana?.nazivDvorane}}" name="nazivDvorane" required/>
+            <label for="kapacitet">Kapacitet</label>
+            <input type="number" pInputText class="textInput" id="kapacitet" ngModel="{{editDvorana?.kapacitet}}" name="kapacitet"/>
+            <div class="form-group">
+                <label for="duzina">Duzina</label>
+                <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="duzina" ngModel="{{editDvorana?.duzina}}" name="duzina" required/>
+                <label for="sirina">Sirina</label>
+                <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="sirina" ngModel="{{editDvorana?.sirina}}" name="sirina" required/>
             </div>
-        </form>-->
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="grads" [(ngModel)]="selectedGrad" name="grad" optionLabel="nazivGrada" [showClear]="true" placeholder="Izaberi grad"></p-dropdown>
+            </div>
+            <label for="info">Info</label>
+            <textarea type="text" pInputText class="textInput" id="info" ngModel="{{editDvorana?.info}}" name="info" required></textarea>
+            <div class="addBtn">
+                <p-button (onClick)="onUpdateDvorana(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+            </div>
+        </form>
     </div>
 </p-dialog>
 
@@ -104,3 +118,32 @@
         </div>
     </div>
 </p-dialog>
+
+<!--Modal za informacije-->
+<p-dialog header="Informacije" [(visible)]="infoVisible" [modal]="false" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+    <div class="container">
+        <div>
+            <p><span class="labela">Naziv dvorane:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDvorana?.nazivDvorane}}</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Kapacitet:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDvorana?.kapacitet}} sjedećih mjesta</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Dužina:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDvorana?.duzina}} m</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Širina:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDvorana?.sirina}} m</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Grad:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDvorana?.grad?.nazivGrada}}</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Opis:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDvorana?.info}}</span></p>
+        </div>
+        <br>
+        <div class="addBtn">
+            <p-button (onClick)="closeInfoDialog()" class="scndBtn" label="Izađi" severity="secondary"></p-button>
+        </div>
+    </div>
+</p-dialog>
+
