@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Dvorana } from '../models/dvorana';
 import { DvoranaService } from './dvorana.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
+import { FormControl, NgForm, Validators } from '@angular/forms';
 import { Grad } from '../models/grad';
 import { GradService } from '../grad/grad.service';
 
@@ -17,15 +17,20 @@ export class DvoranaComponent implements OnInit
   addVisible: boolean = false;
   editVisible: boolean = false;
   deleteVisible: boolean = false;
+  infoVisible: boolean = false;
 
   public editDvorana: Dvorana | undefined;
   public delDvorana: Dvorana | undefined;
+  public infoDvorana: Dvorana | undefined;
   public delIdDvorana: number = -1;
 
   public nazivDvoraneInput: string = "";
 
   grads: Grad[] = [];
   selectedGrad: Grad | undefined;
+
+  duzina: string = "";
+  duzinaFormControl = new FormControl('', Validators.pattern('[0-9]+([.,][0-9]+)?'));
 
   constructor(private dvoranaService: DvoranaService, private gradService: GradService) { }
 
@@ -113,7 +118,8 @@ export class DvoranaComponent implements OnInit
     const results: Dvorana[] = [];
     for(const dvorana of this.dvoranas)
     {
-      if(dvorana.nazivDvorane.toLowerCase().indexOf(key.toLowerCase()) !== -1)
+      if((dvorana.nazivDvorane.toLowerCase().indexOf(key.toLowerCase()) !== -1) ||
+        (dvorana.grad.nazivGrada.toLowerCase().indexOf(key.toLowerCase()) !== -1) )
       {
         results.push(dvorana);
       }
@@ -136,6 +142,7 @@ export class DvoranaComponent implements OnInit
     {
       this.editVisible = true;
       this.editDvorana = { ...dvorana };
+      this.selectedGrad = this.editDvorana.grad;
     }
   }
 
@@ -149,5 +156,16 @@ export class DvoranaComponent implements OnInit
   closeDeleteDialog()
   {
     this.deleteVisible = false;
+  }
+
+  showInfoDialog(dvorana: Dvorana) 
+  {
+    this.infoVisible = true;
+    this.infoDvorana = { ...dvorana };
+  }
+
+  closeInfoDialog()
+  {
+    this.infoVisible = false;
   }
 }
