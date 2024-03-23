@@ -3,10 +3,8 @@ package tech.esc.esportskicentar.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tech.esc.esportskicentar.DvoranaResource;
 import tech.esc.esportskicentar.exception.UserNotFoundException;
 import tech.esc.esportskicentar.model.Dvorana;
-import tech.esc.esportskicentar.repository.DvoranaRepository;
 
 import java.util.List;
 
@@ -14,10 +12,10 @@ import java.util.List;
 @Transactional
 public class DvoranaService
 {
-    private final DvoranaRepository dvoranaRepository;
+    private final tech.esc.esportskicentar.repository.DvoranaRepository dvoranaRepository;
 
     @Autowired
-    public DvoranaService(DvoranaRepository dvoranaRepository)
+    public DvoranaService(tech.esc.esportskicentar.repository.DvoranaRepository dvoranaRepository)
     {
         this.dvoranaRepository = dvoranaRepository;
     }

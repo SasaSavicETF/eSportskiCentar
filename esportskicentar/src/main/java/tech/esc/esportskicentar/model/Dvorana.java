@@ -1,6 +1,7 @@
 package tech.esc.esportskicentar.model;
 
 import jakarta.persistence.*;
+import jdk.jfr.DataAmount;
 
 import java.math.BigDecimal;
 
