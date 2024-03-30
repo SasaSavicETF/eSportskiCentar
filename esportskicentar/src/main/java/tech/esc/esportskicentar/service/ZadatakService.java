@@ -29,8 +29,12 @@ public class ZadatakService {
         return  zadatakRepository.save(zadatak);
     }
 
-    public Zadatak updateZadatak(Zadatak zadatak){
-        return  zadatakRepository.save(zadatak);
+    public Zadatak updateZadatak(Integer id, Zadatak zadatak){
+        Zadatak stariZadatak = zadatakRepository.findById(id).orElse(null);
+        if(stariZadatak == null || id != zadatak.getIdZadatak())
+            return null;
+        else
+            return  zadatakRepository.save(zadatak);
     }
 
     public void deleteZadatak(Integer id){

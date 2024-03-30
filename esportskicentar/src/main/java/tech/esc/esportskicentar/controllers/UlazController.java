@@ -1,5 +1,6 @@
 package tech.esc.esportskicentar.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,14 +37,14 @@ public class UlazController {
     }
 
     @PostMapping
-    public ResponseEntity<Ulaz> createUlaz(@RequestBody Ulaz ulaz) {
+    public ResponseEntity<Ulaz> createUlaz(@Valid @RequestBody Ulaz ulaz) {
         Ulaz newUlaz = ulazService.createUlaz(ulaz);
         return new ResponseEntity<>(newUlaz, HttpStatus.CREATED);
         //return ResponseEntity.status(HttpStatus.CREATED).body(newUlaz);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Ulaz> updateUlaz(@PathVariable Integer id, @RequestBody Ulaz oldUlaz) {
+    public ResponseEntity<Ulaz> updateUlaz(@PathVariable Integer id,@Valid @RequestBody Ulaz oldUlaz) {
         Ulaz updatedUlaz = ulazService.updateUlaz(oldUlaz, id);
 
         if (updatedUlaz != null)

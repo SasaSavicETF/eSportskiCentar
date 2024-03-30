@@ -1,7 +1,11 @@
 package tech.esc.esportskicentar.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import tech.esc.esportskicentar.annotation.ValidPhoneNumber;
 
 @Entity
 @Data
@@ -14,24 +18,32 @@ public class Klijent {
     @Id
     @Column(name = "id_klijent")
     private int idKlijent;
+    @NotBlank
     @Basic
     @Column(name = "ime")
     private String ime;
+    @NotBlank
     @Basic
     @Column(name = "prezime")
     private String prezime;
+    @ValidPhoneNumber
     @Basic
     @Column(name = "broj_telefona")
     private String brojTelefona;
+    @NotBlank
     @Basic
     @Column(name = "korisnicko_ime")
     private String korisnickoIme;
+    @NotBlank
     @Basic
     @Column(name = "lozinka")
     private String lozinka;
+    @NotNull
+    @Email
     @Basic
     @Column(name = "email")
     private String email;
+    @NotNull
     @Basic
     @Column(name = "blokiran")
     private boolean blokiran;

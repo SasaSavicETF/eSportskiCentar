@@ -1,5 +1,6 @@
-package tech.esc.esportskicentar;
+package tech.esc.esportskicentar.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +11,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/grad")
-public class GradResource
+public class GradController
 {
     private final GradService gradService;
 
-    public GradResource(GradService gradService) {
+    public GradController(GradService gradService) {
         this.gradService = gradService;
     }
 
@@ -33,16 +34,16 @@ public class GradResource
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Grad> addGrad(@RequestBody Grad grad)
+    public ResponseEntity<Grad> addGrad(@Valid  @RequestBody Grad grad)
     {
         Grad newGrad = gradService.addGrad(grad);
         return new ResponseEntity<>(newGrad, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<Grad> updateGrad(@RequestBody Grad grad)
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Grad> updateGrad(@PathVariable Integer id, @Valid @RequestBody Grad grad)
     {
-        Grad updateGrad = gradService.updateGrad(grad);
+        Grad updateGrad = gradService.updateGrad(id, grad);
         return new ResponseEntity<>(updateGrad, HttpStatus.OK);
     }
 

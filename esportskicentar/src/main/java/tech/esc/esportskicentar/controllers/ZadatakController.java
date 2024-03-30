@@ -1,4 +1,5 @@
 package tech.esc.esportskicentar.controllers;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,21 +29,27 @@ public class ZadatakController {
     public ResponseEntity<Zadatak> getZadatakById(@PathVariable("id") Integer id)
     {
         Zadatak zadatak = zadatakService.findZadatakById(id);
-        return new ResponseEntity<>(zadatak, HttpStatus.OK);
+        if(zadatak == null)
+            return ResponseEntity.notFound().build();
+        else
+            return new ResponseEntity<>(zadatak, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Zadatak> addZadatak(@RequestBody Zadatak zadatak)
+    public ResponseEntity<Zadatak> addZadatak(@Valid @RequestBody Zadatak zadatak)
     {
         Zadatak newZadatak = zadatakService.addZadatak(zadatak);
         return new ResponseEntity<>(newZadatak, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Zadatak> updateZadatak(@RequestBody Zadatak zadatak)
+    public ResponseEntity<Zadatak> updateZadatak(@PathVariable Integer id,@Valid @RequestBody Zadatak zadatak)
     {
-        Zadatak updateZadatak = zadatakService.updateZadatak(zadatak);
-        return new ResponseEntity<>(updateZadatak, HttpStatus.OK);
+        Zadatak updateZadatak = zadatakService.updateZadatak(id, zadatak);
+        if(updateZadatak == null)
+            return ResponseEntity.notFound().build();
+        else
+            return new ResponseEntity<>(updateZadatak, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

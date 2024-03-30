@@ -1,4 +1,5 @@
 package tech.esc.esportskicentar.controllers;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,21 +29,27 @@ public class DogadjajController {
     public ResponseEntity<Dogadjaj> getDogadjajById(@PathVariable("id") Integer id)
     {
         Dogadjaj dogadjaj = dogadjajService.findDogadjajById(id);
-        return new ResponseEntity<>(dogadjaj, HttpStatus.OK);
+        if(dogadjaj == null)
+            return ResponseEntity.notFound().build();
+        else
+            return new ResponseEntity<>(dogadjaj, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Dogadjaj> addDogadjaj(@RequestBody Dogadjaj dogadjaj)
+    public ResponseEntity<Dogadjaj> addDogadjaj(@Valid @RequestBody Dogadjaj dogadjaj)
     {
         Dogadjaj newDogadjaj = dogadjajService.addDogadjaj(dogadjaj);
         return new ResponseEntity<>(newDogadjaj, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Dogadjaj> updateDogadjaj(@RequestBody Dogadjaj dogadjaj)
+    public ResponseEntity<Dogadjaj> updateDogadjaj(@PathVariable Integer id, @Valid @RequestBody Dogadjaj dogadjaj)
     {
-        Dogadjaj updateDogadjaj = dogadjajService.updateDogadjaj(dogadjaj);
-        return new ResponseEntity<>(updateDogadjaj, HttpStatus.OK);
+        Dogadjaj updateDogadjaj = dogadjajService.updateDogadjaj(id, dogadjaj);
+        if(updateDogadjaj == null)
+            return ResponseEntity.notFound().build();
+        else
+            return new ResponseEntity<>(updateDogadjaj, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

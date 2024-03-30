@@ -1,5 +1,6 @@
 package tech.esc.esportskicentar.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +35,13 @@ public class TakmicenjeController {
     }
 
     @PostMapping
-    public ResponseEntity<Takmicenje> createTakmicenje(@RequestBody Takmicenje takmicenje) {
+    public ResponseEntity<Takmicenje> createTakmicenje(@Valid  @RequestBody Takmicenje takmicenje) {
         Takmicenje newTakmicenje = takmicenjeService.createTakmicenje(takmicenje);
         return new ResponseEntity<>(newTakmicenje, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Takmicenje> updateTakmicenje(@PathVariable Integer id, @RequestBody Takmicenje takmicenje) {
+    public ResponseEntity<Takmicenje> updateTakmicenje(@PathVariable Integer id, @Valid @RequestBody Takmicenje takmicenje) {
         Takmicenje updatedTakmicenje = takmicenjeService.updateTakmicenje(takmicenje,id);
 
         if (updatedTakmicenje != null)

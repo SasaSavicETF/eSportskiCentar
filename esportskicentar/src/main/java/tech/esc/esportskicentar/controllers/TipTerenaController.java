@@ -1,5 +1,6 @@
 package tech.esc.esportskicentar.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,13 +35,13 @@ public class TipTerenaController {
     }
 
     @PostMapping
-    public ResponseEntity<TipTerena> createUlaz(@RequestBody TipTerena tipTerena) {
+    public ResponseEntity<TipTerena> createUlaz(@Valid @RequestBody TipTerena tipTerena) {
         TipTerena newTipTerena = tipTerenaService.createTipTerena(tipTerena);
         return new ResponseEntity<>(newTipTerena, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TipTerena> updateTipTerena(@PathVariable Integer id, @RequestBody TipTerena tipTerena) {
+    public ResponseEntity<TipTerena> updateTipTerena(@PathVariable Integer id, @Valid @RequestBody TipTerena tipTerena) {
         TipTerena updatedTipTerena = tipTerenaService.updateTipTerena(tipTerena, id);
 
         if (updatedTipTerena != null)

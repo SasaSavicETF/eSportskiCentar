@@ -3,7 +3,6 @@ package tech.esc.esportskicentar.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tech.esc.esportskicentar.exception.UserNotFoundException;
 import tech.esc.esportskicentar.model.Cjenovnik;
 import tech.esc.esportskicentar.repository.CjenovnikRepository;
 
@@ -32,8 +31,12 @@ public class CjenovnikService {
         return cjenovnikRepository.save(cjenovnik);
     }
 
-    public Cjenovnik updateCjenovnik(Cjenovnik cjenovnik){
-        return cjenovnikRepository.save(cjenovnik);
+    public Cjenovnik updateCjenovnik(Integer id, Cjenovnik cjenovnik){
+        Cjenovnik stariCjenovnik = cjenovnikRepository.findById(id).orElse(null);
+        if(stariCjenovnik == null || id != cjenovnik.getIdCjenovnik())
+            return null;
+        else
+            return cjenovnikRepository.save(cjenovnik);
     }
 
     public void deleteCjenovnik(Integer id){

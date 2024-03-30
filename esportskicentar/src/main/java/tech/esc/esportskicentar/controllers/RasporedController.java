@@ -1,4 +1,5 @@
 package tech.esc.esportskicentar.controllers;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,21 +29,27 @@ public class RasporedController {
     public ResponseEntity<Raspored> getRasporedById(@PathVariable("id") Integer id)
     {
         Raspored raspored = rasporedService.findRasporedById(id);
-        return new ResponseEntity<>(raspored, HttpStatus.OK);
+        if(raspored == null)
+            return ResponseEntity.notFound().build();
+        else
+            return new ResponseEntity<>(raspored, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Raspored> addRaspored(@RequestBody Raspored raspored)
+    public ResponseEntity<Raspored> addRaspored(@Valid @RequestBody Raspored raspored)
     {
         Raspored newRaspored = rasporedService.addRaspored(raspored);
         return new ResponseEntity<>(newRaspored, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Raspored> updateRaspored(@RequestBody Raspored raspored)
+    public ResponseEntity<Raspored> updateRaspored(@PathVariable Integer id, @Valid @RequestBody Raspored raspored)
     {
-        Raspored updateRaspored = rasporedService.updateRaspored(raspored);
-        return new ResponseEntity<>(updateRaspored, HttpStatus.OK);
+        Raspored updateRaspored = rasporedService.updateRaspored(id, raspored);
+        if(updateRaspored == null)
+            return ResponseEntity.notFound().build();
+        else
+            return new ResponseEntity<>(updateRaspored, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

@@ -1,6 +1,7 @@
 package tech.esc.esportskicentar.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -25,7 +26,7 @@ public class Svlacionica {
     @Basic
     @Column(name = "dostupna")
     private boolean dostupna;
-
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "id_dvorana")
     private Dvorana dvorana;

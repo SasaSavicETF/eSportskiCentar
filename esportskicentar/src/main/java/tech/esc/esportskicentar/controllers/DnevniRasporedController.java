@@ -1,4 +1,5 @@
 package tech.esc.esportskicentar.controllers;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,21 +29,27 @@ public class DnevniRasporedController {
     public ResponseEntity<DnevniRaspored> getDnevniRasporedById(@PathVariable("id") Integer id)
     {
         DnevniRaspored dnevniRaspored = dnevniRasporedService.findDnevniRasporedById(id);
-        return new ResponseEntity<>(dnevniRaspored, HttpStatus.OK);
+        if(dnevniRaspored == null)
+            return ResponseEntity.notFound().build();
+        else
+            return new ResponseEntity<>(dnevniRaspored, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<DnevniRaspored> addDnevniRaspored(@RequestBody DnevniRaspored dnevniRaspored)
+    public ResponseEntity<DnevniRaspored> addDnevniRaspored(@Valid @RequestBody DnevniRaspored dnevniRaspored)
     {
         DnevniRaspored newDnevniRaspored = dnevniRasporedService.addDnevniRaspored(dnevniRaspored);
         return new ResponseEntity<>(newDnevniRaspored, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DnevniRaspored> updateDnevniRaspored(@RequestBody DnevniRaspored dnevniRaspored)
+    public ResponseEntity<DnevniRaspored> updateDnevniRaspored(@PathVariable Integer id, @Valid @RequestBody DnevniRaspored dnevniRaspored)
     {
-        DnevniRaspored updateDnevniRaspored = dnevniRasporedService.updateDnevniRaspored(dnevniRaspored);
-        return new ResponseEntity<>(updateDnevniRaspored, HttpStatus.OK);
+        DnevniRaspored updateDnevniRaspored = dnevniRasporedService.updateDnevniRaspored(id, dnevniRaspored);
+        if(updateDnevniRaspored == null)
+            return ResponseEntity.notFound().build();
+        else
+            return new ResponseEntity<>(updateDnevniRaspored, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

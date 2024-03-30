@@ -29,8 +29,12 @@ public class RasporedService {
         return rasporedRepository.save(raspored);
     }
 
-    public Raspored updateRaspored(Raspored raspored){
-        return rasporedRepository.save(raspored);
+    public Raspored updateRaspored(Integer id, Raspored raspored) {
+        Raspored stariRaspored = rasporedRepository.findById(id).orElse(null);
+        if(stariRaspored == null || id != raspored.getIdRaspored())
+            return null;
+        else
+            return rasporedRepository.save(raspored);
     }
 
     public void deleteRaspored(Integer id){

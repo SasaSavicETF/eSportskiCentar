@@ -31,8 +31,12 @@ public class DogadjajService {
         return dogadjajRepository.save(dogadjaj);
     }
 
-    public Dogadjaj updateDogadjaj(Dogadjaj dogadjaj){
-        return dogadjajRepository.save(dogadjaj);
+    public Dogadjaj updateDogadjaj(Integer id, Dogadjaj dogadjaj){
+        Dogadjaj stariDogadjaj = dogadjajRepository.findById(id).orElse(null);
+        if(stariDogadjaj == null || id != dogadjaj.getIdDogadjaj())
+            return null;
+        else
+            return dogadjajRepository.save(dogadjaj);
     }
 
     public void deleteDogadjaj(Integer id){

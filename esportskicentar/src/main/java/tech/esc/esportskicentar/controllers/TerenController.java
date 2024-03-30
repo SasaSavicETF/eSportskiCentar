@@ -1,5 +1,6 @@
 package tech.esc.esportskicentar.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,13 +37,13 @@ public class TerenController {
     }
 
     @PostMapping
-    public ResponseEntity<Teren> createTeren(@RequestBody Teren teren) {
+    public ResponseEntity<Teren> createTeren(@Valid  @RequestBody Teren teren) {
         Teren newTeren = terenService.createTeren(teren);
         return new ResponseEntity<>(newTeren, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Teren> updateTeren(@PathVariable Integer id, @RequestBody Teren teren) {
+    public ResponseEntity<Teren> updateTeren(@PathVariable Integer id, @Valid @RequestBody Teren teren) {
         Teren updatedTeren = terenService.updateTeren(teren, id);
 
         if (updatedTeren != null)

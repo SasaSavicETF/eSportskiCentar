@@ -1,6 +1,8 @@
 package tech.esc.esportskicentar.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -19,6 +21,7 @@ public class Teren {
     @Column(name = "id_tip_terena")
     private int idTipTerena;
     */
+    @NotBlank
     @Basic
     @Column(name = "naziv_terena")
     private String nazivTerena;
@@ -33,11 +36,11 @@ public class Teren {
     @Basic
     @Column(name = "slika")
     private String slika;
-
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "id_tip_terena")
     private TipTerena tipTerena;
-
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "id_dvorana")
     private Dvorana dvorana;

@@ -1,6 +1,8 @@
 package tech.esc.esportskicentar.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -19,6 +21,7 @@ public class Ulaz {
     @Column(name = "id_dvorana")
     private int idDvorana;
      */
+    @NotBlank
     @Basic
     @Column(name = "naziv_ulaza")
     private String nazivUlaza;
@@ -28,7 +31,7 @@ public class Ulaz {
     @Basic
     @Column(name = "dostupan")
     private boolean dostupan;
-
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "id_dvorana")
     private Dvorana dvorana;

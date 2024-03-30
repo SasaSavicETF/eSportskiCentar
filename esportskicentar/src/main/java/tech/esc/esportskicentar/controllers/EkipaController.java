@@ -1,5 +1,6 @@
 package tech.esc.esportskicentar.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +35,13 @@ public class EkipaController {
     }
 
     @PostMapping
-    public ResponseEntity<Ekipa> createEkipa(@RequestBody Ekipa ekipa) {
+    public ResponseEntity<Ekipa> createEkipa(@Valid @RequestBody Ekipa ekipa) {
         Ekipa newEkipa = ekipaService.createEkipa(ekipa);
         return new ResponseEntity<>(newEkipa, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Ekipa> updateEkipa(@PathVariable Integer id, @RequestBody Ekipa ekipa) {
+    public ResponseEntity<Ekipa> updateEkipa(@PathVariable Integer id, @Valid @RequestBody Ekipa ekipa) {
         Ekipa updatedEkipa = ekipaService.updateEkipa(ekipa, id);
 
         if (updatedEkipa != null)

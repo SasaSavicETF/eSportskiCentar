@@ -1,5 +1,6 @@
 package tech.esc.esportskicentar.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,13 +37,13 @@ public class SvlacionicaController {
     }
 
     @PostMapping
-    public ResponseEntity<Svlacionica> createSvlacionica(@RequestBody Svlacionica svlacionica) {
+    public ResponseEntity<Svlacionica> createSvlacionica(@Valid @RequestBody Svlacionica svlacionica) {
         Svlacionica newSvlacionica = svlacionicaService.createSvlacionica(svlacionica);
         return new ResponseEntity<>(newSvlacionica, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Svlacionica> updateSvlacionica(@PathVariable Integer id, @RequestBody Svlacionica svlacionica) {
+    public ResponseEntity<Svlacionica> updateSvlacionica(@PathVariable Integer id, @Valid @RequestBody Svlacionica svlacionica) {
         Svlacionica updatedSvlacionica = svlacionicaService.updateSvlacionica(svlacionica, id);
 
         if (updatedSvlacionica != null)

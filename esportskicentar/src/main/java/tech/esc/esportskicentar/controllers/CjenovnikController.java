@@ -1,5 +1,6 @@
 package tech.esc.esportskicentar.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,21 +30,27 @@ public class CjenovnikController {
     public ResponseEntity<Cjenovnik> getCjenovnikById(@PathVariable("id") Integer id)
     {
         Cjenovnik cjenovnik = cjenovnikService.findCjenovnikById(id);
-        return new ResponseEntity<>(cjenovnik, HttpStatus.OK);
+        if(cjenovnik == null)
+            return ResponseEntity.notFound().build();
+        else
+            return new ResponseEntity<>(cjenovnik, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Cjenovnik> addCjenovnik(@RequestBody Cjenovnik cjenovnik)
+    public ResponseEntity<Cjenovnik> addCjenovnik(@Valid @RequestBody Cjenovnik cjenovnik)
     {
         Cjenovnik newCjenovnik = cjenovnikService.addCjenovnik(cjenovnik);
         return new ResponseEntity<>(newCjenovnik, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cjenovnik> updateCjenovnik(@RequestBody Cjenovnik cjenovnik)
+    public ResponseEntity<Cjenovnik> updateCjenovnik(@PathVariable Integer id, @Valid @RequestBody Cjenovnik cjenovnik)
     {
-        Cjenovnik updateCjenovnik = cjenovnikService.updateCjenovnik(cjenovnik);
-        return new ResponseEntity<>(updateCjenovnik, HttpStatus.OK);
+        Cjenovnik updateCjenovnik = cjenovnikService.updateCjenovnik(id, cjenovnik);
+        if(updateCjenovnik == null)
+            return ResponseEntity.notFound().build();
+        else
+            return new ResponseEntity<>(updateCjenovnik, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

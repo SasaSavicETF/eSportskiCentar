@@ -1,6 +1,7 @@
 package tech.esc.esportskicentar.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -15,6 +16,7 @@ public class TipTerena {
     @Id
     @Column(name = "id_tip_terena")
     private int idTipTerena;
+    @NotBlank
     @Basic
     @Column(name = "naziv_tipa_terena")
     private String nazivTipaTerena;

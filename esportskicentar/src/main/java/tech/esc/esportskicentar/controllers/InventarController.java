@@ -1,5 +1,6 @@
 package tech.esc.esportskicentar.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,13 +36,13 @@ public class InventarController {
     }
 
     @PostMapping
-    public ResponseEntity<Inventar> createInventar(@RequestBody Inventar inventar) {
+    public ResponseEntity<Inventar> createInventar(@Valid  @RequestBody Inventar inventar) {
         Inventar newInventar = inventarService.createInventar(inventar);
         return new ResponseEntity<>(newInventar, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Inventar> updateInventar(@PathVariable Integer id, @RequestBody Inventar inventar) {
+    public ResponseEntity<Inventar> updateInventar(@PathVariable Integer id, @Valid @RequestBody Inventar inventar) {
         Inventar updatedInventar = inventarService.updateInventar(inventar,id);
 
         if (updatedInventar != null)

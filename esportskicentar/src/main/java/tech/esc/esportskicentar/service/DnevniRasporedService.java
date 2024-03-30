@@ -31,8 +31,12 @@ public class DnevniRasporedService {
         return dnevniRasporedRepository.save(dnevniRaspored);
     }
 
-    public DnevniRaspored updateDnevniRaspored(DnevniRaspored dnevniRaspored){
-        return dnevniRasporedRepository.save(dnevniRaspored);
+    public DnevniRaspored updateDnevniRaspored(Integer id, DnevniRaspored dnevniRaspored){
+        DnevniRaspored stariDnevniRaspored = dnevniRasporedRepository.findById(id).orElse(null);
+        if(stariDnevniRaspored == null || id != dnevniRaspored.getIdDnevniRaspored())
+            return null;
+        else
+            return dnevniRasporedRepository.save(dnevniRaspored);
     }
 
     public void deleteDnevniRaspored(Integer id){
