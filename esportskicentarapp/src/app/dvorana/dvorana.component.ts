@@ -5,11 +5,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FormControl, NgForm, Validators } from '@angular/forms';
 import { Grad } from '../models/grad';
 import { GradService } from '../grad/grad.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-dvorana',
   templateUrl: './dvorana.component.html',
-  styleUrl: './dvorana.component.css'
+  styleUrl: './dvorana.component.css',
+  providers: [MessageService]
 })
 export class DvoranaComponent implements OnInit
 {
@@ -32,7 +34,7 @@ export class DvoranaComponent implements OnInit
   duzina: string = "";
   duzinaFormControl = new FormControl('', Validators.pattern('[0-9]+([.,][0-9]+)?'));
 
-  constructor(private dvoranaService: DvoranaService, private gradService: GradService) { }
+  constructor(private dvoranaService: DvoranaService, private gradService: GradService, private messageService: MessageService) { }
 
 
   ngOnInit(): void 
@@ -75,10 +77,12 @@ export class DvoranaComponent implements OnInit
     this.dvoranaService.addDvorana(addForm.value).subscribe(
       (response: Dvorana) =>
       {
+        this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dvorana je dodata u sistem!' });
         this.getDvoranas();
       },
       (error: HttpErrorResponse) =>
       {
+        this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u dodavanju dvorane' });
         alert(error.message);
       }
     );
@@ -91,10 +95,12 @@ export class DvoranaComponent implements OnInit
     this.dvoranaService.updateDvorana(dvorana).subscribe(
       (response: Dvorana) =>
       {
+        this.messageService.add({ severity: 'success', summary: 'Uspješna izmjena', detail: 'Dvorana je izmjenjena!' });
         this.getDvoranas();
       },
       (error: HttpErrorResponse) =>
       {
+        this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u izmjeni dvorane' });
         alert(error.message);
       }
     );
@@ -105,9 +111,11 @@ export class DvoranaComponent implements OnInit
     this.deleteVisible = false;
     this.dvoranaService.deleteDvorana(idDvorana).subscribe(
       (response: void) => {
+        this.messageService.add({ severity: 'success', summary: 'Uspješno brisanje', detail: 'Dvorana je obrisana sa sistema!' });
         this.getDvoranas();
       },
       (error: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u brisanju dvorane' });
         alert(error.message);
       }
     );

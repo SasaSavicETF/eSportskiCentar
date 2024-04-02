@@ -43,9 +43,9 @@ public class DvoranaController
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Dvorana> updateDvorana(@PathVariable Integer id, @Valid @RequestBody Dvorana dvorana)
+    public ResponseEntity<Dvorana> updateDvorana(@RequestBody Dvorana dvorana)
     {
-        Dvorana updateDvorana = dvoranaService.updateDvorana(id, dvorana);
+        Dvorana updateDvorana = dvoranaService.updateDvorana(dvorana);
         return new ResponseEntity<>(updateDvorana, HttpStatus.OK);
     }
 

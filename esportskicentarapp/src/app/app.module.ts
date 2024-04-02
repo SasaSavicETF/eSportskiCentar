@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { SplitterModule } from 'primeng/splitter';
 import { DvoranaComponent } from './dvorana/dvorana.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { DropdownModule } from 'primeng/dropdown';
     InputTextModule,
     FormsModule,
     SplitterModule,
-    DropdownModule
+    DropdownModule,
+    ToastModule
   ],
   providers: [
     provideClientHydration()
