@@ -30,13 +30,9 @@ public class DvoranaService
         return dvoranaRepository.save(dvorana);
     }
 
-    public Dvorana updateDvorana(Integer id, Dvorana dvorana)
+    public Dvorana updateDvorana(Dvorana dvorana)
     {
-        Dvorana staraDvorana = dvoranaRepository.findDvoranaByIdDvorana(id).orElse(null);
-        if(staraDvorana == null || id != dvorana.getIdDvorana())
-            return null;
-        else
-            return dvoranaRepository.save(dvorana);
+        return dvoranaRepository.save(dvorana);
     }
 
     public Dvorana findDvoranaById(Integer id)
