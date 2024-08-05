@@ -40,10 +40,10 @@ public class GradController
         return new ResponseEntity<>(newGrad, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Grad> updateGrad(@PathVariable Integer id, @Valid @RequestBody Grad grad)
+    @PutMapping("/update")
+    public ResponseEntity<Grad> updateGrad(@Valid @RequestBody Grad grad)
     {
-        Grad updateGrad = gradService.updateGrad(id, grad);
+        Grad updateGrad = gradService.updateGrad(grad);
         return new ResponseEntity<>(updateGrad, HttpStatus.OK);
     }
 

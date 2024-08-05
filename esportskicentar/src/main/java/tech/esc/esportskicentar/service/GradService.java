@@ -31,10 +31,10 @@ public class GradService
         return  gradRepository.findAll();
     }
 
-    public Grad updateGrad(Integer id, Grad grad)
+    public Grad updateGrad(Grad grad)
     {
-        Grad stariGrad = gradRepository.findGradByIdGrad(id).orElse(null);
-        if(stariGrad == null || id != grad.getIdGrad())
+        Grad stariGrad = gradRepository.findGradByIdGrad(grad.getIdGrad()).orElse(null);
+        if(stariGrad == null || grad.getIdGrad() != grad.getIdGrad())
             return null;
         else
             return gradRepository.save(grad);

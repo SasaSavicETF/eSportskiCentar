@@ -5,11 +5,13 @@ import { error } from 'console';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TableModule } from 'primeng/table';
 import { NgForm } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-grad',
   templateUrl: './grad.component.html',
-  styleUrl: './grad.component.css'
+  styleUrl: './grad.component.css',
+  providers: [MessageService]
 })
 export class GradComponent implements OnInit {
   public grads: Grad[] = [];
@@ -23,7 +25,7 @@ export class GradComponent implements OnInit {
 
   public nazivGradaInput: string = "";
 
-  constructor(private gradService: GradService) { }
+  constructor(private gradService: GradService, private messageService: MessageService) { }
 
 
   ngOnInit(): void 
@@ -50,10 +52,11 @@ export class GradComponent implements OnInit {
     this.addVisible = false;
     this.gradService.addGrad(addForm.value).subscribe(
       (response: Grad) => {
-        console.log(response);
+        this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Grad je dodan u sistem!' });
         this.getGrads();
       },
       (error: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u dodavanju grada' });
         alert(error.message);
       }
     );
@@ -65,10 +68,11 @@ export class GradComponent implements OnInit {
     this.editVisible = false;
     this.gradService.updateGrad(grad).subscribe(
       (response: Grad) => {
-        console.log(response);
+        this.messageService.add({ severity: 'success', summary: 'Uspješna izmjena', detail: 'Grad je izmjenjen!' });
         this.getGrads();
       },
       (error: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u izmjeni grada' });
         alert(error.message);
       }
     );
@@ -79,10 +83,11 @@ export class GradComponent implements OnInit {
     this.deleteVisible = false;
     this.gradService.deleteGrad(idGrad).subscribe(
       (response: void) => {
-        console.log(response);
+        this.messageService.add({ severity: 'success', summary: 'Uspješno brisanje', detail: 'Grad je obrisan sa sistema!' });
         this.getGrads();
       },
       (error: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u brisanju grada' });
         alert(error.message);
       }
     );
