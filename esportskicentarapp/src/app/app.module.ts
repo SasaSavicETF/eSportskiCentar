@@ -15,12 +15,14 @@ import { SplitterModule } from 'primeng/splitter';
 import { DvoranaComponent } from './dvorana/dvorana.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
+import { SportComponent } from './sport/sport.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GradComponent,
-    DvoranaComponent
+    DvoranaComponent,
+    SportComponent
   ],
   imports: [
     BrowserModule,

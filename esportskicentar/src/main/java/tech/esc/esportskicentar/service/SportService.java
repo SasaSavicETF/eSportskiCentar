@@ -31,8 +31,8 @@ public class SportService {
         return sportRepository.save(sport);
     }
 
-    public Sport updateSport(Sport newSport, Integer id) {
-        Sport sport = sportRepository.findById(id)
+    public Sport updateSport(Sport newSport) {
+        Sport sport = sportRepository.findById(newSport.getIdSport())
                 .orElse(null);
         if (sport == null)
             return null;

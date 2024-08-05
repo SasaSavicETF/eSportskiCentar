@@ -40,9 +40,9 @@ public class SportController {
         return new ResponseEntity<>(newSport, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Sport> updateSport(@PathVariable Integer id, @Valid @RequestBody Sport sport) {
-        Sport updatedSport = sportService.updateSport(sport,id);
+    @PutMapping()
+    public ResponseEntity<Sport> updateSport(@Valid @RequestBody Sport sport) {
+        Sport updatedSport = sportService.updateSport(sport);
 
         if (updatedSport != null)
             return new ResponseEntity<>(updatedSport, HttpStatus.OK);
@@ -52,10 +52,12 @@ public class SportController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSport(@PathVariable Integer id) {
-        if (sportService.deleteSport(id))
+        /*if (sportService.deleteSport(id))
             return new ResponseEntity<>("Sport by id: " + id + " deleted successfully!", HttpStatus.ACCEPTED);
         else
-            return new ResponseEntity<>("Sport by id: " + id + " not found!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Sport by id: " + id + " not found!", HttpStatus.NOT_FOUND);*/
+        sportService.deleteSport(id);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 }
