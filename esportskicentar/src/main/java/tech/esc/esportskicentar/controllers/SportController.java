@@ -52,12 +52,12 @@ public class SportController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSport(@PathVariable Integer id) {
-        /*if (sportService.deleteSport(id))
-            return new ResponseEntity<>("Sport by id: " + id + " deleted successfully!", HttpStatus.ACCEPTED);
+        if (sportService.deleteSport(id))
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         else
-            return new ResponseEntity<>("Sport by id: " + id + " not found!", HttpStatus.NOT_FOUND);*/
-        sportService.deleteSport(id);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        /*sportService.deleteSport(id);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);*/
     }
 
 }
