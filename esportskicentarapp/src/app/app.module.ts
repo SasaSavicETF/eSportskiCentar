@@ -18,6 +18,7 @@ import { ToastModule } from 'primeng/toast';
 import { SportComponent } from './sport/sport.component';
 import { UlazComponent } from './ulaz/ulaz.component';
 import { CheckboxModule } from 'primeng/checkbox';
+import { TakmicenjeComponent } from './takmicenje/takmicenje.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { CheckboxModule } from 'primeng/checkbox';
     GradComponent,
     DvoranaComponent,
     SportComponent,
-    UlazComponent
+    UlazComponent,
+    TakmicenjeComponent
   ],
   imports: [
     BrowserModule,

@@ -40,9 +40,9 @@ public class TakmicenjeController {
         return new ResponseEntity<>(newTakmicenje, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Takmicenje> updateTakmicenje(@PathVariable Integer id, @Valid @RequestBody Takmicenje takmicenje) {
-        Takmicenje updatedTakmicenje = takmicenjeService.updateTakmicenje(takmicenje,id);
+    @PutMapping()
+    public ResponseEntity<Takmicenje> updateTakmicenje(@Valid @RequestBody Takmicenje takmicenje) {
+        Takmicenje updatedTakmicenje = takmicenjeService.updateTakmicenje(takmicenje);
 
         if (updatedTakmicenje != null)
             return new ResponseEntity<>(updatedTakmicenje, HttpStatus.OK);
@@ -53,9 +53,9 @@ public class TakmicenjeController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTakmicenje(@PathVariable Integer id) {
         if (takmicenjeService.deleteTakmicenje(id))
-            return new ResponseEntity<>("Takmicenje by id: " + id + " deleted successfully!", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         else
-            return new ResponseEntity<>("Takmicenje by id: " + id + " not found!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

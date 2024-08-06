@@ -4,13 +4,15 @@ import { GradComponent } from './grad/grad.component';
 import { DvoranaComponent } from './dvorana/dvorana.component';
 import { SportComponent } from './sport/sport.component';
 import { UlazComponent } from './ulaz/ulaz.component';
+import { TakmicenjeComponent } from './takmicenje/takmicenje.component';
 
 
 const routes: Routes = [
   { path: 'grad', component: GradComponent},
   { path: 'dvorana', component: DvoranaComponent},
   { path: 'sport', component: SportComponent},
-  { path: 'ulaz', component: UlazComponent}
+  { path: 'ulaz', component: UlazComponent},
+  { path: 'takmicenje', component: TakmicenjeComponent}
 ];
 
 @NgModule({

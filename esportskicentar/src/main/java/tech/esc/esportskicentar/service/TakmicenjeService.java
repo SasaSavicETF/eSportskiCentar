@@ -31,8 +31,8 @@ public class TakmicenjeService {
         return takmicenjeRepository.save(takmicenje);
     }
 
-    public Takmicenje updateTakmicenje(Takmicenje newTakmicenje, Integer id) {
-        Takmicenje takmicenje = takmicenjeRepository.findById(id)
+    public Takmicenje updateTakmicenje(Takmicenje newTakmicenje) {
+        Takmicenje takmicenje = takmicenjeRepository.findById(newTakmicenje.getIdTakmicenje())
                 .orElse(null);
         if (takmicenje == null)
             return null;
