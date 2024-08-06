@@ -36,8 +36,8 @@ public class UlazService {
         return ulazRepository.save(ulaz);
     }
 
-    public Ulaz updateUlaz(Ulaz newUlaz, Integer id) {
-        Ulaz ulaz = ulazRepository.findById(id)
+    public Ulaz updateUlaz(Ulaz newUlaz) {
+        Ulaz ulaz = ulazRepository.findById(newUlaz.getIdUlaz())
                 .orElse(null);
         if (ulaz == null)
             return null;

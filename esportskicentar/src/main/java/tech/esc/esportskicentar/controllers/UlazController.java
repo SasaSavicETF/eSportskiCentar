@@ -43,9 +43,9 @@ public class UlazController {
         //return ResponseEntity.status(HttpStatus.CREATED).body(newUlaz);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Ulaz> updateUlaz(@PathVariable Integer id,@Valid @RequestBody Ulaz oldUlaz) {
-        Ulaz updatedUlaz = ulazService.updateUlaz(oldUlaz, id);
+    @PutMapping()
+    public ResponseEntity<Ulaz> updateUlaz(@Valid @RequestBody Ulaz oldUlaz) {
+        Ulaz updatedUlaz = ulazService.updateUlaz(oldUlaz);
 
         if (updatedUlaz != null)
             return new ResponseEntity<>(updatedUlaz, HttpStatus.OK);
@@ -56,9 +56,9 @@ public class UlazController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUlaz(@PathVariable Integer id) {
         if (ulazService.deleteUlaz(id))
-            return new ResponseEntity<>("Ulaz by id: " + id + " deleted successfully!", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         else
-            return new ResponseEntity<>("Ulaz by id: " + id + " not found!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

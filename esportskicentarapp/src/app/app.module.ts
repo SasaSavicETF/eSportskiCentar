@@ -16,13 +16,16 @@ import { DvoranaComponent } from './dvorana/dvorana.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
 import { SportComponent } from './sport/sport.component';
+import { UlazComponent } from './ulaz/ulaz.component';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
   declarations: [
     AppComponent,
     GradComponent,
     DvoranaComponent,
-    SportComponent
+    SportComponent,
+    UlazComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import { SportComponent } from './sport/sport.component';
     FormsModule,
     SplitterModule,
     DropdownModule,
-    ToastModule
+    ToastModule,
+    CheckboxModule
   ],
   providers: [
     provideClientHydration()
