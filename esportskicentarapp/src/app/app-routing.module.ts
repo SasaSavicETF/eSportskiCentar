@@ -5,14 +5,17 @@ import { DvoranaComponent } from './dvorana/dvorana.component';
 import { SportComponent } from './sport/sport.component';
 import { UlazComponent } from './ulaz/ulaz.component';
 import { TakmicenjeComponent } from './takmicenje/takmicenje.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 const routes: Routes = [
+  //ovo prvo je samo privremeno
   { path: 'grad', component: GradComponent},
   { path: 'dvorana', component: DvoranaComponent},
   { path: 'sport', component: SportComponent},
   { path: 'ulaz', component: UlazComponent},
-  { path: 'takmicenje', component: TakmicenjeComponent}
+  { path: 'takmicenje', component: TakmicenjeComponent},
+  { path: '**', component: PageNotFoundComponent}
 ];
 
 @NgModule({

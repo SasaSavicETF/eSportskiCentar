@@ -19,6 +19,7 @@ import { SportComponent } from './sport/sport.component';
 import { UlazComponent } from './ulaz/ulaz.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TakmicenjeComponent } from './takmicenje/takmicenje.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { TakmicenjeComponent } from './takmicenje/takmicenje.component';
     DvoranaComponent,
     SportComponent,
     UlazComponent,
-    TakmicenjeComponent
+    TakmicenjeComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
