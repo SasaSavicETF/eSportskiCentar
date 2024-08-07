@@ -20,6 +20,7 @@ import { UlazComponent } from './ulaz/ulaz.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TakmicenjeComponent } from './takmicenje/takmicenje.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { RasporedComponent } from './raspored/raspored.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     SportComponent,
     UlazComponent,
     TakmicenjeComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    RasporedComponent
   ],
   imports: [
     BrowserModule,

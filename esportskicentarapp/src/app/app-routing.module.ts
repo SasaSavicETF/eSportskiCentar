@@ -6,6 +6,7 @@ import { SportComponent } from './sport/sport.component';
 import { UlazComponent } from './ulaz/ulaz.component';
 import { TakmicenjeComponent } from './takmicenje/takmicenje.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { RasporedComponent } from './raspored/raspored.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'sport', component: SportComponent},
   { path: 'ulaz', component: UlazComponent},
   { path: 'takmicenje', component: TakmicenjeComponent},
+  { path: 'raspored', component: RasporedComponent},
   { path: '**', component: PageNotFoundComponent}
 ];
 

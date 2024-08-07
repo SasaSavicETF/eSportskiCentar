@@ -42,10 +42,10 @@ public class RasporedController {
         return new ResponseEntity<>(newRaspored, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Raspored> updateRaspored(@PathVariable Integer id, @Valid @RequestBody Raspored raspored)
+    @PutMapping()
+    public ResponseEntity<Raspored> updateRaspored(@Valid @RequestBody Raspored raspored)
     {
-        Raspored updateRaspored = rasporedService.updateRaspored(id, raspored);
+        Raspored updateRaspored = rasporedService.updateRaspored(raspored);
         if(updateRaspored == null)
             return ResponseEntity.notFound().build();
         else
