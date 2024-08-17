@@ -39,8 +39,8 @@ public class EkipaService {
         return ekipaRepository.save(ekipa);
     }
 
-    public Ekipa updateEkipa(Ekipa newEkipa, Integer id) {
-        Ekipa ekipa = ekipaRepository.findById(id)
+    public Ekipa updateEkipa(Ekipa newEkipa) {
+        Ekipa ekipa = ekipaRepository.findById(newEkipa.getIdEkipa())
                 .orElse(null);
         if (ekipa == null)
             return null;

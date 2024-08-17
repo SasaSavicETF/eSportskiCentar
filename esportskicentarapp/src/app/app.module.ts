@@ -21,6 +21,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { TakmicenjeComponent } from './takmicenje/takmicenje.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RasporedComponent } from './raspored/raspored.component';
+import { EkipaComponent } from './ekipa/ekipa.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { RasporedComponent } from './raspored/raspored.component';
     UlazComponent,
     TakmicenjeComponent,
     PageNotFoundComponent,
-    RasporedComponent
+    RasporedComponent,
+    EkipaComponent
   ],
   imports: [
     BrowserModule,

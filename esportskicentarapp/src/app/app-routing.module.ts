@@ -7,6 +7,7 @@ import { UlazComponent } from './ulaz/ulaz.component';
 import { TakmicenjeComponent } from './takmicenje/takmicenje.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RasporedComponent } from './raspored/raspored.component';
+import { EkipaComponent } from './ekipa/ekipa.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'ulaz', component: UlazComponent},
   { path: 'takmicenje', component: TakmicenjeComponent},
   { path: 'raspored', component: RasporedComponent},
+  { path: 'ekipa', component: EkipaComponent},
   { path: '**', component: PageNotFoundComponent}
 ];
 

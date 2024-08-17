@@ -40,9 +40,9 @@ public class EkipaController {
         return new ResponseEntity<>(newEkipa, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Ekipa> updateEkipa(@PathVariable Integer id, @Valid @RequestBody Ekipa ekipa) {
-        Ekipa updatedEkipa = ekipaService.updateEkipa(ekipa, id);
+    @PutMapping()
+    public ResponseEntity<Ekipa> updateEkipa(@Valid @RequestBody Ekipa ekipa) {
+        Ekipa updatedEkipa = ekipaService.updateEkipa(ekipa);
 
         if (updatedEkipa != null)
             return new ResponseEntity<>(updatedEkipa, HttpStatus.OK);
@@ -53,8 +53,8 @@ public class EkipaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEkipa(@PathVariable Integer id) {
         if (ekipaService.deleteEkipa(id))
-            return new ResponseEntity<>("Ekipa by id: " + id + " deleted successfully!", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         else
-            return new ResponseEntity<>("Ekipa by id: " + id + " not found!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

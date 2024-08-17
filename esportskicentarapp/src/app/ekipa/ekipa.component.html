@@ -1,0 +1,104 @@
+<p-toast></p-toast>
+<div class="sadrzaj">
+    <div class="parent">
+        <div>
+            <h1>Ekipa</h1>
+        </div>
+        <!-- Modal za dodavanje -->
+        <div class="addDiv">
+            <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+            <p-dialog header="Dodavanje ekipe" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+                <div class="container">
+                   <form #addForm="ngForm" (ngSubmit)="onAddEkipa(addForm)">
+                        <label for="naziv_ekipe">Naziv ekipe</label>
+                        <input type="text" pInputText class="textInput" id="naziv_ekipe" ngModel name="nazivEkipe" required/>
+                        <div class="drop card flex justify-content-center">
+                            <p-dropdown class="custom-dd" [options]="sports" [(ngModel)]="selectedSport" name="sport" optionLabel="nazivSporta" [showClear]="true" placeholder="Izaberi sport"></p-dropdown>
+                        </div>
+                        <div class="drop card flex justify-content-center">
+                            <p-dropdown class="custom-dd" [options]="takmicenjes" [(ngModel)]="selectedTakmicenje" name="takmicenje" optionLabel="vrstaTakmicenja" [showClear]="true" placeholder="Izaberi takmičenje"></p-dropdown>
+                        </div>
+                        <div class="addBtn">
+                            <p-button type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                        </div>
+                    </form>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+    <div class="search card flex flex-wrap justify-content-center gap-3">
+        <span>
+
+        </span>
+        <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText (ngModelChange)="searchEkipas(key.value)" #key="ngModel" ngModel/>
+        </span>
+    </div>
+    <p-table
+        [value]="ekipas"
+        [paginator]="true"
+        [rows]="5"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Prikazano od {first}. do {last}. od ukupno {totalRecords} zapisa"
+        [rowsPerPageOptions]="[5, 10, 25, 50]"
+        paginatorLocale="en-US"
+    >
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 25%">Naziv ekipe</th>
+            <th style="width: 25%">Sport</th>
+            <th style="width: 25%">Takmičenje</th>  
+            <th style="width: 25%">Opcije</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-ekipa>
+        <tr>
+            <td>{{ ekipa.nazivEkipe }}</td>
+            <td>{{ ekipa.sport.nazivSporta }}</td>
+            <td>{{ ekipa.takmicenje.vrstaTakmicenja }}</td>
+            <td>
+                <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" styleClass="p-button-text" (click)="showEditDialog(ekipa)"></p-button>
+                <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger " (click)="showDeleteDialog(ekipa)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+    
+    </p-table>
+</div>
+
+<!--Modal za izmjenu(edit)-->
+<p-dialog header="Izmjena ekipe" [(visible)]="editVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+    <div class="container">
+        <form #editForm="ngForm">
+            <input type="hidden" id="id_ekipa" ngModel="{{editEkipa?.idEkipa}}" name="idEkipa"/>
+            <label for="naziv_ekipe">Naziv ekipe</label>
+            <input type="text" pInputText class="textInput" id="naziv_ekipe" ngModel="{{editEkipa?.nazivEkipe}}" name="nazivEkipe" required/>
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="sports" [(ngModel)]="selectedSport" name="sport" optionLabel="nazivSporta" [showClear]="true" placeholder="Izaberi sport"></p-dropdown>
+            </div>
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="takmicenjes" [(ngModel)]="selectedTakmicenje" name="takmicenje" optionLabel="vrstaTakmicenja" [showClear]="true" placeholder="Izaberi takmičenje"></p-dropdown>
+            </div>
+            <div class="addBtn">
+                <p-button (onClick)="onUpdateEkipa(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+
+<!--Modal za brisanje-->
+<p-dialog header="Upozorenje" [(visible)]="deleteVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+    <div class="container">
+        <p>Da li zaista želite da obrišete zapis {{delEkipa?.nazivEkipe}}?</p>
+        <br>
+        <div class="addBtn">
+            <p-button (onClick)="closeDeleteDialog()" class="scndBtn" label="Odustani" severity="secondary"></p-button>
+            <p-button (onClick)="onDeleteEkipa(delIdEkipa)" label="Obriši" severity="danger"></p-button>
+        </div>
+    </div>
+</p-dialog>
+
+
+
