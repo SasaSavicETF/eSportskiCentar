@@ -33,8 +33,8 @@ public class TipTerenaService {
         return tipTerenaRepository.save(tipTerena);
     }
 
-    public TipTerena updateTipTerena(TipTerena newTipTerena, Integer id) {
-        TipTerena tipTerena = tipTerenaRepository.findById(id)
+    public TipTerena updateTipTerena(TipTerena newTipTerena) {
+        TipTerena tipTerena = tipTerenaRepository.findById(newTipTerena.getIdTipTerena())
                 .orElse(null);
         if (tipTerena == null)
             return null;

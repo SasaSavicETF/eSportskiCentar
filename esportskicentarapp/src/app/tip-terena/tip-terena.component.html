@@ -1,0 +1,110 @@
+<p-toast></p-toast>
+<div class="sadrzaj">
+    <div class="parent">
+        <div>
+            <h1>Tip terena</h1>
+        </div>
+        <!-- Modal za dodavanje -->
+        <div class="addDiv">
+            <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+            <p-dialog header="Dodavanje tipa terena" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+                <div class="container">
+                   <form #addForm="ngForm" (ngSubmit)="onAddTipTerena(addForm)">
+                        <label for="naziv_tipa_terena">Naziv tipa ternea</label>
+                        <input type="text" pInputText class="textInput" id="naziv_tipa_terena" ngModel name="nazivTipaTerena" required/>
+                        <label for="info">Info</label>
+                        <textarea type="text" pInputText class="textInputL" id="info" ngModel name="info" required></textarea>
+                        <div class="addBtn">
+                            <p-button type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                        </div>
+                    </form>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+    <div class="search card flex flex-wrap justify-content-center gap-3">
+        <span>
+
+        </span>
+        <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText (ngModelChange)="searchTipTerenas(key.value)" #key="ngModel" ngModel/>
+        </span>
+    </div>
+    <p-table
+        [value]="tipTerenas"
+        [paginator]="true"
+        [rows]="5"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Prikazano od {first}. do {last}. od ukupno {totalRecords} zapisa"
+        [rowsPerPageOptions]="[5, 10, 25, 50]"
+        paginatorLocale="en-US"
+    >
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 25%;">Naziv tipa terena</th>
+            <th style="width: 50%">Info</th>
+            <th style="width: 25%">Opcije</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-tipTerena>
+        <tr>
+            <td>{{ tipTerena.nazivTipaTerena }}</td>
+            <td>{{ tipTerena.info }}</td>
+            <td>
+                <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" styleClass="p-button-text" (click)="showEditDialog(tipTerena)"></p-button>
+                <p-button icon="pi pi-info-circle" [rounded]="true" [text]="true" severity="success " (click)="showInfoDialog(tipTerena)"></p-button>
+                <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger " (click)="showDeleteDialog(tipTerena)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+    
+    </p-table>
+</div>
+
+<!--Modal za izmjenu(edit)-->
+<p-dialog header="Izmjena tipa terena" [(visible)]="editVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+    <div class="container">
+        <form #editForm="ngForm">
+            <input type="hidden" id="id_tip_terena" ngModel="{{editTipTerena?.idTipTerena}}" name="idTipTerena"/>
+            <label for="naziv_tipa_terena">Naziv tipa terena</label>
+            <input type="text" pInputText class="textInput" id="naziv_tipa_terena" ngModel="{{editTipTerena?.nazivTipaTerena}}" name="nazivTipaTerena" required/>
+            <label for="info">Info</label>
+            <textarea type="text" pInputText class="textInput" id="info" ngModel="{{editTipTerena?.info}}" name="info" required></textarea>
+            <div class="addBtn">
+                <p-button (onClick)="onUpdateTipTerena(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+
+<!--Modal za brisanje-->
+<p-dialog header="Upozorenje" [(visible)]="deleteVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+    <div class="container">
+        <p>Da li zaista želite da obrišete zapis {{delTipTerena?.nazivTipaTerena}}?</p>
+        <br>
+        <div class="addBtn">
+            <p-button (onClick)="closeDeleteDialog()" class="scndBtn" label="Odustani" severity="secondary"></p-button>
+            <p-button (onClick)="onDeleteTipTerena(delIdTipTerena)" label="Obriši" severity="danger"></p-button>
+        </div>
+    </div>
+</p-dialog>
+
+<!--Modal za informacije-->
+<p-dialog header="Informacije" [(visible)]="infoVisible" [modal]="false" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+    <div class="container">
+        <div>
+            <p><span class="labela">Naziv tipa terena:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoTipTerena?.nazivTipaTerena}}</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Opis:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoTipTerena?.info}}</span></p>
+        </div>
+        <br>
+        <div class="addBtn">
+            <p-button (onClick)="closeInfoDialog()" class="scndBtn" label="Izađi" severity="secondary"></p-button>
+        </div>
+    </div>
+</p-dialog>
+
+

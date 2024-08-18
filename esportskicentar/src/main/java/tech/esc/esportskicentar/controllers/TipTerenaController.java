@@ -40,9 +40,9 @@ public class TipTerenaController {
         return new ResponseEntity<>(newTipTerena, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<TipTerena> updateTipTerena(@PathVariable Integer id, @Valid @RequestBody TipTerena tipTerena) {
-        TipTerena updatedTipTerena = tipTerenaService.updateTipTerena(tipTerena, id);
+    @PutMapping()
+    public ResponseEntity<TipTerena> updateTipTerena(@Valid @RequestBody TipTerena tipTerena) {
+        TipTerena updatedTipTerena = tipTerenaService.updateTipTerena(tipTerena);
 
         if (updatedTipTerena != null)
             return new ResponseEntity<>(updatedTipTerena, HttpStatus.OK);
@@ -53,9 +53,9 @@ public class TipTerenaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTipTerena(@PathVariable Integer id) {
         if (tipTerenaService.deleteTipTerena(id))
-            return new ResponseEntity<>("TipTerena by id: " + id + " deleted successfully!", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         else
-            return new ResponseEntity<>("TipTerena by id: " + id + " not found!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }
