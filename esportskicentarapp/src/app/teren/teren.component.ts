@@ -8,12 +8,13 @@ import { DvoranaService } from '../dvorana/dvorana.service';
 import { TipTerenaService } from '../tip-terena/tip-terena.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
+import { ImageModule } from 'primeng/image';
 
 @Component({
   selector: 'app-teren',
   templateUrl: './teren.component.html',
   styleUrl: './teren.component.css',
-  providers: [MessageService]
+  providers: [MessageService, ImageModule]
 })
 export class TerenComponent implements OnInit 
 {

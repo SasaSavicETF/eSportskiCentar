@@ -24,6 +24,7 @@ import { RasporedComponent } from './raspored/raspored.component';
 import { EkipaComponent } from './ekipa/ekipa.component';
 import { TipTerenaComponent } from './tip-terena/tip-terena.component';
 import { TerenComponent } from './teren/teren.component';
+import { ImageModule } from 'primeng/image';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { TerenComponent } from './teren/teren.component';
     SplitterModule,
     DropdownModule,
     ToastModule,
-    CheckboxModule
+    CheckboxModule,
+    ImageModule
   ],
   providers: [
     provideClientHydration()

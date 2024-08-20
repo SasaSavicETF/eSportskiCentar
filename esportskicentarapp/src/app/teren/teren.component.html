@@ -65,6 +65,12 @@
             <td>
                 <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" styleClass="p-button-text" (click)="showEditDialog(teren)"></p-button>
                 <p-button icon="pi pi-info-circle" [rounded]="true" [text]="true" severity="success " (click)="showInfoDialog(teren)"></p-button>
+                <p-button icon="pi pi-image" [rounded]="true" [text]="true" severity="warning ">
+                    <p-image 
+                        src={{teren.slika}} 
+                        width="0" 
+                        [preview]="true" />
+                </p-button>
                 <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger " (click)="showDeleteDialog(teren)"></p-button>
             </td>
         </tr>
