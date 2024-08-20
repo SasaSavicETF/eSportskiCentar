@@ -23,6 +23,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { RasporedComponent } from './raspored/raspored.component';
 import { EkipaComponent } from './ekipa/ekipa.component';
 import { TipTerenaComponent } from './tip-terena/tip-terena.component';
+import { TerenComponent } from './teren/teren.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { TipTerenaComponent } from './tip-terena/tip-terena.component';
     PageNotFoundComponent,
     RasporedComponent,
     EkipaComponent,
-    TipTerenaComponent
+    TipTerenaComponent,
+    TerenComponent
   ],
   imports: [
     BrowserModule,

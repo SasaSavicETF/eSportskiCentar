@@ -41,8 +41,8 @@ public class TerenService {
         return terenRepository.save(teren);
     }
 
-    public Teren updateTeren(Teren newTeren, Integer id) {
-        Teren teren = terenRepository.findById(id)
+    public Teren updateTeren(Teren newTeren) {
+        Teren teren = terenRepository.findById(newTeren.getIdTeren())
                 .orElse(null);
         if (teren == null)
             return null;

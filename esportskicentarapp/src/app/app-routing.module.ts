@@ -9,6 +9,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { RasporedComponent } from './raspored/raspored.component';
 import { EkipaComponent } from './ekipa/ekipa.component';
 import { TipTerenaComponent } from './tip-terena/tip-terena.component';
+import { TerenComponent } from './teren/teren.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'raspored', component: RasporedComponent},
   { path: 'ekipa', component: EkipaComponent},
   { path: 'tipTerena', component: TipTerenaComponent},
+  { path: 'teren', component: TerenComponent},
   { path: '**', component: PageNotFoundComponent}
 ];
 

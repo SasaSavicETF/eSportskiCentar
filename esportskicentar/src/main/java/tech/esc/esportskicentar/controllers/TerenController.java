@@ -42,9 +42,9 @@ public class TerenController {
         return new ResponseEntity<>(newTeren, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Teren> updateTeren(@PathVariable Integer id, @Valid @RequestBody Teren teren) {
-        Teren updatedTeren = terenService.updateTeren(teren, id);
+    @PutMapping()
+    public ResponseEntity<Teren> updateTeren(@Valid @RequestBody Teren teren) {
+        Teren updatedTeren = terenService.updateTeren(teren);
 
         if (updatedTeren != null)
             return new ResponseEntity<>(updatedTeren, HttpStatus.OK);
@@ -55,9 +55,9 @@ public class TerenController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTeren(@PathVariable Integer id) {
         if (terenService.deleteTeren(id))
-            return new ResponseEntity<>("Teren by id: " + id + " deleted successfully!", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         else
-            return new ResponseEntity<>("Teren by id: " + id + " not found!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }
