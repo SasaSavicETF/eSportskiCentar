@@ -9,4 +9,7 @@ export interface Teren
     slika: string;
     tipTerena: TipTerena;
     dvorana: Dvorana;
+    duzina: number;
+    sirina: number;
+    dostupan: boolean;
 }

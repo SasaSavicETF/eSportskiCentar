@@ -53,6 +53,11 @@ public class TerenService {
             teren.setSlika(newTeren.getSlika());
         if (newTeren.getInfo() != null)
             teren.setInfo(newTeren.getInfo());
+        if (newTeren.getDuzina() != null)
+            teren.setDuzina(newTeren.getDuzina());
+        if (newTeren.getSirina() != null)
+            teren.setSirina(newTeren.getSirina());
+        teren.setDostupan(newTeren.isDostupan());
         if (newTeren.getDvorana() != null)
             teren.setDvorana(dvoranaRepository.findById(newTeren.getDvorana().getIdDvorana())
                     .orElse(null));
