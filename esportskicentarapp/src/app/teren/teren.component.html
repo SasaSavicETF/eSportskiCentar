@@ -15,6 +15,20 @@
                         <!-- Bice uklonjeno -->
                         <label for="slika">URL slike</label>
                         <input type="text" pInputText class="textInput" id="slika" ngModel name="slika" required/>
+                        <div class="form-group">
+                            <label for="duzina">Dužina</label>
+                            <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="duzina" ngModel name="duzina" required/>
+                            <label for="sirina">Širina</label>
+                            <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="sirina" ngModel name="sirina" required/>
+                        </div>
+                        <div class="card flex justify-content-center check">
+                            <p-checkbox 
+                                [(ngModel)]="checkedAdd"
+                                [binary]="true"
+                                name="dostupan" 
+                                inputId="dostupan" />
+                            <label class="forCheck" for="dostupan">Dostupan</label>
+                        </div>
                         <div class="drop card flex justify-content-center">
                             <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu"></p-dropdown>
                         </div>
@@ -51,10 +65,12 @@
     >
     <ng-template pTemplate="header">
         <tr>
-            <th style="width: 25%">Naziv terena</th>
-            <th style="width: 25%">Dvorana</th>
-            <th style="width: 25%">Tip Terena</th>  
-            <th style="width: 25%">Opcije</th>
+            <th style="width: 16.5%">Naziv terena</th>
+            <th style="width: 16.5%">Dvorana</th>
+            <th style="width: 16.5%">Tip Terena</th> 
+            <th style="width: 16.5%">Dužina</th>
+            <th style="width: 16.5%">Širina</th> 
+            <th style="width: 16.5%">Opcije</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-teren>
@@ -62,6 +78,8 @@
             <td>{{ teren.nazivTerena }}</td>
             <td>{{ teren.dvorana.nazivDvorane }}</td>
             <td>{{ teren.tipTerena.nazivTipaTerena }}</td>
+            <td>{{ teren.duzina }}</td>
+            <td>{{ teren.sirina }}</td>
             <td>
                 <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" styleClass="p-button-text" (click)="showEditDialog(teren)"></p-button>
                 <p-button icon="pi pi-info-circle" [rounded]="true" [text]="true" severity="success " (click)="showInfoDialog(teren)"></p-button>
@@ -88,6 +106,20 @@
             <input type="text" pInputText class="textInput" id="naziv_terena" ngModel="{{editTeren?.nazivTerena}}" name="nazivTerena" required/>
             <label for="slika">Slika</label>
             <input type="text" pInputText class="textInput" id="slika" ngModel="{{editTeren?.slika}}" name="slika" required/>
+            <div class="form-group">
+                <label for="duzina">Dužina</label>
+                <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="duzina" ngModel="{{editTeren?.duzina}}" name="duzina" required/>
+                <label for="sirina">Širina</label>
+                <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="sirina" ngModel="{{editTeren?.sirina}}" name="sirina" required/>
+            </div>
+            <div class="card flex justify-content-center check">
+                <p-checkbox 
+                    [(ngModel)]="checkedEdit"
+                    [binary]="true"
+                    name="dostupan" 
+                    inputId="dostupan" />
+                <label class="forCheck" for="dostupan">Dostupan</label>
+            </div>
             <div class="drop card flex justify-content-center">
                 <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu"></p-dropdown>
             </div>
@@ -126,6 +158,15 @@
         </div>
         <div>
             <p><span class="labela">Tip terena:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoTeren?.tipTerena?.nazivTipaTerena}}</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Dužina:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoTeren?.duzina}} m</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Širina:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoTeren?.sirina}} m</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Dostupan:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span [ngClass]="infoTeren?.dostupan ? 'available' : 'not-available'" class="intel">{{ infoTeren?.dostupan ? 'Dostupan' : 'Nije dostupan' }}</span></p>
         </div>
         <div>
             <p><span class="labela">Opis:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoTeren?.info}}</span></p>

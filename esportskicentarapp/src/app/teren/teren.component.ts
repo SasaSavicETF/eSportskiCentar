@@ -9,12 +9,13 @@ import { TipTerenaService } from '../tip-terena/tip-terena.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { ImageModule } from 'primeng/image';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @Component({
   selector: 'app-teren',
   templateUrl: './teren.component.html',
   styleUrl: './teren.component.css',
-  providers: [MessageService, ImageModule]
+  providers: [MessageService, ImageModule, CheckboxModule]
 })
 export class TerenComponent implements OnInit 
 {
@@ -30,6 +31,10 @@ export class TerenComponent implements OnInit
   public delIdTeren: number = -1;
 
   public nazivTerenInput: string = "";
+
+  checkedAdd: boolean = false;
+  checkedEdit: boolean = false;
+  checkedInfo: boolean = false;
 
   dvoranas: Dvorana[] = [];
   selectedDvorana: Dvorana | undefined;
@@ -170,6 +175,7 @@ export class TerenComponent implements OnInit
     {
       this.editVisible = true;
       this.editTeren = { ...teren };
+      this.checkedEdit = teren.dostupan;
       this.selectedDvorana = this.editTeren.dvorana;
       this.selectedTipTerena = this.editTeren.tipTerena;
     }

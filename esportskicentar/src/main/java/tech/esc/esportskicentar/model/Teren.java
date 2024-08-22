@@ -3,7 +3,10 @@ package tech.esc.esportskicentar.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
+
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -44,5 +47,17 @@ public class Teren {
     @ManyToOne
     @JoinColumn(name = "id_dvorana")
     private Dvorana dvorana;
-
+    @NotNull
+    @Positive
+    @Basic
+    @Column(name = "duzina")
+    private BigDecimal duzina;
+    @NotNull
+    @Positive
+    @Basic
+    @Column(name = "sirina")
+    private BigDecimal sirina;
+    @Basic
+    @Column(name = "dostupan")
+    private boolean dostupan;
 }
