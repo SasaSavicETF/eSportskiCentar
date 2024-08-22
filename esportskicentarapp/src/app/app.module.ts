@@ -60,8 +60,7 @@ import { CalendarModule } from 'primeng/calendar';
     ToastModule,
     CheckboxModule,
     ImageModule,
-    CalendarModule,
-    TerenComponent
+    CalendarModule
   ],
   providers: [
     provideClientHydration()

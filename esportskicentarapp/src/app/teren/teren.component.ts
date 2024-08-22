@@ -42,6 +42,9 @@ export class TerenComponent implements OnInit
   tipTerenas: TipTerena[] = [];
   selectedTipTerena: TipTerena | undefined;
 
+  selectedFile: File | null = null;
+  fileName: string = '';
+
   constructor(private terenService: TerenService, private dvoranaService: DvoranaService, 
     private tipTerenaService: TipTerenaService, private messageService: MessageService) { }
 
@@ -52,6 +55,18 @@ export class TerenComponent implements OnInit
       this.getDvoranas();
       this.getTipTerenas();
   }
+
+  onFileSelected(event: any): void 
+  {
+    const file: File = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      this.selectedFile = file;
+      this.fileName = file.name;
+    } else {
+      console.error('Selected file is not an image.');
+    }
+  }
+
 
   public getDvoranas(): void
   {
@@ -97,6 +112,7 @@ export class TerenComponent implements OnInit
 
   public onAddTeren(addForm: NgForm): void
   {
+    /*
     this.addVisible = false;
     this.terenService.addTeren(addForm.value).subscribe(
       (response: Teren) =>
@@ -110,6 +126,36 @@ export class TerenComponent implements OnInit
         alert(error.message);
       }
     );
+    addForm.reset();
+    */
+    this.addVisible = false;
+
+    // Kreirajte FormData objekat
+    const formData = new FormData();
+    formData.append('nazivTerena', addForm.value.nazivTerena);
+    formData.append('info', addForm.value.info);
+    formData.append('duzina', addForm.value.duzina);
+    formData.append('sirina', addForm.value.sirina);
+    formData.append('dostupan', String(addForm.value.dostupan));
+    formData.append('dvorana', JSON.stringify(addForm.value.dvorana)); 
+    formData.append('tipTerena', JSON.stringify(addForm.value.tipTerena)); 
+  
+    if (this.selectedFile) {
+      formData.append('slikaFile', this.selectedFile, this.selectedFile.name);
+    }
+  
+    // Pošaljite formData umesto JSON-a
+    this.terenService.addTeren(formData).subscribe(
+      (response: Teren) => {
+        this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Teren je dodan u sistem!' });
+        this.getTerens();
+      },
+      (error: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u dodavanju terena' });
+        alert(error.message);
+      }
+    );
+  
     addForm.reset();
   }
 

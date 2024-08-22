@@ -25,11 +25,12 @@ export class TerenService {
     return this.http.get<Teren>(`${this.apiServerUrl}/teren/${terenId}`);
   }
 
-  public addTeren(teren: Teren): Observable<Teren> {
-      return this.validateTeren(teren).pipe(
-        switchMap(() => this.http.post<Teren>(`${this.apiServerUrl}/teren`, teren)),
+  public addTeren(formData: FormData): Observable<Teren> {
+      /*return this.validateTeren(teren).pipe(
+        switchMap(() => this.http.post<Teren>(`${this.apiServerUrl}/teren`, formData)),
         catchError((error) => throwError(() => new HttpErrorResponse({ status: 400, statusText: error })))
-      );
+      );*/
+      return this.http.post<Teren>(`${this.apiServerUrl}/teren`, formData);
     }
   
     

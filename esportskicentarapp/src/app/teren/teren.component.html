@@ -13,8 +13,13 @@
                         <label for="naziv_terena">Naziv terena</label>
                         <input type="text" pInputText class="textInput" id="naziv_terena" ngModel name="nazivTerena" required/>
                         <!-- Bice uklonjeno -->
-                        <label for="slika">URL slike</label>
-                        <input type="text" pInputText class="textInput" id="slika" ngModel name="slika" required/>
+                        <!--<label for="slika">URL slike</label>
+                        <input type="text" pInputText class="textInput" id="slika" ngModel name="slika" required/>-->
+                        <label for="file-upload" class="custom-file-upload">
+                            Dodaj fotografiju
+                        </label>
+                        <input id="file-upload" type="file" accept="image/*" (change)="onFileSelected($event)" name="slikaFile">
+                        <span id="file-name">&nbsp;&nbsp;{{ fileName }}</span>
                         <div class="form-group">
                             <label for="duzina">Dužina</label>
                             <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="duzina" ngModel name="duzina" required/>
