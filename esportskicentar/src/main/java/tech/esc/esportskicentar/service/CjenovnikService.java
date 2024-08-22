@@ -31,9 +31,9 @@ public class CjenovnikService {
         return cjenovnikRepository.save(cjenovnik);
     }
 
-    public Cjenovnik updateCjenovnik(Integer id, Cjenovnik cjenovnik){
-        Cjenovnik stariCjenovnik = cjenovnikRepository.findById(id).orElse(null);
-        if(stariCjenovnik == null || id != cjenovnik.getIdCjenovnik())
+    public Cjenovnik updateCjenovnik(Cjenovnik cjenovnik){
+        Cjenovnik stariCjenovnik = cjenovnikRepository.findById(cjenovnik.getIdCjenovnik()).orElse(null);
+        if(stariCjenovnik == null)
             return null;
         else
             return cjenovnikRepository.save(cjenovnik);

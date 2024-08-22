@@ -35,17 +35,17 @@ public class ZadatakController {
             return new ResponseEntity<>(zadatak, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Zadatak> addZadatak(@Valid @RequestBody Zadatak zadatak)
     {
         Zadatak newZadatak = zadatakService.addZadatak(zadatak);
         return new ResponseEntity<>(newZadatak, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Zadatak> updateZadatak(@PathVariable Integer id,@Valid @RequestBody Zadatak zadatak)
+    @PutMapping("/update")
+    public ResponseEntity<Zadatak> updateZadatak(@Valid @RequestBody Zadatak zadatak)
     {
-        Zadatak updateZadatak = zadatakService.updateZadatak(id, zadatak);
+        Zadatak updateZadatak = zadatakService.updateZadatak(zadatak);
         if(updateZadatak == null)
             return ResponseEntity.notFound().build();
         else

@@ -36,17 +36,17 @@ public class CjenovnikController {
             return new ResponseEntity<>(cjenovnik, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Cjenovnik> addCjenovnik(@Valid @RequestBody Cjenovnik cjenovnik)
     {
         Cjenovnik newCjenovnik = cjenovnikService.addCjenovnik(cjenovnik);
         return new ResponseEntity<>(newCjenovnik, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Cjenovnik> updateCjenovnik(@PathVariable Integer id, @Valid @RequestBody Cjenovnik cjenovnik)
+    @PutMapping("/update")
+    public ResponseEntity<Cjenovnik> updateCjenovnik(@Valid @RequestBody Cjenovnik cjenovnik)
     {
-        Cjenovnik updateCjenovnik = cjenovnikService.updateCjenovnik(id, cjenovnik);
+        Cjenovnik updateCjenovnik = cjenovnikService.updateCjenovnik(cjenovnik);
         if(updateCjenovnik == null)
             return ResponseEntity.notFound().build();
         else
