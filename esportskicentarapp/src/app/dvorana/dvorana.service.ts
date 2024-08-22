@@ -59,12 +59,7 @@ export class DvoranaService {
     if (!dvorana.kapacitet || dvorana.kapacitet < 0) {
       return throwError(() => 'Kapacitet dvorane mora biti pozitivan broj.');
     }
-    if (!dvorana.duzina || dvorana.duzina <= 0) {
-      return throwError(() => 'Kapacitet dvorane mora biti pozitivan broj.');
-    }
-    if (!dvorana.sirina || dvorana.sirina <= 0) {
-      return throwError(() => 'Kapacitet dvorane mora biti pozitivan broj.');
-    }
+    
     // Dodaj ostale validacije po potrebi
 
     return new Observable<void>((observer) => {

@@ -14,12 +14,6 @@
                         <input type="text" pInputText class="textInput" id="naziv_dvorane" ngModel name="nazivDvorane" required/>
                         <label for="kapacitet">Kapacitet</label>
                         <input type="number" pInputText class="textInput" id="kapacitet" ngModel name="kapacitet"/>
-                        <div class="form-group">
-                            <label for="duzina">Dužina</label>
-                            <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="duzina" ngModel name="duzina" required/>
-                            <label for="sirina">Širina</label>
-                            <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="sirina" ngModel name="sirina" required/>
-                        </div>
                         <div class="drop card flex justify-content-center">
                             <p-dropdown class="custom-dd" [options]="grads" [(ngModel)]="selectedGrad" name="grad" optionLabel="nazivGrada" [showClear]="true" placeholder="Izaberi grad"></p-dropdown>
                         </div>
@@ -54,12 +48,10 @@
     >
     <ng-template pTemplate="header">
         <tr>
-            <th style="width: 16.5%;">Naziv dvorane</th>
-            <th style="width: 16.5%">Grad</th>
-            <th style="width: 16.5%">Kapacitet</th>
-            <th style="width: 16.5%">Dužina</th>
-            <th style="width: 16.5%">Širina</th>
-            <th style="width: 16.5%">Opcije</th>
+            <th style="width: 25%;">Naziv dvorane</th>
+            <th style="width: 25%">Grad</th>
+            <th style="width: 25%">Kapacitet</th>
+            <th style="width: 25%">Opcije</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-dvorana>
@@ -67,8 +59,6 @@
             <td>{{ dvorana.nazivDvorane }}</td>
             <td>{{ dvorana.grad.nazivGrada }}</td>
             <td>{{ dvorana.kapacitet }}</td>
-            <td>{{ dvorana.duzina }} m</td>
-            <td>{{ dvorana.sirina }} m</td>
             <td>
                 <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" styleClass="p-button-text" (click)="showEditDialog(dvorana)"></p-button>
                 <p-button icon="pi pi-info-circle" [rounded]="true" [text]="true" severity="success " (click)="showInfoDialog(dvorana)"></p-button>
@@ -89,12 +79,6 @@
             <input type="text" pInputText class="textInput" id="naziv_dvorane" ngModel="{{editDvorana?.nazivDvorane}}" name="nazivDvorane" required/>
             <label for="kapacitet">Kapacitet</label>
             <input type="number" pInputText class="textInput" id="kapacitet" ngModel="{{editDvorana?.kapacitet}}" name="kapacitet"/>
-            <div class="form-group">
-                <label for="duzina">Duzina</label>
-                <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="duzina" ngModel="{{editDvorana?.duzina}}" name="duzina" required/>
-                <label for="sirina">Sirina</label>
-                <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="sirina" ngModel="{{editDvorana?.sirina}}" name="sirina" required/>
-            </div>
             <div class="drop card flex justify-content-center">
                 <p-dropdown class="custom-dd" [options]="grads" [(ngModel)]="selectedGrad" name="grad" optionLabel="nazivGrada" [showClear]="true" placeholder="Izaberi grad"></p-dropdown>
             </div>
@@ -127,12 +111,6 @@
         </div>
         <div>
             <p><span class="labela">Kapacitet:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDvorana?.kapacitet}} sjedećih mjesta</span></p>
-        </div>
-        <div>
-            <p><span class="labela">Dužina:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDvorana?.duzina}} m</span></p>
-        </div>
-        <div>
-            <p><span class="labela">Širina:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDvorana?.sirina}} m</span></p>
         </div>
         <div>
             <p><span class="labela">Grad:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDvorana?.grad?.nazivGrada}}</span></p>

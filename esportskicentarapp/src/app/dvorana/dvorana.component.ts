@@ -31,8 +31,6 @@ export class DvoranaComponent implements OnInit
   grads: Grad[] = [];
   selectedGrad: Grad | undefined;
 
-  duzina: string = "";
-  duzinaFormControl = new FormControl('', Validators.pattern('[0-9]+([.,][0-9]+)?'));
 
   constructor(private dvoranaService: DvoranaService, private gradService: GradService, private messageService: MessageService) { }
 
