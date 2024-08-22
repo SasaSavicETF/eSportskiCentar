@@ -25,6 +25,9 @@ import { EkipaComponent } from './ekipa/ekipa.component';
 import { TipTerenaComponent } from './tip-terena/tip-terena.component';
 import { TerenComponent } from './teren/teren.component';
 import { ImageModule } from 'primeng/image';
+import { CjenovnikComponent } from './cjenovnik/cjenovnik.component';
+import { ZadatakComponent } from './zadatak/zadatak.component';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,9 @@ import { ImageModule } from 'primeng/image';
     RasporedComponent,
     EkipaComponent,
     TipTerenaComponent,
-    TerenComponent
+    TerenComponent,
+    CjenovnikComponent,
+    ZadatakComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +59,8 @@ import { ImageModule } from 'primeng/image';
     DropdownModule,
     ToastModule,
     CheckboxModule,
-    ImageModule
+    ImageModule,
+    CalendarModule
   ],
   providers: [
     provideClientHydration()

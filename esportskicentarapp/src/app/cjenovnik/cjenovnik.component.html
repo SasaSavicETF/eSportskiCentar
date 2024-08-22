@@ -1,0 +1,158 @@
+<p-toast></p-toast>
+<div class="sadrzaj">
+    <div class="parent">
+        <div>
+            <h1>Cjenovnik</h1>
+        </div>
+        <!-- Modal za dodavanje -->
+        <div class="addDiv">
+            <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+            <p-dialog header="Dodavanje cjenovnika" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+                <div class="container">
+                   <form #addForm="ngForm" (ngSubmit)="onAddCjenovnik(addForm)">
+                    <label for="vrijeme_od">Vrijeme od</label>
+                    <div class="drop card flex justify-content-center">
+                    <p-calendar 
+                    id="vrijeme_od" 
+                    ngModel
+                    name="vrijemeOd" 
+                    [iconDisplay]="'input'" 
+                    [showIcon]="true" 
+                    [timeOnly]="true" 
+                    [required]="true"
+                    [showSeconds]="true"
+                    [defaultDate]="defaultDate"
+                    dataType="string">
+                    </p-calendar>
+                    </div>
+                        <label for="vrijeme_do">Vrijeme do</label>
+                        <div class="drop card flex justify-content-center">
+                            <p-calendar 
+                            id="vrijeme_do" 
+                            ngModel
+                            name="vrijemeDo" 
+                            [iconDisplay]="'input'" 
+                            [showIcon]="true" 
+                            [timeOnly]="true" 
+                            [required]="true"
+                            [showSeconds]="true"
+                            [defaultDate]="defaultDate"
+                            dataType="string">
+                            </p-calendar>
+                            </div>
+                        <label for="cijena">Cijena</label>
+                        <input type="number" pInputText class="textInput" id="cijena" ngModel name="cijena" required/>
+                    
+                        
+                        <div class="drop card flex justify-content-center">
+                            <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" name="teren" optionLabel="nazivTerena" [showClear]="true" placeholder="Izaberi teren"></p-dropdown>
+                        </div>
+                        <div class="addBtn">
+                            <p-button type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                        </div>
+                    </form>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+    <div class="search card flex flex-wrap justify-content-center gap-3">
+        <span>
+
+        </span>
+        <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText (ngModelChange)="searchCjenovniks(key.value)" #key="ngModel" ngModel/>
+        </span>
+    </div>
+    <p-table
+        [value]="cjenovniks"
+        [paginator]="true"
+        [rows]="5"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Prikazano od {first}. do {last}. od ukupno {totalRecords} zapisa"
+        [rowsPerPageOptions]="[5, 10, 25, 50]"
+        paginatorLocale="en-US"
+    >
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 25%">Teren</th>
+            <th style="width: 25%">Cijena</th>
+            <th style="width: 25%">Vrijeme</th>  
+            <th style="width: 25%">Opcije</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-cjenovnik>
+        <tr>
+            <td>{{ cjenovnik.teren.nazivTerena }}</td>
+            <td>{{ cjenovnik.cijena }}</td>
+            <td>{{ cjenovnik.vrijemeOd }} - {{ cjenovnik.vrijemeDo }}</td>
+            
+            <td>
+                <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" styleClass="p-button-text" (click)="showEditDialog(cjenovnik)"></p-button>
+                <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger " (click)="showDeleteDialog(cjenovnik)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+    
+    </p-table>
+</div>
+
+<!--Modal za izmjenu(edit)-->
+<p-dialog header="Izmjena cjenovnika" [(visible)]="editVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+    <div class="container">
+        <form #editForm="ngForm">
+            <input type="hidden" id="id_cjenovnik" ngModel="{{editCjenovnik?.idCjenovnik}}" name="idCjenovnik"/>
+            <label for="vrijeme_od">Vrijeme od</label>
+            <div class="drop card flex justify-content-center">
+                <p-calendar 
+                id="vrijeme_od" 
+                ngModel="{{editCjenovnik?.vrijemeOd}}"
+                name="vrijemeOd" 
+                [iconDisplay]="'input'" 
+                [showIcon]="true" 
+                [timeOnly]="true" 
+                [required]="true"
+                [showSeconds]="true"
+                dataType="string">
+                </p-calendar>
+                </div>
+            <label for="vrijeme_do">Vrijeme do</label>
+            <div class="drop card flex justify-content-center">
+                <p-calendar 
+                id="vrijeme_do" 
+                ngModel="{{editCjenovnik?.vrijemeDo}}"
+                name="vrijemeDo" 
+                [iconDisplay]="'input'" 
+                [showIcon]="true" 
+                [timeOnly]="true" 
+                [required]="true"
+                [showSeconds]="true"
+                dataType="string">
+                </p-calendar>
+                </div>
+            <label for="cijena">Cijena</label>
+            <input type="number" pInputText class="textInput" id="cijena" ngModel="{{editCjenovnik?.cijena}}" name="cijena"/>
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" name="teren" optionLabel="nazivTerena" [showClear]="true" placeholder="Izaberi teren"></p-dropdown>
+            </div>
+            <div class="addBtn">
+                <p-button (onClick)="onUpdateCjenovnik(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+
+<!--Modal za brisanje-->
+<p-dialog header="Upozorenje" [(visible)]="deleteVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+    <div class="container">
+        <p>Da li zaista želite da obrišete zapis {{delCjenovnik?.teren?.nazivTerena}} {{delCjenovnik?.vrijemeOd}} - {{delCjenovnik?.vrijemeDo}}?</p>
+        <br>
+        <div class="addBtn">
+            <p-button (onClick)="closeDeleteDialog()" class="scndBtn" label="Odustani" severity="secondary"></p-button>
+            <p-button (onClick)="onDeleteCjenovnik(delIdCjenovnik)" label="Obriši" severity="danger"></p-button>
+        </div>
+    </div>
+</p-dialog>
+
+
