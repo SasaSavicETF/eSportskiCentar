@@ -20,9 +20,9 @@ public class Dogadjaj {
     @Column(name = "id_dogadjaj")
     private int idDogadjaj;
     @NotNull
-    @Basic
-    @Column(name = "id_takmicenje")
-    private int idTakmicenje;
+    @ManyToOne
+    @JoinColumn(name = "id_takmicenje")
+    private Takmicenje takmicenje;
     /*
     @Basic
     @Column(name = "id_domace_ekipe")

@@ -47,7 +47,7 @@ export class DogadjajService {
 
   private validateDogadjaj(dogadjaj: Dogadjaj): Observable<void> 
   {
-    if (!dogadjaj.vrijeme) {
+    if (!dogadjaj.vrijemeOd) {
       return throwError(() => 'Vrijeme mora biti uneseno.');
     }
     if (!dogadjaj.idTakmicenje || dogadjaj.idTakmicenje <= 0) {

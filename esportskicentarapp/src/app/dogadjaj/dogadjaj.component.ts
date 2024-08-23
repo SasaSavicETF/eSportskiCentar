@@ -11,6 +11,8 @@ import { EkipaService } from '../ekipa/ekipa.service';
 import { TerenService } from '../teren/teren.service';
 import { Teren } from '../models/teren';
 import { Ekipa } from '../models/ekipa';
+import { Dvorana } from '../models/dvorana';
+import { DvoranaService } from '../dvorana/dvorana.service';
 
 @Component({
   selector: 'app-dogadjaj',
@@ -21,13 +23,9 @@ import { Ekipa } from '../models/ekipa';
 export class DogadjajComponent {
   public dogadjajs: Dogadjaj[] = [];
   addVisible: boolean = false;
-  editVisible: boolean = false;
   deleteVisible: boolean = false;
-  infoVisible: boolean = false;
 
-  public editDogadjaj: Dogadjaj | undefined;
   public delDogadjaj: Dogadjaj | undefined;
-  public infoDogadjaj: Dogadjaj | undefined;
   public delIdDogadjaj: number = -1;
 
   defaultDate: Date = new Date("January 31 1980 12:30");
@@ -38,12 +36,17 @@ export class DogadjajComponent {
   terens: Teren[] = [];
   selectedTeren: Teren | undefined;
 
+  dvoranas: Dvorana[] = [];
+  selectedDvorana: Dvorana | undefined;
+
   ekipas: Ekipa[] = [];
   selectedDomacaEkipa: Ekipa | undefined;
   selectedGostujucaEkipa: Ekipa | undefined;
 
+  danasnjiDatum: Date = new Date();
+
   constructor(private dogadjajService: DogadjajService, private dnevniRasporedService: DnevniRasporedService,
-    private ekipaService: EkipaService, private terenService: TerenService,
+    private ekipaService: EkipaService, private terenService: TerenService, private dvoranaService: DvoranaService,
      private messageService: MessageService) { }
 
 
@@ -53,6 +56,7 @@ export class DogadjajComponent {
       this.getDnevniRasporeds();
       this.getEkipas();
       this.getTerens();
+      this.getDvoranas();
   }
 
   public getEkipas(): void
@@ -61,6 +65,20 @@ export class DogadjajComponent {
       (response: Ekipa[]) =>
       {
         this.ekipas = response;
+      },
+      (error: HttpErrorResponse) =>
+      {
+        alert(error.message);
+      }
+    );
+  }
+
+  public getDvoranas(): void
+  {
+    this.dvoranaService.getDvoranas().subscribe(
+      (response: Dvorana[]) =>
+      {
+        this.dvoranas = response;
       },
       (error: HttpErrorResponse) =>
       {
@@ -111,6 +129,32 @@ export class DogadjajComponent {
     );
   }
 
+  public filterTerens(): void
+  {
+    let filteredTerens: Teren[] = [];
+    for(const teren of this.terens)
+    {
+      if(teren.dvorana.idDvorana === this.selectedDvorana?.idDvorana)
+      {
+        filteredTerens.push(teren);
+      }
+    }
+    this.terens = filteredTerens;
+  }
+
+  public filterDogadjajs(): void
+  {
+    let filterDogadjajs: Dogadjaj[] = [];
+    for(const dogadjaj of this.dogadjajs)
+    {
+      if(dogadjaj.teren.idTeren === this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored === this.selectedDnevniRaspored?.idDnevniRaspored)
+      {
+        filterDogadjajs.push(dogadjaj);
+      }
+    }
+    this.dogadjajs = filterDogadjajs;
+  }
+
   public onAddDogadjaj(addForm: NgForm): void
   {
     this.addVisible = false;
@@ -129,6 +173,7 @@ export class DogadjajComponent {
     addForm.reset();
   }
 
+  /*
   public onUpdateDogadjaj(dogadjaj: Dogadjaj): void
   {
     this.editVisible = false;
@@ -145,6 +190,8 @@ export class DogadjajComponent {
       }
     );
   }
+  */
+
 
   public onDeleteDogadjaj(idDogadjaj: number): void
   {
@@ -185,6 +232,7 @@ export class DogadjajComponent {
     this.addVisible = true;
   }
 
+  /*
   showEditDialog(dogadjaj: Dogadjaj) 
   {
     if(this.editVisible == false)
@@ -197,6 +245,7 @@ export class DogadjajComponent {
       this.selectedTeren = this.editDogadjaj.teren;
     }
   }
+    */
 
   showDeleteDialog(dogadjaj: Dogadjaj) 
   {
@@ -208,17 +257,6 @@ export class DogadjajComponent {
   closeDeleteDialog()
   {
     this.deleteVisible = false;
-  }
-
-  showInfoDialog(dogadjaj: Dogadjaj) 
-  {
-    this.infoVisible = true;
-    this.infoDogadjaj = { ...dogadjaj };
-  }
-
-  closeInfoDialog()
-  {
-    this.infoVisible = false;
   }
 }
 

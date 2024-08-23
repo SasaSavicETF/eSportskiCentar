@@ -7,10 +7,12 @@ export interface Dogadjaj {
 
     idDogadjaj: number;
     idTakmicenje: number;
-    vrijeme: string;
+    vrijemeOd: string;
+    vrijemDo: string;
     infoDogadjaja: string;
     domacaEkipa: Ekipa;
     gostujucaEkipa: Ekipa;
     dnevniRaspored: DnevniRaspored;
     teren: Teren;
+    cijena: number;
 }
