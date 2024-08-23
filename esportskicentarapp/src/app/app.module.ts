@@ -57,7 +57,7 @@ import { RegisterComponent } from './register/register.component';
     SvlacionicaComponent,
     InventarComponent,
     DnevniRasporedComponent,
-    DogadjajComponent
+    DogadjajComponent,
     LoginComponent,
     RegisterComponent
   ],
