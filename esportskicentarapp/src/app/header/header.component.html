@@ -1,0 +1,20 @@
+<header *ngIf="showHeader">
+    <div class="row-1">
+        <img class="rounded-image" src="/assets/img/logo2.png">
+    </div>
+
+    <div class="row-2">
+        <h2>eSportskiCentar</h2>
+    </div>
+    
+    <div class="row-3">
+        <img class="user-icon" src="/assets/img/user.jpg" (click)="showPaddingMenu()">
+    </div>
+    
+</header>
+
+<ul [ngClass]="{'visible': showMenu}">
+    <li>Pregled naloga</li>
+    <li (click)="logout()">Odjava</li>
+</ul>
+

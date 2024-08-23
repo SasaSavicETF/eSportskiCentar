@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Klijent } from '../models/klijent';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class KlijentService {
   private url = 'http://localhost:8080/klijent';
   public activeUser: Klijent | null = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   registerUser(user: Klijent) {
     return this.http.post<any>(this.url + '/register', user);
@@ -21,6 +22,11 @@ export class KlijentService {
       username : username,
       password : password,
     });
+  }
+
+  logout() {
+    this.activeUser = null;
+    this.router.navigate(['/login']);
   }
 
 }

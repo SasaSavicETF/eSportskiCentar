@@ -30,6 +30,7 @@ import { ZadatakComponent } from './zadatak/zadatak.component';
 import { CalendarModule } from 'primeng/calendar';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { RegisterComponent } from './register/register.component';
     CjenovnikComponent,
     ZadatakComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
