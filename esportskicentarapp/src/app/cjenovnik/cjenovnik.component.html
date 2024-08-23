@@ -40,13 +40,13 @@
                             dataType="string">
                             </p-calendar>
                             </div>
+                        <div class="drop card flex justify-content-center">
+                            <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" name="teren" optionLabel="nazivTerena" [showClear]="true" placeholder="Izaberi teren"></p-dropdown>
+                        </div>
                         <label for="cijena">Cijena</label>
                         <input type="number" pInputText class="textInput" id="cijena" ngModel name="cijena" required/>
                     
                         
-                        <div class="drop card flex justify-content-center">
-                            <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" name="teren" optionLabel="nazivTerena" [showClear]="true" placeholder="Izaberi teren"></p-dropdown>
-                        </div>
                         <div class="addBtn">
                             <p-button type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
                         </div>
@@ -131,11 +131,11 @@
                 dataType="string">
                 </p-calendar>
                 </div>
-            <label for="cijena">Cijena</label>
-            <input type="number" pInputText class="textInput" id="cijena" ngModel="{{editCjenovnik?.cijena}}" name="cijena"/>
             <div class="drop card flex justify-content-center">
                 <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" name="teren" optionLabel="nazivTerena" [showClear]="true" placeholder="Izaberi teren"></p-dropdown>
             </div>
+            <label for="cijena">Cijena</label>
+            <input type="number" pInputText class="textInput" id="cijena" ngModel="{{editCjenovnik?.cijena}}" name="cijena"/>
             <div class="addBtn">
                 <p-button (onClick)="onUpdateCjenovnik(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
             </div>
