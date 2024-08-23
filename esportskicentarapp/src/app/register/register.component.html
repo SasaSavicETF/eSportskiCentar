@@ -1,0 +1,39 @@
+<div class="background-image">
+
+    <form #registerForm="ngForm" method="post" (ngSubmit)="register(registerForm)" ngNativeValidate>
+        <div class="row">
+            <img class="rounded-image" src="/assets/img/logo.png">
+        </div>
+        
+        <h1>Registracija</h1>
+        <p>Unesite Vaše podatke kako biste se registrovali</p>
+
+        <div class="row">
+            <div class="column" style="margin-right: 20px;">
+                <label>Ime: </label>
+                <input type="text" [(ngModel)]="name" name="name" required autofocus>
+
+                <label>Korisničko ime: </label>
+                <input type="text" [(ngModel)]="username" name="username" required>
+
+                <label>Broj telefona: </label>
+                <input type="text" [(ngModel)]="phoneNumber" name="phoneNumber" pattern="0[0-9]{8}" required >
+            </div>
+            <div class="column">
+                <label>Prezime: </label>
+                <input type="text" [(ngModel)]="lastname" name="lastname" required>
+
+                <label>Lozinka: </label>
+                <input type="password" [(ngModel)]="password" name="password" required>
+
+                <label>Email: </label>
+                <input type="email" [(ngModel)]="email" name="email" required>
+            </div>
+        </div>
+        
+        <input type="submit" value="Registracija">  
+        <input type="button" value="Prijava" (click)="login()">
+    </form>
+
+</div>
+

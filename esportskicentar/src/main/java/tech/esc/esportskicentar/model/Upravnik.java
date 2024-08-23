@@ -27,7 +27,7 @@ public class Upravnik {
     @Column(name = "prezime")
     private String prezime;
     @NotNull
-    @ValidPhoneNumber
+    //@ValidPhoneNumber
     @Basic
     @Column(name = "broj_telefona")
     private String brojTelefona;
@@ -48,4 +48,8 @@ public class Upravnik {
     @Basic
     @Column(name = "blokiran")
     private boolean blokiran;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "id_dvorana")
+    private Dvorana dvorana;
 }

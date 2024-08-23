@@ -34,6 +34,8 @@ import { SvlacionicaComponent } from './svlacionica/svlacionica.component';
 import { InventarComponent } from './inventar/inventar.component';
 import { DnevniRasporedComponent } from './dnevni-raspored/dnevni-raspored.component';
 import { DogadjajComponent } from './dogadjaj/dogadjaj.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import { DogadjajComponent } from './dogadjaj/dogadjaj.component';
     InventarComponent,
     DnevniRasporedComponent,
     DogadjajComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

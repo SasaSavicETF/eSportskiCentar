@@ -155,3 +155,18 @@ p-image
 {
     margin-left: 5px;
 }*/
+
+input[type="file"] {
+    display: none;
+}
+  
+.custom-file-upload {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: white;
+    background-color: rgb(163, 66, 255);
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }

@@ -35,11 +35,18 @@ public class KlijentController {
             return ResponseEntity.notFound().build();
     }
 
-    @PostMapping
-    public ResponseEntity<Klijent> createKlijent(@Valid  @RequestBody Klijent klijent) {
-        Klijent newKlijent = klijentService.createKlijent(klijent);
-        return new ResponseEntity<>(newKlijent, HttpStatus.CREATED);
+    @PostMapping("/register")
+    public ResponseEntity<?> registerKlijent(@Valid @RequestBody Klijent klijent) {
+        klijentService.registerKlijent(klijent);
+        return ResponseEntity.ok().body(HttpStatus.ACCEPTED);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<Klijent> loginKlijent(@Valid @RequestBody KlijentService.LoginRequest loginRequest) {
+        Klijent klijent = klijentService.loginKlijent(loginRequest);
+        return new ResponseEntity<>(klijent, HttpStatus.OK);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Klijent> updateKlijent(@PathVariable Integer id, @Valid @RequestBody Klijent klijent) {

@@ -1,13 +1,17 @@
 package tech.esc.esportskicentar.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tech.esc.esportskicentar.model.Teren;
 import tech.esc.esportskicentar.service.TerenService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -37,9 +41,11 @@ public class TerenController {
     }
 
     @PostMapping
-    public ResponseEntity<Teren> createTeren(@Valid  @RequestBody Teren teren) {
-        Teren newTeren = terenService.createTeren(teren);
-        return new ResponseEntity<>(newTeren, HttpStatus.CREATED);
+    public ResponseEntity<?> createTeren(@RequestParam("teren") String terenJson,
+                                         @RequestPart("image") MultipartFile file) throws IOException {
+        Teren newTeren = terenService.createTeren(terenJson, file);
+        System.out.println(newTeren);
+        return new ResponseEntity<>(newTeren, HttpStatus.OK);
     }
 
     @PutMapping()

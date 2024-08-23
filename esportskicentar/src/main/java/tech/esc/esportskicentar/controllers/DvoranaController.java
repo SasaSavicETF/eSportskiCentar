@@ -38,6 +38,7 @@ public class DvoranaController
     @PostMapping("/add")
     public ResponseEntity<Dvorana> addDvorana(@Valid  @RequestBody Dvorana dvorana)
     {
+        System.out.println(dvorana);
         Dvorana newDvorana = dvoranaService.addDvorana(dvorana);
         return new ResponseEntity<>(newDvorana, HttpStatus.CREATED);
     }

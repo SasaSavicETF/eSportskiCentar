@@ -3,6 +3,7 @@ package tech.esc.esportskicentar.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.esc.esportskicentar.model.Upravnik;
+import tech.esc.esportskicentar.repository.DvoranaRepository;
 import tech.esc.esportskicentar.repository.UpravnikRepository;
 
 import java.util.List;
@@ -13,9 +14,12 @@ import java.util.Optional;
 public class UpravnikService {
 
     private final UpravnikRepository upravnikRepository;
+    private final DvoranaRepository dvoranaRepository;
 
-    public UpravnikService(UpravnikRepository upravnikRepository){
+    public UpravnikService(UpravnikRepository upravnikRepository, DvoranaRepository dvoranaRepository)
+    {
         this.upravnikRepository = upravnikRepository;
+        this.dvoranaRepository = dvoranaRepository;
     }
 
     public List<Upravnik> findAllUpravniks() {
@@ -26,10 +30,12 @@ public class UpravnikService {
         return upravnikRepository.findById(id).orElse(null);
     }
 
-    public Upravnik addUpravnik(Upravnik upravnik){
+    public Upravnik addUpravnik(Upravnik upravnik)
+    {
+        upravnik.setDvorana(dvoranaRepository.findById(upravnik.getDvorana().getIdDvorana()).orElse(null));
         return upravnikRepository.save(upravnik);
     }
-
+    
     public Upravnik updateUpravnik(Upravnik upravnik){
         Upravnik stariUpravnik = upravnikRepository.findById(upravnik.getIdUpravnik()).orElse(null);
         if(stariUpravnik == null)

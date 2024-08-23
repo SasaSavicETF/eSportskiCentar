@@ -12,6 +12,7 @@ import { TipTerenaComponent } from './tip-terena/tip-terena.component';
 import { TerenComponent } from './teren/teren.component';
 import { CjenovnikComponent } from './cjenovnik/cjenovnik.component';
 import { ZadatakComponent } from './zadatak/zadatak.component';
+<<<<<<< HEAD
 import { UpravnikComponent } from './upravnik/upravnik.component';
 import { DezurniRadnikComponent } from './dezurni-radnik/dezurni-radnik.component';
 import { SvlacionicaComponent } from './svlacionica/svlacionica.component';
@@ -19,10 +20,17 @@ import { DnevniRasporedComponent } from './dnevni-raspored/dnevni-raspored.compo
 import { DogadjajComponent } from './dogadjaj/dogadjaj.component';
 import { InventarComponent } from './inventar/inventar.component';
 
+=======
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+>>>>>>> 3033fe2cac1413c683b9c29078ad83a43eae94f1
 
 const routes: Routes = [
   //ovo prvo je samo privremeno
   { path: 'cjenovnik', component: CjenovnikComponent},
+  { path: 'login', component: LoginComponent},
+  { path: 'register', component: RegisterComponent},
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'grad', component: GradComponent},
   { path: 'inventar', component: InventarComponent},
   { path: 'dnevniRaspored', component: DnevniRasporedComponent},
@@ -35,7 +43,7 @@ const routes: Routes = [
   { path: 'takmicenje', component: TakmicenjeComponent},
   { path: 'raspored', component: RasporedComponent},
   { path: 'ekipa', component: EkipaComponent},
-  { path: 'tipTerena', component: TipTerenaComponent},
+  { path: 'tipterena', component: TipTerenaComponent},
   { path: 'teren', component: TerenComponent},
   { path: 'upravnik', component: UpravnikComponent},
   { path: 'zadatak', component: ZadatakComponent},

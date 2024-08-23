@@ -30,6 +30,7 @@ public class Dvorana {
     @Basic
     @Column(name = "kapacitet")
     private Integer kapacitet;
+    /*
     @NotNull
     @Positive
     @Basic
@@ -40,6 +41,8 @@ public class Dvorana {
     @Basic
     @Column(name = "sirina")
     private BigDecimal sirina;
+    */
+
     @Basic
     @Column(name = "info")
     private String info;

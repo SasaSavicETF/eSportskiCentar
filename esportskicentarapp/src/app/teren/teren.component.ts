@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { ImageModule } from 'primeng/image';
 import { CheckboxModule } from 'primeng/checkbox';
+import { json } from 'stream/consumers';
 
 @Component({
   selector: 'app-teren',
@@ -42,6 +43,9 @@ export class TerenComponent implements OnInit
   tipTerenas: TipTerena[] = [];
   selectedTipTerena: TipTerena | undefined;
 
+  selectedFile: File | null = null;
+  fileName: string = '';
+
   constructor(private terenService: TerenService, private dvoranaService: DvoranaService, 
     private tipTerenaService: TipTerenaService, private messageService: MessageService) { }
 
@@ -52,6 +56,18 @@ export class TerenComponent implements OnInit
       this.getDvoranas();
       this.getTipTerenas();
   }
+
+  onFileSelected(event: any): void 
+  {
+    const file: File = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      this.selectedFile = file;
+      this.fileName = file.name;
+    } else {
+      console.error('Selected file is not an image.');
+    }
+  }
+
 
   public getDvoranas(): void
   {
@@ -97,6 +113,7 @@ export class TerenComponent implements OnInit
 
   public onAddTeren(addForm: NgForm): void
   {
+    /*
     this.addVisible = false;
     this.terenService.addTeren(addForm.value).subscribe(
       (response: Teren) =>
@@ -110,6 +127,46 @@ export class TerenComponent implements OnInit
         alert(error.message);
       }
     );
+    addForm.reset();
+    */
+    this.addVisible = false;
+
+    // Kreirajte FormData objekat
+    const formData = new FormData();
+    const teren: Teren = {
+      idTeren: 0,
+      nazivTerena: addForm.value.nazivTerena,
+      info: addForm.value.info,
+      duzina: addForm.value.duzina,
+      sirina: addForm.value.sirina,
+      dostupan: addForm.value.dostupan,
+      dvorana: addForm.value.dvorana,
+      tipTerena: addForm.value.tipTerena,
+      slika: ''
+    };
+  
+    if (this.selectedFile) {
+      teren.slika = this.selectedFile.name;
+      formData.append('image', this.selectedFile);
+    }
+    else{
+      const emptyFile = new File([], "empty-file.txt", { type: "text/plain" });
+      formData.append('image', emptyFile);
+    }
+    formData.append('teren', JSON.stringify(teren));
+  
+    // Pošaljite formData umesto JSON-a
+    this.terenService.addTeren(formData).subscribe(
+      (response: Teren) => {
+        this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Teren je dodan u sistem!' });
+        this.getTerens();
+      },
+      (error: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u dodavanju terena' });
+        alert(error.message);
+      }
+    );
+  
     addForm.reset();
   }
 
