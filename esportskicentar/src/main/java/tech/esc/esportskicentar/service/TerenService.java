@@ -1,20 +1,30 @@
 package tech.esc.esportskicentar.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import tech.esc.esportskicentar.model.Teren;
 import tech.esc.esportskicentar.repository.DvoranaRepository;
 import tech.esc.esportskicentar.repository.TerenRepository;
 import tech.esc.esportskicentar.repository.TipTerenaRepository;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
 public class TerenService {
-
+    @Value("${upload.path}")
+    private String uploadPath;
     private final TerenRepository terenRepository;
     private final TipTerenaRepository tipTerenaRepository;
     private final DvoranaRepository dvoranaRepository;
@@ -35,9 +45,15 @@ public class TerenService {
                 .orElse(null);
     }
 
-    public Teren createTeren(Teren teren) {
-        teren.setDvorana(dvoranaRepository.findById(teren.getDvorana().getIdDvorana()).orElse(null));
-        teren.setTipTerena(tipTerenaRepository.findById(teren.getTipTerena().getIdTipTerena()).orElse(null));
+    public Teren createTeren(String terenJson, MultipartFile image) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Teren teren = objectMapper.readValue(terenJson, Teren.class);
+        if (image != null) {
+            Path filePath = Paths.get(System.getProperty("user.dir")+ File.separator + uploadPath + File.separator
+                    + teren.getSlika());
+            Files.write(filePath, image.getBytes());
+        }
+        teren.setSlika("http://localhost:8080/" + teren.getSlika());
         return terenRepository.save(teren);
     }
 

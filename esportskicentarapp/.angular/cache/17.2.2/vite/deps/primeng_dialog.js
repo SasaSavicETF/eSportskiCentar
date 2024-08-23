@@ -1,6 +1,10 @@
 import {
+  FocusTrap,
+  FocusTrapModule
+} from "./chunk-A6CU67R4.js";
+import {
   TimesIcon
-} from "./chunk-C6DZWXDS.js";
+} from "./chunk-YIGGG2DE.js";
 import {
   animate,
   animation,
@@ -8,17 +12,22 @@ import {
   transition,
   trigger,
   useAnimation
-} from "./chunk-76WIWFL5.js";
+} from "./chunk-YISMSIPL.js";
 import {
-  BaseIcon,
   ButtonDirective,
-  ButtonModule,
+  ButtonModule
+} from "./chunk-5SJ63QHO.js";
+import "./chunk-LLXTN3F5.js";
+import {
   Ripple,
   RippleModule
-} from "./chunk-ZZOKTS6Z.js";
+} from "./chunk-XCSEDI3P.js";
 import {
   DomHandler
-} from "./chunk-EK2YCWCT.js";
+} from "./chunk-4L5T4I2R.js";
+import {
+  BaseIcon
+} from "./chunk-P3R64QFR.js";
 import {
   Footer,
   Header,
@@ -27,7 +36,7 @@ import {
   SharedModule,
   UniqueComponentId,
   zindexutils
-} from "./chunk-JFWFWN6W.js";
+} from "./chunk-43AT7VQ3.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -36,17 +45,15 @@ import {
   NgStyle,
   NgTemplateOutlet,
   isPlatformBrowser
-} from "./chunk-G5KOVO7W.js";
+} from "./chunk-6T4GHL3Z.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChild,
   ContentChildren,
-  Directive,
   ElementRef,
   EventEmitter,
-  HostListener,
   Inject,
   Input,
   NgModule,
@@ -56,8 +63,6 @@ import {
   Renderer2,
   ViewChild,
   ViewEncapsulation$1,
-  __spreadValues,
-  inject,
   setClassMetadata,
   ɵɵInheritDefinitionFeature,
   ɵɵStandaloneFeature,
@@ -66,7 +71,6 @@ import {
   ɵɵclassMap,
   ɵɵcontentQuery,
   ɵɵdefineComponent,
-  ɵɵdefineDirective,
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵdirectiveInject,
@@ -100,93 +104,10 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate,
   ɵɵviewQuery
-} from "./chunk-ADFJBWRY.js";
-
-// node_modules/primeng/fesm2022/primeng-focustrap.mjs
-var FocusTrap = class _FocusTrap {
-  /**
-   * When set as true, focus wouldn't be managed.
-   * @group Props
-   */
-  pFocusTrapDisabled = false;
-  host = inject(ElementRef);
-  onkeydown(e) {
-    if (this.pFocusTrapDisabled !== true) {
-      e.preventDefault();
-      const focusableElement = DomHandler.getNextFocusableElement(this.host.nativeElement, e.shiftKey);
-      if (focusableElement) {
-        focusableElement.focus();
-        focusableElement.select?.();
-      }
-    }
-  }
-  static ɵfac = function FocusTrap_Factory(t) {
-    return new (t || _FocusTrap)();
-  };
-  static ɵdir = ɵɵdefineDirective({
-    type: _FocusTrap,
-    selectors: [["", "pFocusTrap", ""]],
-    hostAttrs: [1, "p-element"],
-    hostBindings: function FocusTrap_HostBindings(rf, ctx) {
-      if (rf & 1) {
-        ɵɵlistener("keydown.tab", function FocusTrap_keydown_tab_HostBindingHandler($event) {
-          return ctx.onkeydown($event);
-        })("keydown.shift.tab", function FocusTrap_keydown_shift_tab_HostBindingHandler($event) {
-          return ctx.onkeydown($event);
-        });
-      }
-    },
-    inputs: {
-      pFocusTrapDisabled: "pFocusTrapDisabled"
-    }
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(FocusTrap, [{
-    type: Directive,
-    args: [{
-      selector: "[pFocusTrap]",
-      host: {
-        class: "p-element"
-      }
-    }]
-  }], null, {
-    pFocusTrapDisabled: [{
-      type: Input
-    }],
-    onkeydown: [{
-      type: HostListener,
-      args: ["keydown.tab", ["$event"]]
-    }, {
-      type: HostListener,
-      args: ["keydown.shift.tab", ["$event"]]
-    }]
-  });
-})();
-var FocusTrapModule = class _FocusTrapModule {
-  static ɵfac = function FocusTrapModule_Factory(t) {
-    return new (t || _FocusTrapModule)();
-  };
-  static ɵmod = ɵɵdefineNgModule({
-    type: _FocusTrapModule,
-    declarations: [FocusTrap],
-    imports: [CommonModule],
-    exports: [FocusTrap]
-  });
-  static ɵinj = ɵɵdefineInjector({
-    imports: [CommonModule]
-  });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(FocusTrapModule, [{
-    type: NgModule,
-    args: [{
-      imports: [CommonModule],
-      exports: [FocusTrap],
-      declarations: [FocusTrap]
-    }]
-  }], null, null);
-})();
+} from "./chunk-KV5Q4P3O.js";
+import {
+  __spreadValues
+} from "./chunk-VDFOJE7E.js";
 
 // node_modules/primeng/fesm2022/primeng-icons-windowmaximize.mjs
 var WindowMaximizeIcon = class _WindowMaximizeIcon extends BaseIcon {

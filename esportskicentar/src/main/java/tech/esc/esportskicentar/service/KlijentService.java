@@ -1,8 +1,13 @@
 package tech.esc.esportskicentar.service;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tech.esc.esportskicentar.PaswordHasher;
+import tech.esc.esportskicentar.exception.AccountStatusException;
+import tech.esc.esportskicentar.exception.BadCredentialsException;
+import tech.esc.esportskicentar.exception.UsernameAlreadyExistsException;
 import tech.esc.esportskicentar.model.Klijent;
 import tech.esc.esportskicentar.repository.KlijentRepository;
 
@@ -13,10 +18,12 @@ import java.util.Optional;
 @Transactional
 public class KlijentService {
     private final KlijentRepository klijentRepository;
+    private final PaswordHasher paswordHasher;
 
     @Autowired
-    public KlijentService(KlijentRepository klijentRepository) {
+    public KlijentService(KlijentRepository klijentRepository, PaswordHasher paswordHasher) {
         this.klijentRepository = klijentRepository;
+        this.paswordHasher = paswordHasher;
     }
 
     public List<Klijent> getAllKlijents(){
@@ -28,8 +35,22 @@ public class KlijentService {
                 .orElse(null);
     }
 
-    public Klijent createKlijent(Klijent klijent) {
-        return klijentRepository.save(klijent);
+    public void registerKlijent(Klijent klijent) {
+        if (this.klijentRepository.existsByKorisnickoIme(klijent.getKorisnickoIme()))
+            throw new UsernameAlreadyExistsException("Username: " + klijent.getKorisnickoIme() + " is already taken!");
+
+        klijent.setLozinka(paswordHasher.hashPassword(klijent.getLozinka()));
+        klijentRepository.save(klijent);
+    }
+
+    public Klijent loginKlijent(LoginRequest loginRequest) {
+        Klijent klijent = klijentRepository.findByKorisnickoImeAndLozinka(
+                            loginRequest.username(), paswordHasher.hashPassword(loginRequest.password))
+                .orElseThrow(BadCredentialsException::new);
+        if (klijent.isBlokiran())
+            throw new AccountStatusException("Vaš nalog je blokiran!");
+
+        return klijent;
     }
 
     public Klijent updateKlijent(Klijent newKlijent, Integer id) {
@@ -64,5 +85,12 @@ public class KlijentService {
             return true;
         }
     }
+
+    public record LoginRequest(
+            @NotBlank
+            String username,
+            @NotBlank
+            String password)
+    {}
 
 }

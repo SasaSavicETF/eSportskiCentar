@@ -12,11 +12,15 @@ import { TipTerenaComponent } from './tip-terena/tip-terena.component';
 import { TerenComponent } from './teren/teren.component';
 import { CjenovnikComponent } from './cjenovnik/cjenovnik.component';
 import { ZadatakComponent } from './zadatak/zadatak.component';
-
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   //ovo prvo je samo privremeno
   { path: 'cjenovnik', component: CjenovnikComponent},
+  { path: 'login', component: LoginComponent},
+  { path: 'register', component: RegisterComponent},
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'grad', component: GradComponent},
   { path: 'dvorana', component: DvoranaComponent},
   { path: 'sport', component: SportComponent},
@@ -24,7 +28,7 @@ const routes: Routes = [
   { path: 'takmicenje', component: TakmicenjeComponent},
   { path: 'raspored', component: RasporedComponent},
   { path: 'ekipa', component: EkipaComponent},
-  { path: 'tipTerena', component: TipTerenaComponent},
+  { path: 'tipterena', component: TipTerenaComponent},
   { path: 'teren', component: TerenComponent},
   { path: 'zadatak', component: ZadatakComponent},
   { path: '**', component: PageNotFoundComponent}

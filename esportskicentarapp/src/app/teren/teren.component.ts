@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { ImageModule } from 'primeng/image';
 import { CheckboxModule } from 'primeng/checkbox';
+import { json } from 'stream/consumers';
 
 @Component({
   selector: 'app-teren',
@@ -132,17 +133,24 @@ export class TerenComponent implements OnInit
 
     // Kreirajte FormData objekat
     const formData = new FormData();
-    formData.append('nazivTerena', addForm.value.nazivTerena);
-    formData.append('info', addForm.value.info);
-    formData.append('duzina', addForm.value.duzina);
-    formData.append('sirina', addForm.value.sirina);
-    formData.append('dostupan', String(addForm.value.dostupan));
-    formData.append('dvorana', JSON.stringify(addForm.value.dvorana)); 
-    formData.append('tipTerena', JSON.stringify(addForm.value.tipTerena)); 
+    const teren: Teren = {
+      idTeren: 0,
+      nazivTerena: addForm.value.nazivTerena,
+      info: addForm.value.info,
+      duzina: addForm.value.duzina,
+      sirina: addForm.value.sirina,
+      dostupan: addForm.value.dostupan,
+      dvorana: addForm.value.dvorana,
+      tipTerena: addForm.value.tipTerena,
+      slika: ''
+    };
   
     if (this.selectedFile) {
-      formData.append('slikaFile', this.selectedFile, this.selectedFile.name);
+      teren.slika = this.selectedFile.name;
+      formData.append('image', this.selectedFile);
+      //formData.append('slikaFile', this.selectedFile, this.selectedFile.name);
     }
+    formData.append('teren', JSON.stringify(teren));
   
     // Pošaljite formData umesto JSON-a
     this.terenService.addTeren(formData).subscribe(

@@ -1,10 +1,10 @@
 import {
   DomHandler
-} from "./chunk-EK2YCWCT.js";
+} from "./chunk-4L5T4I2R.js";
 import {
   PrimeTemplate,
   SharedModule
-} from "./chunk-JFWFWN6W.js";
+} from "./chunk-43AT7VQ3.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -14,7 +14,7 @@ import {
   NgStyle,
   NgTemplateOutlet,
   isPlatformBrowser
-} from "./chunk-G5KOVO7W.js";
+} from "./chunk-6T4GHL3Z.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -53,7 +53,8 @@ import {
   ɵɵrestoreView,
   ɵɵtemplate,
   ɵɵviewQuery
-} from "./chunk-ADFJBWRY.js";
+} from "./chunk-KV5Q4P3O.js";
+import "./chunk-VDFOJE7E.js";
 
 // node_modules/primeng/fesm2022/primeng-splitter.mjs
 var _c0 = ["container"];

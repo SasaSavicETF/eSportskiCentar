@@ -177,8 +177,6 @@ CREATE TABLE `dvorana` (
   `naziv_dvorane` varchar(100) NOT NULL,
   `id_grad` int NOT NULL,
   `kapacitet` int DEFAULT NULL,
-  `duzina` decimal(5,2) NOT NULL,
-  `sirina` decimal(5,2) NOT NULL,
   `info` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id_dvorana`),
   KEY `FK_dvorana_grad_idx` (`id_grad`),
@@ -288,7 +286,7 @@ CREATE TABLE `klijent` (
   `prezime` varchar(100) NOT NULL,
   `broj_telefona` varchar(20) DEFAULT NULL,
   `korisnicko_ime` varchar(50) NOT NULL,
-  `lozinka` varchar(50) NOT NULL,
+  `lozinka` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `blokiran` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`id_klijent`)
@@ -301,6 +299,7 @@ CREATE TABLE `klijent` (
 
 LOCK TABLES `klijent` WRITE;
 /*!40000 ALTER TABLE `klijent` DISABLE KEYS */;
+INSERT INTO `klijent` VALUES (1,"jovan",'jovanović','065200888','jj','de3bbd0fd7945e42581643b18cdf28dd3ed61d9c3d541b7b016081564b65a3f3','pp@hotmail.com',false);
 /*!40000 ALTER TABLE `klijent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -416,6 +415,9 @@ CREATE TABLE `teren` (
   `info` varchar(500) DEFAULT NULL,
   `id_dvorana` int NOT NULL,
   `slika` varchar(500) DEFAULT NULL,
+  `duzina` decimal(5,2) NOT NULL,
+  `sirina` decimal(5,2) NOT NULL,
+  `dostupan` boolean,
   PRIMARY KEY (`id_teren`),
   KEY `FK_teren_tip_terena_idx` (`id_tip_terena`),
   KEY `FK_teren_dvorana_idx` (`id_dvorana`),

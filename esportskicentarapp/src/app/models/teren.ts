@@ -12,5 +12,4 @@ export interface Teren
     duzina: number;
     sirina: number;
     dostupan: boolean;
-    slikaFile: File;
 }

@@ -28,6 +28,8 @@ import { ImageModule } from 'primeng/image';
 import { CjenovnikComponent } from './cjenovnik/cjenovnik.component';
 import { ZadatakComponent } from './zadatak/zadatak.component';
 import { CalendarModule } from 'primeng/calendar';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { CalendarModule } from 'primeng/calendar';
     TipTerenaComponent,
     TerenComponent,
     CjenovnikComponent,
-    ZadatakComponent
+    ZadatakComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
