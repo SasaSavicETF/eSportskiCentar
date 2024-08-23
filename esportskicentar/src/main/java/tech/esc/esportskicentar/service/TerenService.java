@@ -48,12 +48,13 @@ public class TerenService {
     public Teren createTeren(String terenJson, MultipartFile image) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Teren teren = objectMapper.readValue(terenJson, Teren.class);
-        if (image != null) {
+        if (image != null && !image.isEmpty()) {
             Path filePath = Paths.get(System.getProperty("user.dir")+ File.separator + uploadPath + File.separator
                     + teren.getSlika());
             Files.write(filePath, image.getBytes());
+            teren.setSlika("http://localhost:8080/" + teren.getSlika());
         }
-        teren.setSlika("http://localhost:8080/" + teren.getSlika());
+
         return terenRepository.save(teren);
     }
 

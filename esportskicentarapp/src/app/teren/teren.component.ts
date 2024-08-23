@@ -148,7 +148,10 @@ export class TerenComponent implements OnInit
     if (this.selectedFile) {
       teren.slika = this.selectedFile.name;
       formData.append('image', this.selectedFile);
-      //formData.append('slikaFile', this.selectedFile, this.selectedFile.name);
+    }
+    else{
+      const emptyFile = new File([], "empty-file.txt", { type: "text/plain" });
+      formData.append('image', emptyFile);
     }
     formData.append('teren', JSON.stringify(teren));
   
