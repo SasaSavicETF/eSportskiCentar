@@ -6,7 +6,7 @@ import tech.esc.esportskicentar.annotation.ValidPhoneNumber;
 
 import java.util.regex.Pattern;
 public class PhoneNumberValidator implements ConstraintValidator<ValidPhoneNumber, String> {
-    private static final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("^0[0-9]{8}$");
+    private static final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("^\\+?[0-9]{9,15}$");
 
     @Override
     public boolean isValid(String phoneNumber, ConstraintValidatorContext constraintValidatorContext) {

@@ -7,6 +7,7 @@ import tech.esc.esportskicentar.model.Cjenovnik;
 import tech.esc.esportskicentar.repository.CjenovnikRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -39,8 +40,14 @@ public class CjenovnikService {
             return cjenovnikRepository.save(cjenovnik);
     }
 
-    public void deleteCjenovnik(Integer id){
-        cjenovnikRepository.deleteById(id);
+    public boolean deleteCjenovnik(Integer id){
+        Optional<Cjenovnik> cjenovnik = cjenovnikRepository.findById(id);
+        if(cjenovnik.isEmpty())
+            return false;
+        else {
+            cjenovnikRepository.deleteById(id);
+            return true;
+        }
     }
 
 }

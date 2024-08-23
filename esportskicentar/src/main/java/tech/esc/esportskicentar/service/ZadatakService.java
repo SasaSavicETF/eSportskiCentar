@@ -7,6 +7,8 @@ import tech.esc.esportskicentar.model.Zadatak;
 import tech.esc.esportskicentar.repository.ZadatakRepository;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @Transactional
 public class ZadatakService {
@@ -37,7 +39,13 @@ public class ZadatakService {
             return  zadatakRepository.save(zadatak);
     }
 
-    public void deleteZadatak(Integer id){
-        zadatakRepository.deleteById(id);
+    public boolean deleteZadatak(Integer id){
+        Optional<Zadatak> zadatak = zadatakRepository.findById(id);
+        if(zadatak.isEmpty())
+            return false;
+        else {
+            zadatakRepository.deleteById(id);
+            return true;
+        }
     }
 }

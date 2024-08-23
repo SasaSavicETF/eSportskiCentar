@@ -36,17 +36,17 @@ public class DezurniRadnikController {
             return new ResponseEntity<>(dezurniRadnik, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<DezurniRadnik> addDezurniRadnik(@Valid @RequestBody DezurniRadnik dezurniRadnik)
     {
         DezurniRadnik newDezurniRadnik = dezurniRadnikService.addDezurniRadnik(dezurniRadnik);
         return new ResponseEntity<>(newDezurniRadnik, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<DezurniRadnik> updateDezurniRadnik(@PathVariable Integer id, @Valid @RequestBody DezurniRadnik dezurniRadnik)
+    @PutMapping("/update")
+    public ResponseEntity<DezurniRadnik> updateDezurniRadnik(@Valid @RequestBody DezurniRadnik dezurniRadnik)
     {
-        DezurniRadnik updateDezurniRadnik = dezurniRadnikService.updateDezurniRadnik(id, dezurniRadnik);
+        DezurniRadnik updateDezurniRadnik = dezurniRadnikService.updateDezurniRadnik(dezurniRadnik);
         if(updateDezurniRadnik == null)
             return ResponseEntity.notFound().build();
         else
@@ -56,7 +56,9 @@ public class DezurniRadnikController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteDezurniRadnik(@PathVariable("id") Integer id)
     {
-        dezurniRadnikService.deleteDezurniRadnik(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(dezurniRadnikService.deleteDezurniRadnik(id))
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

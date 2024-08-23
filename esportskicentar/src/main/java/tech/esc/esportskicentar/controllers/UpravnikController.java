@@ -36,17 +36,17 @@ public class UpravnikController {
             return new ResponseEntity<>(upravnik, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Upravnik> addUpravnik(@Valid @RequestBody Upravnik upravnik)
     {
         Upravnik newUpravnik = upravnikService.addUpravnik(upravnik);
         return new ResponseEntity<>(newUpravnik, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Upravnik> updateUpravnik(@PathVariable Integer id, @Valid @RequestBody Upravnik upravnik)
+    @PutMapping("/update")
+    public ResponseEntity<Upravnik> updateUpravnik( @Valid @RequestBody Upravnik upravnik)
     {
-        Upravnik updateUpravnik = upravnikService.updateUpravnik(id, upravnik);
+        Upravnik updateUpravnik = upravnikService.updateUpravnik(upravnik);
         if(updateUpravnik == null)
             return ResponseEntity.notFound().build();
         else
@@ -56,7 +56,9 @@ public class UpravnikController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUpravnik(@PathVariable("id") Integer id)
     {
-        upravnikService.deleteUpravnik(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(upravnikService.deleteUpravnik(id))
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

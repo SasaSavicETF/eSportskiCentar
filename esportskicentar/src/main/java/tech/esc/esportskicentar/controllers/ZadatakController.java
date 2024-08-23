@@ -55,7 +55,9 @@ public class ZadatakController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteZadatak(@PathVariable("id") Integer id)
     {
-        zadatakService.deleteZadatak(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(zadatakService.deleteZadatak(id))
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

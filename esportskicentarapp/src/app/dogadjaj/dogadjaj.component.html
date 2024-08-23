@@ -1,0 +1,35 @@
+<div class="content">
+  <div class="form-container">
+    <form>
+        <div class="row">
+            <div class="drop card flex justify-content-center mob">
+              <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi dvoranu"></p-dropdown>
+            </div>
+            <div class="drop card flex justify-content-center mob">
+              <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" name="teren" optionLabel="nazivTerena" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi teren"></p-dropdown>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="calendar-container mob">
+              <p-calendar 
+                id="datum"
+                ngModel
+                name="datum" 
+                [showIcon]="true" 
+                [showOnFocus]="false" 
+                [style]="{'minWidth':'300px'}"
+                [minDate]="danasnjiDatum"
+                inputId="buttondisplay"
+                dateFormat="dd.mm.yy"
+                dataType="string" />
+            </div>
+            <div class="button-container mob">
+              <p-button label="Pretrazi" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+            </div>
+          </div>
+    </form>
+  </div>
+  <hr>
+</div>
+  

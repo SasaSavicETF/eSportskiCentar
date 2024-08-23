@@ -7,6 +7,7 @@ import tech.esc.esportskicentar.model.DezurniRadnik;
 import tech.esc.esportskicentar.repository.DezurniRadnikRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -31,16 +32,22 @@ public class DezurniRadnikService {
         return dezurniRadnikRepository.save(dezurniRadnik);
     }
 
-    public DezurniRadnik updateDezurniRadnik(Integer id, DezurniRadnik dezurniRadnik){
-        DezurniRadnik stariDezurniRadnik = dezurniRadnikRepository.findById(id).orElse(null);
-        if(stariDezurniRadnik == null || id != dezurniRadnik.getIdDezurniRadnik())
+    public DezurniRadnik updateDezurniRadnik(DezurniRadnik dezurniRadnik){
+        DezurniRadnik stariDezurniRadnik = dezurniRadnikRepository.findById(dezurniRadnik.getIdDezurniRadnik()).orElse(null);
+        if(stariDezurniRadnik == null)
             return null;
         else
             return dezurniRadnikRepository.save(dezurniRadnik);
     }
 
-    public void deleteDezurniRadnik(Integer id){
-        dezurniRadnikRepository.deleteById(id);
+    public boolean deleteDezurniRadnik(Integer id){
+        Optional<DezurniRadnik> dezurniRadnik = dezurniRadnikRepository.findById(id);
+        if(dezurniRadnik.isEmpty())
+            return false;
+        else {
+            dezurniRadnikRepository.deleteById(id);
+            return true;
+        }
     }
 
 

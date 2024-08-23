@@ -1,0 +1,78 @@
+.content{
+  border: #ddd 1px solid;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-left: 15%;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  
+  .drop {
+    flex: 1;
+    min-width: 200px; /* Adjust as necessary */
+  }
+  
+  .calendar-container,
+  .button-container {
+    flex: 1;
+    min-width: 200px; /* Adjust as necessary */
+  }
+
+  hr {
+    border: 0; /* Uklanja defaultni border */
+    height: 1px; /* Debljina linije */
+    background-color: #ddd; /* Boja linije, možete koristiti bilo koju boju */
+  }
+/*
+  ::ng-deep .p-datepicker table td > span {
+    background-color: blueviolet;
+    color: white;
+  }
+  
+  ::ng-deep .p-datepicker table td.p-datepicker-today > span {
+    background-color: rgb(80, 31, 255);
+  }
+*/
+::ng-deep .p-button {
+  background: blueviolet;
+  border: 1px solid blueviolet;
+
+}
+  
+  @media (max-width: 768px) {
+    .row {
+      flex-direction: column;
+      margin-bottom: 0px;
+    }
+
+    .form-container{
+      margin-left: 0%;
+    }
+  
+    .drop,
+    .calendar-container,
+    .button-container {
+      align-items: center;
+      width: 100%;
+    }
+
+    .mob
+    {
+      display: flex;
+      justify-content: center; /* Horizontalno centriranje */
+      margin-bottom: 20px;
+    }
+  }
+  

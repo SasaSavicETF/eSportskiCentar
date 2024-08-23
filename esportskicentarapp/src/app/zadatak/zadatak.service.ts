@@ -50,6 +50,9 @@ export class ZadatakService {
       if (!zadatak.datumKreiranja) {
         return throwError(() => 'Datum mora biti unesen.');
       }
+      if (zadatak.rokIzvrsenja && zadatak.rokIzvrsenja.getTime() < zadatak.datumKreiranja.getTime()) {
+        return throwError(() => 'Rok izvrsenja mora biti veci od datuma kreiranja.');
+      }
       if (!zadatak.upravnik) {
         return throwError(() => 'Upravnik mora biti unesen.');
       }

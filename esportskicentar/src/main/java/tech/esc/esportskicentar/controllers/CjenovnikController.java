@@ -56,8 +56,10 @@ public class CjenovnikController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCjenovnik(@PathVariable("id") Integer id)
     {
-        cjenovnikService.deleteCjenovnik(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+       if(cjenovnikService.deleteCjenovnik(id))
+           return new ResponseEntity<>(HttpStatus.ACCEPTED);
+       else
+           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

@@ -36,15 +36,15 @@ public class SvlacionicaController {
             return ResponseEntity.notFound().build();
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Svlacionica> createSvlacionica(@Valid @RequestBody Svlacionica svlacionica) {
         Svlacionica newSvlacionica = svlacionicaService.createSvlacionica(svlacionica);
         return new ResponseEntity<>(newSvlacionica, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Svlacionica> updateSvlacionica(@PathVariable Integer id, @Valid @RequestBody Svlacionica svlacionica) {
-        Svlacionica updatedSvlacionica = svlacionicaService.updateSvlacionica(svlacionica, id);
+    @PutMapping("/update")
+    public ResponseEntity<Svlacionica> updateSvlacionica(@Valid @RequestBody Svlacionica svlacionica) {
+        Svlacionica updatedSvlacionica = svlacionicaService.updateSvlacionica(svlacionica);
 
         if (updatedSvlacionica != null)
             return new ResponseEntity<>(updatedSvlacionica, HttpStatus.OK);
@@ -55,10 +55,8 @@ public class SvlacionicaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSvlacionica(@PathVariable Integer id) {
         if (svlacionicaService.deleteSvlacionica(id))
-            return new ResponseEntity<>("Svlacionica by id: " + id + " deleted successfully!", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         else
-            return new ResponseEntity<>("Svlacionica by id: " + id + " not found!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-
 }
