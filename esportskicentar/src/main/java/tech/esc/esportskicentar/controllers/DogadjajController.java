@@ -35,17 +35,17 @@ public class DogadjajController {
             return new ResponseEntity<>(dogadjaj, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Dogadjaj> addDogadjaj(@Valid @RequestBody Dogadjaj dogadjaj)
     {
         Dogadjaj newDogadjaj = dogadjajService.addDogadjaj(dogadjaj);
         return new ResponseEntity<>(newDogadjaj, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Dogadjaj> updateDogadjaj(@PathVariable Integer id, @Valid @RequestBody Dogadjaj dogadjaj)
+    @PutMapping("/update")
+    public ResponseEntity<Dogadjaj> updateDogadjaj( @Valid @RequestBody Dogadjaj dogadjaj)
     {
-        Dogadjaj updateDogadjaj = dogadjajService.updateDogadjaj(id, dogadjaj);
+        Dogadjaj updateDogadjaj = dogadjajService.updateDogadjaj(dogadjaj);
         if(updateDogadjaj == null)
             return ResponseEntity.notFound().build();
         else
@@ -55,7 +55,9 @@ public class DogadjajController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteDogadjaj(@PathVariable("id") Integer id)
     {
-        dogadjajService.deleteDogadjaj(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(dogadjajService.deleteDogadjaj(id))
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

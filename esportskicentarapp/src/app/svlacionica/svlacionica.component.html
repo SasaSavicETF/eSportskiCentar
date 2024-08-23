@@ -1,0 +1,116 @@
+<p-toast></p-toast>
+<div class="sadrzaj">
+    <div class="parent">
+        <div>
+            <h1>Svlacionica</h1>
+        </div>
+        <!-- Modal za dodavanje -->
+        <div class="addDiv">
+            <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+            <p-dialog header="Dodavanje svlacionice" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+                <div class="container">
+                   <form #addForm="ngForm" (ngSubmit)="onAddSvlacionica(addForm)">
+                        <label for="broj_svlacionice">Broj svlacionice</label>
+                        <input type="number" pInputText class="textInput" id="broj_svlacionice" ngModel name="brojSvlacionice"/>
+                    
+                        
+                        <div class="card flex justify-content-center check">
+                            <p-checkbox 
+                                [(ngModel)]="checkedAdd"
+                                [binary]="true"
+                                name="dostupna" 
+                                inputId="dostupna" />
+                            <label class="forCheck" for="dostupna">Dostupna</label>
+                        </div>
+                        <div class="drop card flex justify-content-center">
+                            <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu"></p-dropdown>
+                        </div>
+                        <div class="addBtn">
+                            <p-button type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                        </div>
+                    </form>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+    <div class="search card flex flex-wrap justify-content-center gap-3">
+        <span>
+
+        </span>
+        <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText (ngModelChange)="searchSvlacionicas(key.value)" #key="ngModel" ngModel/>
+        </span>
+    </div>
+    <p-table
+        [value]="svlacionicas"
+        [paginator]="true"
+        [rows]="5"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Prikazano od {first}. do {last}. od ukupno {totalRecords} zapisa"
+        [rowsPerPageOptions]="[5, 10, 25, 50]"
+        paginatorLocale="en-US"
+    >
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 25%">Broj svlacionice</th>
+            <th style="width: 25%">Dvorana</th>  
+            <th style="width: 25%">Dostupna</th>
+            <th style="width: 25%">Opcije</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-svlacionica>
+        <tr>
+            <td>{{ svlacionica.brojSvlacionice }}</td>
+            <td>{{ svlacionica.dvorana.nazivDvorane }}</td>
+            <td [ngClass]="svlacionica.dostupna ? 'available' : 'not-available'">
+                {{ svlacionica.dostupna ? 'Dostupna' : 'Nije dostupna' }}
+              </td>
+            
+            <td>
+                <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" styleClass="p-button-text" (click)="showEditDialog(svlacionica)"></p-button>
+                <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger " (click)="showDeleteDialog(svlacionica)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+    
+    </p-table>
+</div>
+
+<!--Modal za izmjenu(edit)-->
+<p-dialog header="Izmjena svlacionice" [(visible)]="editVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+    <div class="container">
+        <form #editForm="ngForm">
+            <input type="hidden" id="id_svlacionica" ngModel="{{editSvlacionica?.idSvlacionica}}" name="idSvlacionica"/>
+            <label for="broj_svlacionice">Broj svlacionice</label>
+            <input type="number" pInputText class="textInput" id="broj_svlacionice" ngModel="{{editSvlacionica?.brojSvlacionice}}" name="brojSvlacionice"/>
+            <div class="card flex justify-content-center check">
+                <p-checkbox 
+                    [(ngModel)]="checkedEdit"
+                    [binary]="true"
+                    name="dostupna" 
+                    inputId="dostupna" />
+                <label class="forCheck" for="dostupna">Dostupna</label>
+            </div>
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu"></p-dropdown>
+            </div>
+            <div class="addBtn">
+                <p-button (onClick)="onUpdateSvlacionica(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+
+<!--Modal za brisanje-->
+<p-dialog header="Upozorenje" [(visible)]="deleteVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+    <div class="container">
+        <p>Da li zaista želite da obrišete zapis?</p>
+        <br>
+        <div class="addBtn">
+            <p-button (onClick)="closeDeleteDialog()" class="scndBtn" label="Odustani" severity="secondary"></p-button>
+            <p-button (onClick)="onDeleteSvlacionica(delIdSvlacionica)" label="Obriši" severity="danger"></p-button>
+        </div>
+    </div>
+</p-dialog>

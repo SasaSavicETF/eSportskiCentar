@@ -37,8 +37,8 @@ public class SvlacionicaService {
         return svlacionicaRepository.save(svlacionica);
     }
 
-    public Svlacionica updateSvlacionica(Svlacionica newSvlacionica, Integer id) {
-        Svlacionica svlacionica  = svlacionicaRepository.findById(id)
+    public Svlacionica updateSvlacionica(Svlacionica newSvlacionica) {
+        Svlacionica svlacionica  = svlacionicaRepository.findById(newSvlacionica.getIdSvlacionica())
                 .orElse(null);
         if (svlacionica == null)
             return null;

@@ -35,15 +35,15 @@ public class InventarController {
             return ResponseEntity.notFound().build();
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Inventar> createInventar(@Valid  @RequestBody Inventar inventar) {
         Inventar newInventar = inventarService.createInventar(inventar);
         return new ResponseEntity<>(newInventar, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Inventar> updateInventar(@PathVariable Integer id, @Valid @RequestBody Inventar inventar) {
-        Inventar updatedInventar = inventarService.updateInventar(inventar,id);
+    @PutMapping("/update")
+    public ResponseEntity<Inventar> updateInventar( @Valid @RequestBody Inventar inventar) {
+        Inventar updatedInventar = inventarService.updateInventar(inventar);
 
         if (updatedInventar != null)
             return new ResponseEntity<>(updatedInventar, HttpStatus.OK);
@@ -54,9 +54,9 @@ public class InventarController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteInventar(@PathVariable Integer id) {
         if (inventarService.deleteInventar(id))
-            return new ResponseEntity<>("Inventar by id: " + id + " deleted successfully!", HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         else
-            return new ResponseEntity<>("Inventar by id: " + id + " not found!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

@@ -35,17 +35,17 @@ public class DnevniRasporedController {
             return new ResponseEntity<>(dnevniRaspored, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<DnevniRaspored> addDnevniRaspored(@Valid @RequestBody DnevniRaspored dnevniRaspored)
     {
         DnevniRaspored newDnevniRaspored = dnevniRasporedService.addDnevniRaspored(dnevniRaspored);
         return new ResponseEntity<>(newDnevniRaspored, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<DnevniRaspored> updateDnevniRaspored(@PathVariable Integer id, @Valid @RequestBody DnevniRaspored dnevniRaspored)
+    @PutMapping("/update")
+    public ResponseEntity<DnevniRaspored> updateDnevniRaspored(@Valid @RequestBody DnevniRaspored dnevniRaspored)
     {
-        DnevniRaspored updateDnevniRaspored = dnevniRasporedService.updateDnevniRaspored(id, dnevniRaspored);
+        DnevniRaspored updateDnevniRaspored = dnevniRasporedService.updateDnevniRaspored(dnevniRaspored);
         if(updateDnevniRaspored == null)
             return ResponseEntity.notFound().build();
         else
@@ -55,8 +55,10 @@ public class DnevniRasporedController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteDnevniRaspored(@PathVariable("id") Integer id)
     {
-        dnevniRasporedService.deleteDnevniRaspored(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(dnevniRasporedService.deleteDnevniRaspored(id))
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

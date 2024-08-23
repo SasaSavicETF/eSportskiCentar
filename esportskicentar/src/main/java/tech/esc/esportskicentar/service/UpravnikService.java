@@ -6,6 +6,7 @@ import tech.esc.esportskicentar.model.Upravnik;
 import tech.esc.esportskicentar.repository.UpravnikRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -29,16 +30,22 @@ public class UpravnikService {
         return upravnikRepository.save(upravnik);
     }
 
-    public Upravnik updateUpravnik(Integer id, Upravnik upravnik){
-        Upravnik stariUpravnik = upravnikRepository.findById(id).orElse(null);
-        if(stariUpravnik == null || id != upravnik.getIdUpravnik())
+    public Upravnik updateUpravnik(Upravnik upravnik){
+        Upravnik stariUpravnik = upravnikRepository.findById(upravnik.getIdUpravnik()).orElse(null);
+        if(stariUpravnik == null)
             return null;
         else
             return upravnikRepository.save(upravnik);
     }
 
-    public void deleteUpravnik(Integer id){
-        upravnikRepository.deleteById(id);
+    public boolean deleteUpravnik(Integer id){
+        Optional<Upravnik> upravnik = upravnikRepository.findById(id);
+        if(upravnik.isEmpty())
+            return false;
+        else {
+            upravnikRepository.deleteById(id);
+            return true;
+        }
     }
 
 }

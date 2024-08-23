@@ -38,8 +38,8 @@ public class InventarService {
         return inventarRepository.save(inventar);
     }
 
-    public Inventar updateInventar(Inventar newInventar, Integer id) {
-        Inventar inventar = inventarRepository.findById(id)
+    public Inventar updateInventar(Inventar newInventar) {
+        Inventar inventar = inventarRepository.findById(newInventar.getIdInventar())
                 .orElse(null);
         if (inventar == null)
             return null;

@@ -12,20 +12,32 @@ import { TipTerenaComponent } from './tip-terena/tip-terena.component';
 import { TerenComponent } from './teren/teren.component';
 import { CjenovnikComponent } from './cjenovnik/cjenovnik.component';
 import { ZadatakComponent } from './zadatak/zadatak.component';
+import { UpravnikComponent } from './upravnik/upravnik.component';
+import { DezurniRadnikComponent } from './dezurni-radnik/dezurni-radnik.component';
+import { SvlacionicaComponent } from './svlacionica/svlacionica.component';
+import { DnevniRasporedComponent } from './dnevni-raspored/dnevni-raspored.component';
+import { DogadjajComponent } from './dogadjaj/dogadjaj.component';
+import { InventarComponent } from './inventar/inventar.component';
 
 
 const routes: Routes = [
   //ovo prvo je samo privremeno
   { path: 'cjenovnik', component: CjenovnikComponent},
   { path: 'grad', component: GradComponent},
+  { path: 'inventar', component: InventarComponent},
+  { path: 'dnevniRaspored', component: DnevniRasporedComponent},
+  { path: 'dogadjaj', component: DogadjajComponent},
   { path: 'dvorana', component: DvoranaComponent},
+  { path: 'dezurniRadnik', component: DezurniRadnikComponent},
   { path: 'sport', component: SportComponent},
   { path: 'ulaz', component: UlazComponent},
+  { path: 'svlacionica', component: SvlacionicaComponent},
   { path: 'takmicenje', component: TakmicenjeComponent},
   { path: 'raspored', component: RasporedComponent},
   { path: 'ekipa', component: EkipaComponent},
   { path: 'tipTerena', component: TipTerenaComponent},
   { path: 'teren', component: TerenComponent},
+  { path: 'upravnik', component: UpravnikComponent},
   { path: 'zadatak', component: ZadatakComponent},
   { path: '**', component: PageNotFoundComponent}
 ];

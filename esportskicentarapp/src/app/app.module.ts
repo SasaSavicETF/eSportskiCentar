@@ -28,6 +28,12 @@ import { ImageModule } from 'primeng/image';
 import { CjenovnikComponent } from './cjenovnik/cjenovnik.component';
 import { ZadatakComponent } from './zadatak/zadatak.component';
 import { CalendarModule } from 'primeng/calendar';
+import { UpravnikComponent } from './upravnik/upravnik.component';
+import { DezurniRadnikComponent } from './dezurni-radnik/dezurni-radnik.component';
+import { SvlacionicaComponent } from './svlacionica/svlacionica.component';
+import { InventarComponent } from './inventar/inventar.component';
+import { DnevniRasporedComponent } from './dnevni-raspored/dnevni-raspored.component';
+import { DogadjajComponent } from './dogadjaj/dogadjaj.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +49,13 @@ import { CalendarModule } from 'primeng/calendar';
     TipTerenaComponent,
     TerenComponent,
     CjenovnikComponent,
-    ZadatakComponent
+    ZadatakComponent,
+    UpravnikComponent,
+    DezurniRadnikComponent,
+    SvlacionicaComponent,
+    InventarComponent,
+    DnevniRasporedComponent,
+    DogadjajComponent
   ],
   imports: [
     BrowserModule,

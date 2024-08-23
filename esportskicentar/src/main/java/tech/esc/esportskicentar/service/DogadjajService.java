@@ -7,6 +7,7 @@ import tech.esc.esportskicentar.model.Dogadjaj;
 import tech.esc.esportskicentar.repository.DogadjajRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -31,15 +32,21 @@ public class DogadjajService {
         return dogadjajRepository.save(dogadjaj);
     }
 
-    public Dogadjaj updateDogadjaj(Integer id, Dogadjaj dogadjaj){
-        Dogadjaj stariDogadjaj = dogadjajRepository.findById(id).orElse(null);
-        if(stariDogadjaj == null || id != dogadjaj.getIdDogadjaj())
+    public Dogadjaj updateDogadjaj(Dogadjaj dogadjaj){
+        Dogadjaj stariDogadjaj = dogadjajRepository.findById(dogadjaj.getIdDogadjaj()).orElse(null);
+        if(stariDogadjaj == null)
             return null;
         else
             return dogadjajRepository.save(dogadjaj);
     }
 
-    public void deleteDogadjaj(Integer id){
-        dogadjajRepository.deleteById(id);
+    public boolean deleteDogadjaj(Integer id){
+        Optional<Dogadjaj> dogadjaj = dogadjajRepository.findById(id);
+        if(dogadjaj.isEmpty())
+            return false;
+        else {
+            dogadjajRepository.deleteById(id);
+            return true;
+        }
     }
 }

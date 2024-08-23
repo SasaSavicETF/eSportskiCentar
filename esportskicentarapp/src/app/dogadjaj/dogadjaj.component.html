@@ -1,0 +1,196 @@
+<p-toast></p-toast>
+<div class="sadrzaj">
+    <div class="parent">
+        <div>
+            <h1>Dogadjaj</h1>
+        </div>
+        <!-- Modal za dodavanje -->
+        <div class="addDiv">
+            <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+            <p-dialog header="Dodavanje dogadjaja" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+                <div class="container">
+                   <form #addForm="ngForm" (ngSubmit)="onAddDogadjaj(addForm)">
+                        <label for="id_takmicenje">Id takmicenja</label>
+                        <input type="number" pInputText class="textInput" id="id_takmicenje" ngModel name="idTakmicenje"/>
+
+                        <label for="vrijeme">Vrijeme</label>
+                    <div class="drop card flex justify-content-center">
+                    <p-calendar 
+                    id="vrijeme" 
+                    ngModel
+                    name="vrijeme" 
+                    [iconDisplay]="'input'" 
+                    [showIcon]="true" 
+                    [timeOnly]="true" 
+                    [required]="true"
+                    [showSeconds]="true"
+                    [defaultDate]="defaultDate"
+                    dataType="string">
+                    </p-calendar>
+                    </div>
+
+                        <div class="drop card flex justify-content-center">
+                            <p-dropdown class="custom-dd" [options]="ekipas" [(ngModel)]="selectedDomacaEkipa" name="domacaEkipa" optionLabel="nazivEkipe" [showClear]="true" placeholder="Izaberi domacu ekipu"></p-dropdown>
+                        </div>
+
+                        <div class="drop card flex justify-content-center">
+                            <p-dropdown class="custom-dd" [options]="ekipas" [(ngModel)]="selectedGostujucaEkipa" name="gostujucaEkipa" optionLabel="nazivEkipe" [showClear]="true" placeholder="Izaberi gostujucu ekipu"></p-dropdown>
+                        </div>
+
+                        <div class="drop card flex justify-content-center">
+                            <p-dropdown class="custom-dd" [options]="dnevniRasporeds" [(ngModel)]="selectedDnevniRaspored" name="dnevniRaspored" optionLabel="datum" [showClear]="true" placeholder="Izaberi dnevni raspored"></p-dropdown>
+                        </div>
+
+                        <div class="drop card flex justify-content-center">
+                            <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" name="teren" optionLabel="nazivTerena" [showClear]="true" placeholder="Izaberi teren"></p-dropdown>
+                        </div>
+
+                        <label for="info_dogadjaja">Info</label>
+                        <textarea type="text" pInputText class="textInputL" id="info_dogadjaja" ngModel name="infoDogadjaja"></textarea>
+                    
+                        <div class="addBtn">
+                            <p-button type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                        </div>
+                    </form>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+    <div class="search card flex flex-wrap justify-content-center gap-3">
+        <span>
+
+        </span>
+        <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText (ngModelChange)="searchDogadjajs(key.value)" #key="ngModel" ngModel/>
+        </span>
+    </div>
+    <p-table
+        [value]="dogadjajs"
+        [paginator]="true"
+        [rows]="5"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Prikazano od {first}. do {last}. od ukupno {totalRecords} zapisa"
+        [rowsPerPageOptions]="[5, 10, 25, 50]"
+        paginatorLocale="en-US"
+    >
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 16.5%">Id takmicenja</th>
+            <th style="width: 16.5%">Vrijeme</th>
+            <th style="width: 16.5%">Domaca ekipa</th>  
+            <th style="width: 16.5%">Gostujuca ekipa</th>
+            <th style="width: 16.5%">Teren</th>
+            <th style="width: 16.5%">Opcije</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-dogadjaj>
+        <tr>
+            <td>{{ dogadjaj.idTakmicenje }}</td>
+            <td>{{ dogadjaj.vrijeme }}</td>
+            <td>{{ dogadjaj.domacaEkipa.nazivEkipe }}</td>
+            <td>{{ dogadjaj.gostujucaEkipa.nazivEkipe }}</td>
+            <td>{{ dogadjaj.teren.nazivTerena }}</td>
+
+            <td>
+                <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" styleClass="p-button-text" (click)="showEditDialog(dogadjaj)"></p-button>
+                <p-button icon="pi pi-info-circle" [rounded]="true" [text]="true" severity="success " (click)="showInfoDialog(dogadjaj)"></p-button>
+                <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger " (click)="showDeleteDialog(dogadjaj)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+    
+    </p-table>
+</div>
+
+<!--Modal za izmjenu(edit)-->
+<p-dialog header="Izmjena dogadjaja" [(visible)]="editVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+    <div class="container">
+        <form #editForm="ngForm">
+            <input type="hidden" id="id_dogadjaj" ngModel="{{editDogadjaj?.idDogadjaj}}" name="idDogadjaj"/>
+            <label for="id_takmicenje">Id takmicenja</label>
+            <input type="number" pInputText class="textInput" id="id_takmicenje" ngModel="{{editDogadjaj?.idTakmicenje}}" name="idTakmicenje"/>
+
+            <label for="vrijeme">Vrijeme</label>
+        <div class="drop card flex justify-content-center">
+        <p-calendar 
+        id="vrijeme" 
+        ngModel="{{editDogadjaj?.vrijeme}}"
+        name="vrijeme" 
+        [iconDisplay]="'input'" 
+        [showIcon]="true" 
+        [timeOnly]="true" 
+        [required]="true"
+        [showSeconds]="true"
+        dataType="string">
+        </p-calendar>
+        </div>
+
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="ekipas" [(ngModel)]="selectedDomacaEkipa" name="domacaEkipa" optionLabel="nazivEkipe" [showClear]="true" placeholder="Izaberi domacu ekipu"></p-dropdown>
+            </div>
+
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="ekipas" [(ngModel)]="selectedGostujucaEkipa" name="gostujucaEkipa" optionLabel="nazivEkipe" [showClear]="true" placeholder="Izaberi gostujucu ekipu"></p-dropdown>
+            </div>
+
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="dnevniRasporeds" [(ngModel)]="selectedDnevniRaspored" name="dnevniRaspored" optionLabel="datum" [showClear]="true" placeholder="Izaberi dnevni raspored"></p-dropdown>
+            </div>
+
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" name="teren" optionLabel="nazivTerena" [showClear]="true" placeholder="Izaberi teren"></p-dropdown>
+            </div>
+
+            <label for="info_dogadjaja">Info</label>
+            <textarea type="text" pInputText class="textInputL" id="info_dogadjaja" ngModel name="infoDogadjaja"></textarea>
+            <div class="addBtn">
+                <p-button (onClick)="onUpdateDogadjaj(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+
+<!--Modal za brisanje-->
+<p-dialog header="Upozorenje" [(visible)]="deleteVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+    <div class="container">
+        <p>Da li zaista želite da obrišete zapis ?</p>
+        <br>
+        <div class="addBtn">
+            <p-button (onClick)="closeDeleteDialog()" class="scndBtn" label="Odustani" severity="secondary"></p-button>
+            <p-button (onClick)="onDeleteDogadjaj(delIdDogadjaj)" label="Obriši" severity="danger"></p-button>
+        </div>
+    </div>
+</p-dialog>
+
+<!--Modal za informacije-->
+<p-dialog header="Informacije" [(visible)]="infoVisible" [modal]="false" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+    <div class="container">
+        <div>
+            <p><span class="labela">Id takmicenje:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDogadjaj?.idTakmicenje}}</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Vrijeme:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDogadjaj?.vrijeme}}</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Domaca ekipa:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDogadjaj?.domacaEkipa?.nazivEkipe}}</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Gostujuca ekipa:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDogadjaj?.gostujucaEkipa?.nazivEkipe}}</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Teren:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDogadjaj?.teren?.nazivTerena}}</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Dnevni raspored:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDogadjaj?.dnevniRaspored?.datum}}</span></p>
+        </div>
+        <div>
+            <p><span class="labela">Opis:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="intel">{{infoDogadjaj?.infoDogadjaja}}</span></p>
+        </div>
+        <br>
+        <div class="addBtn">
+            <p-button (onClick)="closeInfoDialog()" class="scndBtn" label="Izađi" severity="secondary"></p-button>
+        </div>
+    </div>
+</p-dialog>

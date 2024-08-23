@@ -6,6 +6,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Upravnik } from '../models/upravnik';
 import { ZadatakService } from './zadatak.service';
 import { DezurniRadnik } from '../models/dezurniRadnik';
+import { UpravnikService } from '../upravnik/upravnik.service';
+import { DezurniRadnikService } from '../dezurni-radnik/dezurni-radnik.service';
 
 @Component({
   selector: 'app-zadatak',
@@ -26,8 +28,6 @@ export class ZadatakComponent implements OnInit{
   public infoZadatak: Zadatak | undefined;
   public delIdZadatak: number = -1;
 
-  public nazivZadatakaInput: string = "";
-
   datumKreiranja: Date = new Date();
 
   upravniks: Upravnik[] = [];
@@ -37,16 +37,17 @@ export class ZadatakComponent implements OnInit{
   selectedDezurniRadnik: DezurniRadnik | undefined;
 
  //upravnik i dezurniradnikservice
-  constructor(private zadatakService: ZadatakService, private messageService: MessageService) { }
+  constructor(private zadatakService: ZadatakService, private upravnikService: UpravnikService,
+    private dezurniRadnikService: DezurniRadnikService, private messageService: MessageService) { }
 
 
   ngOnInit(): void 
   {
       this.getZadataks();
-     // this.getUpravniks();
-     // this.getDezurniRadniks();
+      this.getUpravniks();
+      this.getDezurniRadniks();
   }
-/*
+
   public getUpravniks(): void
   {
     this.upravnikService.getUpravniks().subscribe(
@@ -74,7 +75,7 @@ export class ZadatakComponent implements OnInit{
       }
     );
   }
-*/
+
   public getZadataks(): void
   {
     this.zadatakService.getZadataks().subscribe(
