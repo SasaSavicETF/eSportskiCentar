@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
 
   currentRoute!: string;
   showHeader: boolean = false;
-  showSidenav: boolean = true;
+  showSidenav: boolean = false;
   showMenu: boolean = false;
 
   constructor(private router: Router, private userService : KlijentService) {}
@@ -29,9 +29,12 @@ export class HeaderComponent implements OnInit {
   updateHeaderVisibility() {
     if (this.currentRoute === '/login' || this.currentRoute === '/register') {
       this.showHeader = false;
+      this.showSidenav = false;
     }
-    else
+    else{
       this.showHeader = true;
+      this.showSidenav = true;
+    }
   }
 
   showPaddingMenu() {
