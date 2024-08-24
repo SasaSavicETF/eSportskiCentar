@@ -13,9 +13,63 @@
     
 </header>
 
+<div class="sidenav" *ngIf="showSidenav">
+    <!--
+        To change the background color of a link when it is clicked in the sidenav, you can use Angular's routerLinkActive directive. 
+        This directive applies a CSS class to the link when it is active (i.e., when its route is currently loaded). 
+    -->
+    <a routerLink="/dogadjaj" routerLinkActive="active">
+        <div class="content">
+            <div class="column">
+                <img class="user-icon" src="/assets/img/user.jpg">
+            </div>
+            <div class="column">
+                <p class="title">Dodavanje događaja</p>
+                <p class="description">Unos podataka o događaju</p>
+            </div>
+        </div>
+    </a>
+    <a routerLink="/grad" routerLinkActive="active">
+        <div class="content">
+            <div class="column">
+                <img class="user-icon" src="/assets/img/user.jpg">
+            </div>
+            <div class="column">
+                <p class="title">Pregled događaja</p>
+                <p class="description">Prikaz unesenih događaja</p>
+            </div>
+        </div>
+    </a>
+    <a routerLink="/teren" routerLinkActive="active">
+        <div class="content">
+            <div class="column">
+                <img class="user-icon" src="/assets/img/user.jpg">
+            </div>
+            <div class="column">
+                <p class="title">Registracija lige/turnira</p>
+                <p class="description">Kreiranje novog takmičenja</p>
+            </div>
+        </div>
+    </a>
+    <a routerLink="/zadatak" routerLinkActive="active">
+        <div class="content">
+            <div class="column">
+                <img class="user-icon" src="/assets/img/user.jpg">
+            </div>
+            <div class="column">
+                <p class="title">Slanje zadatka</p>
+                <p class="description">Poruke dežurnim radnicima</p>
+            </div>
+        </div>
+    </a>
+</div>
 
 <ul [ngClass]="{'visible': showMenu}">
     <li>Pregled naloga</li>
     <li (click)="logout()">Odjava</li>
 </ul>
+
+<div class="main-content">
+    <router-outlet></router-outlet>
+</div>
 
