@@ -15,15 +15,19 @@ import { Dvorana } from '../models/dvorana';
 import { DvoranaService } from '../dvorana/dvorana.service';
 import { RasporedService } from '../raspored/raspored.service';
 import { Raspored } from '../models/raspored';
+import { TimelineModule } from 'primeng/timeline';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-dogadjaj',
   templateUrl: './dogadjaj.component.html',
   styleUrl: './dogadjaj.component.css',
-  providers: [MessageService, CheckboxModule]
+  providers: [MessageService, CheckboxModule, TimelineModule, CardModule, ButtonModule]
 })
 export class DogadjajComponent {
   public dogadjajs: Dogadjaj[] = [];
+  public sortedDogadjajs: Dogadjaj[] = [];
   addVisible: boolean = false;
   deleteVisible: boolean = false;
 
@@ -50,6 +54,10 @@ export class DogadjajComponent {
 
   danasnjiDatum: Date = new Date();
   selectedDatum: Date = new Date();
+
+  isFilterDone: boolean = false;
+
+  icon: string = "pi pi-ticket";
 
   constructor(private dogadjajService: DogadjajService, private dnevniRasporedService: DnevniRasporedService,
     private ekipaService: EkipaService, private terenService: TerenService, private dvoranaService: DvoranaService,
@@ -193,7 +201,8 @@ export class DogadjajComponent {
     let filterDogadjajs: Dogadjaj[] = [];
     for(const dogadjaj of this.dogadjajs)
     {
-      if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored == this.selectedDnevniRaspored?.idDnevniRaspored)
+      // if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored == this.selectedDnevniRaspored?.idDnevniRaspored)
+      if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren)
       {
         filterDogadjajs.push(dogadjaj);
       }
@@ -241,6 +250,8 @@ export class DogadjajComponent {
         );
       }
       this.filterDogadjajs();
+      this.sortDogadjajs();
+      this.isFilterDone = true;
   }
 
   public formatDate(date: Date | null | undefined): string {
@@ -277,6 +288,19 @@ export class DogadjajComponent {
       date1.getDate() === date2.getDate()
     );
   }
+
+  public sortDogadjajs(): void {
+    this.sortedDogadjajs = this.dogadjajs.sort((a, b) => {
+        const timeA = a.vrijemeOd.split(':').map(Number);
+        const timeB = b.vrijemeOd.split(':').map(Number);
+        
+        const dateA = new Date(0, 0, 0, timeA[0], timeA[1], timeA[2]);
+        const dateB = new Date(0, 0, 0, timeB[0], timeB[1], timeB[2]);
+
+        return dateA.getTime() - dateB.getTime();
+    });
+}
+
   
 /*
 
