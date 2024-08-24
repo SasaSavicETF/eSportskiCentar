@@ -35,6 +35,36 @@
     height: 1px; /* Debljina linije */
     background-color: #ddd; /* Boja linije, možete koristiti bilo koju boju */
   }
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px; /* Razmak između divova */
+    margin: 10px;
+    padding: 10px;
+  }
+  
+  .card-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+  
+  .card, .text-content {
+    flex: 1;
+  }
+  
+  .card {
+    min-width: 0; /* Osigurava da se div može smanjivati */
+  }
+  
+  .text-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
 /*
   ::ng-deep .p-datepicker table td > span {
     background-color: blueviolet;
@@ -48,7 +78,7 @@
 ::ng-deep .p-button {
   background: blueviolet;
   border: 1px solid blueviolet;
-
+  color: white;
 }
   
   @media (max-width: 768px) {
@@ -73,6 +103,18 @@
       display: flex;
       justify-content: center; /* Horizontalno centriranje */
       margin-bottom: 20px;
+    }
+    .container {
+      flex-direction: column;
+    }
+    
+    .card-wrapper {
+      flex-direction: column;
+    }
+    
+    .card, .text-content {
+      width: 100%;
+      margin-bottom: 20px; /* Razmak između elemenata na mobilnim uređajima */
     }
   }
   
