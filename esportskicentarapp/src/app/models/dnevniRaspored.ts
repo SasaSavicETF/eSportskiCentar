@@ -2,7 +2,7 @@ import { Raspored } from "./raspored";
 
 export interface DnevniRaspored
 {
-    idDnevniRaspored: number;
+    idDnevniRaspored?: number;
     datum: Date;
     raspored: Raspored;
 }

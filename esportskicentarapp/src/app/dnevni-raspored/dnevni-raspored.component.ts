@@ -151,12 +151,14 @@ export class DnevniRasporedComponent {
     }
   }
 
-  showDeleteDialog(dnevniRaspored: DnevniRaspored) 
-  {
+  showDeleteDialog(dnevniRaspored: DnevniRaspored) {
     this.deleteVisible = true;
     this.delDnevniRaspored = { ...dnevniRaspored };
-    this.delIdDnevniRaspored = this.delDnevniRaspored.idDnevniRaspored;
+    
+    // Postavite podrazumevanu vrednost ako je idDnevniRaspored undefined
+    this.delIdDnevniRaspored = this.delDnevniRaspored.idDnevniRaspored || -1; // ili neka druga podrazumevana vrednost
   }
+  
 
   closeDeleteDialog()
   {
