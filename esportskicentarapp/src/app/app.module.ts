@@ -37,6 +37,8 @@ import { DogadjajComponent } from './dogadjaj/dogadjaj.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './header/header.component';
+import { TimelineModule } from 'primeng/timeline';
+import { CardModule } from 'primeng/card'
 
 @NgModule({
   declarations: [
@@ -78,7 +80,9 @@ import { HeaderComponent } from './header/header.component';
     ToastModule,
     CheckboxModule,
     ImageModule,
-    CalendarModule
+    CalendarModule,
+    TimelineModule,
+    CardModule
   ],
   providers: [
     provideClientHydration()

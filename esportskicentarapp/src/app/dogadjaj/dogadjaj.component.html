@@ -33,5 +33,63 @@
     </form>
   </div>
   <hr>
+  <!--
+  <div *ngIf="isFilterDone">
+    
+<div class="card">
+  <p-timeline [value]="sortedDogadjajs" align="alternate" styleClass="customized-timeline">
+      <ng-template pTemplate="marker" let-dogadjaj>
+          <span 
+              class="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-1" 
+              [style]="{ 'background-color': 'white' }">
+                  <i [class]="icon"></i>
+          </span>
+      </ng-template>
+      <ng-template pTemplate="content" let-dogadjaj>
+          <p-card [subheader]="dogadjaj.vrijemeOd + ' - ' + dogadjaj.vrijemeDo">
+              <h5 *ngIf="dogadjaj.domacaEkipa != null && dogadjaj.gostujucaEkipa != null">
+                  {{dogadjaj.domacaEkipa.nazivEkipe}} - {{dogadjaj.gostujucaEkipa.nazivEkipe}}
+              </h5>
+              <p>
+                {{dogadjaj.infoDogadjaja}}
+              </p>
+              <p-button  label="Procitaj jos" [text]="true" />
+          </p-card>
+      </ng-template>
+  </p-timeline>
+</div>
+<div>
+  <p>Lorem ipsum</p>
+</div>
+  </div>
+-->
+<div *ngIf="isFilterDone" class="container">
+  <div class="card-wrapper">
+    <div class="card">
+      <p-timeline [value]="sortedDogadjajs" align="alternate" styleClass="customized-timeline">
+        <ng-template pTemplate="marker" let-dogadjaj>
+          <span 
+              class="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-1" 
+              [style]="{ 'background-color': 'white' }">
+              <i [class]="icon"></i>
+          </span>
+        </ng-template>
+        <ng-template pTemplate="content" let-dogadjaj>
+          <p-card [subheader]="dogadjaj.vrijemeOd + ' - ' + dogadjaj.vrijemeDo">
+            <h5 *ngIf="dogadjaj.domacaEkipa != null && dogadjaj.gostujucaEkipa != null">
+              {{dogadjaj.domacaEkipa.nazivEkipe}} - {{dogadjaj.gostujucaEkipa.nazivEkipe}}
+            </h5>
+            <p>{{dogadjaj.infoDogadjaja}}</p>
+            <!--<p-button label="Procitaj jos" [text]="true" />-->
+          </p-card>
+        </ng-template>
+      </p-timeline>
+    </div>
+    <div class="text-content">
+      <p>Lorem ipsum</p>
+    </div>
+  </div>
+</div>
+
 </div>
   
