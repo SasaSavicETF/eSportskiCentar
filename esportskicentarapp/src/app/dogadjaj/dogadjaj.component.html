@@ -3,7 +3,7 @@
     <form>
         <div class="row">
             <div class="drop card flex justify-content-center mob">
-              <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi dvoranu"></p-dropdown>
+              <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" (ngModelChange)="onDvoranaChange($event)" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi dvoranu"></p-dropdown>
             </div>
             <div class="drop card flex justify-content-center mob">
               <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" name="teren" optionLabel="nazivTerena" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi teren"></p-dropdown>
@@ -12,20 +12,22 @@
         
           <div class="row">
             <div class="calendar-container mob">
-              <p-calendar 
+              
+                <p-calendar 
                 id="datum"
-                ngModel
+                [(ngModel)]="selectedDatum"
                 name="datum" 
                 [showIcon]="true" 
                 [showOnFocus]="false" 
                 [style]="{'minWidth':'300px'}"
                 [minDate]="danasnjiDatum"
                 inputId="buttondisplay"
+                (onSelect)="onDateSelect($event)"
                 dateFormat="dd.mm.yy"
                 dataType="string" />
             </div>
             <div class="button-container mob">
-              <p-button label="Pretrazi" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+              <p-button label="Pretrazi" icon="pi pi-filter-fill" severity="help" (click)="filtriraj()"></p-button>
             </div>
           </div>
     </form>

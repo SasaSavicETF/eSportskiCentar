@@ -24,13 +24,32 @@ export class DnevniRasporedService {
   }
 
   public addDnevniRaspored(dnevniRaspored: DnevniRaspored): Observable<DnevniRaspored> {
+    console.log(dnevniRaspored.datum);
       return this.validateDnevniRaspored(dnevniRaspored).pipe(
         switchMap(() => this.http.post<DnevniRaspored>(`${this.apiServerUrl}/dnevniraspored/add`, dnevniRaspored)),
         catchError((error) => throwError(() => new HttpErrorResponse({ status: 400, statusText: error })))
       );
     }
   
+    public addDnevniRasporedJSON(dnevniRaspored: string): Observable<DnevniRaspored> {
+      console.log(dnevniRaspored); // Ispisuje JSON string
     
+      return this.validateDnevniRaspored(JSON.parse(dnevniRaspored)).pipe(
+        switchMap(() => 
+          this.http.post<DnevniRaspored>(`${this.apiServerUrl}/dnevniraspored/add`, dnevniRaspored, {
+            headers: { 'Content-Type': 'application/json' } // Postavlja Content-Type na application/json
+          })
+        ),
+        catchError((error) => throwError(() => new HttpErrorResponse({ status: 400, statusText: error })))
+      );
+    }
+    
+    
+    /* 
+, {
+            headers: { 'Content-Type': 'application/json' } // Postavlja Content-Type na application/json
+          }
+    */
 
   public updateDnevniRaspored(dnevniRaspored: DnevniRaspored): Observable<DnevniRaspored>
   {

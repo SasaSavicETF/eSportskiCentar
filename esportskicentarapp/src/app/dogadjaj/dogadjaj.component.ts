@@ -13,6 +13,8 @@ import { Teren } from '../models/teren';
 import { Ekipa } from '../models/ekipa';
 import { Dvorana } from '../models/dvorana';
 import { DvoranaService } from '../dvorana/dvorana.service';
+import { RasporedService } from '../raspored/raspored.service';
+import { Raspored } from '../models/raspored';
 
 @Component({
   selector: 'app-dogadjaj',
@@ -43,11 +45,15 @@ export class DogadjajComponent {
   selectedDomacaEkipa: Ekipa | undefined;
   selectedGostujucaEkipa: Ekipa | undefined;
 
+  selectedRaspored: Raspored | undefined;
+  rasporeds: Raspored[] = [];
+
   danasnjiDatum: Date = new Date();
+  selectedDatum: Date = new Date();
 
   constructor(private dogadjajService: DogadjajService, private dnevniRasporedService: DnevniRasporedService,
     private ekipaService: EkipaService, private terenService: TerenService, private dvoranaService: DvoranaService,
-     private messageService: MessageService) { }
+    private rasporedService: RasporedService, private messageService: MessageService) { }
 
 
   ngOnInit(): void 
@@ -57,6 +63,7 @@ export class DogadjajComponent {
       this.getEkipas();
       this.getTerens();
       this.getDvoranas();
+      this.getRasporeds();
   }
 
   public getEkipas(): void
@@ -129,12 +136,51 @@ export class DogadjajComponent {
     );
   }
 
+  public getRasporeds(): void
+  {
+    this.rasporedService.getRasporeds().subscribe(
+      (response: Raspored[]) =>
+      {
+        this.rasporeds = response;
+      },
+      (error: HttpErrorResponse) =>
+      {
+        alert(error.message);
+      }
+    );
+  }
+
+  public async loadTerens(): Promise<void> {
+    try {
+      this.terens = await this.terenService.getTerens().toPromise() || [];
+    } catch (error) {
+      console.error('Greška pri učitavanju terena:', error);
+    }
+  }
+  
+
+  public async onDvoranaChange(event: any) {
+    console.log(this.selectedDvorana?.nazivDvorane);
+    await this.loadTerens();
+    this.filterTerens();
+  }
+
+  public onDateSelect(event: any): void {
+    if (typeof event === 'string') {
+      this.selectedDatum = new Date(event);
+    } else if (event instanceof Date) {
+      this.selectedDatum = event;
+    }
+  }
+    
+
   public filterTerens(): void
   {
     let filteredTerens: Teren[] = [];
     for(const teren of this.terens)
     {
-      if(teren.dvorana.idDvorana === this.selectedDvorana?.idDvorana)
+      console.log(teren.dvorana.idDvorana + " - " + this.selectedDvorana?.idDvorana);
+      if(teren.dvorana.idDvorana == this.selectedDvorana?.idDvorana)
       {
         filteredTerens.push(teren);
       }
@@ -147,13 +193,100 @@ export class DogadjajComponent {
     let filterDogadjajs: Dogadjaj[] = [];
     for(const dogadjaj of this.dogadjajs)
     {
-      if(dogadjaj.teren.idTeren === this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored === this.selectedDnevniRaspored?.idDnevniRaspored)
+      if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored == this.selectedDnevniRaspored?.idDnevniRaspored)
       {
         filterDogadjajs.push(dogadjaj);
       }
     }
     this.dogadjajs = filterDogadjajs;
   }
+
+  public filtriraj(): void
+  {
+      let postojiDnevniRaspored : boolean = false;
+      for(const dnevniRaspored of this.dnevniRasporeds)
+      {
+        if(this.compareDates(dnevniRaspored.datum, this.selectedDatum))
+        {
+          postojiDnevniRaspored = true;
+          break;
+        }
+      }
+      if(!postojiDnevniRaspored)
+      {
+        
+        if(this.rasporeds.length === 0)
+        {
+          this.rasporedService.addRaspored({tipRasporeda: 'Automatski'}).subscribe(
+            (response: Raspored) =>
+            {
+              this.getRasporeds();
+            },
+            (error: HttpErrorResponse) => {
+              alert(error.message);
+            }
+          );
+        }
+        let jsonDatum = this.formatDate(this.selectedDatum);
+        let jsonRaspored = JSON.stringify(this.rasporeds[0]);
+        
+        this.dnevniRasporedService.addDnevniRasporedJSON(`{ "datum": "${jsonDatum}", "raspored":{ "idRaspored": ${this.rasporeds[0].idRaspored}}}`).subscribe(
+          (respnse: DnevniRaspored) => {
+            this.getDnevniRasporeds();
+            this.selectedDnevniRaspored = respnse;
+          },
+          (error: HttpErrorResponse) => {
+            alert(error.message);
+          }
+        );
+      }
+      this.filterDogadjajs();
+  }
+
+  public formatDate(date: Date | null | undefined): string {
+    // Proveri da li je prosleđeni datum validan
+    if (!(date instanceof Date) || isNaN(date.getTime())) {
+      console.error('Prosleđeni argument nije validan datum:', date);
+      return 'N/A'; // Ili neki drugi defaultni odgovor
+    }
+  
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // meseci su 0-based
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`; // Format: "26.08.2024"
+  }
+  
+/*
+  public formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // meseci su 0-based
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`; // Format: "26.08.2024"
+  }*/
+  public compareDates(date1: any, date2: any): boolean {
+    if (!(date1 instanceof Date)) {
+      date1 = new Date(date1);
+    }
+    if (!(date2 instanceof Date)) {
+      date2 = new Date(date2);
+    }
+    
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  }
+  
+/*
+
+  public compareDates(date1: Date, date2: Date): boolean {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&  // Imajte na umu da je `getMonth()` zero-based (januar je 0, decembar je 11)
+      date1.getDate() === date2.getDate()
+    );
+  }*/
 
   public onAddDogadjaj(addForm: NgForm): void
   {

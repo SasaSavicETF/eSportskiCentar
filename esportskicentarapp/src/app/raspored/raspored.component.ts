@@ -20,7 +20,7 @@ export class RasporedComponent implements OnInit
 
   public editRaspored: Raspored | undefined;
   public delRaspored: Raspored | undefined;
-  public delIdRaspored: number = -1;
+  public delIdRaspored: number | undefined;
 
   public tipRasporedInput: string = "";
 
@@ -76,10 +76,11 @@ export class RasporedComponent implements OnInit
       }
     );
   }
-
-  public onDeleteRaspored(idRaspored: number): void
+/*
+  public onDeleteRaspored(idRaspored: number | undefined): void
   {
     this.deleteVisible = false;
+
     this.rasporedService.deleteRaspored(idRaspored).subscribe(
       (response: void) => {
         this.messageService.add({ severity: 'success', summary: 'Uspješno brisanje', detail: 'Raspored je obrisan sa sistema!' });
@@ -90,7 +91,29 @@ export class RasporedComponent implements OnInit
         alert(error.message);
       }
     );
+  }*/
+    public onDeleteRaspored(idRaspored: number | undefined): void {
+      if (idRaspored !== undefined) {
+          // Ako je idRaspored definisan, pozovi deleteRaspored
+          this.deleteVisible = false;
+  
+          this.rasporedService.deleteRaspored(idRaspored).subscribe(
+              (response: void) => {
+                  this.messageService.add({ severity: 'success', summary: 'Uspješno brisanje', detail: 'Raspored je obrisan sa sistema!' });
+                  this.getRasporeds();
+              },
+              (error: HttpErrorResponse) => {
+                  this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u brisanju rasporeda' });
+                  alert(error.message);
+              }
+          );
+      } else {
+          // Ako idRaspored nije definisan, možeš obavestiti korisnika ili obaviti neku drugu akciju
+          this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'ID rasporeda nije definisan' });
+          console.error('ID rasporeda nije definisan');
+      }
   }
+  
 
   public searchRasporeds(key: string): void
   {

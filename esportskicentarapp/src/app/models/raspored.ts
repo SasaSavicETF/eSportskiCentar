@@ -1,5 +1,5 @@
 export interface Raspored 
 {
-    idRaspored: number;
+    idRaspored?: number;
     tipRasporeda: string;
 }
