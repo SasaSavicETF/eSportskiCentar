@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
 
   currentRoute!: string;
   showHeader: boolean = false;
+  showSidenav: boolean = true;
   showMenu: boolean = false;
 
   constructor(private router: Router, private userService : KlijentService) {}
