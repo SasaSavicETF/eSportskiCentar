@@ -82,6 +82,11 @@ li {
     padding: 10px;
 }
 
+li:hover {
+    background-color: rgba(9, 0, 128, 0.603);
+    color: white;
+}
+
 label {
     margin: 10px;
     padding-left: 10px;
