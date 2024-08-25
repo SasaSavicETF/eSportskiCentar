@@ -18,7 +18,7 @@
         To change the background color of a link when it is clicked in the sidenav, you can use Angular's routerLinkActive directive. 
         This directive applies a CSS class to the link when it is active (i.e., when its route is currently loaded). 
     -->
-    <a routerLink="/dogadjaj" routerLinkActive="active">
+    <a routerLink="/dogadjaj" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
                 <img class="user-icon" src="/assets/img/user.jpg">
@@ -29,7 +29,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/grad" routerLinkActive="active">
+    <a routerLink="/grad" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
                 <img class="user-icon" src="/assets/img/user.jpg">
@@ -40,7 +40,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/teren" routerLinkActive="active">
+    <a routerLink="/teren" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
                 <img class="user-icon" src="/assets/img/user.jpg">
@@ -51,7 +51,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/zadatak" routerLinkActive="active">
+    <a routerLink="/zadatak" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
                 <img class="user-icon" src="/assets/img/user.jpg">
@@ -68,6 +68,9 @@
     <li>Pregled naloga</li>
     <li (click)="logout()">Odjava</li>
 </ul>
+
+<button *ngIf="!showSidenav" (click)="toggleSidenav()">></button>
+<button *ngIf="showHideButton" (click)="toggleSidenav()">&lt;</button>
 
 <div class="main-content">
     <router-outlet></router-outlet>

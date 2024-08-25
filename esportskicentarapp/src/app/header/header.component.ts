@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { KlijentService } from '../services/klijent.service';
 import { filter } from 'rxjs/operators';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -14,8 +15,9 @@ export class HeaderComponent implements OnInit {
   showHeader: boolean = false;
   showSidenav: boolean = false;
   showMenu: boolean = false;
+  showHideButton: boolean = false;
 
-  constructor(private router: Router, private userService : KlijentService) {}
+  constructor(private router: Router, private userService : KlijentService, @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
     this.router.events.pipe(
@@ -33,7 +35,9 @@ export class HeaderComponent implements OnInit {
     }
     else{
       this.showHeader = true;
-      this.showSidenav = true;
+      //this.showSidenav = true;
+      if (isPlatformBrowser(this.platformId))
+        this.onResize();
     }
   }
 
@@ -45,5 +49,21 @@ export class HeaderComponent implements OnInit {
     this.showMenu = false;
     this.userService.logout();
   }
+
+  @HostListener('window:resize')
+  onResize() {
+    if (this.currentRoute !== '/login' && this.currentRoute !== '/register'
+                && window.innerWidth > 768) // Show if width is greater than 768px
+              this.showSidenav = true;
+    else
+      this.showSidenav = false;
+  }
+
+  toggleSidenav() {
+    if (window.innerWidth < 768){
+      this.showSidenav = !this.showSidenav; 
+      this.showHideButton = !this.showHideButton;
+    }
+}
 
 }

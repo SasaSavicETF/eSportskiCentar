@@ -13,30 +13,34 @@
 }
 
 .rounded-image {
-    width: 155px;
-    height: 155px;
+    width: 35%;
+    height: 35%;
     border-radius: 50%;
-    margin-bottom: 15px;
+    margin-bottom: 10%;
 }
 
 .row {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    flex-basis: 100%;
+    flex-grow: 0;
 }
 
 .column {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    flex-basis: 50%;
+    flex-grow: 0;
 }
 
 form {
     display: flex;
     flex-direction: column;
+    flex-grow: 0;
     width: 50%;
     height: fit-content;
+    box-sizing: border-box;
     position: absolute;
     left: 10%;
 }
@@ -56,4 +60,25 @@ input[type=submit], input[type=button]{
 
 h1{
     margin: 0;
+}
+
+@media (max-width: 768px) {
+    form {
+        left: 0;
+        padding: 15px;
+        width: 100%;
+    }
+    .column {
+        margin: 0;
+    }
+    input, label {
+        width: 100%;
+        font-size: 2vw;
+    }
+    h1{
+        font-size: 5vw;
+    }
+    p{
+        font-size: 2vw;
+    }
 }
