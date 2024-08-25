@@ -6,9 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 import tech.esc.esportskicentar.model.Cjenovnik;
 import tech.esc.esportskicentar.model.Dogadjaj;
 import tech.esc.esportskicentar.repository.CjenovnikRepository;
+import tech.esc.esportskicentar.repository.DnevniRasporedRepository;
 import tech.esc.esportskicentar.repository.DogadjajRepository;
+import tech.esc.esportskicentar.util.Util;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,12 +21,14 @@ public class DogadjajService {
 
     private final DogadjajRepository dogadjajRepository;
     private final CjenovnikRepository cjenovnikRepository;
+    private final DnevniRasporedRepository dnevniRasporedRepository;
 
     @Autowired
-    public DogadjajService(DogadjajRepository dogadjajRepository, CjenovnikRepository cjenovnikRepository)
+    public DogadjajService(DogadjajRepository dogadjajRepository, CjenovnikRepository cjenovnikRepository, DnevniRasporedRepository dnevniRasporedRepository)
     {
         this.dogadjajRepository = dogadjajRepository;
         this.cjenovnikRepository = cjenovnikRepository;
+        this.dnevniRasporedRepository = dnevniRasporedRepository;
     }
 
     public List<Dogadjaj> findAllDogadjajs(){
@@ -36,6 +41,32 @@ public class DogadjajService {
 
     public Dogadjaj addDogadjaj(Dogadjaj dogadjaj)
     {
+        if(dogadjaj.getVrijemeOd().compareTo(dogadjaj.getVrijemeDo()) >= 0)
+        {
+            System.out.println("1");
+            throw new IllegalArgumentException("Događaj ima nepravilno unsesno vrijeme");
+        }
+        List<Dogadjaj> dogadjajs = dogadjajRepository.findAll();
+        int idDR = dogadjaj.getDnevniRaspored().getIdDnevniRaspored();
+        Date dateDodgadjaj = dnevniRasporedRepository.findById(idDR).orElse(dogadjaj.getDnevniRaspored()).getDatum();
+        for (Dogadjaj d : dogadjajs)
+        {
+            if(Util.equalsYearMonthDay(dateDodgadjaj, d.getDnevniRaspored().getDatum()))
+            {
+                if((dogadjaj.getVrijemeOd().compareTo(d.getVrijemeOd()) >= 0 && dogadjaj.getVrijemeOd().compareTo(d.getVrijemeDo()) < 0) ||
+                        (dogadjaj.getVrijemeDo().compareTo(d.getVrijemeOd()) > 0  && dogadjaj.getVrijemeDo().compareTo(d.getVrijemeDo()) <= 0))
+                {
+                    System.out.println("2");
+                    throw new IllegalArgumentException("Događaj se ne može dodati zbog sukoba u vremenskim intervalima.");
+                }
+                else if( (dogadjaj.getVrijemeOd().compareTo(d.getVrijemeOd()) <= 0 && dogadjaj.getVrijemeOd().compareTo(d.getVrijemeDo()) < 0) &&
+                        (dogadjaj.getVrijemeDo().compareTo(d.getVrijemeOd()) > 0 && dogadjaj.getVrijemeDo().compareTo(d.getVrijemeDo()) >= 0) )
+                {
+                    System.out.println("3");
+                    throw new IllegalArgumentException("Događaj se ne može dodati zbog sukoba u vremenskim intervalima.");
+                }
+            }
+        }
         List<Cjenovnik> cjenovnici = cjenovnikRepository.findAll();
         long vrijemeOdMillis = dogadjaj.getVrijemeOd().getTime();
         long vrijemeDoMillis = dogadjaj.getVrijemeDo().getTime();
@@ -75,7 +106,7 @@ public class DogadjajService {
                                 System.out.println("1." + cijena);
                                 first = false;
                             }
-                            else if(!first && dogadjaj.getVrijemeDo().compareTo(temp.getVrijemeDo()) > 0)
+                            else if(!first && dogadjaj.getVrijemeDo().compareTo(temp.getVrijemeDo()) >= 0)
                             {
                                 diffMillis = temp.getVrijemeDo().getTime() - temp.getVrijemeOd().getTime();
                                 diffHours = ((double)diffMillis) / 3600000.0D;
