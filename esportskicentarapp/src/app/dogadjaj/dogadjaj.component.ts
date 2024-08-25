@@ -18,6 +18,9 @@ import { Raspored } from '../models/raspored';
 import { TimelineModule } from 'primeng/timeline';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
+import { Ulaz } from '../models/ulaz';
+import { UlazService } from '../ulaz/ulaz.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-dogadjaj',
@@ -59,9 +62,11 @@ export class DogadjajComponent {
 
   icon: string = "pi pi-ticket";
 
+  ulazs: Ulaz[] = [];
+
   constructor(private dogadjajService: DogadjajService, private dnevniRasporedService: DnevniRasporedService,
     private ekipaService: EkipaService, private terenService: TerenService, private dvoranaService: DvoranaService,
-    private rasporedService: RasporedService, private messageService: MessageService) { }
+    private rasporedService: RasporedService, private ulazService: UlazService, private messageService: MessageService) { }
 
 
   ngOnInit(): void 
@@ -72,6 +77,7 @@ export class DogadjajComponent {
       this.getTerens();
       this.getDvoranas();
       this.getRasporeds();
+      this.getUlazs();
   }
 
   public getEkipas(): void
@@ -158,6 +164,20 @@ export class DogadjajComponent {
     );
   }
 
+  public getUlazs(): void
+  {
+    this.ulazService.getUlazs().subscribe(
+      (response: Ulaz[]) =>
+      {
+        this.ulazs = response;
+      },
+      (error: HttpErrorResponse) =>
+      {
+        alert(error.message);
+      }
+    );
+  }
+
   public async loadTerens(): Promise<void> {
     try {
       this.terens = await this.terenService.getTerens().toPromise() || [];
@@ -171,6 +191,11 @@ export class DogadjajComponent {
     console.log(this.selectedDvorana?.nazivDvorane);
     await this.loadTerens();
     this.filterTerens();
+  }
+
+  public async onTerenChange(event: any) {
+    console.log(this.selectedTeren?.nazivTerena);
+    this.isFilterDone = false;
   }
 
   public onDateSelect(event: any): void {
@@ -201,6 +226,7 @@ export class DogadjajComponent {
     let filterDogadjajs: Dogadjaj[] = [];
     for(const dogadjaj of this.dogadjajs)
     {
+      console.log(this.selectedTeren?.idTeren);
       // if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored == this.selectedDnevniRaspored?.idDnevniRaspored)
       if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren)
       {
@@ -208,6 +234,19 @@ export class DogadjajComponent {
       }
     }
     this.dogadjajs = filterDogadjajs;
+  }
+
+  public filterUlazs(): void
+  {
+    let filterUlazs: Ulaz[] = [];
+    for(const ulaz of this.ulazs)
+    {
+      if(ulaz.dvorana.idDvorana == this.selectedTeren?.dvorana.idDvorana && ulaz.dostupan)
+      {
+        filterUlazs.push(ulaz);
+      }
+    }
+    this.ulazs = filterUlazs;
   }
 
   public filtriraj(): void
@@ -250,6 +289,7 @@ export class DogadjajComponent {
         );
       }
       this.filterDogadjajs();
+      this.filterUlazs();
       this.sortDogadjajs();
       this.isFilterDone = true;
   }

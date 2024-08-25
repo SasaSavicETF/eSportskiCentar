@@ -6,7 +6,7 @@
               <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" (ngModelChange)="onDvoranaChange($event)" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi dvoranu"></p-dropdown>
             </div>
             <div class="drop card flex justify-content-center mob">
-              <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" name="teren" optionLabel="nazivTerena" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi teren"></p-dropdown>
+              <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" (ngModelChange)="onTerenChange($event)" name="teren" optionLabel="nazivTerena" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi teren"></p-dropdown>
             </div>
           </div>
         
@@ -86,8 +86,50 @@
       </p-timeline>
     </div>
     <div class="text-content">
-      <p>Lorem ipsum</p>
-    </div>
+      <div class="card-container">
+          <div class="card flex justify-content-center">
+              <p-card header="{{selectedTeren?.nazivTerena}}" subheader="{{selectedTeren?.tipTerena?.nazivTipaTerena}}" [style]="{ width: '400px' }">
+                  <ng-template pTemplate="header">
+                      <img alt="Card" src="{{selectedTeren?.slika}}" />
+                  </ng-template>
+                  <p>
+                      {{selectedTeren?.info}}
+                  </p>
+                  <hr>
+                  <div>
+                    <h4>Dimenzije</h4>
+                    <p>{{selectedTeren?.duzina}} m x {{selectedTeren?.sirina}}m</p>
+                  </div>
+                  <hr>
+                  <div>
+                    <h4>Dvorana {{selectedTeren?.dvorana?.nazivDvorane}}</h4>
+                    <p>Kapacitet: {{selectedTeren?.dvorana?.kapacitet}}</p>
+                    <div class="flex-container">
+                      <div class="info-upravnik">
+                        <h5>Info o upravniku...</h5>
+                        <p>Neki štih</p>
+                        <p>555-333</p>
+                      </div>
+                      <div class="ulazi">
+                        <h5>Ulazi</h5>
+                        <div *ngFor="let ulaz of ulazs">
+                          <p>{{ulaz.nazivUlaza}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <ng-template pTemplate="footer">
+                      <!--<div class="flex gap-3 mt-1">
+                          <p-button label="Cancel" severity="secondary" class="w-full" styleClass="w-full"></p-button>
+                          <p-button label="Save" class="w-full" styleClass="w-full"></p-button>
+                      </div>-->
+                  </ng-template>
+              </p-card>
+          </div>
+      </div>
+  </div>
+  
   </div>
 </div>
 
