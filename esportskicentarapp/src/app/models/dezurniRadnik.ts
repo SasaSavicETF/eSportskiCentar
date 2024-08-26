@@ -1,3 +1,4 @@
+import { Dvorana } from "./dvorana";
 
 export interface DezurniRadnik {
     idDezurniRadnik: number;

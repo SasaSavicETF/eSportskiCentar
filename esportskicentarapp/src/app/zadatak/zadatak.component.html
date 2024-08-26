@@ -23,7 +23,7 @@
                     dateFormat="dd.mm.yy" 
                     dataType="string"/>
                     </div>
-                    <label for="rok_izvrsenja">Rok izvrsenja</label>
+                    <label for="rok_izvrsenja">Rok izvršenja</label>
                     <div class="drop card flex justify-content-center">
                     <p-calendar 
                     id="rok_izvrsenja"
@@ -44,7 +44,7 @@
                             <p-dropdown class="custom-dd" [options]="upravniks" [(ngModel)]="selectedUpravnik" name="upravnik" optionLabel="ime" [showClear]="true" placeholder="Izaberi upravnika"></p-dropdown>
                         </div>
                         <div class="drop card flex justify-content-center">
-                            <p-dropdown class="custom-dd" [options]="dezurniRadniks" [(ngModel)]="selectedDezurniRadnik" name="dezurniRadnik" optionLabel="ime" [showClear]="true" placeholder="Izaberi dezurnog radnika"></p-dropdown>
+                            <p-dropdown class="custom-dd" [options]="dezurniRadniks" [(ngModel)]="selectedDezurniRadnik" name="dezurniRadnik" optionLabel="ime" [showClear]="true" placeholder="Izaberi dežurnog radnika"></p-dropdown>
                         </div>
                         <div class="addBtn">
                             <p-button type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
@@ -76,17 +76,17 @@
     <ng-template pTemplate="header">
         <tr>
             <th style="width: 16,6%">Datum kreiranja</th>
-            <th style="width: 16,6%">Rok izvrsenja</th>
+            <th style="width: 16,6%">Rok izvršenja</th>
             <th style="width: 16,6%">Info</th>  
             <th style="width: 16,6%">Upravnik</th>  
-            <th style="width: 16,6%">Dezurni radnik</th>  
+            <th style="width: 16,6%">Dežurni radnik</th>  
             <th style="width: 16,6%">Opcije</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-zadatak>
         <tr>
-            <td>{{ zadatak.datumKreiranja}}</td>
-            <td>{{ zadatak.rokIzvrsenja}}</td>
+            <td>{{ fixDate(zadatak.datumKreiranja)}}</td>
+            <td>{{ fixDate(zadatak.rokIzvrsenja)}}</td>
             <td>{{ zadatak.info}}</td>
             <td>{{ zadatak.upravnik.ime }} </td>
             <td>{{ zadatak.dezurniRadnik.ime }}</td>
@@ -111,7 +111,7 @@
                     <div class="drop card flex justify-content-center">
                     <p-calendar 
                     id="datum_kreiranja" 
-                    ngModel="{{editZadatak?.datumKreiranja}}"
+                    ngModel="{{fixDate(editZadatak?.datumKreiranja)}}"
                     name="datumKreiranja" 
                     [showIcon]="true" 
                     [showOnFocus]="false" 
@@ -120,11 +120,11 @@
                     dateFormat="dd.mm.yy" 
                     dataType="string"/>
                     </div>
-            <label for="rok_izvrsenja">Rok izvrsenja</label>
+            <label for="rok_izvrsenja">Rok izvršenja</label>
             <div class="drop card flex justify-content-center">
                 <p-calendar 
                 id="rok_izvrsenja"
-                ngModel="{{editZadatak?.rokIzvrsenja}}"
+                ngModel="{{fixDate(editZadatak?.rokIzvrsenja)}}"
                 name="rokIzvrsenja" 
                 [showIcon]="true" 
                 [showOnFocus]="false" 
@@ -139,7 +139,7 @@
                 <p-dropdown class="custom-dd" [options]="upravniks" [(ngModel)]="selectedUpravnik" name="upravnik" optionLabel="ime" [showClear]="true" placeholder="Izaberi upravnika"></p-dropdown>
             </div>
             <div class="drop card flex justify-content-center">
-                <p-dropdown class="custom-dd" [options]="dezurniRadniks" [(ngModel)]="selectedDezurniRadnik" name="dezurniRadnik" optionLabel="ime" [showClear]="true" placeholder="Izaberi dezurnog radnika"></p-dropdown>
+                <p-dropdown class="custom-dd" [options]="dezurniRadniks" [(ngModel)]="selectedDezurniRadnik" name="dezurniRadnik" optionLabel="ime" [showClear]="true" placeholder="Izaberi dežurnog radnika"></p-dropdown>
             </div>
             <div class="addBtn">
                 <p-button (onClick)="onUpdateZadatak(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>

@@ -189,5 +189,21 @@ export class ZadatakComponent implements OnInit{
   {
     this.deleteVisible = false;
   }
+
+  fixDate(d: string | undefined) {
+    if(typeof d === 'undefined' || d === null)
+      return;
+   
+    const parts = d.split('.');
+
+    const day = parseInt(parts[0],10);
+    const month = parseInt(parts[1],10);
+    const year = parseInt(parts[2],10);
+
+    if(day === 31 && month == 12)
+      return "01.01." + (year+1);
+
+    return (day+1).toString().padStart(2,'0') + "." + month.toString().padStart(2,'0') + "." + year.toString().padStart(2,'0');
+  }
 }
 

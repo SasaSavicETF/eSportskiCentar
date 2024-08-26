@@ -1,3 +1,4 @@
+import { Dvorana } from "./dvorana";
 
 export interface Upravnik {
     idUpravnik: number;
@@ -8,4 +9,5 @@ export interface Upravnik {
     lozinka: string;
     email: string;
     blokiran: boolean;
+    dvorana: Dvorana;
 }

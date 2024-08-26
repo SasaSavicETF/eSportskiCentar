@@ -2,12 +2,12 @@
 <div class="sadrzaj">
     <div class="parent">
         <div>
-            <h1>DnevniRaspored</h1>
+            <h1>Dnevni raspored</h1>
         </div>
         <!-- Modal za dodavanje -->
         <div class="addDiv">
             <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
-            <p-dialog header="Dodavanje dnevniRasporeda" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+            <p-dialog header="Dodavanje dnevnog rasporeda" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
                 <div class="container">
                    <form #addForm="ngForm" (ngSubmit)="onAddDnevniRaspored(addForm)">
                     <label for="datum">Datum</label>
@@ -63,7 +63,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-dnevniRaspored>
         <tr>
-            <td>{{ dnevniRaspored.datum }}</td>
+            <td>{{ fixDate(dnevniRaspored.datum) }}</td>
             <td>{{ dnevniRaspored.raspored.tipRasporeda }}</td>
             
             <td>
@@ -77,7 +77,7 @@
 </div>
 
 <!--Modal za izmjenu(edit)-->
-<p-dialog header="Izmjena dnevniRasporeda" [(visible)]="editVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+<p-dialog header="Izmjena dnevnog rasporeda" [(visible)]="editVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
     <div class="container">
         <form #editForm="ngForm">
             <input type="hidden" id="id_dnevniRaspored" ngModel="{{editDnevniRaspored?.idDnevniRaspored}}" name="idDnevniRaspored"/>
@@ -85,7 +85,7 @@
                     <div class="drop card flex justify-content-center">
                     <p-calendar 
                     id="datum"
-                    ngModel="{{editDnevniRaspored?.datum}}"
+                    ngModel="{{fixDate(editDnevniRaspored?.datum)}}"
                     name="datum" 
                     [showIcon]="true" 
                     [showOnFocus]="false" 

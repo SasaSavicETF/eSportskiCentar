@@ -2,7 +2,7 @@
 <div class="sadrzaj">
     <div class="parent">
         <div>
-            <h1>Svlacionica</h1>
+            <h1>Svlačionica</h1>
         </div>
         <!-- Modal za dodavanje -->
         <div class="addDiv">
@@ -10,7 +10,7 @@
             <p-dialog header="Dodavanje svlacionice" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
                 <div class="container">
                    <form #addForm="ngForm" (ngSubmit)="onAddSvlacionica(addForm)">
-                        <label for="broj_svlacionice">Broj svlacionice</label>
+                        <label for="broj_svlacionice">Broj svlačionice</label>
                         <input type="number" pInputText class="textInput" id="broj_svlacionice" ngModel name="brojSvlacionice"/>
                     
                         
@@ -54,7 +54,7 @@
     >
     <ng-template pTemplate="header">
         <tr>
-            <th style="width: 25%">Broj svlacionice</th>
+            <th style="width: 25%">Broj svlačionice</th>
             <th style="width: 25%">Dvorana</th>  
             <th style="width: 25%">Dostupna</th>
             <th style="width: 25%">Opcije</th>
@@ -83,7 +83,7 @@
     <div class="container">
         <form #editForm="ngForm">
             <input type="hidden" id="id_svlacionica" ngModel="{{editSvlacionica?.idSvlacionica}}" name="idSvlacionica"/>
-            <label for="broj_svlacionice">Broj svlacionice</label>
+            <label for="broj_svlacionice">Broj svlačionice</label>
             <input type="number" pInputText class="textInput" id="broj_svlacionice" ngModel="{{editSvlacionica?.brojSvlacionice}}" name="brojSvlacionice"/>
             <div class="card flex justify-content-center check">
                 <p-checkbox 

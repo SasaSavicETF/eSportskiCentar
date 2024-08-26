@@ -3,6 +3,6 @@ import { Raspored } from "./raspored";
 export interface DnevniRaspored
 {
     idDnevniRaspored?: number;
-    datum: Date;
+    datum: string;
     raspored: Raspored;
 }
