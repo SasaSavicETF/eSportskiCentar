@@ -424,6 +424,7 @@ export class DogadjajComponent {
       {
         this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
         this.getDogadjajs();
+        window.location.reload();
       },
       (error: HttpErrorResponse) =>
       {
