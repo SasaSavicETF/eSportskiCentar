@@ -4,6 +4,8 @@ import { Sport } from '../models/sport';
 import { FormControl, NgForm, Validators } from '@angular/forms';
 import { SportService } from './sport.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TipTerena } from '../models/tipTerena';
+import { TipTerenaService } from '../tip-terena/tip-terena.service';
 
 @Component({
   selector: 'app-sport',
@@ -22,16 +24,20 @@ export class SportComponent implements OnInit
   public delSport: Sport | undefined;
   public delIdSport: number = -1;
 
+  tipTerenas: TipTerena[] = [];
+  selectedTipTerena: TipTerena | undefined;
+
   public nazivSportaInput: string = "";
 
   duzina: string = "";
   duzinaFormControl = new FormControl('', Validators.pattern('[0-9]+([.,][0-9]+)?'));
 
-  constructor(private sportService: SportService, private messageService: MessageService) { }
+  constructor(private sportService: SportService, private tipTerenaService: TipTerenaService, private messageService: MessageService) { }
   
   ngOnInit(): void 
   {
     this.getSports();
+    this.getTipTerenas();
   }
 
   public getSports(): void
@@ -41,6 +47,20 @@ export class SportComponent implements OnInit
         this.sports = response;
       },
       (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  public getTipTerenas(): void
+  {
+    this.tipTerenaService.getTipTerenas().subscribe(
+      (response: TipTerena[]) =>
+      {
+        this.tipTerenas = response;
+      },
+      (error: HttpErrorResponse) =>
+      {
         alert(error.message);
       }
     );
@@ -98,7 +118,8 @@ export class SportComponent implements OnInit
     const results: Sport[] = [];
     for(const sport of this.sports)
     {
-      if(sport.nazivSporta.toLowerCase().indexOf(key.toLowerCase()) !== -1)
+      if(sport.nazivSporta.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
+        sport.tipTerena.nazivTipaTerena.toLowerCase().indexOf(key.toLowerCase()) !== -1)
       {
         results.push(sport);
       }
@@ -121,6 +142,7 @@ export class SportComponent implements OnInit
     {
       this.editVisible = true;
       this.editSport = { ...sport };
+      this.selectedTipTerena = this.editSport.tipTerena;
     }
   }
 

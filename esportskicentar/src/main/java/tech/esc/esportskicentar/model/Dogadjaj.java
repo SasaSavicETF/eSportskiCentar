@@ -69,4 +69,7 @@ public class Dogadjaj {
     @Basic
     @Column(name = "cijena")
     private BigDecimal cijena;
+    @ManyToOne
+    @JoinColumn(name = "id_klijent")
+    private Klijent klijent;
 }

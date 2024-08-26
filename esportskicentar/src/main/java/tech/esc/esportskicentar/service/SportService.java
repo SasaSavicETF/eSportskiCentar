@@ -43,6 +43,8 @@ public class SportService {
             sport.setDuzina(newSport.getDuzina());
         if (newSport.getSirina() != null)
             sport.setSirina(newSport.getSirina());
+        if (newSport.getTipTerena() != null)
+            sport.setTipTerena(newSport.getTipTerena());
 
         return sportRepository.save(sport);
     }

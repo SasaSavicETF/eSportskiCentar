@@ -56,6 +56,9 @@ export class SportService {
     if (!sport.sirina || sport.sirina <= 0) {
       return throwError(() => 'Neophodna sirina mora biti pozitivan broj.');
     }
+    if (!sport.tipTerena) {
+      return throwError(() => 'Tip terena mora biti unesen');
+    }
 
     return new Observable<void>((observer) => {
       observer.next();

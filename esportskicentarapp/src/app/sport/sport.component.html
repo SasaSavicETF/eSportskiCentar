@@ -12,6 +12,9 @@
                    <form #addForm="ngForm" (ngSubmit)="onAddSport(addForm)">
                         <label for="naziv_sporta">Naziv Sporta</label>
                         <input type="text" pInputText class="textInput" id="naziv_sporta" ngModel name="nazivSporta" required/>
+                        <div class="drop card flex justify-content-center">
+                            <p-dropdown class="custom-dd" [options]="tipTerenas" [(ngModel)]="selectedTipTerena" name="tipTerena" optionLabel="nazivTipaTerena" [showClear]="true" placeholder="Izaberi tip terena"></p-dropdown>
+                        </div>
                         <div class="form-group">
                             <label for="duzina">Dužina</label>
                             <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="duzina" ngModel name="duzina" required/>
@@ -47,10 +50,11 @@
     >
     <ng-template pTemplate="header">
         <tr>
-            <th style="width: 25%;">Naziv sporta</th>
-            <th style="width: 25%">Dužina</th>
-            <th style="width: 25%">Širina</th>
-            <th style="width: 25%">Opcije</th>
+            <th style="width: 20%;">Naziv sporta</th>
+            <th style="width: 20%">Dužina</th>
+            <th style="width: 20%">Širina</th>
+            <th style="width: 20%">Tip Terena</th> 
+            <th style="width: 20%">Opcije</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-sport>
@@ -58,6 +62,7 @@
             <td>{{ sport.nazivSporta }}</td>
             <td>{{ sport.duzina }} m</td>
             <td>{{ sport.sirina }} m</td>
+            <td>{{ sport.tipTerena.nazivTipaTerena }}</td>
             <td>
                 <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" styleClass="p-button-text" (click)="showEditDialog(sport)"></p-button>
                 <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger " (click)="showDeleteDialog(sport)"></p-button>
@@ -75,6 +80,9 @@
             <input type="hidden" id="id_sport" ngModel="{{editSport?.idSport}}" name="idSport"/>
             <label for="naziv_sporta">Naziv sporta</label>
             <input type="text" pInputText class="textInput" id="naziv_sporta" ngModel="{{editSport?.nazivSporta}}" name="nazivSporta" required/>
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="tipTerenas" [(ngModel)]="selectedTipTerena" name="tipTerena" optionLabel="nazivTipaTerena" [showClear]="true" placeholder="Izaberi tip terena"></p-dropdown>
+            </div>
             <div class="form-group">
                 <label for="duzina">Duzina</label>
                 <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="duzina" ngModel="{{editSport?.duzina}}" name="duzina" required/>

@@ -33,5 +33,8 @@ public class Sport {
     @Basic
     @Column(name = "sirina")
     private BigDecimal sirina;
-
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "id_tip_terena")
+    private TipTerena tipTerena;
 }
