@@ -119,6 +119,13 @@
     resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
 }
 
+.add-flex-row {
+  display: flex;
+  align-items: center; /* Centriranje elemenata po vertikalnoj osi */
+  gap: 1rem; /* Razmak između elemenata */
+}
+
+
 .add-form-group {
   display: grid;
   grid-template-rows: min-content auto; /* Prvi red je za labelu, drugi red je za input */
@@ -157,6 +164,17 @@
     float: right;
     margin-top: 8px;
 }
+.add-form-marg{
+  margin-bottom: 20px;
+}
+
+.hide{
+  display: none;
+}
+
+/*:host ::ng-deep .custom-dd .p-dropdown { 
+  width: 100%; 
+}*/
   
   @media (max-width: 768px) {
     .row {
