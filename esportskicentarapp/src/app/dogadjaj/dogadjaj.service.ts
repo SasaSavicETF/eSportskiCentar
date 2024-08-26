@@ -50,14 +50,8 @@ export class DogadjajService {
     if (!dogadjaj.vrijemeOd) {
       return throwError(() => 'Vrijeme mora biti uneseno.');
     }
-    if (!dogadjaj.idTakmicenje || dogadjaj.idTakmicenje <= 0) {
+    if (!dogadjaj.takmicenje) {
       return throwError(() => 'Id takmicenja mora biti pozitivan.');
-    }
-    if (!dogadjaj.domacaEkipa) {
-        return throwError(() => 'Domaca ekipa mora biti unesena.');
-    }
-    if (!dogadjaj.gostujucaEkipa) {
-        return throwError(() => 'Gostujuca ekipa mora biti unesena.');
     }
     if (!dogadjaj.dnevniRaspored) {
         return throwError(() => 'Dnevni raspored mora biti unesen.');
