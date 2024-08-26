@@ -131,7 +131,73 @@
   </div>
   
   </div>
+  <div style="display: flex; justify-content: center;">
+    <p-button label="Rezerviši događaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+  </div>
+
 </div>
 
+</div>
+
+<div class="addDiv">
+  <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+  <p-dialog header="Dodavanje terena" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+      <div class="add-container">
+         <form #addForm="ngForm" (ngSubmit)="onAddDogadjaj(addForm)">
+            <div class="drop card flex justify-content-center">
+              <p-dropdown class="custom-dd" [options]="takmicenjes" [(ngModel)]="selectedTakmicenje" name="takmicenje" optionLabel="vrstaTakmicenja" [showClear]="true" placeholder="Izaberi takmicenje ili tip"></p-dropdown>
+            </div>
+            <label for="vrijeme_od">Vrijeme od</label>
+            <div class="drop card flex justify-content-center">
+              <p-calendar 
+                id="vrijeme_od" 
+                ngModel
+                name="vrijemeOd" 
+                [iconDisplay]="'input'" 
+                [showIcon]="true" 
+                [timeOnly]="true" 
+                [required]="true"
+                [showSeconds]="true"
+                [defaultDate]="defaultDate"
+                dataType="string">
+              </p-calendar>
+            </div>
+            <label for="vrijeme_do">Vrijeme do</label>
+            <div class="drop card flex justify-content-center">
+              <p-calendar 
+                id="vrijeme_do" 
+                ngModel
+                name="vrijemeDo" 
+                [iconDisplay]="'input'" 
+                [showIcon]="true" 
+                [timeOnly]="true" 
+                [required]="true"
+                [showSeconds]="true"
+                [defaultDate]="defaultDate"
+                dataType="string">
+              </p-calendar>
+            </div>
+            <div class="row">
+              <div class="drop card flex justify-content-center mob">
+                <p-dropdown class="custom-dd" [options]="ekipas" [(ngModel)]="selectedDomacaEkipa" name="domacaEkipa" optionLabel="nazivEkipe" [showClear]="true" [style]="{'minWidth':'100px'}" placeholder="Izaberi ekipu"></p-dropdown>
+              </div>
+              <div class="drop card flex justify-content-center mob">
+                <p-dropdown class="custom-dd" [options]="ekipas" [(ngModel)]="selectedGostujucaEkipa" name="gostujucaEkipa" optionLabel="nazivEkipe" [showClear]="true" [style]="{'minWidth':'100px'}" placeholder="Izaberi ekipu"></p-dropdown>
+              </div>
+            </div>
+            <textarea type="text" pInputText class="add-textInputL" id="info" ngModel name="infoDogadjaja" required></textarea>
+            <div class="drop card flex justify-content-center">
+              <p-dropdown class="custom-dd" [options]="dnevniRasporeds" [(ngModel)]="selectedDnevniRaspored" name="dnevniRaspored" optionLabel="datum" [showClear]="true" placeholder="Izaberi raspored"></p-dropdown>
+            </div>
+            <div class="drop card flex justify-content-center">
+              <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" name="teren" optionLabel="nazivTerena" [showClear]="true" placeholder="Izaberi teren"></p-dropdown>
+            </div>
+            <input type="text" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="cijena" ngModel="{{cjn}}" name="cijena" required/>
+            <div class="addBtn">
+              <p-button type="submit" [disabled]="addForm.invalid || false" label="Rezervisi" [raised]="true" severity="help"></p-button>
+            </div>
+          </form>
+      </div>
+  </p-dialog>
 </div>
   

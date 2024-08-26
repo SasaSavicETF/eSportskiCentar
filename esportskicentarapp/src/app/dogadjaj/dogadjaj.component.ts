@@ -21,6 +21,8 @@ import { ButtonModule } from 'primeng/button';
 import { Ulaz } from '../models/ulaz';
 import { UlazService } from '../ulaz/ulaz.service';
 import { response } from 'express';
+import { Takmicenje } from '../models/takmicenje';
+import { TakmicenjeService } from '../takmicenje/takmicenje.service';
 
 @Component({
   selector: 'app-dogadjaj',
@@ -40,10 +42,14 @@ export class DogadjajComponent {
   defaultDate: Date = new Date("January 31 1980 12:30");
 
   dnevniRasporeds: DnevniRaspored[] = [];
+  dnevniRasporedsAsc: DnevniRaspored[] = [];
   selectedDnevniRaspored: DnevniRaspored | undefined;
 
   terens: Teren[] = [];
   selectedTeren: Teren | undefined;
+
+  takmicenjes: Takmicenje[] = [];
+  selectedTakmicenje: Takmicenje | undefined;
 
   dvoranas: Dvorana[] = [];
   selectedDvorana: Dvorana | undefined;
@@ -62,11 +68,14 @@ export class DogadjajComponent {
 
   icon: string = "pi pi-ticket";
 
+  cjn: number = 2;
+
   ulazs: Ulaz[] = [];
 
   constructor(private dogadjajService: DogadjajService, private dnevniRasporedService: DnevniRasporedService,
     private ekipaService: EkipaService, private terenService: TerenService, private dvoranaService: DvoranaService,
-    private rasporedService: RasporedService, private ulazService: UlazService, private messageService: MessageService) { }
+    private rasporedService: RasporedService, private ulazService: UlazService, private takmicenjeService: TakmicenjeService,
+    private messageService: MessageService) { }
 
 
   ngOnInit(): void 
@@ -78,6 +87,7 @@ export class DogadjajComponent {
       this.getDvoranas();
       this.getRasporeds();
       this.getUlazs();
+      this.getTakmicenjes();
   }
 
   public getEkipas(): void
@@ -117,6 +127,18 @@ export class DogadjajComponent {
       },
       (error: HttpErrorResponse) =>
       {
+        alert(error.message);
+      }
+    );
+  }
+
+  public getTakmicenjes(): void
+  {
+    this.takmicenjeService.getTakmicenjes().subscribe(
+      (response: Takmicenje[]) => {
+        this.takmicenjes = response;
+      },
+      (error: HttpErrorResponse) => {
         alert(error.message);
       }
     );
@@ -186,6 +208,14 @@ export class DogadjajComponent {
     }
   }
 
+  public async loadDnevniRasporeds(): Promise<void> {
+    try {
+      this.dnevniRasporedsAsc = await this.dnevniRasporedService.getDnevniRasporeds().toPromise() || [];
+    } catch (error) {
+      console.error('Greška pri učitavanju terena:', error);
+    }
+  }
+
   public async loadDogadjajs(): Promise<void> 
   {
     try{
@@ -207,6 +237,11 @@ export class DogadjajComponent {
   {
     await this.loadDogadjajs();
     console.log(this.dogadjajs);
+  }
+
+  public async onRasporedSelected()
+  {
+    await this.loadDnevniRasporeds();
   }
 
   public async onTerenChange(event: any) {
@@ -296,19 +331,30 @@ export class DogadjajComponent {
         let jsonRaspored = JSON.stringify(this.rasporeds[0]);
         
         this.dnevniRasporedService.addDnevniRasporedJSON(`{ "datum": "${jsonDatum}", "raspored":{ "idRaspored": ${this.rasporeds[0].idRaspored}}}`).subscribe(
-          (respnse: DnevniRaspored) => {
+          (response: DnevniRaspored) => {
+            console.log('API response:', response); 
+            //this.selectedDnevniRaspored = response;
             this.getDnevniRasporeds();
-            this.selectedDnevniRaspored = respnse;
+            this.setDnevniRaspored(response);
           },
           (error: HttpErrorResponse) => {
             alert(error.message);
           }
         );
       }
+      //pronaci odgovarajuci raspored
+      console.log("---" + this.selectedDnevniRaspored)
       this.filterDogadjajs();
       this.filterUlazs();
       this.sortDogadjajs();
       this.isFilterDone = true;
+  }
+
+  setDnevniRaspored(dnevniRaspored: DnevniRaspored): void
+  {
+    this.selectedDnevniRaspored = dnevniRaspored;
+    console.log('---', this.selectedDnevniRaspored);
+    
   }
 
   public formatDate(date: Date | null | undefined): string {
@@ -372,6 +418,7 @@ export class DogadjajComponent {
   public onAddDogadjaj(addForm: NgForm): void
   {
     this.addVisible = false;
+    addForm.form.get('dnevniRaspored')?.setValue(this.selectedDnevniRaspored);
     this.dogadjajService.addDogadjaj(addForm.value).subscribe(
       (response: Dogadjaj) =>
       {
