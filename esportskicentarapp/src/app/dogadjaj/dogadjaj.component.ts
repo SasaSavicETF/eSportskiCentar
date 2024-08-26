@@ -185,12 +185,28 @@ export class DogadjajComponent {
       console.error('Greška pri učitavanju terena:', error);
     }
   }
+
+  public async loadDogadjajs(): Promise<void> 
+  {
+    try{
+      this.dogadjajs = await this.dogadjajService.getDogadjajs().toPromise() || [];
+    } catch(error)
+    {
+      console.log('Greska pri ucitavanju dogadjaja');
+    }
+  }
   
 
   public async onDvoranaChange(event: any) {
     console.log(this.selectedDvorana?.nazivDvorane);
     await this.loadTerens();
     this.filterTerens();
+  }
+
+  public async onStartFilter()
+  {
+    await this.loadDogadjajs();
+    console.log(this.dogadjajs);
   }
 
   public async onTerenChange(event: any) {
@@ -251,6 +267,7 @@ export class DogadjajComponent {
 
   public filtriraj(): void
   {
+      this.onStartFilter();
       let postojiDnevniRaspored : boolean = false;
       for(const dnevniRaspored of this.dnevniRasporeds)
       {
