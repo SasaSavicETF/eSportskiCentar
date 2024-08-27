@@ -23,6 +23,8 @@ import { UlazService } from '../ulaz/ulaz.service';
 import { response } from 'express';
 import { Takmicenje } from '../models/takmicenje';
 import { TakmicenjeService } from '../takmicenje/takmicenje.service';
+import { Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-dogadjaj',
@@ -30,7 +32,9 @@ import { TakmicenjeService } from '../takmicenje/takmicenje.service';
   styleUrl: './dogadjaj.component.css',
   providers: [MessageService, CheckboxModule, TimelineModule, CardModule, ButtonModule]
 })
-export class DogadjajComponent {
+export class DogadjajComponent implements OnInit{
+  isBrowser: boolean = true;
+
   public dogadjajs: Dogadjaj[] = [];
   public sortedDogadjajs: Dogadjaj[] = [];
   addVisible: boolean = false;
@@ -76,11 +80,26 @@ export class DogadjajComponent {
   constructor(private dogadjajService: DogadjajService, private dnevniRasporedService: DnevniRasporedService,
     private ekipaService: EkipaService, private terenService: TerenService, private dvoranaService: DvoranaService,
     private rasporedService: RasporedService, private ulazService: UlazService, private takmicenjeService: TakmicenjeService,
-    private messageService: MessageService) { }
+    private messageService: MessageService, @Inject(PLATFORM_ID) private platformId: Object) 
+    {
+      this.isBrowser = isPlatformBrowser(this.platformId);
+      console.log('Is platform browser:', this.isBrowser);
+    }
 
 
   ngOnInit(): void 
   {
+    if (this.isBrowser) {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('added') === 'true') {
+        console.log("Dogadjaj je uspješno dodan.");
+        history.replaceState(null, '', window.location.pathname);
+        setTimeout(() => {
+          this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
+        }, 200);
+      }
+    }
+    
       this.getDogadjajs();
       this.getDnevniRasporeds();
       this.getEkipas();
@@ -89,6 +108,11 @@ export class DogadjajComponent {
       this.getRasporeds();
       this.getUlazs();
       this.getTakmicenjes();
+  }
+
+  show()
+  {
+    this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
   }
 
   public getEkipas(): void
@@ -373,13 +397,6 @@ export class DogadjajComponent {
     return `${day}.${month}.${year}`; // Format: "26.08.2024"
   }
   
-/*
-  public formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // meseci su 0-based
-    const year = date.getFullYear();
-    return `${day}.${month}.${year}`; // Format: "26.08.2024"
-  }*/
   public compareDates(date1: any, date2: any): boolean {
     if (!(date1 instanceof Date)) {
       const [day, month, year] = date1.split('.').map(Number);
@@ -407,18 +424,8 @@ export class DogadjajComponent {
 
         return dateA.getTime() - dateB.getTime();
     });
-}
+  }
 
-  
-/*
-
-  public compareDates(date1: Date, date2: Date): boolean {
-    return (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth() &&  // Imajte na umu da je `getMonth()` zero-based (januar je 0, decembar je 11)
-      date1.getDate() === date2.getDate()
-    );
-  }*/
 
   public onAddDogadjaj(addForm: NgForm): void
   {
@@ -427,9 +434,10 @@ export class DogadjajComponent {
     this.dogadjajService.addDogadjaj(addForm.value).subscribe(
       (response: Dogadjaj) =>
       {
-        this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
+        //this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
         this.getDogadjajs();
-        window.location.reload();
+        window.location.href = window.location.href.split('?')[0] + '?added=true';
+        //window.location.reload();
       },
       (error: HttpErrorResponse) =>
       {

@@ -41,6 +41,14 @@ public class DogadjajService {
 
     public Dogadjaj addDogadjaj(Dogadjaj dogadjaj)
     {
+        if(dogadjaj.getSport() != null)
+        {
+            if(!dogadjaj.getSport().getTipTerena().getNazivTipaTerena().equals(dogadjaj.getTeren().getTipTerena().getNazivTipaTerena()))
+            {
+                System.out.println("0");
+                throw new IllegalArgumentException("Događaj ima nepravilno unsesn sport");
+            }
+        }
         if(dogadjaj.getVrijemeOd().compareTo(dogadjaj.getVrijemeDo()) >= 0)
         {
             System.out.println("1");
@@ -75,8 +83,10 @@ public class DogadjajService {
         double diffHours = 0.0;
         double cijena = 0.0;
 
+        boolean kraj = false;
         for(Cjenovnik c : cjenovnici)
         {
+
             if(c.getTeren().getIdTeren() == dogadjaj.getTeren().getIdTeren())
             {
                 if((dogadjaj.getVrijemeOd().compareTo(c.getVrijemeOd()) >= 0 && dogadjaj.getVrijemeOd().compareTo(c.getVrijemeDo()) <= 0) &&
@@ -91,35 +101,40 @@ public class DogadjajService {
                 {
                     boolean first = true;
                     boolean rad = false;
+
                     for(Cjenovnik temp : cjenovnici)
                     {
-                        if((dogadjaj.getVrijemeOd().compareTo(temp.getVrijemeOd()) > 0 && dogadjaj.getVrijemeOd().compareTo(temp.getVrijemeDo()) < 0)){
-                           rad = true;
-                        }
-                        if(rad)
+                        if(!kraj)
                         {
-                            if(first)
-                            {
-                                diffMillis = temp.getVrijemeDo().getTime() - vrijemeOdMillis;
-                                diffHours = ((double)diffMillis) / 3600000.0D;
-                                cijena += diffHours * temp.getCijena().doubleValue();
-                                System.out.println("1." + cijena);
-                                first = false;
+                            if((dogadjaj.getVrijemeOd().compareTo(temp.getVrijemeOd()) >= 0 && dogadjaj.getVrijemeOd().compareTo(temp.getVrijemeDo()) < 0)){
+                                rad = true;
                             }
-                            else if(!first && dogadjaj.getVrijemeDo().compareTo(temp.getVrijemeDo()) >= 0)
+                            if(rad)
                             {
-                                diffMillis = temp.getVrijemeDo().getTime() - temp.getVrijemeOd().getTime();
-                                diffHours = ((double)diffMillis) / 3600000.0D;
-                                cijena += diffHours * temp.getCijena().doubleValue();
-                                System.out.println("2." + cijena);
-                            }
-                            else if(!first && dogadjaj.getVrijemeDo().compareTo(temp.getVrijemeDo()) < 0)
-                            {
-                                diffMillis = dogadjaj.getVrijemeDo().getTime() - temp.getVrijemeOd().getTime();
-                                diffHours = ((double)diffMillis) / 3600000.0D;
-                                cijena += diffHours * temp.getCijena().doubleValue();
-                                System.out.println("3." + cijena);
-                                break;
+                                if(first)
+                                {
+                                    diffMillis = temp.getVrijemeDo().getTime() - vrijemeOdMillis;
+                                    diffHours = ((double)diffMillis) / 3600000.0D;
+                                    cijena += diffHours * temp.getCijena().doubleValue();
+                                    System.out.println("1." + cijena);
+                                    first = false;
+                                }
+                                else if(!first && dogadjaj.getVrijemeDo().compareTo(temp.getVrijemeDo()) >= 0)
+                                {
+                                    diffMillis = temp.getVrijemeDo().getTime() - temp.getVrijemeOd().getTime();
+                                    diffHours = ((double)diffMillis) / 3600000.0D;
+                                    cijena += diffHours * temp.getCijena().doubleValue();
+                                    System.out.println("2." + cijena);
+                                }
+                                else if(!first && dogadjaj.getVrijemeDo().compareTo(temp.getVrijemeDo()) < 0)
+                                {
+                                    diffMillis = dogadjaj.getVrijemeDo().getTime() - temp.getVrijemeOd().getTime();
+                                    diffHours = ((double)diffMillis) / 3600000.0D;
+                                    cijena += diffHours * temp.getCijena().doubleValue();
+                                    System.out.println("3." + cijena);
+                                    kraj = true;
+                                    break;
+                                }
                             }
                         }
                     }

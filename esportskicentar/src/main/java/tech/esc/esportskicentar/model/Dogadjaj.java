@@ -72,4 +72,7 @@ public class Dogadjaj {
     @ManyToOne
     @JoinColumn(name = "id_klijent")
     private Klijent klijent;
+    @ManyToOne
+    @JoinColumn(name = "id_sport")
+    private Sport sport;
 }
