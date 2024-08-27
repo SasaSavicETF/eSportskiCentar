@@ -63,6 +63,7 @@ export class DogadjajComponent {
 
   danasnjiDatum: Date = new Date();
   selectedDatum: Date = new Date();
+  earliestDate = new Date(-8640000000000000);
 
   isFilterDone: boolean = false;
 
@@ -278,8 +279,8 @@ export class DogadjajComponent {
     for(const dogadjaj of this.dogadjajs)
     {
       console.log(this.selectedTeren?.idTeren);
-      // if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored == this.selectedDnevniRaspored?.idDnevniRaspored)
-      if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren)
+      if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored == this.selectedDnevniRaspored?.idDnevniRaspored)
+      //if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren)
       {
         filterDogadjajs.push(dogadjaj);
       }
@@ -308,7 +309,9 @@ export class DogadjajComponent {
       {
         if(this.compareDates(dnevniRaspored.datum, this.selectedDatum))
         {
+          console.log(dnevniRaspored.datum, this.selectedDatum);
           postojiDnevniRaspored = true;
+          this.selectedDnevniRaspored = dnevniRaspored;
           break;
         }
       }
@@ -379,16 +382,18 @@ export class DogadjajComponent {
   }*/
   public compareDates(date1: any, date2: any): boolean {
     if (!(date1 instanceof Date)) {
-      date1 = new Date(date1);
+      const [day, month, year] = date1.split('.').map(Number);
+      date1 = new Date(year, month - 1, day);
     }
     if (!(date2 instanceof Date)) {
-      date2 = new Date(date2);
+      const [day, month, year] = date2.split('.').map(Number);
+      date2 = new Date(year, month - 1, day);
     }
-    
+    console.log(date1, date2);
     return (
       date1.getFullYear() === date2.getFullYear() &&
       date1.getMonth() === date2.getMonth() &&
-      date1.getDate() === date2.getDate()
+      (date1.getDate() + 1) === date2.getDate()
     );
   }
 
@@ -424,6 +429,7 @@ export class DogadjajComponent {
       {
         this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
         this.getDogadjajs();
+        window.location.reload();
       },
       (error: HttpErrorResponse) =>
       {
