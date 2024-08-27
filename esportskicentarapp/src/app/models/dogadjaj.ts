@@ -4,6 +4,7 @@ import { Ekipa } from "./ekipa";
 import { Teren } from "./teren";
 import { Takmicenje } from "./takmicenje";
 import { Klijent } from "./klijent";
+import { Sport } from "./sport";
 
 export interface Dogadjaj {
 
@@ -18,4 +19,5 @@ export interface Dogadjaj {
     teren: Teren;
     cijena: number;
     klijent: Klijent;
+    sport: Sport;
 }
