@@ -25,6 +25,8 @@ import { Takmicenje } from '../models/takmicenje';
 import { TakmicenjeService } from '../takmicenje/takmicenje.service';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Sport } from '../models/sport';
+import { SportService } from '../sport/sport.service';
 
 @Component({
   selector: 'app-dogadjaj',
@@ -51,6 +53,9 @@ export class DogadjajComponent implements OnInit{
 
   terens: Teren[] = [];
   selectedTeren: Teren | undefined;
+
+  sports: Sport[] = [];
+  selectedSport: Sport | undefined;
 
   takmicenjes: Takmicenje[] = [];
   selectedTakmicenje: Takmicenje | undefined;
@@ -80,7 +85,7 @@ export class DogadjajComponent implements OnInit{
   constructor(private dogadjajService: DogadjajService, private dnevniRasporedService: DnevniRasporedService,
     private ekipaService: EkipaService, private terenService: TerenService, private dvoranaService: DvoranaService,
     private rasporedService: RasporedService, private ulazService: UlazService, private takmicenjeService: TakmicenjeService,
-    private messageService: MessageService, @Inject(PLATFORM_ID) private platformId: Object) 
+    private sportService: SportService, private messageService: MessageService, @Inject(PLATFORM_ID) private platformId: Object) 
     {
       this.isBrowser = isPlatformBrowser(this.platformId);
       console.log('Is platform browser:', this.isBrowser);
@@ -108,6 +113,7 @@ export class DogadjajComponent implements OnInit{
       this.getRasporeds();
       this.getUlazs();
       this.getTakmicenjes();
+      this.getSports();
   }
 
   show()
@@ -162,6 +168,18 @@ export class DogadjajComponent implements OnInit{
     this.takmicenjeService.getTakmicenjes().subscribe(
       (response: Takmicenje[]) => {
         this.takmicenjes = response;
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  public getSports(): void 
+  {
+    this.sportService.getSports().subscribe(
+      (response: Sport[]) => {
+        this.sports = response;
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -228,8 +246,38 @@ export class DogadjajComponent implements OnInit{
   public async loadTerens(): Promise<void> {
     try {
       this.terens = await this.terenService.getTerens().toPromise() || [];
+      const filteredTerens : Teren [] = [];
+      for(let teren of this.terens)
+      {
+        if(teren.dostupan)
+        {
+          filteredTerens.push(teren);
+        }
+      }
+      this.terens = filteredTerens;
     } catch (error) {
       console.error('Greška pri učitavanju terena:', error);
+    }
+  }
+
+  public async loadSports(): Promise<void> {
+    try{
+      this.sports = await this.sportService.getSports().toPromise() || [];
+      const filteredSports: Sport[] = [];
+      for(let sport of this.sports)
+      {
+        if(this.selectedTeren !== undefined)
+        {
+          if(sport.duzina <= this.selectedTeren?.duzina && sport.sirina <= this.selectedTeren.sirina 
+            && sport.tipTerena.nazivTipaTerena == this.selectedTeren.tipTerena.nazivTipaTerena)
+          {
+            filteredSports.push(sport);
+          }
+        }
+      }
+      this.sports = filteredSports;
+    } catch (error) {
+      console.error('Greška pri učitavanju sportova:', error);
     }
   }
 
@@ -271,6 +319,7 @@ export class DogadjajComponent implements OnInit{
 
   public async onTerenChange(event: any) {
     console.log(this.selectedTeren?.nazivTerena);
+    await this.loadSports();
     this.isFilterDone = false;
   }
 
@@ -489,25 +538,6 @@ export class DogadjajComponent implements OnInit{
     addForm.reset();
   }
 
-  /*
-  public onUpdateDogadjaj(dogadjaj: Dogadjaj): void
-  {
-    this.editVisible = false;
-    this.dogadjajService.updateDogadjaj(dogadjaj).subscribe(
-      (response: Dogadjaj) =>
-      {
-        this.messageService.add({ severity: 'success', summary: 'Uspješna izmjena', detail: 'Dogadjaj je izmjenjen!' });
-        this.getDogadjajs();
-      },
-      (error: HttpErrorResponse) =>
-      {
-        this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u izmjeni dogadjaja' });
-        alert(error.message);
-      }
-    );
-  }
-  */
-
 
   public onDeleteDogadjaj(idDogadjaj: number): void
   {
@@ -547,21 +577,6 @@ export class DogadjajComponent implements OnInit{
   {
     this.addVisible = true;
   }
-
-  /*
-  showEditDialog(dogadjaj: Dogadjaj) 
-  {
-    if(this.editVisible == false)
-    {
-      this.editVisible = true;
-      this.editDogadjaj = { ...dogadjaj };
-      this.selectedDnevniRaspored = this.editDogadjaj.dnevniRaspored;
-      this.selectedGostujucaEkipa = this.editDogadjaj.gostujucaEkipa;
-      this.selectedDomacaEkipa = this.editDogadjaj.domacaEkipa;
-      this.selectedTeren = this.editDogadjaj.teren;
-    }
-  }
-    */
 
   showDeleteDialog(dogadjaj: Dogadjaj) 
   {

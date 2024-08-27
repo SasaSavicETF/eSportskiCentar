@@ -80,6 +80,7 @@
             <h5 *ngIf="dogadjaj.domacaEkipa != null && dogadjaj.gostujucaEkipa != null">
               {{dogadjaj.domacaEkipa.nazivEkipe}} - {{dogadjaj.gostujucaEkipa.nazivEkipe}}
             </h5>
+            <p *ngIf="dogadjaj.sport != null">{{dogadjaj.sport.nazivSporta}}</p>
             <p>{{dogadjaj.infoDogadjaja}}</p>
             <!--<p-button label="Procitaj jos" [text]="true" />-->
           </p-card>
@@ -146,6 +147,9 @@
          <form #addForm="ngForm" (ngSubmit)="onAddDogadjaj(addForm)">
             <div class="drop card flex justify-content-center add-form-marg">
               <p-dropdown class="custom-dd" [options]="takmicenjes" [(ngModel)]="selectedTakmicenje" [style]="{'minWidth':'100%', 'margin-botom': '20px'}" name="takmicenje" optionLabel="vrstaTakmicenja" [showClear]="true" placeholder="Izaberi takmicenje ili tip"></p-dropdown>
+            </div>
+            <div class="drop card flex justify-content-center add-form-marg">
+              <p-dropdown class="custom-dd" [options]="sports" [(ngModel)]="selectedSport" [style]="{'minWidth':'100%', 'margin-botom': '20px'}" name="sport" optionLabel="nazivSporta" [showClear]="true" placeholder="Izaberi sport"></p-dropdown>
             </div>
             <label for="vrijeme_od">Vrijeme od</label>
             <div class="drop card flex justify-content-center add-form-marg">
