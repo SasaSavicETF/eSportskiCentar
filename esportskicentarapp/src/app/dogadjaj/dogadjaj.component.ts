@@ -63,6 +63,7 @@ export class DogadjajComponent {
 
   danasnjiDatum: Date = new Date();
   selectedDatum: Date = new Date();
+  earliestDate = new Date(-8640000000000000);
 
   isFilterDone: boolean = false;
 
@@ -278,8 +279,8 @@ export class DogadjajComponent {
     for(const dogadjaj of this.dogadjajs)
     {
       console.log(this.selectedTeren?.idTeren);
-      // if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored == this.selectedDnevniRaspored?.idDnevniRaspored)
-      if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren)
+      if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored == this.selectedDnevniRaspored?.idDnevniRaspored)
+      //if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren)
       {
         filterDogadjajs.push(dogadjaj);
       }
@@ -310,6 +311,7 @@ export class DogadjajComponent {
         {
           console.log(dnevniRaspored.datum, this.selectedDatum);
           postojiDnevniRaspored = true;
+          this.selectedDnevniRaspored = dnevniRaspored;
           break;
         }
       }
