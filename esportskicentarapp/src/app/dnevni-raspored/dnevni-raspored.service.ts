@@ -66,9 +66,33 @@ export class DnevniRasporedService {
 
   private validateDnevniRaspored(dnevniRaspored: DnevniRaspored): Observable<void> 
   {
+    if(!this.isValidDate(dnevniRaspored.datum)) {
+      return throwError(() => 'Datum nije validan.');
+    }
     return new Observable<void>((observer) => {
       observer.next();
       observer.complete();
     });
   }
+
+  private isValidDate(dateString: string): boolean {
+    const datePattern = /^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{4}$/;
+
+    if (!datePattern.test(dateString)) {
+        return false;
+    }
+
+    const [day, month, year] = dateString.split('.').map(Number);
+
+    if (month < 1 || month > 12) {
+        return false;
+    }
+
+    const daysInMonth = new Date(year, month, 0).getDate();
+    if (day < 1 || day > daysInMonth) {
+        return false;
+    }
+
+    return true;
+}
 }
