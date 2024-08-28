@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, map, Observable, switchMap, throwError } from 'rxjs';
+import { catchError, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { Dogadjaj } from '../models/dogadjaj';
 
 @Injectable({
@@ -45,6 +45,44 @@ export class DogadjajService {
     return this.http.delete<void>(`${this.apiServerUrl}/dogadjaj/${dogadjajId}`);
   }
 
+  private validateDogadjaj(dogadjaj: Dogadjaj): Observable<void> {
+    if (!dogadjaj.vrijemeOd) {
+      return throwError(() => new Error('Vrijeme mora biti uneseno.'));
+    }
+    if (!dogadjaj.takmicenje) {
+      return throwError(() => new Error('Id takmicenja mora biti pozitivan.'));
+    }
+    if (!dogadjaj.dnevniRaspored) {
+      return throwError(() => new Error('Dnevni raspored mora biti unesen.'));
+    }
+    if (!dogadjaj.teren) {
+      return throwError(() => new Error('Teren mora biti unesen.'));
+    }
+  
+    if (dogadjaj.vrijemeOd >= dogadjaj.vrijemeDo) {
+      return throwError(() => new Error('Vrijeme početka treba da bude manje od vremena kraja.'));
+    }
+  
+    return this.getDogadjajs().pipe(
+      switchMap((dogadjaji: Dogadjaj[]) => {
+        for (let dogadjajLst of dogadjaji) {
+          if (dogadjaj.dnevniRaspored.idDnevniRaspored === dogadjajLst.dnevniRaspored.idDnevniRaspored) {
+            if (
+              (dogadjaj.vrijemeOd >= dogadjajLst.vrijemeOd && dogadjaj.vrijemeOd < dogadjajLst.vrijemeDo) ||
+              (dogadjaj.vrijemeDo > dogadjajLst.vrijemeOd && dogadjaj.vrijemeDo <= dogadjajLst.vrijemeDo) ||
+              (dogadjaj.vrijemeOd <= dogadjajLst.vrijemeOd && dogadjaj.vrijemeDo >= dogadjajLst.vrijemeDo)
+            ) {
+              return throwError(() => new Error('Događaj se ne može dodati zbog sukoba u vremenskim intervalima.'));
+            }
+          }
+        }
+        return of(undefined); // Vraća Observable<void> koji emituje undefined i zatvara se
+      })
+    );
+  }
+  
+
+  /*
   private validateDogadjaj(dogadjaj: Dogadjaj): Observable<void> 
   {
     if (!dogadjaj.vrijemeOd) {
@@ -60,9 +98,41 @@ export class DogadjajService {
       return throwError(() => 'Teren mora biti unesen.');
     }
 
-    return new Observable<void>((observer) => {
+    if(dogadjaj.vrijemeOd >= dogadjaj.vrijemeDo)
+    {
+      return throwError(() => 'Vrijeme početka treba da bude manje od vremena kraja.');
+    }
+
+    let listaDogadjaja: Dogadjaj[] = [];
+    this.getDogadjajs().subscribe((dogadjaji: Dogadjaj[]) => {
+      listaDogadjaja = dogadjaji;
+      // Sada možeš koristiti listaDogadjaja, npr:
+      for(let dogadjajLst of listaDogadjaja)
+      {
+        if(dogadjaj.dnevniRaspored.idDnevniRaspored == dogadjajLst.dnevniRaspored.idDnevniRaspored)
+        {
+          if((dogadjaj.vrijemeOd >= dogadjajLst.vrijemeOd && dogadjaj.vrijemeOd < dogadjajLst.vrijemeDo) || 
+              (dogadjaj.vrijemeDo > dogadjajLst.vrijemeOd && dogadjaj.vrijemeDo <= dogadjajLst.vrijemeDo))
+              {
+                return throwError(() => 'Događaj se ne može dodati zbog sukoba u vremenskim intervalima.');
+              }
+          else if((dogadjaj.vrijemeOd <= dogadjajLst.vrijemeOd && dogadjaj.vrijemeOd < dogadjajLst.vrijemeDo) ||
+              (dogadjaj.vrijemeDo > dogadjajLst.vrijemeOd && dogadjaj.vrijemeDo >= dogadjajLst.vrijemeDo))
+              {
+                return throwError(() => 'Događaj se ne može dodati zbog sukoba u vremenskim intervalima.');
+              }
+        }
+      }
+      return new Observable<void>((observer) => {
+        observer.next();
+        observer.complete();
+      });
+    });
+
+
+   /* return new Observable<void>((observer) => {
       observer.next();
       observer.complete();
     });
-  }
+  }*/
 }
