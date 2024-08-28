@@ -103,6 +103,14 @@ export class DogadjajComponent implements OnInit{
           this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
         }, 200);
       }
+      else if(urlParams.get('added') === 'false')
+      {
+        const message = urlParams.get('message') || '';
+        history.replaceState(null, '', window.location.pathname);
+        setTimeout(() => {
+          this.messageService.add({ severity: 'error', summary: 'Greška', detail: message });
+        }, 200);
+      }
     }
     
       this.getDogadjajs();
@@ -531,8 +539,12 @@ export class DogadjajComponent implements OnInit{
       },
       (error: HttpErrorResponse) =>
       {
-        this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u dodavanju dogadjaja' });
-        alert(error.message);
+        const url = new URL(window.location.href);
+        url.searchParams.set('added', 'false');
+        url.searchParams.set('message', error.message);
+        window.location.href = url.toString();
+
+        //this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u dodavanju dogadjaja' });
       }
     );
     addForm.reset();
