@@ -93,7 +93,7 @@ public class DogadjajService {
                         (dogadjaj.getVrijemeDo().compareTo(c.getVrijemeOd()) >= 0 && dogadjaj.getVrijemeDo().compareTo(c.getVrijemeDo()) <= 0))
                 {
 
-                    diffHours = ((double)diffMillis) / 3600000.0D;
+                        diffHours = ((double)diffMillis) / 3600000.0D;
                     cijena = diffHours * c.getCijena().doubleValue();
                 }
                 else if((dogadjaj.getVrijemeOd().compareTo(c.getVrijemeOd()) >= 0 && dogadjaj.getVrijemeOd().compareTo(c.getVrijemeDo()) <= 0) &&
@@ -126,7 +126,7 @@ public class DogadjajService {
                                     cijena += diffHours * temp.getCijena().doubleValue();
                                     System.out.println("2." + cijena);
                                 }
-                                else if(!first && dogadjaj.getVrijemeDo().compareTo(temp.getVrijemeDo()) < 0)
+                                else if(!first && dogadjaj.getVrijemeDo().compareTo(temp.getVrijemeDo()) <= 0)
                                 {
                                     diffMillis = dogadjaj.getVrijemeDo().getTime() - temp.getVrijemeOd().getTime();
                                     diffHours = ((double)diffMillis) / 3600000.0D;

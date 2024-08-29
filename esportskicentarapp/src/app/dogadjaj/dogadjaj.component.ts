@@ -27,6 +27,8 @@ import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Sport } from '../models/sport';
 import { SportService } from '../sport/sport.service';
+import { Cjenovnik } from '../models/cjenovnik';
+import { CjenovnikService } from '../cjenovnik/cjenovnik.service';
 
 @Component({
   selector: 'app-dogadjaj',
@@ -82,14 +84,18 @@ export class DogadjajComponent implements OnInit{
 
   ulazs: Ulaz[] = [];
 
+  cjenovniks: Cjenovnik[] = [];
   izracunataCijena: boolean = false;
   racunanjeVisible: boolean = true;
+  tempVrijemeDo: string = "";
+  tempVrijemeOd: string = "";
   cijena: number = 15;
 
   constructor(private dogadjajService: DogadjajService, private dnevniRasporedService: DnevniRasporedService,
     private ekipaService: EkipaService, private terenService: TerenService, private dvoranaService: DvoranaService,
     private rasporedService: RasporedService, private ulazService: UlazService, private takmicenjeService: TakmicenjeService,
-    private sportService: SportService, private messageService: MessageService, @Inject(PLATFORM_ID) private platformId: Object) 
+    private sportService: SportService, private messageService: MessageService, private cjenovnikService: CjenovnikService,
+    @Inject(PLATFORM_ID) private platformId: Object) 
     {
       this.isBrowser = isPlatformBrowser(this.platformId);
       console.log('Is platform browser:', this.isBrowser);
@@ -126,6 +132,7 @@ export class DogadjajComponent implements OnInit{
       this.getUlazs();
       this.getTakmicenjes();
       this.getSports();
+      this.getCjenovniks();
   }
 
   show()
@@ -197,6 +204,18 @@ export class DogadjajComponent implements OnInit{
         alert(error.message);
       }
     );
+  }
+
+  public getCjenovniks(): void
+  {
+    this.cjenovnikService.getCjenovniks().subscribe(
+      (response: Cjenovnik[]) => {
+        this.cjenovniks = response;
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    )
   }
 
   public getDnevniRasporeds(): void
@@ -528,12 +547,82 @@ export class DogadjajComponent implements OnInit{
     });
   }
 
-  public izracunajCijenu(): void
+  public izracunajCijenu(vrijemeOd: string, vrijemeDo: string): void
   {
-    this.cijena = 20;
+    let vrijemeOdMillis: number = DogadjajComponent.timeToMillis(vrijemeOd);
+    let vrijemeDoMillis: number = DogadjajComponent.timeToMillis(vrijemeDo);
+
+    let diffMillis: number = vrijemeDoMillis - vrijemeOdMillis;
+    let diffHours: number = 0.0;
+    let cijenaTemp: number = 0.0
+
+    let kraj: boolean = false;
+
+    for(let c of this.cjenovniks)
+    {
+      if(c.teren.idTeren == this.selectedTeren?.idTeren)
+      {
+        if((vrijemeOd >= c.vrijemeOd && vrijemeOd <= c.vrijemeDo) && (vrijemeDo >= c.vrijemeOd && vrijemeDo <= c.vrijemeDo))
+        {
+          diffHours = diffMillis / 3600000.0;
+          cijenaTemp = diffHours * c.cijena;
+        }
+        else if((vrijemeOd >= c.vrijemeOd && vrijemeOd <= c.vrijemeDo) && (vrijemeDo >= c.vrijemeDo))
+        {
+          let first: boolean = true;
+          let rad: boolean = false;
+          for(let temp of this.cjenovniks)
+          {
+            if(!kraj)
+            {
+              if(vrijemeOd >= temp.vrijemeOd && vrijemeOd < temp.vrijemeDo)
+              {
+                rad = true;
+              }
+              if(rad)
+              {
+                if(first)
+                {
+                  diffMillis = DogadjajComponent.timeToMillis(temp.vrijemeDo) - vrijemeOdMillis;
+                  diffHours = diffMillis / 3600000.0;
+                  cijenaTemp += diffHours * temp.cijena;
+                  console.log("1.", cijenaTemp);
+                  first = false;
+                }
+                else if(!first && vrijemeDo >= temp.vrijemeDo)
+                {
+                  diffMillis = DogadjajComponent.timeToMillis(temp.vrijemeDo) - DogadjajComponent.timeToMillis(temp.vrijemeOd);
+                  diffHours = diffMillis / 3600000.0;
+                  cijenaTemp += diffHours * temp.cijena;
+                  console.log("2.", cijenaTemp);
+                }
+                else if(!first && vrijemeDo <= temp.vrijemeDo)
+                {
+                  diffMillis = vrijemeDoMillis - DogadjajComponent.timeToMillis(temp.vrijemeOd);
+                  diffHours = diffMillis / 3600000.0;
+                  cijenaTemp += diffHours * temp.cijena;
+                  console.log("3.", cijenaTemp);
+                  kraj = true;
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    this.cijena = cijenaTemp;
     this.racunanjeVisible = false;
     this.izracunataCijena = true;
   }
+
+  public static timeToMillis(time: string): number 
+  {
+    const [hours, minutes, seconds] = time.split(':').map(Number);
+    return (hours * 3600000) + (minutes * 60000) + (seconds * 1000);
+  }
+
 
 
   public onAddDogadjaj(addForm: NgForm): void
