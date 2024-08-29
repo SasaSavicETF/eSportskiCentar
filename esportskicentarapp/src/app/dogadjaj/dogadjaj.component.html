@@ -198,8 +198,12 @@
               <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" name="teren" optionLabel="nazivTerena" [showClear]="true" placeholder="Izaberi teren"></p-dropdown>
             </div>
             <input type="hidden" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="cijena" ngModel="{{cjn}}" name="cijena" required/>
-            <div class="addBtn">
-              <p-button type="submit" [disabled]="addForm.invalid || false" label="Rezervisi" [raised]="true" severity="help"></p-button>
+            <div class="addBtnCount" *ngIf="racunanjeVisible">
+              <p-button *ngIf="racunanjeVisible" [disabled]="addForm.invalid || false" label="Izracunaj cijenu" icon="pi pi-calculator" severity="help" (click)="izracunajCijenu()"></p-button>
+            </div>
+            <div class="addBtn" *ngIf="izracunataCijena">
+              <h3 class="cijena" *ngIf="izracunataCijena">Cijena: {{ this.cijena }} KM</h3>
+              <p-button *ngIf="izracunataCijena" type="submit" [disabled]="addForm.invalid || false" label="Rezervisi" [raised]="true" severity="help"></p-button>
             </div>
           </form>
       </div>

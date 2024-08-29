@@ -161,17 +161,29 @@
     word-wrap: break-word;
 }
 
-.addBtn
+.addBtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.addBtnCount
 {
     float: right;
     margin-top: 8px;
 }
+
 .add-form-marg{
   margin-bottom: 20px;
 }
 
 .hide{
   display: none;
+}
+
+.cijena{
+  color: red;
 }
 
 /*:host ::ng-deep .custom-dd .p-dropdown { 
