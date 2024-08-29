@@ -82,6 +82,10 @@ export class DogadjajComponent implements OnInit{
 
   ulazs: Ulaz[] = [];
 
+  izracunataCijena: boolean = false;
+  racunanjeVisible: boolean = true;
+  cijena: number = 15;
+
   constructor(private dogadjajService: DogadjajService, private dnevniRasporedService: DnevniRasporedService,
     private ekipaService: EkipaService, private terenService: TerenService, private dvoranaService: DvoranaService,
     private rasporedService: RasporedService, private ulazService: UlazService, private takmicenjeService: TakmicenjeService,
@@ -522,6 +526,13 @@ export class DogadjajComponent implements OnInit{
 
         return dateA.getTime() - dateB.getTime();
     });
+  }
+
+  public izracunajCijenu(): void
+  {
+    this.cijena = 20;
+    this.racunanjeVisible = false;
+    this.izracunataCijena = true;
   }
 
 
