@@ -38,7 +38,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './header/header.component';
 import { TimelineModule } from 'primeng/timeline';
-import { CardModule } from 'primeng/card'
+import { CardModule } from 'primeng/card';
+import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radnik-index.component'
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { CardModule } from 'primeng/card'
     DogadjajComponent,
     LoginComponent,
     RegisterComponent,
-    HeaderComponent
+    HeaderComponent,
+    DezurniRadnikIndexComponent
   ],
   imports: [
     BrowserModule,

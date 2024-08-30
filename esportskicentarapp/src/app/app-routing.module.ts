@@ -22,6 +22,7 @@ import { InventarComponent } from './inventar/inventar.component';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radnik-index.component';
 
 
 const routes: Routes = [
@@ -46,6 +47,7 @@ const routes: Routes = [
   { path: 'teren', component: TerenComponent},
   { path: 'upravnik', component: UpravnikComponent},
   { path: 'zadatak', component: ZadatakComponent},
+  { path: 'radnik/zadaci', component: DezurniRadnikIndexComponent},
   { path: '**', component: PageNotFoundComponent}
 ];
 
