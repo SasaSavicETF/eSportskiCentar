@@ -21,6 +21,10 @@ public class Zadatak {
     @Column(name = "id_zadatak")
     private int idZadatak;
     @NotNull
+    @Basic
+    @Column(name = "naslov")
+    private String naslov;
+    @NotNull
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd.MM.yyyy")
     @Basic
     @Column(name = "datum_kreiranja")
