@@ -52,4 +52,8 @@ public class Zadatak {
     @ManyToOne
     @JoinColumn(name = "id_dezurni_radnik")
     private DezurniRadnik dezurniRadnik;
+    @NotNull
+    @Basic
+    @Column(name = "zavrsen")
+    private boolean zavrsen;
 }

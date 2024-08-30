@@ -1,0 +1,34 @@
+.main-content{
+    margin: 25px;
+    border: 1px solid #DDDDDD;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.head-panel {
+    display: flex;
+    justify-content: center; /* Centriranje elemenata */
+    align-items: center;
+}
+
+.drop,
+.button-container {
+    margin: 0 15px; /* Veći razmak za desktop uređaje */
+}
+
+hr {
+    border: 0; /* Uklanja defaultni border */
+    height: 1px; /* Debljina linije */
+    background-color: #ddd; /* Boja linije, možete koristiti bilo koju boju */
+  }
+
+@media (max-width: 768px) {
+    .head-panel {
+        flex-direction: column; /* Postavljanje elemenata jedan ispod drugog za mobilne uređaje */
+    }
+
+    .drop,
+    .button-container {
+        margin: 10px 0; /* Manji razmak za mobilne uređaje */
+    }
+}
