@@ -13,6 +13,7 @@
                     <label for="datum_kreiranja">Datum kreiranja</label>
                     <div class="drop card flex justify-content-center">
                     <p-calendar 
+                    class="main-btn"
                     id="datum_kreiranja" 
                     ngModel
                     name="datumKreiranja" 
@@ -26,6 +27,7 @@
                     <label for="rok_izvrsenja">Rok izvršenja</label>
                     <div class="drop card flex justify-content-center">
                     <p-calendar 
+                    class="main-btn"
                     id="rok_izvrsenja"
                     ngModel
                     name="rokIzvrsenja" 
@@ -110,6 +112,7 @@
             <label for="datum_kreiranja">Datum kreiranja</label>
                     <div class="drop card flex justify-content-center">
                     <p-calendar 
+                    class="main-btn"
                     id="datum_kreiranja" 
                     ngModel="{{fixDate(editZadatak?.datumKreiranja)}}"
                     name="datumKreiranja" 
@@ -123,6 +126,7 @@
             <label for="rok_izvrsenja">Rok izvršenja</label>
             <div class="drop card flex justify-content-center">
                 <p-calendar 
+                class="main-btn"
                 id="rok_izvrsenja"
                 ngModel="{{fixDate(editZadatak?.rokIzvrsenja)}}"
                 name="rokIzvrsenja" 

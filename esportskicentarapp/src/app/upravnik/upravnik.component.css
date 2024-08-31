@@ -24,11 +24,19 @@
     border: 1px solid #ddd;*/
     color: white !important;
   }
-
-
 ::ng-deep .main-btn .p-button:hover {
     background: rgba(70, 0, 128, 0.803) !important;
 }
+
+::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
+    background-color: rgba(50, 0, 128, 0.603) !important;  /* Ljubičasta boja */
+    border-color: rgba(50, 0, 128, 0.603) !important;
+}
+
+::ng-deep .p-checkbox .p-checkbox-box.p-highlight .p-checkbox-icon {
+    color: white !important; /* Boja ikone kada je čekirana */
+}
+
 
 .addDiv
 {

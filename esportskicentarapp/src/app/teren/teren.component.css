@@ -182,3 +182,12 @@ input[type="file"] {
     cursor: pointer;
     margin-bottom: 15px;
   }
+
+  ::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
+    background-color: rgba(50, 0, 128, 0.603) !important;  /* Ljubičasta boja */
+    border-color: rgba(50, 0, 128, 0.603) !important;
+}
+
+::ng-deep .p-checkbox .p-checkbox-box.p-highlight .p-checkbox-icon {
+    color: white !important; /* Boja ikone kada je čekirana */
+}

@@ -26,6 +26,7 @@
                         <input type="text" pInputText class="textInput" id="lozinka" ngModel name="lozinka" required/>
                         <div class="card flex justify-content-center check">
                             <p-checkbox 
+                                class="main-btn"
                                 [(ngModel)]="checkedAdd"
                                 [binary]="true"
                                 name="blokiran" 
@@ -110,6 +111,7 @@
             <input type="text" pInputText class="textInput" id="lozinka" ngModel="{{editUpravnik?.lozinka}}" name="lozinka" required/>
             <div class="card flex justify-content-center check">
                 <p-checkbox 
+                    class="main-btn"
                     [(ngModel)]="checkedEdit"
                     [binary]="true"
                     name="blokiran" 
