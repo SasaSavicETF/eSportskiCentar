@@ -84,6 +84,18 @@
     width: 100%; 
 }
 
+::ng-deep .main-btn .p-button{
+    background: rgba(50, 0, 128, 0.603) !important;
+    /*border: 1px solid blueviolet;
+    background: rgba(9, 0, 128, 0.603);
+    border: 1px solid #ddd;*/
+    color: white !important;
+  }
+
+
+::ng-deep .main-btn .p-button:hover {
+    background: rgba(70, 0, 128, 0.803) !important;
+}
 
 .form-group {
     display: grid;
@@ -164,7 +176,7 @@ input[type="file"] {
     border: 1px solid #ccc;
     border-radius: 5px;
     color: white;
-    background-color: rgb(163, 66, 255);
+    background-color: rgba(70, 0, 128, 0.803);
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;

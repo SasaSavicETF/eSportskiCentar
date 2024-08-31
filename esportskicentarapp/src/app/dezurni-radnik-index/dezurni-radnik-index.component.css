@@ -22,6 +22,19 @@ hr {
     background-color: #ddd; /* Boja linije, možete koristiti bilo koju boju */
   }
 
+  ::ng-deep .main-btn .p-button{
+    background: rgba(50, 0, 128, 0.603) !important;
+    /*border: 1px solid blueviolet;
+    background: rgba(9, 0, 128, 0.603);
+    border: 1px solid #ddd;*/
+    color: white !important;
+  }
+
+
+::ng-deep .main-btn .p-button:hover {
+    background: rgba(70, 0, 128, 0.803) !important;
+}
+
 @media (max-width: 768px) {
     .head-panel {
         flex-direction: column; /* Postavljanje elemenata jedan ispod drugog za mobilne uređaje */

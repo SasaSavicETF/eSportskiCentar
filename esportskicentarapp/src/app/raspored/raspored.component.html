@@ -6,7 +6,7 @@
         </div>
         <!-- Modal za dodavanje -->
         <div class="addDiv">
-            <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+            <p-button class="main-btn" label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
             <p-dialog header="Dodavanje rasporeda" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
                 <div class="container">
                     <form #addForm="ngForm" (ngSubmit)="onAddRaspored(addForm)">
@@ -14,7 +14,7 @@
                         <input type="text" pInputText class="textInput" id="tip_rasporeda" ngModel name="tipRasporeda" required/>
                         <div class="addBtn">
                             <!--<p-button label="Secondary" severity="secondary"></p-button>-->
-                            <p-button type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                            <p-button class="main-btn" type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
                         </div>
                     </form>
                 </div>
@@ -70,7 +70,7 @@
             <input type="text" pInputText class="textInput" id="tip_rasporeda" ngModel="{{editRaspored?.tipRasporeda}}" name="tipRasporeda" required/>
             <div class="addBtn">
                 <!--<p-button label="Secondary" severity="secondary"></p-button>-->
-                <p-button (onClick)="onUpdateRaspored(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                <p-button class="main-btn" (onClick)="onUpdateRaspored(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
             </div>
         </form>
     </div>

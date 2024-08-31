@@ -6,7 +6,7 @@
         </div>
         <!-- Modal za dodavanje -->
         <div class="addDiv">
-            <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+            <p-button class="main-btn" label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
             <p-dialog header="Dodavanje terena" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
                 <div class="container">
                    <form #addForm="ngForm" (ngSubmit)="onAddTeren(addForm)">
@@ -42,7 +42,7 @@
                         </div>
                         <textarea type="text" pInputText class="textInputL" id="info" ngModel name="info" required></textarea>
                         <div class="addBtn">
-                            <p-button type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                            <p-button class="main-btn" type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
                         </div>
                     </form>
                 </div>
@@ -133,7 +133,7 @@
             </div>
             <textarea type="text" pInputText class="textInput" id="info" ngModel="{{editTeren?.info}}" name="info" required></textarea>
             <div class="addBtn">
-                <p-button (onClick)="onUpdateTeren(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                <p-button class="main-btn" (onClick)="onUpdateTeren(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
             </div>
         </form>
     </div>

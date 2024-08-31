@@ -6,7 +6,7 @@
         </div>
         <!-- Modal za dodavanje -->
         <div class="addDiv">
-            <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+            <p-button class="main-btn" label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
             <p-dialog header="Dodavanje svlacionice" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
                 <div class="container">
                    <form #addForm="ngForm" (ngSubmit)="onAddSvlacionica(addForm)">
@@ -26,7 +26,7 @@
                             <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu"></p-dropdown>
                         </div>
                         <div class="addBtn">
-                            <p-button type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                            <p-button class="main-btn" type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
                         </div>
                     </form>
                 </div>
@@ -97,7 +97,7 @@
                 <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu"></p-dropdown>
             </div>
             <div class="addBtn">
-                <p-button (onClick)="onUpdateSvlacionica(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                <p-button class="main-btn" (onClick)="onUpdateSvlacionica(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
             </div>
         </form>
     </div>

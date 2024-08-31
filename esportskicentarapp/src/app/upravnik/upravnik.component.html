@@ -6,7 +6,7 @@
         </div>
         <!-- Modal za dodavanje -->
         <div class="addDiv">
-            <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+            <p-button class="main-btn" label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
             <p-dialog header="Dodavanje upravnika" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
                 <div class="container">
                    <form #addForm="ngForm" (ngSubmit)="onAddUpravnik(addForm)">
@@ -34,7 +34,7 @@
                         </div>
                         
                         <div class="addBtn">
-                            <p-button type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                            <p-button class="main-btn" type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
                         </div>
                     </form>
                 </div>
@@ -117,7 +117,7 @@
                 <label class="forCheck" for="blokiran">Blokiran</label>
             </div>
             <div class="addBtn">
-                <p-button (onClick)="onUpdateUpravnik(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                <p-button class="main-btn" (onClick)="onUpdateUpravnik(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
             </div>
         </form>
     </div>

@@ -6,7 +6,7 @@
         </div>
         <!-- Modal za dodavanje -->
         <div class="addDiv">
-            <p-button label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+            <p-button class="main-btn" label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
             <p-dialog header="Dodavanje cjenovnika" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
                 <div class="container">
                    <form #addForm="ngForm" (ngSubmit)="onAddCjenovnik(addForm)">
@@ -48,7 +48,7 @@
                     
                         
                         <div class="addBtn">
-                            <p-button type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                            <p-button class="main-btn" type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
                         </div>
                     </form>
                 </div>
@@ -137,7 +137,7 @@
             <label for="cijena">Cijena</label>
             <input type="number" pInputText class="textInput" id="cijena" ngModel="{{editCjenovnik?.cijena}}" name="cijena"/>
             <div class="addBtn">
-                <p-button (onClick)="onUpdateCjenovnik(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                <p-button class="main-btn" (onClick)="onUpdateCjenovnik(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
             </div>
         </form>
     </div>
