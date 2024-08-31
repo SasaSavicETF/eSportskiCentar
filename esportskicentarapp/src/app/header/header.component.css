@@ -9,8 +9,8 @@ header {
     gap: 10px;
     flex-grow: 1;
     align-items: center;
-    background-color: whitesmoke;
     z-index: 1;
+    border-bottom: 1px solid #DDDDDD;;
 }
 
 .row-1 {
@@ -84,7 +84,7 @@ li {
 }
 
 li:hover {
-    background-color: rgba(9, 0, 128, 0.603);
+    background-color: rgba(50, 0, 128, 0.603);
     color: white;
 }
 
@@ -110,16 +110,14 @@ label {
     gap: 8px;
     padding: 20px;
     overflow-x: hidden; /* Disable horizontal scroll */
-    background-color: whitesmoke;
 }
 
 .sidenav a {
     display: block;
     padding: 10px;
-    font-size: 18px;
     text-decoration: none;
     color: #818181;
-    border: 1px solid #DDDDDD;;
+    border: 1px solid #DDDDDD;
     border-radius: 8px;
 }
 
@@ -129,7 +127,7 @@ label {
 
 .sidenav a.active {
     border: 2px solid rgba(9, 0, 128, 0.603);
-    background-color: rgba(57, 69, 240, 0.26);
+    background-color: rgba(50, 0, 128, 0.603);
     color: black;
 }
 

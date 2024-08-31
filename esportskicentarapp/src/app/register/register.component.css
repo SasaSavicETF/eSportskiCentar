@@ -54,7 +54,7 @@ input {
 
 input[type=submit], input[type=button]{
     margin-top: 15px;
-    background-color: rgba(9, 0, 128, 0.603);
+    background-color: rgba(50, 0, 128, 0.603);
     color: white;
 }
 
