@@ -11,6 +11,18 @@
     <hr>
     <!--*ngIf="mainContentVisible"-->
     <div>
-        <p *ngFor="let zad of zadataks">{{zad.naslov}}</p>
+        <div *ngFor="let zad of zadataks" class="card flex justify-content-center">
+            <p-card header="{{zad.naslov}}">
+                <div>
+                    <h4 [ngClass]="danasnjiDatum.getTime() <= parseDate(zad.rokIzvrsenja).getTime() ? 'available' : 'not-available'">Rok izvrsenja: {{zad.rokIzvrsenja}}</h4>
+                    <p class="m-0">
+                        {{zad.info}}
+                    </p>
+                </div>
+                <div>
+
+                </div>
+            </p-card>
+        </div>
     </div>
 </div>

@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Zadatak } from '../models/zadatak';
 import { ZadatakService } from '../zadatak/zadatak.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-dezurni-radnik-index',
   templateUrl: './dezurni-radnik-index.component.html',
-  styleUrl: './dezurni-radnik-index.component.css'
+  styleUrl: './dezurni-radnik-index.component.css',
+  providers: [CardModule]
 })
 export class DezurniRadnikIndexComponent implements OnInit
 {
@@ -16,6 +18,8 @@ export class DezurniRadnikIndexComponent implements OnInit
   public selectedOpcija = this.opcijas[0];
 
   //public mainContentVisible: boolean = false;
+
+  public danasnjiDatum: Date = new Date();
 
 
   constructor(private zadatakService: ZadatakService) { }
@@ -74,6 +78,17 @@ export class DezurniRadnikIndexComponent implements OnInit
       console.log(error);
     }
   }
+
+  public parseDate(dateString: string) : Date
+  {
+    // Razdvajanje stringa na dan, mesec i godinu
+    const [day, month, year] = dateString.split('.').map(part => parseInt(part, 10));
+
+    // Kreiranje JavaScript Date objekta
+    // Mesec se umanjuje za 1, jer JavaScript koristi 0-indeksirane mesece (januar = 0)
+    return new Date(year, month - 1, day);
+}
+
 
   /*public filtriraj(): void
   {
