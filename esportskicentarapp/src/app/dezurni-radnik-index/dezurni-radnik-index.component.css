@@ -31,8 +31,24 @@ hr {
   }
 
 
+::ng-deep .false-btn .p-button:hover {
+    background: #c82333 !important;
+}
+
+::ng-deep .false-btn .p-button{
+    background: #dc3545 !important;
+    border: 1px solid white;
+    
+    color: white !important;
+  }
+
+
 ::ng-deep .main-btn .p-button:hover {
     background: rgba(70, 0, 128, 0.803) !important;
+}
+
+::ng-deep .main-card .p-card {
+    margin-bottom: 20px;
 }
 
 .available 
@@ -44,6 +60,24 @@ hr {
 {
     color: red;
 }
+
+.task-card-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.task-card-content {
+    flex: 1; /* Zauzima sav preostali prostor */
+}
+
+.task-card-side-content {
+    flex: 0 0 10%; /* Zauzima 20% širine */
+}
+
+h3 {
+    margin-bottom: 10px;
+}
+
 
 
 @media (max-width: 768px) {

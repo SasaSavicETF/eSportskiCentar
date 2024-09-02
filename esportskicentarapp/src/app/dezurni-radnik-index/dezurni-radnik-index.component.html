@@ -12,16 +12,27 @@
     <!--*ngIf="mainContentVisible"-->
     <div>
         <div *ngFor="let zad of zadataks" class="card flex justify-content-center">
-            <p-card [style]="{'maxHeight': '180px'}" header="{{zad.naslov}}">
-                <div>
-                    <h4 [ngClass]="danasnjiDatum.getTime() <= parseDate(zad.rokIzvrsenja).getTime() ? 'available' : 'not-available'">Rok izvrsenja: {{zad.rokIzvrsenja}}</h4>
-                    <p class="m-0">
-                        {{zad.info}}
-                    </p>
+            <p-card class="main-card" header="{{zad.naslov}}">
+                <div class="task-card-container">
+                    <div class="task-card-content">
+                        <h4 [ngClass]="danasnjiDatum.getTime() <= parseDate(zad.rokIzvrsenja).getTime() ? 'available' : 'not-available'">
+                            Rok izvrsenja: {{zad.rokIzvrsenja}}
+                        </h4>
+                        <p class="m-0">
+                            {{zad.info}}
+                        </p>
+                    </div>
+                    <div class="task-card-side-content">
+                        <div *ngIf="!zad.zavrsen">
+                            <p-button (onClick)="onUpdateZadatak(zad, true)" class="main-btn" label="Završi"></p-button>
+                        </div>
+                        <div *ngIf="zad.zavrsen">
+                            <h3 class="available">Završen&nbsp;&nbsp;<i class="pi pi-check"></i></h3>
+                            <p-button (onClick)="onUpdateZadatak(zad, false)" class="false-btn" label="Opozovi"></p-button>
+                        </div>
+                    </div>
                 </div>
-                <!--<div>
-
-                </div>-->
+                
             </p-card>
         </div>
     </div>
