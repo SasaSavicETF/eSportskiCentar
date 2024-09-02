@@ -35,6 +35,10 @@ hr {
     background: rgba(70, 0, 128, 0.803) !important;
 }
 
+::ng-deep .main-card .p-card {
+    margin-bottom: 20px;
+}
+
 .available 
 {
     color: green;
@@ -44,6 +48,20 @@ hr {
 {
     color: red;
 }
+
+.task-card-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.task-card-content {
+    flex: 1; /* Zauzima sav preostali prostor */
+}
+
+.task-card-side-content {
+    flex: 0 0 10%; /* Zauzima 20% širine */
+}
+
 
 
 @media (max-width: 768px) {
