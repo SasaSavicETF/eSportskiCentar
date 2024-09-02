@@ -24,10 +24,11 @@
                     </div>
                     <div class="task-card-side-content">
                         <div *ngIf="!zad.zavrsen">
-                            <p-button class="main-btn" label="Završi"></p-button>
+                            <p-button (onClick)="onUpdateZadatak(zad, true)" class="main-btn" label="Završi"></p-button>
                         </div>
                         <div *ngIf="zad.zavrsen">
                             <h3 class="available">Završen&nbsp;&nbsp;<i class="pi pi-check"></i></h3>
+                            <p-button (onClick)="onUpdateZadatak(zad, false)" class="false-btn" label="Opozovi"></p-button>
                         </div>
                     </div>
                 </div>
