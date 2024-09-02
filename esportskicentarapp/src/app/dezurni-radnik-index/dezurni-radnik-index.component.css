@@ -45,6 +45,7 @@ hr {
     color: red;
 }
 
+
 @media (max-width: 768px) {
     .head-panel {
         flex-direction: column; /* Postavljanje elemenata jedan ispod drugog za mobilne uređaje */

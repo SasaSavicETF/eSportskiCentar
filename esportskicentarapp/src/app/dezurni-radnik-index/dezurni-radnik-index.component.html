@@ -12,16 +12,16 @@
     <!--*ngIf="mainContentVisible"-->
     <div>
         <div *ngFor="let zad of zadataks" class="card flex justify-content-center">
-            <p-card header="{{zad.naslov}}">
+            <p-card [style]="{'maxHeight': '180px'}" header="{{zad.naslov}}">
                 <div>
                     <h4 [ngClass]="danasnjiDatum.getTime() <= parseDate(zad.rokIzvrsenja).getTime() ? 'available' : 'not-available'">Rok izvrsenja: {{zad.rokIzvrsenja}}</h4>
                     <p class="m-0">
                         {{zad.info}}
                     </p>
                 </div>
-                <div>
+                <!--<div>
 
-                </div>
+                </div>-->
             </p-card>
         </div>
     </div>
