@@ -10,6 +10,9 @@
             <p-dialog header="Dodavanje dnevnog rasporeda" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
                 <div class="container">
                    <form #addForm="ngForm" (ngSubmit)="onAddDnevniRaspored(addForm)">
+                    <div class="drop card flex justify-content-center">
+                        <p-dropdown class="custom-dd" [options]="rasporeds" [(ngModel)]="selectedRaspored" name="raspored" optionLabel="tipRasporeda" [showClear]="true" placeholder="Izaberi raspored"></p-dropdown>
+                    </div>
                     <label for="datum">Datum</label>
                     <div class="drop card flex justify-content-center">
                     <p-calendar 
@@ -24,10 +27,6 @@
                     dateFormat="dd.mm.yy"
                     dataType="string" />
                     </div>
-                    
-                        <div class="drop card flex justify-content-center">
-                            <p-dropdown class="custom-dd" [options]="rasporeds" [(ngModel)]="selectedRaspored" name="raspored" optionLabel="tipRasporeda" [showClear]="true" placeholder="Izaberi raspored"></p-dropdown>
-                        </div>
                         <div class="addBtn">
                             <p-button class="main-btn" type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
                         </div>
@@ -82,6 +81,9 @@
     <div class="container">
         <form #editForm="ngForm">
             <input type="hidden" id="id_dnevniRaspored" ngModel="{{editDnevniRaspored?.idDnevniRaspored}}" name="idDnevniRaspored"/>
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="rasporeds" [(ngModel)]="selectedRaspored" name="raspored" optionLabel="tipRasporeda" [showClear]="true" placeholder="Izaberi raspored"></p-dropdown>
+            </div>
             <label for="datum">Datum</label>
                     <div class="drop card flex justify-content-center">
                     <p-calendar 
@@ -96,9 +98,6 @@
                     dateFormat="dd.mm.yy"
                     dataType="string" />
                     </div>
-            <div class="drop card flex justify-content-center">
-                <p-dropdown class="custom-dd" [options]="rasporeds" [(ngModel)]="selectedRaspored" name="raspored" optionLabel="tipRasporeda" [showClear]="true" placeholder="Izaberi raspored"></p-dropdown>
-            </div>
             <div class="addBtn">
                 <p-button class="main-btn" (onClick)="onUpdateDnevniRaspored(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
             </div>
@@ -107,7 +106,7 @@
 </p-dialog>
 
 <!--Modal za brisanje-->
-<p-dialog header="Upozorenje" [(visible)]="deleteVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+<p-dialog header="Upozorenje" [(visible)]="deleteVisible" [modal]="true" [style]="{ width: '500px', maxHeight: '250px'}" [draggable]="true" [resizable]="false">
     <div class="container">
         <p>Da li zaista želite da obrišete zapis ?</p>
         <br>

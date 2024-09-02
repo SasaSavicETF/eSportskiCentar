@@ -35,7 +35,7 @@ export class CjenovnikComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCjenovniks();
-   // this.getTerens();
+    this.getTerens();
   }
 
   public getTerens(): void {

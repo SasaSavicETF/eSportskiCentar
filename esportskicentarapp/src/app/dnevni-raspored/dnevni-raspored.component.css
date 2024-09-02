@@ -65,6 +65,10 @@
     width: 100%; 
 }
 
+:host ::ng-deep  .p-calendar {
+    width: 100%;
+}
+
 
 .form-group {
     display: grid;
@@ -102,6 +106,6 @@ label {
 font-size: 0.7rem;
 }
 
-:host ::ng-deep .p-dialog {
+/*:host ::ng-deep .p-dialog {
     min-height: 70%;
-}
+}*/
