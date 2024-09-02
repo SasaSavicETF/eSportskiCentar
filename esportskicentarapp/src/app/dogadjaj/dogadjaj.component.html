@@ -64,7 +64,7 @@
 </div>
   </div>
 -->
-<div *ngIf="isFilterDone" class="container">
+<div *ngIf="isFilterDone && selectedTeren != undefined" class="container">
   <div class="card-wrapper">
     <div class="card">
       <p-timeline [value]="sortedDogadjajs" align="alternate" styleClass="customized-timeline">
@@ -90,22 +90,22 @@
     <div class="text-content dvorana-card">
       <div class="card-container">
           <div class="card flex justify-content-center">
-              <p-card header="{{selectedTeren?.nazivTerena}}" subheader="{{selectedTeren?.tipTerena?.nazivTipaTerena}}" [style]="{ width: '400px' }">
+              <p-card header="{{selectedTeren.nazivTerena}}" subheader="{{selectedTeren.tipTerena.nazivTipaTerena}}" [style]="{ width: '400px' }">
                   <ng-template pTemplate="header">
-                      <img alt="Card" src="{{selectedTeren?.slika}}" />
+                      <img alt="Card" src="{{selectedTeren.slika}}" />
                   </ng-template>
                   <p>
-                      {{selectedTeren?.info}}
+                      {{selectedTeren.info}}
                   </p>
                   <hr>
                   <div>
                     <h4>Dimenzije</h4>
-                    <p>{{selectedTeren?.duzina}} m x {{selectedTeren?.sirina}}m</p>
+                    <p>{{selectedTeren.duzina}} m x {{selectedTeren.sirina}}m</p>
                   </div>
                   <hr>
                   <div>
-                    <h4>Dvorana {{selectedTeren?.dvorana?.nazivDvorane}}</h4>
-                    <p>Kapacitet: {{selectedTeren?.dvorana?.kapacitet}}</p>
+                    <h4>Dvorana {{selectedTeren.dvorana.nazivDvorane}}</h4>
+                    <p>Kapacitet: {{selectedTeren.dvorana.kapacitet}}</p>
                     <div class="flex-container">
                       <div class="info-upravnik">
                         <h5>Info o upravniku...</h5>
