@@ -2,7 +2,7 @@
     <h1>Zadaci</h1>
     <div class="head-panel">
         <div class="drop card flex justify-content-center mob">
-            <p-dropdown class="custom-dd" [options]="opcijas" [(ngModel)]="selectedOpcija" (ngModelChange)="onOpcijaChange($event)" name="opcija" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi opciju"></p-dropdown>
+            <p-dropdown class="custom-dd" [options]="opcijas" [(ngModel)]="selectedOpcija" (ngModelChange)="onOpcijaChange($event)" name="opcija" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi listu"></p-dropdown>
         </div>
         <div class="button-container mob">
             <!--<p-button class="main-btn" label="Pretrazi" icon="pi pi-filter-fill" severity="help" (click)="filtriraj()"></p-button>-->
@@ -24,11 +24,11 @@
                     </div>
                     <div class="task-card-side-content">
                         <div *ngIf="!zad.zavrsen">
-                            <p-button (onClick)="onUpdateZadatak(zad, true)" class="main-btn" label="Završi"></p-button>
+                            <p-button (onClick)="onUpdateZadatak(zad, true)" severity="danger" class="main-btn" label="Završi"></p-button>
                         </div>
                         <div *ngIf="zad.zavrsen">
                             <h3 class="available">Završen&nbsp;&nbsp;<i class="pi pi-check"></i></h3>
-                            <p-button (onClick)="onUpdateZadatak(zad, false)" class="false-btn" label="Opozovi"></p-button>
+                            <p-button (onClick)="onUpdateZadatak(zad, false)" severity="danger" class="false-btn" label="Opozovi"></p-button>
                         </div>
                     </div>
                 </div>
