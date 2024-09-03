@@ -29,6 +29,8 @@ import { Sport } from '../models/sport';
 import { SportService } from '../sport/sport.service';
 import { Cjenovnik } from '../models/cjenovnik';
 import { CjenovnikService } from '../cjenovnik/cjenovnik.service';
+import { Klijent } from '../models/klijent';
+import { KlijentService } from '../services/klijent.service';
 
 @Component({
   selector: 'app-dogadjaj',
@@ -72,6 +74,8 @@ export class DogadjajComponent implements OnInit{
   selectedRaspored: Raspored | undefined;
   rasporeds: Raspored[] = [];
 
+  selectedKlijent: Klijent | null = this.klijentService.activeUser;
+
   danasnjiDatum: Date = new Date();
   selectedDatum: Date = new Date();
   earliestDate = new Date(-8640000000000000);
@@ -95,10 +99,11 @@ export class DogadjajComponent implements OnInit{
     private ekipaService: EkipaService, private terenService: TerenService, private dvoranaService: DvoranaService,
     private rasporedService: RasporedService, private ulazService: UlazService, private takmicenjeService: TakmicenjeService,
     private sportService: SportService, private messageService: MessageService, private cjenovnikService: CjenovnikService,
-    @Inject(PLATFORM_ID) private platformId: Object) 
+    private klijentService: KlijentService, @Inject(PLATFORM_ID) private platformId: Object) 
     {
       this.isBrowser = isPlatformBrowser(this.platformId);
       console.log('Is platform browser:', this.isBrowser);
+      //console.log(this.klijentService.activeUser);
     }
 
 
@@ -407,6 +412,7 @@ export class DogadjajComponent implements OnInit{
 
   public filtriraj(): void
   {
+      console.log("Klijent: " , this.selectedKlijent?.korisnickoIme);
       this.onStartFilter();
       let postojiDnevniRaspored : boolean = false;
       for(const dnevniRaspored of this.dnevniRasporeds)
