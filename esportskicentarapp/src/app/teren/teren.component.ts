@@ -56,6 +56,7 @@ export class TerenComponent implements OnInit
       this.getTerens();
       this.getDvoranas();
       this.getTipTerenas();
+      console.log(this.user.activeUser)
   }
 
   onFileSelected(event: any): void 
