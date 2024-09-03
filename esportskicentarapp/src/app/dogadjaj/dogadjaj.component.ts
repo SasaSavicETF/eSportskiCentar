@@ -32,6 +32,9 @@ import { CjenovnikService } from '../cjenovnik/cjenovnik.service';
 import { Klijent } from '../models/klijent';
 import { KlijentService } from '../services/klijent.service';
 import { UserDTO } from '../models/user-dto';
+import { EmailService } from '../services/email.service';
+import { Email } from '../models/email';
+
 
 @Component({
   selector: 'app-dogadjaj',
@@ -75,13 +78,20 @@ export class DogadjajComponent implements OnInit{
   selectedRaspored: Raspored | undefined;
   rasporeds: Raspored[] = [];
 
+
   selectedKlijent: UserDTO | null = this.klijentService.activeUser;
+
+  //selectedKlijent: Klijent | null = this.klijentService.activeUser;
+  klijentZaMail: string | null = this.selectedKlijent?.email || "";
+
 
   danasnjiDatum: Date = new Date();
   selectedDatum: Date = new Date();
   earliestDate = new Date(-8640000000000000);
 
   isFilterDone: boolean = false;
+
+  isOdobren: boolean = true;
 
   icon: string = "pi pi-ticket";
 
@@ -100,11 +110,11 @@ export class DogadjajComponent implements OnInit{
     private ekipaService: EkipaService, private terenService: TerenService, private dvoranaService: DvoranaService,
     private rasporedService: RasporedService, private ulazService: UlazService, private takmicenjeService: TakmicenjeService,
     private sportService: SportService, private messageService: MessageService, private cjenovnikService: CjenovnikService,
-    private klijentService: KlijentService, @Inject(PLATFORM_ID) private platformId: Object) 
+    private klijentService: KlijentService, private emailService: EmailService, @Inject(PLATFORM_ID) private platformId: Object) 
     {
       this.isBrowser = isPlatformBrowser(this.platformId);
       console.log('Is platform browser:', this.isBrowser);
-      //console.log(this.klijentService.activeUser);
+      console.log(this.klijentService.activeUser);
     }
 
 
@@ -389,7 +399,7 @@ export class DogadjajComponent implements OnInit{
     for(const dogadjaj of this.dogadjajs)
     {
       console.log(this.selectedTeren?.idTeren);
-      if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored == this.selectedDnevniRaspored?.idDnevniRaspored)
+      if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored == this.selectedDnevniRaspored?.idDnevniRaspored && dogadjaj.odobren)
       //if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren)
       {
         filterDogadjajs.push(dogadjaj);
@@ -635,14 +645,34 @@ export class DogadjajComponent implements OnInit{
   public onAddDogadjaj(addForm: NgForm): void
   {
     this.addVisible = false;
+    if(this.selectedKlijent !== null)
+    {
+      addForm.form.get('odobren')?.setValue(false);
+    }
+    else
+    {
+      addForm.form.get('odobren')?.setValue(true);
+      console.log('SSSSSSSSSSSSSSSSS');
+    }
+    console.log(this.isOdobren);
+    console.log(this.selectedKlijent?.email);
+    this.klijentZaMail = this.selectedKlijent?.email || "";
     addForm.form.get('dnevniRaspored')?.setValue(this.selectedDnevniRaspored);
     this.dogadjajService.addDogadjaj(addForm.value).subscribe(
       (response: Dogadjaj) =>
       {
         //this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
         this.getDogadjajs();
-        window.location.href = window.location.href.split('?')[0] + '?added=true';
-        //window.location.reload();
+        console.log(this.klijentZaMail);
+        if(this.klijentZaMail !== null)
+        {
+          console.log('BBBBB');
+          const email = new Email(this.klijentZaMail, "Zahtjev za rezervaciju dogadjaja je uspjesno prosljedjen. Cijena usluge je: " + this.cijena);
+          this.emailService.sendEmail(email).subscribe(response => {
+            console.log('Email sent.');
+          });
+        }
+        //window.location.href = window.location.href.split('?')[0] + '?added=true';
       },
       (error: HttpErrorResponse) =>
       {

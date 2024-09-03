@@ -66,27 +66,6 @@
 -->
 <div *ngIf="isFilterDone && selectedTeren != undefined" class="container">
   <div class="card-wrapper">
-    <div class="card">
-      <p-timeline [value]="sortedDogadjajs" align="alternate" styleClass="customized-timeline">
-        <ng-template pTemplate="marker" let-dogadjaj>
-          <span 
-              class="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-1" 
-              [style]="{ 'background-color': 'white' }">
-              <i [class]="icon"></i>
-          </span>
-        </ng-template>
-        <ng-template pTemplate="content" let-dogadjaj>
-          <p-card [subheader]="dogadjaj.vrijemeOd + ' - ' + dogadjaj.vrijemeDo">
-            <h5 *ngIf="dogadjaj.domacaEkipa != null && dogadjaj.gostujucaEkipa != null">
-              {{dogadjaj.domacaEkipa.nazivEkipe}} - {{dogadjaj.gostujucaEkipa.nazivEkipe}}
-            </h5>
-            <p *ngIf="dogadjaj.sport != null">{{dogadjaj.sport.nazivSporta}}</p>
-            <p>{{dogadjaj.infoDogadjaja}}</p>
-            <!--<p-button label="Procitaj jos" [text]="true" />-->
-          </p-card>
-        </ng-template>
-      </p-timeline>
-    </div>
     <div class="text-content dvorana-card">
       <div class="card-container">
           <div class="card flex justify-content-center">
@@ -131,7 +110,27 @@
           </div>
       </div>
   </div>
-  
+  <div class="card">
+    <p-timeline [value]="sortedDogadjajs" align="alternate" styleClass="customized-timeline">
+      <ng-template pTemplate="marker" let-dogadjaj>
+        <span 
+            class="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-1" 
+            [style]="{ 'background-color': 'white' }">
+            <i [class]="icon"></i>
+        </span>
+      </ng-template>
+      <ng-template pTemplate="content" let-dogadjaj>
+        <p-card [subheader]="dogadjaj.vrijemeOd + ' - ' + dogadjaj.vrijemeDo">
+          <h5 *ngIf="dogadjaj.domacaEkipa != null && dogadjaj.gostujucaEkipa != null">
+            {{dogadjaj.domacaEkipa.nazivEkipe}} - {{dogadjaj.gostujucaEkipa.nazivEkipe}}
+          </h5>
+          <p *ngIf="dogadjaj.sport != null">{{dogadjaj.sport.nazivSporta}}</p>
+          <p>{{dogadjaj.infoDogadjaja}}</p>
+          <!--<p-button label="Procitaj jos" [text]="true" />-->
+        </p-card>
+      </ng-template>
+    </p-timeline>
+  </div>
   </div>
   <div style="display: flex; justify-content: center;">
     <p-button label="Rezerviši događaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
@@ -183,7 +182,15 @@
                 dataType="string">
               </p-calendar>
             </div>
-          
+            <div class="card flex justify-content-center check hide">
+              <p-checkbox 
+                  [(ngModel)]="isOdobren"
+                  [binary]="true"
+                  name="odobren" 
+                  inputId="odobren" />
+            </div>
+
+
               <div class="drop card flex justify-content-center mob add-form-marg">
                 <p-dropdown class="custom-dd" [options]="ekipas" [(ngModel)]="selectedDomacaEkipa" name="domacaEkipa" optionLabel="nazivEkipe" [showClear]="true" [style]="{'minWidth':'100%', 'margin-botom': '20px'}" placeholder="Izaberi ekipu"></p-dropdown>
               </div>

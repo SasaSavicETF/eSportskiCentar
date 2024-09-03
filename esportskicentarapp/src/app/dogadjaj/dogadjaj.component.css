@@ -45,13 +45,15 @@
     padding: 10px;
   }
   
+  
   .card-wrapper {
     display: flex;
     flex-direction: row;
     width: 100%;
   }
   
-  .card, .text-content {
+  
+  .text-content, .card {
     flex: 1;
   }
   
@@ -66,15 +68,15 @@
     height: 100vh; /* Da centrirate vertikalno, koristite visinu od 100% pregleda */
   }
 
-.card-container {
+  .card-container {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.flex-container {
-  display: flex;
-  justify-content: space-between;
-}
+  }
+  .flex-container {
+    display: flex;
+    justify-content: space-between;
+  }
 
 .info-upravnik, .ulazi {
   width: 48%; /* Podešavanje širine da bi oba div-a stala jedan pored drugog */
@@ -224,6 +226,7 @@
     .card-wrapper {
       flex-direction: column;
     }
+    
     
     .card, .text-content {
       width: 100%;
