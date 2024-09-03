@@ -23,7 +23,7 @@ export class LoginComponent {
         this.router.navigate(['/teren']); 
       },
       error: error => {
-        alert("Uneseni kred!");
+        alert("Uneseni kredencijali nisu validni!");
       }
     });
     

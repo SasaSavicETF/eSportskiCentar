@@ -2,14 +2,18 @@ package tech.esc.esportskicentar.service;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.esc.esportskicentar.PaswordHasher;
 import tech.esc.esportskicentar.exception.AccountStatusException;
 import tech.esc.esportskicentar.exception.BadCredentialsException;
 import tech.esc.esportskicentar.exception.UsernameAlreadyExistsException;
-import tech.esc.esportskicentar.model.Klijent;
+import tech.esc.esportskicentar.model.*;
+import tech.esc.esportskicentar.repository.AdministratorRepository;
+import tech.esc.esportskicentar.repository.DezurniRadnikRepository;
 import tech.esc.esportskicentar.repository.KlijentRepository;
+import tech.esc.esportskicentar.repository.UpravnikRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,11 +22,19 @@ import java.util.Optional;
 @Transactional
 public class KlijentService {
     private final KlijentRepository klijentRepository;
+    private final AdministratorRepository administratorRepository;
+    private final DezurniRadnikRepository dezurniRadnikRepository;
+    private final UpravnikRepository upravnikRepository;
     private final PaswordHasher paswordHasher;
 
     @Autowired
-    public KlijentService(KlijentRepository klijentRepository, PaswordHasher paswordHasher) {
+    public KlijentService(KlijentRepository klijentRepository, AdministratorRepository administratorRepository,
+                          DezurniRadnikRepository dezurniRadnikRepository,
+                          UpravnikRepository upravnikRepository, PaswordHasher paswordHasher) {
         this.klijentRepository = klijentRepository;
+        this.administratorRepository = administratorRepository;
+        this.dezurniRadnikRepository = dezurniRadnikRepository;
+        this.upravnikRepository = upravnikRepository;
         this.paswordHasher = paswordHasher;
     }
 
@@ -36,21 +48,55 @@ public class KlijentService {
     }
 
     public void registerKlijent(Klijent klijent) {
-        if (this.klijentRepository.existsByKorisnickoIme(klijent.getKorisnickoIme()))
+        if (this.klijentRepository.existsByKorisnickoIme(klijent.getKorisnickoIme())
+                || administratorRepository.existsByKorisnickoIme(klijent.getKorisnickoIme()))
             throw new UsernameAlreadyExistsException("Username: " + klijent.getKorisnickoIme() + " is already taken!");
 
         klijent.setLozinka(paswordHasher.hashPassword(klijent.getLozinka()));
         klijentRepository.save(klijent);
     }
 
-    public Klijent loginKlijent(LoginRequest loginRequest) {
+    public UserDTO loginKlijent(LoginRequest loginRequest) {
+        /*
         Klijent klijent = klijentRepository.findByKorisnickoImeAndLozinka(
                             loginRequest.username(), paswordHasher.hashPassword(loginRequest.password))
                 .orElseThrow(BadCredentialsException::new);
+
         if (klijent.isBlokiran())
             throw new AccountStatusException("Vaš nalog je blokiran!");
 
-        return klijent;
+         */
+        Klijent klijent = klijentRepository.findByKorisnickoImeAndLozinka(
+                        loginRequest.username(), paswordHasher.hashPassword(loginRequest.password))
+                        .orElse(null);
+        if (klijent != null && klijent.isBlokiran())
+            throw new AccountStatusException("Vaš nalog je blokiran!");
+        if (klijent != null)
+            return convertKlijentToDTO(klijent);
+
+        Administrator admin = administratorRepository.findByKorisnickoImeAndLozinka(
+                        loginRequest.username(), loginRequest.password)
+                .orElse(null);
+        if (admin != null)
+            return convertAdminToDTO(admin);
+
+        DezurniRadnik radnik = dezurniRadnikRepository.findByKorisnickoImeAndLozinka(
+                        loginRequest.username(), loginRequest.password)
+                .orElse(null);
+        if (radnik != null && radnik.isBlokiran())
+            throw new AccountStatusException("Vaš nalog je blokiran!");
+        if (radnik != null)
+            return convertRadnikToDTO(radnik);
+
+        Upravnik upravnik = upravnikRepository.findByKorisnickoImeAndLozinka(
+                        loginRequest.username(), loginRequest.password)
+                .orElse(null);
+        if (upravnik != null && upravnik.isBlokiran())
+            throw new AccountStatusException("Vaš nalog je blokiran!");
+        if (upravnik != null)
+            return convertUpravnikToDTO(upravnik);
+
+        throw new BadCredentialsException();
     }
 
     public Klijent updateKlijent(Klijent newKlijent, Integer id) {
@@ -92,5 +138,86 @@ public class KlijentService {
             @NotBlank
             String password)
     {}
+
+    public record UserDTO(
+            @NotNull
+            int id,
+            @NotBlank
+            String ime,
+            @NotBlank
+            String prezime,
+            @NotBlank
+            String brojTelefona,
+            @NotBlank
+            String korisnickoIme,
+            @NotBlank
+            String lozinka,
+            @NotBlank
+            String email,
+            @NotBlank
+            String role,
+            boolean blokiran,
+            Dvorana dvorana)
+    {}
+
+    private UserDTO convertKlijentToDTO(Klijent klijent) {
+        return new UserDTO(
+                klijent.getIdKlijent(),
+                klijent.getIme(),
+                klijent.getPrezime(),
+                klijent.getBrojTelefona(),
+                klijent.getKorisnickoIme(),
+                klijent.getLozinka(),
+                klijent.getEmail(),
+                "user",
+                klijent.isBlokiran(),
+                null
+        );
+    }
+
+    private UserDTO convertAdminToDTO(Administrator admin) {
+        return new UserDTO(
+                admin.getIdAdministrator(),
+                admin.getIme(),
+                admin.getPrezime(),
+                admin.getBrojTelefona(),
+                admin.getKorisnickoIme(),
+                admin.getLozinka(),
+                admin.getEmail(),
+                "admin",
+                false,
+                null
+        );
+    }
+
+    private UserDTO convertRadnikToDTO(DezurniRadnik radnik) {
+        return new UserDTO(
+                radnik.getIdDezurniRadnik(),
+                radnik.getIme(),
+                radnik.getPrezime(),
+                radnik.getBrojTelefona(),
+                radnik.getKorisnickoIme(),
+                radnik.getLozinka(),
+                radnik.getEmail(),
+                "radnik",
+                radnik.isBlokiran(),
+                null
+        );
+    }
+
+    private UserDTO convertUpravnikToDTO(Upravnik upravnik) {
+        return new UserDTO(
+                upravnik.getIdUpravnik(),
+                upravnik.getIme(),
+                upravnik.getPrezime(),
+                upravnik.getBrojTelefona(),
+                upravnik.getKorisnickoIme(),
+                upravnik.getLozinka(),
+                upravnik.getEmail(),
+                "upravnik",
+                upravnik.isBlokiran(),
+                upravnik.getDvorana()
+        );
+    }
 
 }

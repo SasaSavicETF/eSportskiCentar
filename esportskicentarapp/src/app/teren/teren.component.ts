@@ -11,6 +11,7 @@ import { NgForm } from '@angular/forms';
 import { ImageModule } from 'primeng/image';
 import { CheckboxModule } from 'primeng/checkbox';
 import { json } from 'stream/consumers';
+import { KlijentService } from '../services/klijent.service';
 
 @Component({
   selector: 'app-teren',
@@ -47,7 +48,7 @@ export class TerenComponent implements OnInit
   fileName: string = '';
 
   constructor(private terenService: TerenService, private dvoranaService: DvoranaService, 
-    private tipTerenaService: TipTerenaService, private messageService: MessageService) { }
+    private tipTerenaService: TipTerenaService, private messageService: MessageService, private user: KlijentService) { }
 
 
   ngOnInit(): void 

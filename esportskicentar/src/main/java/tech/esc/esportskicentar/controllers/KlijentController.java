@@ -42,9 +42,9 @@ public class KlijentController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Klijent> loginKlijent(@Valid @RequestBody KlijentService.LoginRequest loginRequest) {
-        Klijent klijent = klijentService.loginKlijent(loginRequest);
-        return new ResponseEntity<>(klijent, HttpStatus.OK);
+    public ResponseEntity<KlijentService.UserDTO> loginKlijent(@Valid @RequestBody KlijentService.LoginRequest loginRequest) {
+        KlijentService.UserDTO userDTO = klijentService.loginKlijent(loginRequest);
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
 

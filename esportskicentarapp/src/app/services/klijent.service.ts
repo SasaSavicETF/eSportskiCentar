@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Klijent } from '../models/klijent';
 import { Router } from '@angular/router';
+import { UserDTO } from '../models/user-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 export class KlijentService {
 
   private url = 'http://localhost:8080/klijent';
-  public activeUser: Klijent | null = null;
+  public activeUser: UserDTO | null = null;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -18,7 +19,7 @@ export class KlijentService {
   }
 
   loginUser(username: string, password: string){
-    return this.http.post<Klijent>(this.url + '/login', {
+    return this.http.post<UserDTO>(this.url + '/login', {
       username : username,
       password : password,
     });
