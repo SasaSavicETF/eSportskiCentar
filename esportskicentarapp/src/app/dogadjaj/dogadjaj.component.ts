@@ -85,6 +85,8 @@ export class DogadjajComponent implements OnInit{
 
   isFilterDone: boolean = false;
 
+  isOdobren: boolean = true;
+
   icon: string = "pi pi-ticket";
 
   cjn: number = 2;
@@ -391,7 +393,7 @@ export class DogadjajComponent implements OnInit{
     for(const dogadjaj of this.dogadjajs)
     {
       console.log(this.selectedTeren?.idTeren);
-      if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored == this.selectedDnevniRaspored?.idDnevniRaspored)
+      if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored == this.selectedDnevniRaspored?.idDnevniRaspored && dogadjaj.odobren)
       //if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren)
       {
         filterDogadjajs.push(dogadjaj);
@@ -637,6 +639,16 @@ export class DogadjajComponent implements OnInit{
   public onAddDogadjaj(addForm: NgForm): void
   {
     this.addVisible = false;
+    if(this.selectedKlijent !== null)
+    {
+      addForm.form.get('odobren')?.setValue(false);
+    }
+    else
+    {
+      addForm.form.get('odobren')?.setValue(true);
+      console.log('SSSSSSSSSSSSSSSSS');
+    }
+    console.log(this.isOdobren);
     console.log(this.selectedKlijent?.email);
     this.klijentZaMail = this.selectedKlijent?.email || "";
     addForm.form.get('dnevniRaspored')?.setValue(this.selectedDnevniRaspored);
@@ -654,7 +666,7 @@ export class DogadjajComponent implements OnInit{
             console.log('Email sent.');
           });
         }
-        window.location.href = window.location.href.split('?')[0] + '?added=true';
+        //window.location.href = window.location.href.split('?')[0] + '?added=true';
       },
       (error: HttpErrorResponse) =>
       {
