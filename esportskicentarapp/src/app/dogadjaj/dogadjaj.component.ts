@@ -31,6 +31,7 @@ import { Cjenovnik } from '../models/cjenovnik';
 import { CjenovnikService } from '../cjenovnik/cjenovnik.service';
 import { Klijent } from '../models/klijent';
 import { KlijentService } from '../services/klijent.service';
+import { UserDTO } from '../models/user-dto';
 
 @Component({
   selector: 'app-dogadjaj',
@@ -74,7 +75,7 @@ export class DogadjajComponent implements OnInit{
   selectedRaspored: Raspored | undefined;
   rasporeds: Raspored[] = [];
 
-  selectedKlijent: Klijent | null = this.klijentService.activeUser;
+  selectedKlijent: UserDTO | null = this.klijentService.activeUser;
 
   danasnjiDatum: Date = new Date();
   selectedDatum: Date = new Date();
