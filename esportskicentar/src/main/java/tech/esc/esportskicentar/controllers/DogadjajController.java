@@ -25,6 +25,13 @@ public class DogadjajController {
         return new ResponseEntity<>(dogadjajs, HttpStatus.OK);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Dogadjaj>> getAllDogadjajs(@PathVariable("id") Integer id)
+    {
+        List<Dogadjaj> dogadjajs = dogadjajService.findAllDogadjajsOfUser(id);
+        return new ResponseEntity<>(dogadjajs, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Dogadjaj> getDogadjajById(@PathVariable("id") Integer id)
     {

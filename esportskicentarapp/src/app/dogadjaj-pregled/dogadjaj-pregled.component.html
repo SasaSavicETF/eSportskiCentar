@@ -1,0 +1,30 @@
+<p-toast></p-toast>
+<div class="sadrzaj">
+    <div class="parent">
+        <div class="p-col-12">
+            <h1>Pregled događaja</h1>
+        </div>
+        <div class="cards-container">
+            <div *ngFor="let dogadjaj of dogadjajs" class="card-container">
+                <p-card>
+                    <ng-template pTemplate="title">
+                        {{dogadjaj.takmicenje.vrstaTakmicenja}}<br />
+                        {{dogadjaj.domacaEkipa.nazivEkipe}} - {{dogadjaj.gostujucaEkipa.nazivEkipe}}
+                    </ng-template>
+                    <ng-template pTemplate="subtitle">
+                        {{dogadjaj.vrijemeOd}} - {{dogadjaj.vrijemeDo}}
+                    </ng-template>
+                    <p class="card-content">
+                        {{dogadjaj.infoDogadjaja}}
+                    </p>
+                    <ng-template pTemplate="footer">
+                        <div class="footer">
+                            <p-button (onClick)="showDeleteDialog(dogadjaj)" class="main-btn" label="Otkaži"
+                                severity="danger" class="w-full" styleClass="w-full" />
+                        </div>
+                    </ng-template>
+                </p-card>
+            </div>
+        </div>
+    </div>
+</div>

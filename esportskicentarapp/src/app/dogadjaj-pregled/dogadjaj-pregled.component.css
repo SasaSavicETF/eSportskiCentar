@@ -1,0 +1,82 @@
+.sadrzaj
+{
+    margin: 20px;
+    border: 1px solid #DDDDDD;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.parent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+::ng-deep .p-card { 
+    border-radius: 25px !important; 
+    width: 361px; 
+    height: 220px;
+    border: 2px solid black; 
+    position: relative;
+} 
+
+::ng-deep .p-card-body { 
+    padding: 10px;
+    width: 361px; 
+    height: 220px;
+    position: relative;
+} 
+
+::ng-deep .p-card-content { 
+    font-size: 14px;  
+    color: black; 
+    max-height: 80px;
+    padding: 0px;
+    overflow-y: auto;
+    overflow-x: hidden;
+} 
+
+
+::ng-deep .p-card-title { 
+    font-size: 18px;  
+    color: black; 
+    margin: 0px;
+} 
+
+
+::ng-deep .p-card-footer { 
+   padding-top: 10px;
+   position: absolute;
+   right: 15px;
+   bottom: 15px;
+} 
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+::ng-deep .main-btn .p-button{
+    background: rgba(50, 0, 128, 0.603) !important;
+    /*border: 1px solid blueviolet;
+    background: rgba(9, 0, 128, 0.603);
+    border: 1px solid #ddd;*/
+    color: white !important;
+  }
+
+
+::ng-deep .main-btn .p-button:hover {
+    background: rgba(70, 0, 128, 0.803) !important;
+}
+
+.card-container {
+    display: inline-block;
+    width: 361px; 
+    height: 220px;
+    margin: 10px;
+}
+
+.card-content {
+    margin: 0px;
+}

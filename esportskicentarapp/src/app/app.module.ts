@@ -39,7 +39,8 @@ import { RegisterComponent } from './register/register.component';
 import { HeaderComponent } from './header/header.component';
 import { TimelineModule } from 'primeng/timeline';
 import { CardModule } from 'primeng/card';
-import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radnik-index.component'
+import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radnik-index.component';
+import { DogadjajPregledComponent } from './dogadjaj-pregled/dogadjaj-pregled.component'
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radn
     LoginComponent,
     RegisterComponent,
     HeaderComponent,
-    DezurniRadnikIndexComponent
+    DezurniRadnikIndexComponent,
+    DogadjajPregledComponent
   ],
   imports: [
     BrowserModule,

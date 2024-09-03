@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.esc.esportskicentar.model.Cjenovnik;
 import tech.esc.esportskicentar.model.Dogadjaj;
+import tech.esc.esportskicentar.model.Klijent;
 import tech.esc.esportskicentar.repository.CjenovnikRepository;
 import tech.esc.esportskicentar.repository.DnevniRasporedRepository;
 import tech.esc.esportskicentar.repository.DogadjajRepository;
+import tech.esc.esportskicentar.repository.KlijentRepository;
 import tech.esc.esportskicentar.util.Util;
 
 import java.math.BigDecimal;
@@ -23,16 +25,28 @@ public class DogadjajService {
     private final CjenovnikRepository cjenovnikRepository;
     private final DnevniRasporedRepository dnevniRasporedRepository;
 
+    private final KlijentRepository klijentRepository;
+
     @Autowired
-    public DogadjajService(DogadjajRepository dogadjajRepository, CjenovnikRepository cjenovnikRepository, DnevniRasporedRepository dnevniRasporedRepository)
+    public DogadjajService(DogadjajRepository dogadjajRepository, CjenovnikRepository cjenovnikRepository,
+                           DnevniRasporedRepository dnevniRasporedRepository, KlijentRepository klijentRepository)
     {
         this.dogadjajRepository = dogadjajRepository;
         this.cjenovnikRepository = cjenovnikRepository;
         this.dnevniRasporedRepository = dnevniRasporedRepository;
+        this.klijentRepository = klijentRepository;
     }
 
     public List<Dogadjaj> findAllDogadjajs(){
         return dogadjajRepository.findAll();
+    }
+
+    public List<Dogadjaj> findAllDogadjajsOfUser(Integer id) {
+        Klijent klijent = klijentRepository.findById(id).orElse(null);
+        if(klijent != null)
+            return dogadjajRepository.findByKlijent(klijent);
+        else
+            return null;
     }
 
     public Dogadjaj findDogadjajById(Integer id){

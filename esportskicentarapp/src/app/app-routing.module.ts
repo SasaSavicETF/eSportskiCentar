@@ -23,6 +23,7 @@ import { InventarComponent } from './inventar/inventar.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radnik-index.component';
+import { DogadjajPregledComponent } from './dogadjaj-pregled/dogadjaj-pregled.component';
 
 
 const routes: Routes = [
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'inventar', component: InventarComponent},
   { path: 'dnevniRaspored', component: DnevniRasporedComponent},
   { path: 'dogadjaj', component: DogadjajComponent},
+  { path: 'dogadjajPregled', component: DogadjajPregledComponent},
   { path: 'dvorana', component: DvoranaComponent},
   { path: 'dezurniRadnik', component: DezurniRadnikComponent},
   { path: 'sport', component: SportComponent},
