@@ -166,6 +166,7 @@ p {
 
 .description {
     font-size: 12px;
+    width: 180px;
 }
 
 button {
