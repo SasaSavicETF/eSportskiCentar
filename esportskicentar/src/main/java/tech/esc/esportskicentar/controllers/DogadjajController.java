@@ -61,6 +61,7 @@ public class DogadjajController {
             return new ResponseEntity<>(null, HttpStatus.CONFLICT);
         } catch (Exception e) {
             // Hvatanje generalnih izuzetaka i vraćanje internih grešaka servera
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -79,7 +79,9 @@ export class DogadjajComponent implements OnInit{
   rasporeds: Raspored[] = [];
 
 
-  selectedKlijent: UserDTO | null = this.klijentService.activeUser;
+  ulazniKlijent: UserDTO | null = this.klijentService.activeUser;
+  selectedKlijent: Klijent| null = null;
+  
 
   //selectedKlijent: Klijent | null = this.klijentService.activeUser;
   klijentZaMail: string | null = this.selectedKlijent?.email || "";
@@ -115,6 +117,12 @@ export class DogadjajComponent implements OnInit{
       this.isBrowser = isPlatformBrowser(this.platformId);
       console.log('Is platform browser:', this.isBrowser);
       console.log(this.klijentService.activeUser);
+      if(this.ulazniKlijent !== null)
+      {
+        this.selectedKlijent = new Klijent(this.ulazniKlijent?.ime || "", this.ulazniKlijent?.prezime || "", this.ulazniKlijent?.korisnickoIme || "", this.ulazniKlijent?.lozinka || "",
+          this.ulazniKlijent?.brojTelefona || "", this.ulazniKlijent?.email || "", "klijent");
+        this.selectedKlijent.idKlijent = this.ulazniKlijent.id;
+      }
     }
 
 
@@ -672,7 +680,7 @@ export class DogadjajComponent implements OnInit{
             console.log('Email sent.');
           });
         }
-        //window.location.href = window.location.href.split('?')[0] + '?added=true';
+        window.location.href = window.location.href.split('?')[0] + '?added=true';
       },
       (error: HttpErrorResponse) =>
       {

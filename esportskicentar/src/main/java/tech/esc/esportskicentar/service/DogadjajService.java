@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
+//@Transactional
 public class DogadjajService {
 
     private final DogadjajRepository dogadjajRepository;
@@ -55,6 +55,7 @@ public class DogadjajService {
 
     public Dogadjaj addDogadjaj(Dogadjaj dogadjaj)
     {
+        //System.out.println(dogadjaj.getKlijent().getIdKlijent());
         if(dogadjaj.getSport() != null)
         {
             if(!dogadjaj.getSport().getTipTerena().getNazivTipaTerena().equals(dogadjaj.getTeren().getTipTerena().getNazivTipaTerena()))
