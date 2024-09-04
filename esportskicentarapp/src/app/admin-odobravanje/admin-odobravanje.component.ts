@@ -14,25 +14,27 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AdminOdobravanjeComponent implements OnInit
 {
   public dogadjajs: Dogadjaj[] = [];
+  public allDogadjajs: Dogadjaj[] = [];
 
   constructor(private dogadjajService: DogadjajService, private messageService: MessageService) { }
 
   ngOnInit(): void 
   {
-    this.loadDogadjajs()
+    this.loadDogadjajs();
+    this.getDogadjajs();
   }
 
-  /*public getDogadjajs(): void
+  public getDogadjajs(): void
   {
     this.dogadjajService.getDogadjajs().subscribe(
       (response: Dogadjaj[]) => {
-        this.dogadjajs = response;
+        this.allDogadjajs = response;
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
       }
     );
-  }*/
+  }
 
   public async loadDogadjajs(): Promise<void>
   {
@@ -53,6 +55,28 @@ export class AdminOdobravanjeComponent implements OnInit
     {
       console.log(error);
     }
+  }
+
+  //LOGIKA ZA IZMJENU DOZVOLE
+
+  //LOGIKA ZA BRISANJE
+
+  //OBE UKLJUCUJU SLANJE MEJLA
+
+  public checkTimeDogadjaj(dogadjaj: Dogadjaj): boolean
+  {
+    for (let dogadjajLst of this.allDogadjajs) {
+      if (dogadjaj.dnevniRaspored.idDnevniRaspored === dogadjajLst.dnevniRaspored.idDnevniRaspored && dogadjajLst.odobren) {
+        if (
+          (dogadjaj.vrijemeOd >= dogadjajLst.vrijemeOd && dogadjaj.vrijemeOd < dogadjajLst.vrijemeDo) ||
+          (dogadjaj.vrijemeDo > dogadjajLst.vrijemeOd && dogadjaj.vrijemeDo <= dogadjajLst.vrijemeDo) ||
+          (dogadjaj.vrijemeOd <= dogadjajLst.vrijemeOd && dogadjaj.vrijemeDo >= dogadjajLst.vrijemeDo)
+        ) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
 

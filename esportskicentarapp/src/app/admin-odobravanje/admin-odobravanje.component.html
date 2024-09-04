@@ -7,20 +7,17 @@
             <p-card class="main-card" header="{{dog.dnevniRaspored.datum}}">
                 <div class="task-card-container">
                     <div class="task-card-content">
-                        <!--DODATI PROVJERU DA LI SE DOGADJAJ MOZE ODOBRITI-->
-                        <!--<h4 [ngClass]="danasnjiDatum.getTime() <= parseDate(zad.rokIzvrsenja).getTime() ? 'available' : 'not-available'">
-                            Rok izvrsenja: {{zad.rokIzvrsenja}}
-                        </h4>-->
-                        <h5>Vrijeme početka: {{dog.vrijemeOd}} </h5>
-                        <h5>Vrijeme kraja: {{dog.vrijemeDo}}</h5>
+                        <h4 [ngClass]="checkTimeDogadjaj(dog) ? 'available' : 'not-available'">
+                            {{checkTimeDogadjaj(dog) ? 'Slobodan termin' : 'Zauzet termin'}}
+                        </h4>
+                        <h5>{{dog.vrijemeOd.substring(0, 5)}} - {{dog.vrijemeDo.substring(0, 5)}}</h5>
                         <p class="m-0">
                             {{dog.infoDogadjaja}}
                         </p>
                     </div>
                     <div class="task-card-side-content">
                         <div class="btns">
-                            <!--AKO IMA PREKLAPANJA TERMINA, ODOBRI DUGME NIJE DOSTUPNO-->
-                            <p-button severity="success" class="good-btn" label="Odobri"></p-button>
+                            <p-button [disabled]="!checkTimeDogadjaj(dog)" severity="success" class="good-btn" label="Odobri"></p-button>
                             <p-button severity="danger" class="false-btn" label="Odbij"></p-button>
                         </div>
                     </div>
