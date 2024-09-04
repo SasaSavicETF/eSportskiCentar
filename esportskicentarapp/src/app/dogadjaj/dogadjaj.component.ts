@@ -84,7 +84,7 @@ export class DogadjajComponent implements OnInit{
   
 
   //selectedKlijent: Klijent | null = this.klijentService.activeUser;
-  klijentZaMail: string | null = this.selectedKlijent?.email || "";
+  klijentZaMail: string | null = null;
 
 
   danasnjiDatum: Date = new Date();
@@ -122,6 +122,8 @@ export class DogadjajComponent implements OnInit{
         this.selectedKlijent = new Klijent(this.ulazniKlijent?.ime || "", this.ulazniKlijent?.prezime || "", this.ulazniKlijent?.korisnickoIme || "", this.ulazniKlijent?.lozinka || "",
           this.ulazniKlijent?.brojTelefona || "", this.ulazniKlijent?.email || "", "klijent");
         this.selectedKlijent.idKlijent = this.ulazniKlijent.id;
+        this.klijentZaMail = this.selectedKlijent?.email || "";
+        console.log(this.klijentZaMail);
       }
     }
 
@@ -132,6 +134,16 @@ export class DogadjajComponent implements OnInit{
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('added') === 'true') {
         console.log("Dogadjaj je uspješno dodan.");
+        const email = urlParams.get('email');
+        const cijena = urlParams.get('cijena');
+
+        if (email && cijena) {
+          const emailObj = new Email(email, `Zahtjev za rezervaciju dogadjaja je uspjesno prosljedjen. Cijena usluge je: ${cijena} KM`);
+    
+          this.emailService.sendEmail(emailObj).subscribe(response => {
+          console.log('Email sent.');
+          });
+        }
         history.replaceState(null, '', window.location.pathname);
         setTimeout(() => {
           this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
@@ -664,7 +676,7 @@ export class DogadjajComponent implements OnInit{
     }
     console.log(this.isOdobren);
     console.log(this.selectedKlijent?.email);
-    this.klijentZaMail = this.selectedKlijent?.email || "";
+    //this.klijentZaMail = this.selectedKlijent?.email || "";
     addForm.form.get('dnevniRaspored')?.setValue(this.selectedDnevniRaspored);
     this.dogadjajService.addDogadjaj(addForm.value).subscribe(
       (response: Dogadjaj) =>
@@ -672,15 +684,29 @@ export class DogadjajComponent implements OnInit{
         //this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
         this.getDogadjajs();
         console.log(this.klijentZaMail);
-        if(this.klijentZaMail !== null)
+        /*if(this.klijentZaMail !== null)
         {
           console.log('BBBBB');
-          const email = new Email(this.klijentZaMail, "Zahtjev za rezervaciju dogadjaja je uspjesno prosljedjen. Cijena usluge je: " + this.cijena);
+          const email = new Email(this.klijentZaMail, "Zahtjev za rezervaciju dogadjaja je uspjesno prosljedjen. Cijena usluge je: " + this.cijena + "KM");
           this.emailService.sendEmail(email).subscribe(response => {
             console.log('Email sent.');
+            window.location.href = window.location.href.split('?')[0] + '?added=true';
           });
+        }*/
+          if(this.klijentZaMail !== null) {
+            console.log('BBBBB');
+            const email = new Email(this.klijentZaMail, "Zahtjev za rezervaciju dogadjaja je uspjesno prosljedjen. Cijena usluge je: " + this.cijena + "KM");
+            
+            // Dodavanje email-a i cijene kao URL parametara
+            const newUrl = `${window.location.href.split('?')[0]}?added=true&email=${encodeURIComponent(this.klijentZaMail)}&cijena=${this.cijena}`;
+            
+            // Postavi novi URL i osveži stranicu
+            window.location.href = newUrl;
+          }
+          
+        else {
+          window.location.href = window.location.href.split('?')[0] + '?added=true';
         }
-        window.location.href = window.location.href.split('?')[0] + '?added=true';
       },
       (error: HttpErrorResponse) =>
       {
