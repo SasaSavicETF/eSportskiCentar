@@ -74,7 +74,7 @@ public class DogadjajService {
         Date dateDodgadjaj = dnevniRasporedRepository.findById(idDR).orElse(dogadjaj.getDnevniRaspored()).getDatum();
         for (Dogadjaj d : dogadjajs)
         {
-            if(Util.equalsYearMonthDay(dateDodgadjaj, d.getDnevniRaspored().getDatum()))
+            if(Util.equalsYearMonthDay(dateDodgadjaj, d.getDnevniRaspored().getDatum()) && d.isOdobren())
             {
                 if((dogadjaj.getVrijemeOd().compareTo(d.getVrijemeOd()) >= 0 && dogadjaj.getVrijemeOd().compareTo(d.getVrijemeDo()) < 0) ||
                         (dogadjaj.getVrijemeDo().compareTo(d.getVrijemeOd()) > 0  && dogadjaj.getVrijemeDo().compareTo(d.getVrijemeDo()) <= 0))
