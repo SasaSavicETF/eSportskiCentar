@@ -15,7 +15,10 @@ import { KlijentService } from '../services/klijent.service';
 export class DogadjajPregledComponent implements OnInit{
 
   public dogadjajs : Dogadjaj[] = [];
+  public paginatedDogadjajs: Dogadjaj[] = [];
   deleteVisible: boolean = false;
+  currentPage: number = 0;
+  rowsPerPage: number = 6;
 
   public delDogadjaj: Dogadjaj | undefined;
   public delIdDogadjaj: number = -1;
@@ -40,6 +43,7 @@ export class DogadjajPregledComponent implements OnInit{
         alert(error.message);
       }
     );
+    this.updatePaginatedDogadjajs();
   //}
   }
 
@@ -69,5 +73,21 @@ export class DogadjajPregledComponent implements OnInit{
   {
     this.deleteVisible = false;
   }
+
+  paginate(event: any) {
+    this.currentPage = event.first;
+    this.updatePaginatedDogadjajs();
+  }
+
+  updatePaginatedDogadjajs() {
+    const totalPages = Math.ceil(this.dogadjajs.length / this.rowsPerPage);
+    if (this.currentPage >= totalPages) {
+        this.currentPage = (totalPages - 1) * this.rowsPerPage;
+    }
+   
+    const startIndex = this.currentPage;
+    const endIndex = startIndex + this.rowsPerPage;
+    this.paginatedDogadjajs = this.dogadjajs.slice(startIndex, endIndex);
+}
 
 }

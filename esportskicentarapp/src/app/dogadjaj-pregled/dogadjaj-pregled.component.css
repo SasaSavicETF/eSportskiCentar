@@ -17,7 +17,7 @@
     border-radius: 25px !important; 
     width: 361px; 
     height: 220px;
-    border: 2px solid black; 
+    border: 1px solid #DDDDDD;
     position: relative;
 } 
 
@@ -31,7 +31,7 @@
 ::ng-deep .p-card-content { 
     font-size: 14px;  
     color: black; 
-    max-height: 80px;
+    max-height: 70px;
     padding: 0px;
     overflow-y: auto;
     overflow-x: hidden;
@@ -72,6 +72,7 @@
 
 .card-container {
     display: inline-block;
+    vertical-align: top;
     width: 361px; 
     height: 220px;
     margin: 10px;
@@ -79,4 +80,29 @@
 
 .card-content {
     margin: 0px;
+}
+  
+  /* Optional: Customize scrollbar appearance */
+  ::ng-deep .p-card-content::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::ng-deep .p-card-content::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+  
+  ::ng-deep .p-card-content::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+
+  .scndBtn
+{
+    margin-right: 15px;
+}
+
+.addBtn
+{
+    float: right;
+    margin-top: 8px;
 }

@@ -5,7 +5,7 @@
             <h1>Pregled događaja</h1>
         </div>
         <div class="cards-container">
-            <div *ngFor="let dogadjaj of dogadjajs" class="card-container">
+            <div *ngFor="let dogadjaj of paginatedDogadjajs" class="card-container">
                 <p-card>
                     <ng-template pTemplate="title">
                         {{dogadjaj.takmicenje.vrstaTakmicenja}}<br />
@@ -25,6 +25,27 @@
                     </ng-template>
                 </p-card>
             </div>
+
+            <p-paginator
+             [rows]="6" 
+             [totalRecords]="dogadjajs.length" 
+             [first]="currentPage"
+             [showCurrentPageReport]="true"
+             paginatorLocale="en-US"
+             currentPageReportTemplate="Prikazano od {first}. do {last}. od ukupno {totalRecords} zapisa"
+             (onPageChange)="paginate($event)"></p-paginator>
+
         </div>
     </div>
 </div>
+
+<p-dialog header="Upozorenje" [(visible)]="deleteVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+    <div class="container">
+        <p>Da li zaista želite da obrišete zapis?</p>
+        <br>
+        <div class="addBtn">
+            <p-button (onClick)="closeDeleteDialog()" class="scndBtn" label="Odustani" severity="secondary"></p-button>
+            <p-button (onClick)="onDeleteDogadjaj(delIdDogadjaj)" label="Obriši" severity="danger"></p-button>
+        </div>
+    </div>
+</p-dialog>

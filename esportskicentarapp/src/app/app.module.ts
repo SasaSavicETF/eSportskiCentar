@@ -41,6 +41,7 @@ import { TimelineModule } from 'primeng/timeline';
 import { CardModule } from 'primeng/card';
 import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radnik-index.component';
 import { DogadjajPregledComponent } from './dogadjaj-pregled/dogadjaj-pregled.component'
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import { DogadjajPregledComponent } from './dogadjaj-pregled/dogadjaj-pregled.co
     ImageModule,
     CalendarModule,
     TimelineModule,
-    CardModule
+    CardModule,
+    PaginatorModule
   ],
   providers: [
     provideClientHydration()
