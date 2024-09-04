@@ -42,6 +42,7 @@ import { CardModule } from 'primeng/card';
 import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radnik-index.component';
 import { DogadjajPregledComponent } from './dogadjaj-pregled/dogadjaj-pregled.component'
 import { PaginatorModule } from 'primeng/paginator';
+import { AdminOdobravanjeComponent } from './admin-odobravanje/admin-odobravanje.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { PaginatorModule } from 'primeng/paginator';
     RegisterComponent,
     HeaderComponent,
     DezurniRadnikIndexComponent,
-    DogadjajPregledComponent
+    DogadjajPregledComponent,
+    AdminOdobravanjeComponent
   ],
   imports: [
     BrowserModule,

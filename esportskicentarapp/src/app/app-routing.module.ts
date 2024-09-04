@@ -24,6 +24,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radnik-index.component';
 import { DogadjajPregledComponent } from './dogadjaj-pregled/dogadjaj-pregled.component';
+import { AdminOdobravanjeComponent } from './admin-odobravanje/admin-odobravanje.component';
 
 
 const routes: Routes = [
@@ -50,6 +51,7 @@ const routes: Routes = [
   { path: 'upravnik', component: UpravnikComponent},
   { path: 'zadatak', component: ZadatakComponent},
   { path: 'radnik/zadaci', component: DezurniRadnikIndexComponent},
+  { path: 'admin/odabirDogadjaja', component: AdminOdobravanjeComponent},
   { path: '**', component: PageNotFoundComponent}
 ];
 
