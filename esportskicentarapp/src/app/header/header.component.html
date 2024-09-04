@@ -14,14 +14,10 @@
 </header>
 
 <div class="sidenav" *ngIf="showSidenav">
-    <!--
-        To change the background color of a link when it is clicked in the sidenav, you can use Angular's routerLinkActive directive. 
-        This directive applies a CSS class to the link when it is active (i.e., when its route is currently loaded). 
-    -->
     <a routerLink="/dogadjaj" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-server"></i>
             </div>
             <div class="column">
                 <p class="title">Dodavanje događaja</p>
@@ -32,7 +28,7 @@
     <a routerLink="/dogadjajPregled" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-server"></i>
             </div>
             <div class="column">
                 <p class="title">Pregled događaja</p>
@@ -43,7 +39,7 @@
     <a routerLink="/admin/odabirDogadjaja" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-server"></i>
             </div>
             <div class="column">
                 <p class="title">Odobravanje događaja</p>
@@ -54,7 +50,7 @@
     <a routerLink="/takmicenje" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <img class="pi" src="/assets/img/trophy.png">
             </div>
             <div class="column">
                 <p class="title">Registracija lige/turnira</p>
@@ -65,7 +61,7 @@
     <a routerLink="/zadatak" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-send"></i>
             </div>
             <div class="column">
                 <p class="title">Slanje zadatka</p>
@@ -76,7 +72,7 @@
     <a routerLink="/radnik/zadaci" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-check-square"></i>
             </div>
             <div class="column">
                 <p class="title">Zadatak radnika</p>
@@ -87,7 +83,7 @@
     <a routerLink="/cjenovnik" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-calculator"></i> 
             </div>
             <div class="column">
                 <p class="title">Cjenovnik</p>
@@ -98,7 +94,7 @@
     <a routerLink="/grad" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-building"></i>
             </div>
             <div class="column">
                 <p class="title">Grad</p>
@@ -109,7 +105,7 @@
     <a routerLink="/inventar" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-truck"></i>
             </div>
             <div class="column">
                 <p class="title">Inventar</p>
@@ -120,7 +116,7 @@
     <a routerLink="/raspored" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-calendar"></i> 
             </div>
             <div class="column">
                 <p class="title">Raspored</p>
@@ -131,7 +127,7 @@
     <a routerLink="/dnevniRaspored" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-calendar"></i> 
             </div>
             <div class="column">
                 <p class="title">Dnevni raspored</p>
@@ -142,7 +138,7 @@
     <a routerLink="/dvorana" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-home"></i>
             </div>
             <div class="column">
                 <p class="title">Dvorana</p>
@@ -153,7 +149,7 @@
     <a routerLink="/sport" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <img class="pi" src="/assets/img/sports.png">
             </div>
             <div class="column">
                 <p class="title">Sport</p>
@@ -164,7 +160,7 @@
     <a routerLink="/ulaz" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <img class="pi" src="/assets/img/double-door.png">
             </div>
             <div class="column">
                 <p class="title">Ulaz</p>
@@ -175,7 +171,7 @@
     <a routerLink="/svlacionica" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <img class="pi" src="/assets/img/school.png">
             </div>
             <div class="column">
                 <p class="title">Svlačionica</p>
@@ -186,7 +182,7 @@
     <a routerLink="/ekipa" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-users"></i>
             </div>
             <div class="column">
                 <p class="title">Ekipa</p>
@@ -197,7 +193,7 @@
     <a routerLink="/teren" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <img class="pi" src="/assets/img/field.png">
             </div>
             <div class="column">
                 <p class="title">Teren</p>
@@ -208,7 +204,7 @@
     <a routerLink="/tipterena" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-server"></i>
             </div>
             <div class="column">
                 <p class="title">Tip terena</p>
@@ -219,7 +215,7 @@
     <a routerLink="/dezurniRadnik" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-wrench"></i>
             </div>
             <div class="column">
                 <p class="title">Dežurni radnik</p>
@@ -230,7 +226,7 @@
     <a routerLink="/upravnik" routerLinkActive="active" (click)="toggleSidenav()">
         <div class="content">
             <div class="column">
-                <img class="user-icon" src="/assets/img/user.jpg">
+                <i class="pi pi-briefcase"></i>
             </div>
             <div class="column">
                 <p class="title">Upravnik</p>
