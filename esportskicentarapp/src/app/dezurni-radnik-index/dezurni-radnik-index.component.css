@@ -24,13 +24,14 @@ hr {
 
   ::ng-deep .main-btn .p-button{
     background: rgba(50, 0, 128, 0.603) !important;
+    border: 1px solid white;
     /*border: 1px solid blueviolet;
     background: rgba(9, 0, 128, 0.603);
     border: 1px solid #ddd;*/
     color: white !important;
   }
 
-
+/*
 ::ng-deep .false-btn .p-button:hover {
     background: #c82333 !important;
 }
@@ -41,7 +42,7 @@ hr {
     
     color: white !important;
   }
-
+*/
 
 ::ng-deep .main-btn .p-button:hover {
     background: rgba(70, 0, 128, 0.803) !important;

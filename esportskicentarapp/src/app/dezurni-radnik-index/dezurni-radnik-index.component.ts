@@ -16,7 +16,7 @@ export class DezurniRadnikIndexComponent implements OnInit
   public zadataks: Zadatak[] = [];
 
   public opcijas: string[] = ['Svi', 'Zavrseni', 'Potrebno uraditi'];
-  public selectedOpcija = this.opcijas[0];
+  public selectedOpcija = "";
 
   //public mainContentVisible: boolean = false;
 
@@ -28,7 +28,7 @@ export class DezurniRadnikIndexComponent implements OnInit
 
   ngOnInit(): void 
   {
-    this.getZadataks();
+    //this.loadZadataks();
   }
 
   public getZadataks(): void
@@ -58,6 +58,8 @@ export class DezurniRadnikIndexComponent implements OnInit
       const filteredZadataks: Zadatak[] = [];
       for(let zad of this.zadataks)
       {
+        zad.rokIzvrsenja = this.dateToString(DezurniRadnikIndexComponent.normalizeDate(this.stringToDate(zad.rokIzvrsenja)));
+        zad.datumKreiranja = this.dateToString(DezurniRadnikIndexComponent.normalizeDate(this.stringToDate(zad.datumKreiranja)));
         console.log(this.selectedOpcija);
         if(this.selectedOpcija == this.opcijas[0])
         {
@@ -93,6 +95,7 @@ export class DezurniRadnikIndexComponent implements OnInit
   public onUpdateZadatak(zadatak: Zadatak, obavljen: boolean): void
   {
     zadatak.zavrsen = obavljen;
+    
     this.zadatakService.updateZadatak(zadatak).subscribe(
       (response: Zadatak) =>
       {
@@ -105,6 +108,72 @@ export class DezurniRadnikIndexComponent implements OnInit
         alert(error.message);
       }
     );
+  }
+
+  public stringToDate(dateString: string): Date 
+  {
+    const [day, month, year] = dateString.split('.').map(Number);
+    return new Date(year, month - 1, day); // Mjeseci su 0-indeksirani u JavaScriptu
+  }
+
+
+  public dateToString(date: Date): string 
+  {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Mjeseci su 0-indeksirani u JavaScriptu
+    const year = date.getFullYear();
+    
+    return `${day}.${month}.${year}`;
+  }
+
+
+
+  public static normalizeDate(date1: Date): Date
+  {
+    let dan: number = date1.getDate();
+    let mjesec: number = date1.getMonth();
+    let godina: number = date1.getFullYear();
+
+    if (date1.getMonth() == 1) 
+    {
+      if (date1.getDate() == 28) {
+          if ((date1.getFullYear() % 4 == 0 && date1.getFullYear() % 100 != 0) || date1.getFullYear() % 400 == 0) {
+            dan = 29;
+          } else {
+            dan = 1;
+            mjesec = 2;
+          }
+      } else if (date1.getDate() == 29) {
+          dan = 1;
+          mjesec = 2;
+      }
+    }
+    else if (date1.getDate() == 30 && (date1.getMonth() == 3 || date1.getMonth() == 5 || date1.getMonth() == 8 || date1.getMonth() == 10)) 
+    {
+      dan = 1;
+      mjesec = date1.getMonth() + 1;
+    }
+    else if (date1.getDate() == 31) 
+    {
+      if (date1.getMonth() == 11) {
+          dan = 1;
+          mjesec = 0;
+          godina = date1.getFullYear();
+      } else {
+        dan = 1;
+        mjesec = date1.getMonth() + 1;
+      }
+    }
+    else
+    {
+      dan = date1.getDate() + 1;
+    }
+
+    date1.setDate(dan);
+    date1.setMonth(mjesec);
+    date1.setFullYear(godina);
+
+    return date1;
   }
 
 

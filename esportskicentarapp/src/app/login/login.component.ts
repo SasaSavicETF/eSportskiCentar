@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { KlijentService } from '../services/klijent.service';
-import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-login',
@@ -19,11 +18,15 @@ export class LoginComponent {
 
     this.klijentService.loginUser(this.username, this.password).subscribe({
       next: response => {
+        if (localStorage !== undefined){
+          localStorage.removeItem('activeUser');
+          localStorage.setItem('activeUser', JSON.stringify(response));
+        }
         this.klijentService.activeUser = response;
         this.router.navigate(['/teren']); 
       },
       error: error => {
-        alert("Uneseni kred!");
+        alert("Uneseni kredencijali nisu validni!");
       }
     });
     

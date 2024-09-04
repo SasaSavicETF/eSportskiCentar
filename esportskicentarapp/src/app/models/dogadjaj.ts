@@ -20,4 +20,5 @@ export interface Dogadjaj {
     cijena: number;
     klijent: Klijent;
     sport: Sport;
+    odobren: boolean;
 }
