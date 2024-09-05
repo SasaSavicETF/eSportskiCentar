@@ -92,6 +92,17 @@ h3 {
     margin-top: 20px;
 }
 
+.container-del 
+{
+    padding: 20px;
+}
+
+.addBtn-del
+{
+    float: right;
+    margin-top: 8px;
+}
+
 
 
 @media (max-width: 768px) {

@@ -18,6 +18,12 @@ export class AdminOdobravanjeComponent implements OnInit
   public dogadjajs: Dogadjaj[] = [];
   public allDogadjajs: Dogadjaj[] = [];
 
+  deleteVisible: boolean = false;
+
+  public delDogadjaj: Dogadjaj | undefined;
+
+  public delIdDogadjaj: number = -1;
+
   constructor(private dogadjajService: DogadjajService, private messageService: MessageService, private emailService: EmailService) { }
 
   ngOnInit(): void 
@@ -86,6 +92,38 @@ export class AdminOdobravanjeComponent implements OnInit
   }
 
   //LOGIKA ZA BRISANJE
+
+  public onDeleteDogadjaj(idDogadjaj: number, dog: Dogadjaj | undefined): void {
+    this.deleteVisible = false;
+    this.dogadjajService.deleteDogadjaj(idDogadjaj).subscribe(
+      (response: void) => {
+        this.messageService.add({ severity: 'success', summary: 'Uspješno brisanje', detail: 'Događaj je obrisan sa sistema!' });
+        if(dog?.klijent.email !== null)
+        {
+            const email = new Email(dog?.klijent.email || "", `Vaša rezervacija događaja za teren ${dog?.teren.nazivTerena} za datum ${this.dateToString(this.normalizeDate(this.stringToDate(dog?.dnevniRaspored?.datum || "")))} je ODBIJENA! \nMolimo Vas da izaberete neki drugi termin!.`);
+  
+            this.emailService.sendEmail(email).subscribe(response => {
+              console.log('Email sent.');
+            });
+        }
+        this.loadDogadjajs();
+      },
+      (error: HttpErrorResponse) => {
+        this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u brisanju događaja' });
+        alert(error.message);
+      }
+    );
+  }
+
+  showDeleteDialog(dogadjaj: Dogadjaj) {
+    this.deleteVisible = true;
+    this.delDogadjaj = { ...dogadjaj };
+    this.delIdDogadjaj = this.delDogadjaj.idDogadjaj;
+  }
+
+  closeDeleteDialog() {
+    this.deleteVisible = false;
+  }
 
   //OBE UKLJUCUJU SLANJE MEJLA
 

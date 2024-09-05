@@ -18,7 +18,7 @@
                     <div class="task-card-side-content">
                         <div class="btns">
                             <p-button [disabled]="!checkTimeDogadjaj(dog)" (onClick)="onUpdateDogadjaj(dog)" severity="success" class="good-btn" label="Odobri"></p-button>
-                            <p-button severity="danger" class="false-btn" label="Odbij"></p-button>
+                            <p-button severity="danger" (onClick)="showDeleteDialog(dog)" class="false-btn" label="Odbij"></p-button>
                         </div>
                     </div>
                 </div>
@@ -27,3 +27,14 @@
         </div>
     </div>
 </div>
+
+<p-dialog header="Upozorenje" [(visible)]="deleteVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+    <div class="container-del">
+        <p>Da li zaista želite da obrišete događaj za {{delDogadjaj?.infoDogadjaja}}</p>
+        <br>
+        <div class="addBtn-del">
+            <p-button (onClick)="closeDeleteDialog()" class="scndBtn" label="Odustani" severity="secondary"></p-button>
+            <p-button (onClick)="onDeleteDogadjaj(delIdDogadjaj, delDogadjaj)" label="Obriši" severity="danger"></p-button>
+        </div>
+    </div>
+</p-dialog>
