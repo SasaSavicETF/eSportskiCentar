@@ -4,7 +4,7 @@
     <!--*ngIf="mainContentVisible"-->
     <div>
         <div *ngFor="let dog of dogadjajs" class="card flex justify-content-center">
-            <p-card class="main-card" header="{{dog.dnevniRaspored.datum}}">
+            <p-card class="main-card" header="{{dateToString(normalizeDate(stringToDate(dog.dnevniRaspored.datum)))}}">
                 <div class="task-card-container">
                     <div class="task-card-content">
                         <h4 [ngClass]="checkTimeDogadjaj(dog) ? 'available' : 'not-available'">
@@ -17,7 +17,7 @@
                     </div>
                     <div class="task-card-side-content">
                         <div class="btns">
-                            <p-button [disabled]="!checkTimeDogadjaj(dog)" severity="success" class="good-btn" label="Odobri"></p-button>
+                            <p-button [disabled]="!checkTimeDogadjaj(dog)" (onClick)="onUpdateDogadjaj(dog)" severity="success" class="good-btn" label="Odobri"></p-button>
                             <p-button severity="danger" class="false-btn" label="Odbij"></p-button>
                         </div>
                     </div>
