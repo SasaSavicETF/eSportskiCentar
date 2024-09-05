@@ -38,7 +38,7 @@ export class KlijentService {
     if (localStorage !== undefined)
       localStorage.removeItem('activeUser');
 
-    this.router.navigate(['/login']);
+    this.router.navigate(['/index']);
   }
 
 }

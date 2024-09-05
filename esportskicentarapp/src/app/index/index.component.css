@@ -1,6 +1,6 @@
 .pozadina {
   position: absolute;
-  top: 0;
+  top: 80px;
   left: 0;
   background-image: url('/assets/img/bc2.jpg');
   background-size: cover;
