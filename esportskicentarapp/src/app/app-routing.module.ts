@@ -25,6 +25,7 @@ import { RegisterComponent } from './register/register.component';
 import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radnik-index.component';
 import { DogadjajPregledComponent } from './dogadjaj-pregled/dogadjaj-pregled.component';
 import { AdminOdobravanjeComponent } from './admin-odobravanje/admin-odobravanje.component';
+import { IndexComponent } from './index/index.component';
 
 
 const routes: Routes = [
@@ -48,6 +49,7 @@ const routes: Routes = [
   { path: 'ekipa', component: EkipaComponent},
   { path: 'tipterena', component: TipTerenaComponent},
   { path: 'teren', component: TerenComponent},
+  { path: 'index', component: IndexComponent},
   { path: 'upravnik', component: UpravnikComponent},
   { path: 'zadatak', component: ZadatakComponent},
   { path: 'radnik/zadaci', component: DezurniRadnikIndexComponent},

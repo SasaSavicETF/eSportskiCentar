@@ -29,10 +29,15 @@ export class HeaderComponent implements OnInit {
   }
 
   updateHeaderVisibility() {
-    if (this.currentRoute === '/login' || this.currentRoute === '/register') {
+    if (this.currentRoute === '/login' || this.currentRoute === '/register' || this.currentRoute === '/index') {
       this.showHeader = false;
       this.showSidenav = false;
     }
+    /*else if(this.currentRoute === '/index')
+    {
+      this.showSidenav = false;
+      this.showHeader = true;
+    }*/
     else{
       this.showHeader = true;
       //this.showSidenav = true;

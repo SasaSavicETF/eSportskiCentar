@@ -43,6 +43,7 @@ import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radn
 import { DogadjajPregledComponent } from './dogadjaj-pregled/dogadjaj-pregled.component'
 import { PaginatorModule } from 'primeng/paginator';
 import { AdminOdobravanjeComponent } from './admin-odobravanje/admin-odobravanje.component';
+import { IndexComponent } from './index/index.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { AdminOdobravanjeComponent } from './admin-odobravanje/admin-odobravanje
     HeaderComponent,
     DezurniRadnikIndexComponent,
     DogadjajPregledComponent,
-    AdminOdobravanjeComponent
+    AdminOdobravanjeComponent,
+    IndexComponent
   ],
   imports: [
     BrowserModule,
