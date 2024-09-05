@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
     }
     else if(this.currentRoute === '/index')
     {
-      this.showHeader = true;
+      this.showHeader = false;
       this.showSidenav = false;
       this.showUserIcon = false;
     }
