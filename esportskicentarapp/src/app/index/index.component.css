@@ -71,10 +71,45 @@ hr {
   margin-left: -20%;
 }
 
+.opis {
+  width: 50%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #6e6e6e; /* Siva nijansa teksta */
+}
+
+.opis h1 {
+  font-size: 28px; /* Smanjeni naslov */
+  text-align: right;
+  margin-right: 20px;
+  color: #464646;
+}
+
+.opis .paragrafi {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 2px solid #ddd; /* Siva vertikalna linija */
+  padding-left: 20px;
+}
+
+.opis p {
+  font-size: 18px; /* Povećani font paragrafa */
+  text-align: justify;
+}
+
 @media (max-width: 768px) {
   .navigacija {
     margin-top: -20px;
     top: 0;
+    margin-left: 0px;
+  }
+
+  .navigacija h2{
+    font-size: 20px;
+    margin-left: 1px;
   }
 
   .naslov h1{
@@ -96,5 +131,31 @@ hr {
     margin-top: 15vh;
     /*background-color: rgba(11, 11, 11, 0.3);*/
     /*background-color: rgba(11, 11, 11, 0.5);*/
+  }
+
+  
+}
+
+@media (max-width: 1000px) 
+{
+  .opis {
+    flex-direction: column;
+    width: 90%; /* Na mobilnim uređajima zauzima celu širinu */
+    padding: 0 10px;
+  }
+
+  .opis h1 {
+    font-size: 20px;
+    text-align: center;
+    margin-right: 0;
+  }
+
+  .opis .paragrafi {
+    border-left: none; /* Uklanja liniju na mobilnim uređajima */
+    padding-left: 0;
+  }
+
+  .opis p {
+    font-size: 16px;
   }
 }
