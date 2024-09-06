@@ -73,7 +73,7 @@ hr {
 
 .opis {
   width: 50%;
-  margin: 0 auto;
+  margin: 30px auto;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -99,6 +99,57 @@ hr {
   font-size: 18px; /* Povećani font paragrafa */
   text-align: justify;
 }
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.card img {
+  width: 100%;
+  height: 200px; /* Postavite visinu slike, a širina će se prilagoditi */
+  object-fit: cover; /* Da bi se slika skalirala bez izobličenja */
+}
+
+a {
+  color: rgba(50, 0, 128, 0.993); /* Postavlja ljubičastu boju za linkove */
+  text-decoration: none; /* Uklanja podvlačenje */
+}
+
+a:hover {
+  text-decoration: none; /* Uklanja podvlačenje i na hover */
+}
+
+
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.text-anim {
+  animation: slideInFromLeft 1s ease-out;
+}
+
+
+@media screen and (max-width: 1200px) {
+  .card-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .content{
+    margin-left: -20%;
+  }
+}
+
 
 @media (max-width: 768px) {
   .navigacija {
@@ -133,7 +184,10 @@ hr {
     /*background-color: rgba(11, 11, 11, 0.5);*/
   }
 
-  
+  .card-container {
+    grid-template-columns: repeat(1, 1fr);
+    /*max-width: 200px;*/
+  }
 }
 
 @media (max-width: 1000px) 
