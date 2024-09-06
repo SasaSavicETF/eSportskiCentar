@@ -44,6 +44,9 @@ import { DogadjajPregledComponent } from './dogadjaj-pregled/dogadjaj-pregled.co
 import { PaginatorModule } from 'primeng/paginator';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { ChartModule } from 'primeng/chart';
+import { AdminOdobravanjeComponent } from './admin-odobravanje/admin-odobravanje.component';
+import { IndexComponent } from './index/index.component';
+
 
 @NgModule({
   declarations: [
@@ -71,7 +74,10 @@ import { ChartModule } from 'primeng/chart';
     HeaderComponent,
     DezurniRadnikIndexComponent,
     DogadjajPregledComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    AdminOdobravanjeComponent,
+    IndexComponent
+
   ],
   imports: [
     BrowserModule,

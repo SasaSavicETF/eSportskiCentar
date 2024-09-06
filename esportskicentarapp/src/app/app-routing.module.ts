@@ -25,6 +25,8 @@ import { RegisterComponent } from './register/register.component';
 import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radnik-index.component';
 import { DogadjajPregledComponent } from './dogadjaj-pregled/dogadjaj-pregled.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { AdminOdobravanjeComponent } from './admin-odobravanje/admin-odobravanje.component';
+import { IndexComponent } from './index/index.component';
 
 const routes: Routes = [
   //ovo prvo je samo privremeno
@@ -32,7 +34,7 @@ const routes: Routes = [
   { path: 'cjenovnik', component: CjenovnikComponent},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/index', pathMatch: 'full' },
   { path: 'grad', component: GradComponent},
   { path: 'inventar', component: InventarComponent},
   { path: 'dnevniRaspored', component: DnevniRasporedComponent},
@@ -48,9 +50,11 @@ const routes: Routes = [
   { path: 'ekipa', component: EkipaComponent},
   { path: 'tipterena', component: TipTerenaComponent},
   { path: 'teren', component: TerenComponent},
+  { path: 'index', component: IndexComponent},
   { path: 'upravnik', component: UpravnikComponent},
   { path: 'zadatak', component: ZadatakComponent},
   { path: 'radnik/zadaci', component: DezurniRadnikIndexComponent},
+  { path: 'admin/odabirDogadjaja', component: AdminOdobravanjeComponent},
   { path: '**', component: PageNotFoundComponent}
 ];
 

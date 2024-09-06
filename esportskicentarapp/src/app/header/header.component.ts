@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
   showHeader: boolean = false;
   showSidenav: boolean = false;
   showMenu: boolean = false;
+  showUserIcon: boolean = false;
   showHideButton: boolean = false;
 
   constructor(private router: Router, private userService : KlijentService, @Inject(PLATFORM_ID) private platformId: Object) {}
@@ -32,9 +33,17 @@ export class HeaderComponent implements OnInit {
     if (this.currentRoute === '/login' || this.currentRoute === '/register') {
       this.showHeader = false;
       this.showSidenav = false;
+      this.showUserIcon = false;
+    }
+    else if(this.currentRoute === '/index')
+    {
+      this.showHeader = false;
+      this.showSidenav = false;
+      this.showUserIcon = false;
     }
     else{
       this.showHeader = true;
+      this.showUserIcon = true;
       //this.showSidenav = true;
       if (isPlatformBrowser(this.platformId))
         this.onResize();
@@ -52,7 +61,7 @@ export class HeaderComponent implements OnInit {
 
   @HostListener('window:resize')
   onResize() {
-    if (this.currentRoute !== '/login' && this.currentRoute !== '/register'
+    if (this.currentRoute !== '/login' && this.currentRoute !== '/register' && this.currentRoute !== '/index'
                 && window.innerWidth > 768) // Show if width is greater than 768px
               this.showSidenav = true;
     else
@@ -64,6 +73,6 @@ export class HeaderComponent implements OnInit {
       this.showSidenav = !this.showSidenav; 
       this.showHideButton = !this.showHideButton;
     }
-}
+  }
 
 }

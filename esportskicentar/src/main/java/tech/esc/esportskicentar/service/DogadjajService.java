@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
+//@Transactional
 public class DogadjajService {
 
     private final DogadjajRepository dogadjajRepository;
@@ -55,6 +55,7 @@ public class DogadjajService {
 
     public Dogadjaj addDogadjaj(Dogadjaj dogadjaj)
     {
+        //System.out.println(dogadjaj.getKlijent().getIdKlijent());
         if(dogadjaj.getSport() != null)
         {
             if(!dogadjaj.getSport().getTipTerena().getNazivTipaTerena().equals(dogadjaj.getTeren().getTipTerena().getNazivTipaTerena()))
@@ -73,7 +74,7 @@ public class DogadjajService {
         Date dateDodgadjaj = dnevniRasporedRepository.findById(idDR).orElse(dogadjaj.getDnevniRaspored()).getDatum();
         for (Dogadjaj d : dogadjajs)
         {
-            if(Util.equalsYearMonthDay(dateDodgadjaj, d.getDnevniRaspored().getDatum()))
+            if(Util.equalsYearMonthDay(dateDodgadjaj, d.getDnevniRaspored().getDatum()) && d.isOdobren())
             {
                 if((dogadjaj.getVrijemeOd().compareTo(d.getVrijemeOd()) >= 0 && dogadjaj.getVrijemeOd().compareTo(d.getVrijemeDo()) < 0) ||
                         (dogadjaj.getVrijemeDo().compareTo(d.getVrijemeOd()) > 0  && dogadjaj.getVrijemeDo().compareTo(d.getVrijemeDo()) <= 0))

@@ -5,6 +5,7 @@ import { Teren } from "./teren";
 import { Takmicenje } from "./takmicenje";
 import { Klijent } from "./klijent";
 import { Sport } from "./sport";
+import { UserDTO } from "./user-dto";
 
 export interface Dogadjaj {
 

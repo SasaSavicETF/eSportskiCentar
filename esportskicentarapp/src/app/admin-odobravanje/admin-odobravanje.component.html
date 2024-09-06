@@ -1,0 +1,40 @@
+<div class="main-content">
+    <h1>Događaji</h1>
+    <hr>
+    <!--*ngIf="mainContentVisible"-->
+    <div>
+        <div *ngFor="let dog of dogadjajs" class="card flex justify-content-center">
+            <p-card class="main-card" header="{{dateToString(normalizeDate(stringToDate(dog.dnevniRaspored.datum)))}}">
+                <div class="task-card-container">
+                    <div class="task-card-content">
+                        <h4 [ngClass]="checkTimeDogadjaj(dog) ? 'available' : 'not-available'">
+                            {{checkTimeDogadjaj(dog) ? 'Slobodan termin' : 'Zauzet termin'}}
+                        </h4>
+                        <h5>{{dog.vrijemeOd.substring(0, 5)}} - {{dog.vrijemeDo.substring(0, 5)}}</h5>
+                        <p class="m-0">
+                            {{dog.infoDogadjaja}}
+                        </p>
+                    </div>
+                    <div class="task-card-side-content">
+                        <div class="btns">
+                            <p-button [disabled]="!checkTimeDogadjaj(dog)" (onClick)="onUpdateDogadjaj(dog)" severity="success" class="good-btn" label="Odobri"></p-button>
+                            <p-button severity="danger" (onClick)="showDeleteDialog(dog)" class="false-btn" label="Odbij"></p-button>
+                        </div>
+                    </div>
+                </div>
+                
+            </p-card>
+        </div>
+    </div>
+</div>
+
+<p-dialog header="Upozorenje" [(visible)]="deleteVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+    <div class="container-del">
+        <p>Da li zaista želite da obrišete događaj za {{delDogadjaj?.infoDogadjaja}}</p>
+        <br>
+        <div class="addBtn-del">
+            <p-button (onClick)="closeDeleteDialog()" class="scndBtn" label="Odustani" severity="secondary"></p-button>
+            <p-button (onClick)="onDeleteDogadjaj(delIdDogadjaj, delDogadjaj)" label="Obriši" severity="danger"></p-button>
+        </div>
+    </div>
+</p-dialog>
