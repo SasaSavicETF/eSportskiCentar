@@ -1,0 +1,124 @@
+.Sadrzaj {
+    margin: 20px;
+    border: 1px solid #DDDDDD;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.Parent {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.AddAcc {
+    margin-top: 15px;
+}
+
+.Container {
+    padding: 20px;
+}
+
+.form-group {
+    display: grid;
+    grid-template-rows: min-content auto;
+    gap: 0.5rem;
+}
+
+label {
+    grid-row: 1;
+}
+
+.textInput {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 20px;
+    resize: vertical;
+}
+
+.SearchBar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 20px;
+}
+
+.SearchBarTemplate {
+    position: relative;
+}
+
+.SearchBarTemplate .pi-search {
+    position: absolute;
+    left: 12px;
+    top: 50%;  
+    transform: translateY(-50%);
+    color: #555555;
+}
+
+.SearchBarTemplate input[type="search"] {
+    padding-left: 40px;
+    border-radius: 5px;
+    width: 278px;
+    border: 1px solid #ccc;
+}
+
+.SearchBarTemplate input[type="search"]:focus {
+    border-color: #4a90e2; 
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+#lozinka {
+    width: 90%;
+}
+
+.PasswordSetup {
+    display: flex;
+    justify-content: space-between;
+}
+
+#EyeButton {
+    margin-top: 6px;
+}
+
+::ng-deep .MainButton .p-button{
+    background: rgba(50, 0, 128, 0.603) !important;
+    color: white !important;
+}
+
+::ng-deep .MainButton .p-button:hover {
+    background: rgba(70, 0, 128, 0.803) !important;
+}
+
+.SecondButton {
+    margin-right: 15px;
+}
+
+.DropDownMenu {
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+:host ::ng-deep .CustomDD .p-dropdown {
+    width: 100%;
+}
+
+.AddButton {
+    float: right;
+    margin-top: 8px;
+    padding-bottom: 20px;
+}
+
+.Labela {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.Intel {
+    font-size: 16px;
+}

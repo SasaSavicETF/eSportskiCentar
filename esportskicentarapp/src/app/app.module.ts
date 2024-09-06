@@ -40,6 +40,7 @@ import { HeaderComponent } from './header/header.component';
 import { TimelineModule } from 'primeng/timeline';
 import { CardModule } from 'primeng/card';
 import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radnik-index.component'
+import { AdministratorComponent } from './administrator/administrator.component'
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radn
     LoginComponent,
     RegisterComponent,
     HeaderComponent,
-    DezurniRadnikIndexComponent
+    DezurniRadnikIndexComponent,
+    AdministratorComponent
   ],
   imports: [
     BrowserModule,

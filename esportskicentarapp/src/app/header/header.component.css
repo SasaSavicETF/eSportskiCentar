@@ -41,7 +41,7 @@ header {
 }
 
 .rounded-image {
-    width: 65px;
+    width: 75px;
     height: 65px;
     border-radius: 50%;
     padding: 10px;
@@ -70,6 +70,10 @@ ul {
    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
    max-height: 0;
    opacity: 0;
+   border-style: solid;
+   border-width: 2px;
+   border-radius: 5px; 
+   border-color: black; 
 }
 
 ul.visible {
