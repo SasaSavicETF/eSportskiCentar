@@ -90,4 +90,7 @@ public class ZahtjevService {
         }
     }
 
+    public int getNumberOfZahtjevs() {
+        return zahtjevRepository.countByOdobrenTrue();
+    }
 }

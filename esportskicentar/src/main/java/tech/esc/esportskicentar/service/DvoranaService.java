@@ -44,4 +44,8 @@ public class DvoranaService
     {
         dvoranaRepository.deleteDvoranaByIdDvorana(id);
     }
+
+    public int getNumberOfDvoranas() {
+        return dvoranaRepository.countDvoranas();
+    }
 }

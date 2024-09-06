@@ -24,10 +24,11 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radnik-index.component';
 import { DogadjajPregledComponent } from './dogadjaj-pregled/dogadjaj-pregled.component';
-
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 const routes: Routes = [
   //ovo prvo je samo privremeno
+  { path: 'adminPanel', component: AdminPanelComponent},
   { path: 'cjenovnik', component: CjenovnikComponent},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},

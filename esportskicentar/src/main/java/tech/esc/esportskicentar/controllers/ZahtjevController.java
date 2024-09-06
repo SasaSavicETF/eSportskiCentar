@@ -25,6 +25,12 @@ public class ZahtjevController {
         return new ResponseEntity<>(zahtjevs, HttpStatus.OK);
     }
 
+    @GetMapping("/statistic/total")
+    public ResponseEntity<Integer> getNumberOfZahtjevs() {
+        int numberOfZahtjevs = zahtjevService.getNumberOfZahtjevs();
+        return new ResponseEntity<>( numberOfZahtjevs, HttpStatus.OK);
+    }
+    
     @GetMapping("/{id}")
     public ResponseEntity<Zahtjev> getZahtjevById(@PathVariable Integer id) {
         Zahtjev zahtjev = zahtjevService.getZahtjevById(id);

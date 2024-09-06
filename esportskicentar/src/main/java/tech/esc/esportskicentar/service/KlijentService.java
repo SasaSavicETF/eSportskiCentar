@@ -132,6 +132,10 @@ public class KlijentService {
         }
     }
 
+    public int getNumberOfKlijents() {
+        return klijentRepository.countKlijents();
+    }
+
     public record LoginRequest(
             @NotBlank
             String username,

@@ -25,6 +25,12 @@ public class DogadjajController {
         return new ResponseEntity<>(dogadjajs, HttpStatus.OK);
     }
 
+    @GetMapping("/statistic/total")
+    public ResponseEntity<Integer> getNumberOfDogadjajs() {
+        int numberOfDogadjajs = dogadjajService.getNumberOfDogadjajs();
+        return new ResponseEntity<>( numberOfDogadjajs, HttpStatus.OK);
+    }
+
     @GetMapping("/user/{id}")
     public ResponseEntity<List<Dogadjaj>> getAllDogadjajs(@PathVariable("id") Integer id)
     {

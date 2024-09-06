@@ -32,19 +32,19 @@ export class DogadjajPregledComponent implements OnInit{
 
 
   getDogadjajs() {
-    //if(this.klijentService.activeUser != null) {
-   this.dogadjajService.getDogadjajsOfUser(2).subscribe(
+    if(this.klijentService.activeUser !== null) {
+   this.dogadjajService.getDogadjajsOfUser(this.klijentService.activeUser.id).subscribe(
       (response: Dogadjaj[]) => 
       {
         this.dogadjajs = response;
+        this.updatePaginatedDogadjajs();
       },
       (error: HttpErrorResponse) =>
       {
         alert(error.message);
       }
     );
-    this.updatePaginatedDogadjajs();
-  //}
+  }
   }
 
   public onDeleteDogadjaj(idDogadjaj: number): void
@@ -81,10 +81,14 @@ export class DogadjajPregledComponent implements OnInit{
 
   updatePaginatedDogadjajs() {
     const totalPages = Math.ceil(this.dogadjajs.length / this.rowsPerPage);
-    if (this.currentPage >= totalPages) {
+    const currPage = this.currentPage / this.rowsPerPage;
+    if (currPage >= totalPages) {
         this.currentPage = (totalPages - 1) * this.rowsPerPage;
     }
-   
+    console.log(totalPages);
+    console.log(currPage);
+    console.log(this.currentPage);
+
     const startIndex = this.currentPage;
     const endIndex = startIndex + this.rowsPerPage;
     this.paginatedDogadjajs = this.dogadjajs.slice(startIndex, endIndex);

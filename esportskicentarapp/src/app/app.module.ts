@@ -42,6 +42,8 @@ import { CardModule } from 'primeng/card';
 import { DezurniRadnikIndexComponent } from './dezurni-radnik-index/dezurni-radnik-index.component';
 import { DogadjajPregledComponent } from './dogadjaj-pregled/dogadjaj-pregled.component'
 import { PaginatorModule } from 'primeng/paginator';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,8 @@ import { PaginatorModule } from 'primeng/paginator';
     RegisterComponent,
     HeaderComponent,
     DezurniRadnikIndexComponent,
-    DogadjajPregledComponent
+    DogadjajPregledComponent,
+    AdminPanelComponent
   ],
   imports: [
     BrowserModule,
@@ -88,7 +91,8 @@ import { PaginatorModule } from 'primeng/paginator';
     CalendarModule,
     TimelineModule,
     CardModule,
-    PaginatorModule
+    PaginatorModule,
+    ChartModule
   ],
   providers: [
     provideClientHydration()

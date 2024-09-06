@@ -26,6 +26,12 @@ public class KlijentController {
         return new ResponseEntity<>(klijents, HttpStatus.OK);
     }
 
+    @GetMapping("/statistic/total")
+    public ResponseEntity<Integer> getNumberOfKlijents() {
+        int numberOfKlijents = klijentService.getNumberOfKlijents();
+        return new ResponseEntity<>( numberOfKlijents, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Klijent> getKlijentById(@PathVariable Integer id) {
         Klijent klijent = klijentService.getKlijentById(id);

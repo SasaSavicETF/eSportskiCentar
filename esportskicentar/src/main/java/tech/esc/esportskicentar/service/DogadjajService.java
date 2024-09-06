@@ -177,4 +177,8 @@ public class DogadjajService {
             return true;
         }
     }
+
+    public int getNumberOfDogadjajs() {
+        return dogadjajRepository.countDogadjajs();
+    }
 }

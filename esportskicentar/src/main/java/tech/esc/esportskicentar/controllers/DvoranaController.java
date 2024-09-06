@@ -28,6 +28,12 @@ public class DvoranaController
         return new ResponseEntity<>(dvoranas, HttpStatus.OK);
     }
 
+    @GetMapping("/statistic/total")
+    public ResponseEntity<Integer> getNumberOfDvoranas() {
+        int numberOfDvoranas = dvoranaService.getNumberOfDvoranas();
+        return new ResponseEntity<>( numberOfDvoranas, HttpStatus.OK);
+    }
+    
     @GetMapping("/find/{id}")
     public ResponseEntity<Dvorana> getDvoranaById(@PathVariable("id") Integer id)
     {

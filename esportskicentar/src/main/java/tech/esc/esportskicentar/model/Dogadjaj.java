@@ -75,8 +75,5 @@ public class Dogadjaj {
     @ManyToOne
     @JoinColumn(name = "id_sport")
     private Sport sport;
-    @NotNull
-    @Basic
-    @Column(name = "odobren")
-    private boolean odobren;
+   
 }

@@ -106,3 +106,10 @@
     float: right;
     margin-top: 8px;
 }
+
+@media (max-width: 768px) {
+
+    ::ng-deep .p-card { 
+        flex: 1 1 100%; 
+    }
+}
