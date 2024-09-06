@@ -27,6 +27,7 @@ import { DogadjajPregledComponent } from './dogadjaj-pregled/dogadjaj-pregled.co
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { AdminOdobravanjeComponent } from './admin-odobravanje/admin-odobravanje.component';
 import { IndexComponent } from './index/index.component';
+import { AdministratorComponent } from './administrator/administrator.component';
 
 const routes: Routes = [
   //ovo prvo je samo privremeno
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'dogadjaj', component: DogadjajComponent},
   { path: 'dogadjajPregled', component: DogadjajPregledComponent},
   { path: 'dvorana', component: DvoranaComponent},
+  { path: 'administrator', component: AdministratorComponent},
   { path: 'dezurniRadnik', component: DezurniRadnikComponent},
   { path: 'sport', component: SportComponent},
   { path: 'ulaz', component: UlazComponent},

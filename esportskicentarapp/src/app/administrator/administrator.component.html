@@ -1,0 +1,190 @@
+<p-toast></p-toast>
+<div class="Sadrzaj">
+    <div class="Parent">
+        <div class="Naslov"> 
+            <h1>Upravljanje nalozima</h1>
+        </div>
+
+        <div class="AddAcc">
+            <p-button class="MainButton" label="Dodaj" id="DodavanjeDugme" severity="help" icon="pi pi-plus" (click)="showAddDialog()"></p-button>
+            <p-dialog header="Dodavanje naloga" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+                <div class="Container">
+                   <form #addForm="ngForm" (ngSubmit)="onAddAccount(addForm)">
+                        <div class="DropDownMenu">
+                            <p-dropdown class="CustomDD" [options]="accountChoices" [(ngModel)]="selectedAccount" name="account"
+                                optionLabel="label" [showClear]="true" placeholder="Odaberite tip naloga...">
+                            </p-dropdown>
+                        </div>
+                        <label for="ime">Ime:</label>
+                        <input type="text" pInputText class="textInput" id="ime" ngModel name="ime" required/>
+                        <label for="prezime">Prezime:</label>
+                        <input type="text" pInputText class="textInput" id="prezime" ngModel name="prezime" required/>
+                        <label for="brojTelefona">Broj telefona:</label>
+                        <input type="text" pInputText class="textInput" id="brojTelefona" ngModel name="brojTelefona"/>
+                        <label for="korisnickoIme">Korisničko ime:</label>
+                        <input type="text" pInputText class="textInput" id="korisnickoIme" ngModel name="korisnickoIme" required/>
+                        <label for="lozinka">Lozinka:</label>
+                        <div class="PasswordSetup">
+                            <input [type]="showPassword? 'text' : 'password'" pInputText class="textInput" id="lozinka" ngModel name="lozinka" required/>
+                            <p-button id="EyeButton" [icon]="iconType? 'pi pi-eye' : 'pi pi-eye-slash'" severity="secondary"
+                            (onClick)="togglePasswordVisibility()"/>
+                        </div>
+                        <label for="dvorana">Dvorana:</label>
+                        <div class="DropDownMenu">
+                            <p-dropdown class="CustomDD" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana"
+                            optionLabel="nazivDvorane" [showClear]="true" placeholder="Odaberite dvoranu..."
+                            [disabled]="selectedAccount?.label != 'Upravnik'"></p-dropdown>
+                        </div>
+                        <label for="email">Email:</label>
+                        <input type="text" pInputText class="textInput" id="email" ngModel name="email" required/>
+                        <div class="AddButton">
+                            <p-button class="MainButton" type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                        </div>
+                    </form>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+    <div class="SearchBar">
+        <span class="SearchBarTemplate">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText (ngModelChange)="searchAccounts(key.value)" #key="ngModel" ngModel/>
+        </span>
+    </div>
+
+    <p-table
+        [value]="allAccounts"
+        [paginator]="true"
+        [rows]="5"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Prikazano od {first}. do {last}. od ukupno {totalRecords} zapisa"
+        [rowsPerPageOptions]="[5, 10, 25, 50]"
+        paginatorLocale="en-US"
+    >
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 25%">Korisničko ime</th>
+            <th style="width: 25%">Ime</th>
+            <th style="width: 25%">Prezime</th>
+            <th style="width: 25%">Opcije</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-account>
+        <tr>
+            <td>{{ account.korisnickoIme }}&nbsp;&nbsp;<i [class]="checkIfBlocked(account)? 'pi pi-ban' : ''"></i></td>
+            <td>{{ account.ime }}</td>
+            <td>{{ account.prezime }}</td>
+            <td>
+                <p-button icon="pi pi-info-circle" (click)="showUpdateDialog(account)" [rounded]="true" [text]="true" styleClass="p-button-text"></p-button>
+                <p-button icon="pi pi-trash"  (click)="showDeleteDialog(account)" severity="danger" [rounded]="true" [text]="true" [disabled]="isAdministrator(account) ? true : false"></p-button>
+                <p-button [icon]="checkIfBlocked(account)? 'pi pi-replay' : 'pi pi-ban'" (click)="showBlockDialog(account)" [severity]="checkIfBlocked(account)? 'success' : 'danger'" 
+                    [rounded]="true" [text]="true" [disabled]="isAdministrator(account) ? true : false"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+    </p-table>
+
+    <!--Dijalog za pregled/ažuriranje admina -->
+    <p-dialog header="Informacije o administratoru" [(visible)]="infoAdministratorDialogVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+        <div class="Container">
+            <div>
+                <p><span class="Labela">Ime:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="Intel">{{administratorInfo?.ime}}</span></p>
+            </div>
+            <div>
+                <p><span class="Labela">Prezime:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="Intel">{{administratorInfo?.prezime}}</span></p>
+            </div>
+            <div>
+                <p><span class="Labela">Broj telefona:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="Intel">{{administratorInfo?.brojTelefona}}</span></p>
+            </div>
+            <div>
+                <p><span class="Labela">Korisničko ime:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="Intel">{{administratorInfo?.korisnickoIme}}</span></p>
+            </div>
+            <div>
+                <p><span class="Labela">Email:</span> &nbsp;&nbsp;&nbsp;&nbsp; <span class="Intel">{{administratorInfo?.email}}</span></p>
+            </div>
+            <div class="AddButton">
+                <p-button label="Zatvori" class="SecondButton" severity="secondary" (onClick)="closeInfoDialog()"></p-button>
+            </div>
+        </div>
+    </p-dialog>
+
+    <!-- Dijalog za pregled/ažuriranje dežurnog radnika -->
+    <p-dialog header="Pregled dežurnog radnika" [(visible)]="updateDezurniRadnikDialogVisible" [resizable]="false" [draggable]="false" [modal]="true" [style]="{ width: '500px'}">
+        <div class="Container">
+            <form #updateDRForm="ngForm">
+                <input type="hidden" id="id_dezurni_radnik" name="idDezurniRadnik" ngModel="{{updateDezurniRadnik?.idDezurniRadnik}}"/>
+                <label for="ime">Ime:</label>
+                <input type="text" pInputText class="textInput" id="ime" name="ime" ngModel="{{updateDezurniRadnik?.ime}}" required/>
+                <label for="prezime">Prezime:</label>
+                <input type="text" pInputText class="textInput" id="prezime" name="prezime" ngModel="{{updateDezurniRadnik?.prezime}}" required/>
+                <label for="broj_telefona">Broj telefona:</label>
+                <input type="text" pInputText class="textInput" id="broj_telefona" name="brojTelefona" ngModel="{{updateDezurniRadnik?.brojTelefona}}"/>
+                <label for="korisnicko_ime">Korisničko ime:</label>
+                <input type="text" pInputText class="textInput" id="korisnicko_ime" name="korisnickoIme" ngModel="{{updateDezurniRadnik?.korisnickoIme}}" required/>
+                <label for="lozinka">Lozinka:</label>
+                <input type="text" pInputText class="textInput" id="lozinka2" name="lozinka" ngModel="{{updateDezurniRadnik?.lozinka}}" required/>
+                <label for="email">Email:</label>
+                <input type="text" pInputText class="textInput" id="email" name="email" ngModel="{{updateDezurniRadnik?.email}}" required/> 
+                <input type="hidden" id="blokiran" name="blokiran" ngModel="{{updateDezurniRadnik?.blokiran}}"/>
+                <div class="AddButton">
+                    <p-button class="MainButton" type="submit" severity="help" label="Sačuvaj"
+                        [raised]="true" (onClick)="onUpdateDezurniRadnik(updateDRForm.value)">
+                    </p-button>
+                </div>
+            </form>
+        </div>
+    </p-dialog>
+
+    <!-- Dijalog za pregled/ažuriranje upravnika -->
+    <p-dialog header="Pregled upravnika" [(visible)]="updateUpravnikDialogVisible" [resizable]="false" [draggable]="false" [modal]="true" [style]="{ width: '500px'}">
+        <div class="Container">
+            <form #updateUpravnikForm="ngForm">
+                <input type="hidden" id="id_upravnik" name="idUpravnik" ngModel="{{updateUpravnik?.idUpravnik}}"/>
+                <label for="ime">Ime:</label>
+                <input type="text" pInputText class="textInput" id="ime" name="ime" ngModel="{{updateUpravnik?.ime}}" required/>
+                <label for="prezime">Prezime:</label>
+                <input type="text" pInputText class="textInput" id="prezime" name="prezime" ngModel="{{updateUpravnik?.prezime}}" required/>
+                <label for="broj_telefona">Broj telefona:</label>
+                <input type="text" pInputText class="textInput" id="broj_telefona" name="brojTelefona" ngModel="{{updateUpravnik?.brojTelefona}}"/>
+                <label for="korisnicko_ime">Korisničko ime:</label>
+                <input type="text" pInputText class="textInput" id="korisnicko_ime" name="korisnickoIme" ngModel="{{updateUpravnik?.korisnickoIme}}" required/>
+                <label for="dvorana">Dvorana:</label>
+                <div class="DropDownMenu">
+                    <p-dropdown class="CustomDD" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" 
+                        optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu:">
+                    </p-dropdown>
+                </div>
+                <label for="lozinka">Lozinka:</label>
+                <input type="text" pInputText class="textInput" id="lozinka2" name="lozinka" ngModel="{{updateUpravnik?.lozinka}}" required/>
+                <label for="email">Email:</label>
+                <input type="text" pInputText class="textInput" id="email" name="email" ngModel="{{updateUpravnik?.email}}" required/>
+                <input type="hidden" id="blokiran" name="blokiran" ngModel="{{updateUpravnik?.blokiran}}"/> 
+                <p-button class="MainButton" type="submit" class="AddButton" severity="help" label="Sačuvaj"
+                    [raised]="true" (onClick)="onUpdateUpravnik(updateUpravnikForm.value)">
+                </p-button>
+            </form>
+        </div>
+    </p-dialog>
+
+    <!-- Dijalog za brisanje -->
+    <p-dialog header="Upozorenje" [(visible)]="deleteDialogVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+        <p>Da li zaista želite da obrišete nalog {{accountToDelete?.korisnickoIme}}?</p>
+        <br>
+        <div class="AddButton">
+            <p-button class="SecondButton" severity="secondary" (onClick)="closeDeleteDialog()" label="Odustani"/>
+            <p-button severity="danger" (onClick)="onDeleteAccount(deleteIdAccount)" label="Obriši"/>
+        </div>
+    </p-dialog>
+
+    <!-- Dijalog za blokiranje -->
+    <p-dialog header="Upozorenje" [(visible)]="blockDialogVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+        <p>Da li zaista želite da {{checkIfBlocked(accountToBlock)? 'odblokirate' : 'blokirate'}} nalog {{accountToBlock?.korisnickoIme}}?</p>
+        <br>
+        <div class="AddButton">
+            <p-button class="SecondButton" severity="secondary" (onClick)="closeBlockDialog()" label="Odustani"/> 
+            <p-button [severity]="checkIfBlocked(accountToBlock)? 'success' : 'danger'" (onClick)="onBlockAccount()" 
+                [label]="checkIfBlocked(accountToBlock)? 'Odblokiraj' : 'Blokiraj'"/>
+        </div>
+    </p-dialog>
+</div>
