@@ -101,10 +101,7 @@
                   </div>
                   
                   <ng-template pTemplate="footer">
-                      <!--<div class="flex gap-3 mt-1">
-                          <p-button label="Cancel" severity="secondary" class="w-full" styleClass="w-full"></p-button>
-                          <p-button label="Save" class="w-full" styleClass="w-full"></p-button>
-                      </div>-->
+                      
                   </ng-template>
               </p-card>
           </div>
@@ -127,6 +124,9 @@
           <p *ngIf="dogadjaj.sport != null">{{dogadjaj.sport.nazivSporta}}</p>
           <p>{{dogadjaj.infoDogadjaja}}</p>
           <!--<p-button label="Procitaj jos" [text]="true" />-->
+          <div *ngIf="ulazniKlijent !== null && ulazniKlijent.role != 'user'" class="flex gap-3 mt-1">
+            <p-button label="Obrisi" severity="danger" class="w-full"></p-button>
+          </div>
         </p-card>
       </ng-template>
     </p-timeline>

@@ -117,7 +117,7 @@ export class DogadjajComponent implements OnInit{
       this.isBrowser = isPlatformBrowser(this.platformId);
       console.log('Is platform browser:', this.isBrowser);
       console.log(this.klijentService.activeUser);
-      if(this.ulazniKlijent !== null)
+      if(this.ulazniKlijent !== null && this.ulazniKlijent.role == 'user')
       {
         this.selectedKlijent = new Klijent(this.ulazniKlijent?.ime || "", this.ulazniKlijent?.prezime || "", this.ulazniKlijent?.korisnickoIme || "", this.ulazniKlijent?.lozinka || "",
           this.ulazniKlijent?.brojTelefona || "", this.ulazniKlijent?.email || "", "klijent");
