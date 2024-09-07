@@ -213,8 +213,9 @@
               <p-button *ngIf="racunanjeVisible" [disabled]="addForm.invalid || false" label="Izracunaj cijenu" icon="pi pi-calculator" severity="help" (click)="izracunajCijenu(tempVrijemeOd, tempVrijemeDo)"></p-button>
             </div>
             <div class="addBtn" *ngIf="izracunataCijena">
-              <h3 class="cijena" *ngIf="izracunataCijena">Cijena: {{ this.cijena }} KM</h3>
-              <p-button *ngIf="izracunataCijena" type="submit" [disabled]="addForm.invalid || false" label="Rezervisi" [raised]="true" severity="help"></p-button>
+              <h3 class="cijena" *ngIf="izracunataCijena && this.cijena != 0">Cijena: {{ this.cijena }} KM</h3>
+              <h3 class="cijena" *ngIf="this.cijena == 0">Termin van radnog vremena!</h3>
+              <p-button *ngIf="izracunataCijena" type="submit" [disabled]="addForm.invalid || false  || this.cijena == 0" label="Rezervisi" [raised]="true" severity="help"></p-button>
             </div>
           </form>
       </div>

@@ -6,6 +6,8 @@ import { TerenService } from '../teren/teren.service';
 import { MessageService } from 'primeng/api';
 import { FormControl, NgForm, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserDTO } from '../models/user-dto';
+import { KlijentService } from '../services/klijent.service';
 
 @Component({
   selector: 'app-cjenovnik',
@@ -26,12 +28,15 @@ export class CjenovnikComponent implements OnInit {
   public infoCjenovnik: Cjenovnik | undefined;
   public delIdCjenovnik: number = -1;
 
+  ulazniKlijent: UserDTO | null = this.klijentService.activeUser;
+
   defaultDate: Date = new Date("January 31 1980 12:30");
 
   terens: Teren[] = [];
   selectedTeren: Teren | undefined;
 
-  constructor(private cjenovnikService: CjenovnikService, private terenService: TerenService, private messageService: MessageService) { }
+  constructor(private cjenovnikService: CjenovnikService, private terenService: TerenService, private messageService: MessageService, 
+    private klijentService: KlijentService) { }
 
   ngOnInit(): void {
     this.getCjenovniks();
@@ -41,7 +46,22 @@ export class CjenovnikComponent implements OnInit {
   public getTerens(): void {
     this.terenService.getTerens().subscribe(
       (response: Teren[]) => {
-        this.terens = response;
+        if(this.ulazniKlijent !== null && this.ulazniKlijent.role == 'upravnik')
+        {
+          const filteredTerens: Teren[] = [];
+          for(let teren of response)
+          {
+            if(teren.dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+            {
+              filteredTerens.push(teren);
+            }
+          }
+          this.terens = filteredTerens;
+        }
+        else
+        {
+          this.terens = response;
+        }
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -52,7 +72,22 @@ export class CjenovnikComponent implements OnInit {
   public getCjenovniks(): void {
     this.cjenovnikService.getCjenovniks().subscribe(
       (response: Cjenovnik[]) => {
-        this.cjenovniks = response;
+        if(this.ulazniKlijent !== null && this.ulazniKlijent.role == 'upravnik')
+        {
+          const filteredCjenovniks: Cjenovnik[] = [];
+          for(let cjenovnik of response)
+          {
+            if(cjenovnik.teren.dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+            {
+              filteredCjenovniks.push(cjenovnik);
+            }
+          }
+          this.cjenovniks = filteredCjenovniks;
+        }
+        else
+        {
+          this.cjenovniks = response;
+        }
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
