@@ -149,7 +149,24 @@ export class DogadjajComponent implements OnInit{
           this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
         }, 200);
       }
-      else if(urlParams.get('added') === 'false')
+      else if(urlParams.get('deleted') === 'true')
+      {
+        const email = urlParams.get('email');
+        const teren = urlParams.get('teren');
+        if(email && teren) 
+        {
+          const emailObj = new Email(email, "Vaš događaj zakazan u " + teren + " je otkayan od strane službenog lica.");
+        
+          this.emailService.sendEmail(emailObj).subscribe(response => {
+            console.log('Email sent.');
+          });
+        }
+        history.replaceState(null, '', window.location.pathname);
+        setTimeout(() => {
+          this.messageService.add({ severity: 'success', summary: 'Uspješno brisanje', detail: 'Dogadjaj je obrisan sa sistema!' });
+        }, 200);
+      }
+      else if(urlParams.get('added') === 'false' || urlParams.get('deleted') === 'false')
       {
         const message = urlParams.get('message') || '';
         history.replaceState(null, '', window.location.pathname);
@@ -195,7 +212,22 @@ export class DogadjajComponent implements OnInit{
     this.dvoranaService.getDvoranas().subscribe(
       (response: Dvorana[]) =>
       {
-        this.dvoranas = response;
+        if(this.ulazniKlijent?.role !== 'upravnik')
+        {
+          this.dvoranas = response;
+        }
+        else{
+          const filteredDvoranas: Dvorana[] = [];
+          for(let dvorana of response)
+          {
+            if(dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+            {
+              filteredDvoranas.push(dvorana);
+              //break;
+            }
+          }
+          this.dvoranas = filteredDvoranas;
+        }
       },
       (error: HttpErrorResponse) =>
       {
@@ -209,7 +241,22 @@ export class DogadjajComponent implements OnInit{
     this.terenService.getTerens().subscribe(
       (response: Teren[]) =>
       {
-        this.terens = response;
+        if(this.ulazniKlijent?.role !== 'upravnik')
+        {
+          this.terens = response;
+        }
+        else
+        {
+          const filteredTerens: Teren[] = [];
+          for(let teren of response)
+          {
+            if(teren.dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+            {
+              filteredTerens.push(teren);
+            }
+          }
+          this.terens = filteredTerens;
+        }
       },
       (error: HttpErrorResponse) =>
       {
@@ -722,17 +769,32 @@ export class DogadjajComponent implements OnInit{
   }
 
 
-  public onDeleteDogadjaj(idDogadjaj: number): void
+  public onDeleteDogadjaj(dogadjaj: Dogadjaj): void
   {
     this.deleteVisible = false;
-    this.dogadjajService.deleteDogadjaj(idDogadjaj).subscribe(
+    this.dogadjajService.deleteDogadjaj(dogadjaj.idDogadjaj).subscribe(
       (response: void) => {
-        this.messageService.add({ severity: 'success', summary: 'Uspješno brisanje', detail: 'Dogadjaj je obrisan sa sistema!' });
-        this.getDogadjajs();
+        if(dogadjaj.klijent !== null && dogadjaj.klijent.email != null)
+        {
+          this.getDogadjajs();
+          const email = new Email(dogadjaj.klijent.email, "Vaš događaj zakazan za " + dogadjaj.teren.nazivTerena + " je otkazan od strane službenog lica.");
+            
+            // Dodavanje email-a i cijene kao URL parametara
+          const newUrl = `${window.location.href.split('?')[0]}?deleted=true&email=${encodeURIComponent(dogadjaj.klijent.email)}&teren=${dogadjaj.teren.nazivTerena}`;
+            
+            // Postavi novi URL i osveži stranicu
+          window.location.href = newUrl;
+        }
+        else
+        {
+          window.location.href = window.location.href.split('?')[0] + '?deleted=true';
+        }
       },
       (error: HttpErrorResponse) => {
-        this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u brisanju dogadjaja' });
-        alert(error.message);
+        const url = new URL(window.location.href);
+        url.searchParams.set('deleted', 'false');
+        url.searchParams.set('message', error.message);
+        window.location.href = url.toString();
       }
     );
   }

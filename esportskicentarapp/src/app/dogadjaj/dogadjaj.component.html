@@ -125,7 +125,7 @@
           <p>{{dogadjaj.infoDogadjaja}}</p>
           <!--<p-button label="Procitaj jos" [text]="true" />-->
           <div *ngIf="ulazniKlijent !== null && ulazniKlijent.role != 'user'" class="flex gap-3 mt-1">
-            <p-button label="Obrisi" severity="danger" class="w-full"></p-button>
+            <p-button label="Obrisi" (onClick)="onDeleteDogadjaj(dogadjaj)" [style]="{ backgroundColor: '#f44336' }" severity="danger" class="w-full dell"></p-button>
           </div>
         </p-card>
       </ng-template>
