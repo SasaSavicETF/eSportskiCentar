@@ -2,8 +2,8 @@
     <div class="navigacija">
         <h2>eSportskiCentar</h2>
         <div class="nav-opcije">
-            <p-button label="Prijava" severity="secondary"></p-button>
-            <p-button label="Registracija" severity="secondary"></p-button>
+            <p-button label="Prijava" [routerLink]="['/login']" severity="secondary"></p-button>
+            <p-button label="Registracija" [routerLink]="['/register']" severity="secondary"></p-button>
         </div>
     </div>    
     <div class="naslov text-anim">
@@ -51,7 +51,13 @@
         </div>
     </div>
     <hr>
-    <div>
-        
+    <h3 align="center" class="contact-title">Kontakt informacije</h3>
+    <div class="bottom">
+        <div *ngFor="let upravnik of upravniks" class="upravnik">
+          <h4>{{upravnik.ime}}&nbsp;{{upravnik.prezime}}</h4>
+          <p>{{upravnik.dvorana.nazivDvorane}}</p>
+          <p>{{upravnik.email}}</p>
+          <p>{{upravnik.brojTelefona}}</p>
+        </div>
     </div>
 </div>
