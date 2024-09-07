@@ -34,6 +34,8 @@ import { KlijentService } from '../services/klijent.service';
 import { UserDTO } from '../models/user-dto';
 import { EmailService } from '../services/email.service';
 import { Email } from '../models/email';
+import { Svlacionica } from '../models/svlacionica';
+import { SvlacionicaService } from '../svlacionica/svlacionica.service';
 
 
 @Component({
@@ -100,6 +102,7 @@ export class DogadjajComponent implements OnInit{
   cjn: number = 2;
 
   ulazs: Ulaz[] = [];
+  svlacionicas: Svlacionica[] = [];
 
   cjenovniks: Cjenovnik[] = [];
   izracunataCijena: boolean = false;
@@ -112,7 +115,8 @@ export class DogadjajComponent implements OnInit{
     private ekipaService: EkipaService, private terenService: TerenService, private dvoranaService: DvoranaService,
     private rasporedService: RasporedService, private ulazService: UlazService, private takmicenjeService: TakmicenjeService,
     private sportService: SportService, private messageService: MessageService, private cjenovnikService: CjenovnikService,
-    private klijentService: KlijentService, private emailService: EmailService, @Inject(PLATFORM_ID) private platformId: Object) 
+    private klijentService: KlijentService, private emailService: EmailService, private svlacionicaService: SvlacionicaService,
+    @Inject(PLATFORM_ID) private platformId: Object) 
     {
       this.isBrowser = isPlatformBrowser(this.platformId);
       console.log('Is platform browser:', this.isBrowser);
@@ -183,6 +187,7 @@ export class DogadjajComponent implements OnInit{
       this.getDvoranas();
       this.getRasporeds();
       this.getUlazs();
+      this.getSvlacionicas();
       this.getTakmicenjes();
       this.getSports();
       this.getCjenovniks();
@@ -357,6 +362,18 @@ export class DogadjajComponent implements OnInit{
     );
   }
 
+  public getSvlacionicas(): void
+  {
+    this.svlacionicaService.getSvlacionicas().subscribe(
+      (response: Svlacionica[]) => {
+        this.svlacionicas = response;
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
   public async loadTerens(): Promise<void> {
     try {
       this.terens = await this.terenService.getTerens().toPromise() || [];
@@ -488,6 +505,19 @@ export class DogadjajComponent implements OnInit{
     this.ulazs = filterUlazs;
   }
 
+  public filterSvlacionicas(): void
+  {
+    let filterSvlacionicas: Svlacionica[] = [];
+    for(const svlacionica of this.svlacionicas)
+    {
+      if(svlacionica.dvorana.idDvorana == this.selectedTeren?.dvorana.idDvorana && svlacionica.dostupna)
+      {
+        filterSvlacionicas.push(svlacionica);
+      }
+    }
+    this.svlacionicas = filterSvlacionicas;
+  }
+
   public filtriraj(): void
   {
       console.log("Klijent: " , this.selectedKlijent?.korisnickoIme);
@@ -537,6 +567,7 @@ export class DogadjajComponent implements OnInit{
       console.log("---" + this.selectedDnevniRaspored)
       this.filterDogadjajs();
       this.filterUlazs();
+      this.filterSvlacionicas();
       this.sortDogadjajs();
       this.isFilterDone = true;
   }

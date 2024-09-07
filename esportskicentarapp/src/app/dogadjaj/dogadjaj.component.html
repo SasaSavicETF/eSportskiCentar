@@ -87,9 +87,10 @@
                     <p>Kapacitet: {{selectedTeren.dvorana.kapacitet}}</p>
                     <div class="flex-container">
                       <div class="info-upravnik">
-                        <h5>Info o upravniku...</h5>
-                        <p>Neki upravnik</p>
-                        <p>555-333</p>
+                        <h5>Svlačionice</h5>
+                        <div *ngFor="let svlacionica of svlacionicas">
+                          <p>{{svlacionica.brojSvlacionice}}</p>
+                        </div>
                       </div>
                       <div class="ulazi">
                         <h5>Ulazi</h5>
