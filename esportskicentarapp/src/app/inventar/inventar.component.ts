@@ -7,6 +7,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Dvorana } from '../models/dvorana';
 import { DvoranaService } from '../dvorana/dvorana.service';
 import { CheckboxModule } from 'primeng/checkbox';
+import { UserDTO } from '../models/user-dto';
+import { KlijentService } from '../services/klijent.service';
 
 @Component({
   selector: 'app-inventar',
@@ -26,10 +28,13 @@ export class InventarComponent {
   public infoInventar: Inventar | undefined;
   public delIdInventar: number = -1;
 
+  ulazniKlijent: UserDTO | null = this.klijentService.activeUser;
+
   dvoranas: Dvorana[] = [];
   selectedDvorana: Dvorana | undefined;
 
-  constructor(private inventarService: InventarService, private dvoranaService: DvoranaService, private messageService: MessageService) { }
+  constructor(private inventarService: InventarService, private dvoranaService: DvoranaService, private messageService: MessageService,
+    private klijentService: KlijentService) { }
 
 
   ngOnInit(): void 
@@ -43,7 +48,22 @@ export class InventarComponent {
     this.dvoranaService.getDvoranas().subscribe(
       (response: Dvorana[]) =>
       {
-        this.dvoranas = response;
+        if(this.ulazniKlijent !== null && this.ulazniKlijent.role == 'upravnik')
+        {
+          const filteredDvoranas: Dvorana[] = [];
+          for(let dvorana of response)
+          {
+            if(dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+            {
+              filteredDvoranas.push(dvorana)
+            }
+          }
+          this.dvoranas = filteredDvoranas
+        }
+        else
+        {
+          this.dvoranas = response;
+        }
       },
       (error: HttpErrorResponse) =>
       {
@@ -57,7 +77,22 @@ export class InventarComponent {
     this.inventarService.getInventars().subscribe(
       (response: Inventar[]) => 
       {
-        this.inventars = response;
+        if(this.ulazniKlijent !== null && this.ulazniKlijent.role == 'upravnik')
+        {
+          const filteredInventars: Inventar[] = [];
+          for(let inventar of response)
+          {
+            if(inventar.dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+            {
+              filteredInventars.push(inventar);
+            }
+          }
+          this.inventars = filteredInventars;
+        }
+        else
+        {
+          this.inventars = response;
+        }
       },
       (error: HttpErrorResponse) =>
       {

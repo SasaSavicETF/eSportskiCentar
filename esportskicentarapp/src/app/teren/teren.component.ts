@@ -12,6 +12,7 @@ import { ImageModule } from 'primeng/image';
 import { CheckboxModule } from 'primeng/checkbox';
 import { json } from 'stream/consumers';
 import { KlijentService } from '../services/klijent.service';
+import { UserDTO } from '../models/user-dto';
 
 @Component({
   selector: 'app-teren',
@@ -38,6 +39,8 @@ export class TerenComponent implements OnInit
   checkedEdit: boolean = false;
   checkedInfo: boolean = false;
 
+  ulazniKlijent: UserDTO | null = this.klijentService.activeUser;
+
   dvoranas: Dvorana[] = [];
   selectedDvorana: Dvorana | undefined;
 
@@ -47,7 +50,7 @@ export class TerenComponent implements OnInit
   selectedFile: File | null = null;
   fileName: string = '';
 
-  constructor(private terenService: TerenService, private dvoranaService: DvoranaService, 
+  constructor(private terenService: TerenService, private dvoranaService: DvoranaService, private klijentService: KlijentService,
     private tipTerenaService: TipTerenaService, private messageService: MessageService, private user: KlijentService) { }
 
 
@@ -76,7 +79,22 @@ export class TerenComponent implements OnInit
     this.dvoranaService.getDvoranas().subscribe(
       (response: Dvorana[]) =>
       {
-        this.dvoranas = response;
+        if(this.ulazniKlijent !== null && this.ulazniKlijent.role == 'upravnik')
+          {
+            const filteredDvoranas: Dvorana[] = [];
+            for(let dvorana of response)
+            {
+              if(dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+              {
+                filteredDvoranas.push(dvorana)
+              }
+            }
+            this.dvoranas = filteredDvoranas
+          }
+          else
+          {
+            this.dvoranas = response;
+          }
       },
       (error: HttpErrorResponse) =>
       {
@@ -104,7 +122,22 @@ export class TerenComponent implements OnInit
     this.terenService.getTerens().subscribe(
       (response: Teren[]) => 
       {
-        this.terens = response;
+        if(this.ulazniKlijent !== null && this.ulazniKlijent.role == 'upravnik')
+          {
+            const filteredTerens: Teren[] = [];
+            for(let teren of response)
+            {
+              if(teren.dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+              {
+                filteredTerens.push(teren);
+              }
+            }
+            this.terens = filteredTerens;
+          }
+          else
+          {
+            this.terens = response;
+          }
       },
       (error: HttpErrorResponse) =>
       {
