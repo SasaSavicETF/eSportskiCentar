@@ -10,8 +10,9 @@ import { UpravnikService } from '../upravnik/upravnik.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Dvorana } from '../models/dvorana';
 import { DvoranaService } from '../dvorana/dvorana.service';
-import { Klijent } from '../models/klijent';
 import { KlijentService } from '../services/klijent.service';
+import { UserDTO } from '../models/user-dto';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-administrator',
@@ -26,7 +27,8 @@ export class AdministratorComponent implements OnInit {
     public dvoranas: Dvorana[] = []; 
     public allAccounts: any[] = []; 
 
-    public currentUser: Klijent | null = null; 
+    // Trenutni korisnik
+    public currentUser: UserDTO | null = this.klijentService.activeUser;
     
     addVisible: boolean = false; 
     infoAdministratorDialogVisible: boolean = false; 
@@ -39,13 +41,16 @@ export class AdministratorComponent implements OnInit {
     public updateDezurniRadnik: DezurniRadnik | undefined;
     public updateUpravnik: Upravnik | undefined;
 
+    // Za brisanje:
     public accountToDelete: any | undefined;
     public deleteIdAccount: number = -1;  
 
+    // Za blokiranje: 
     public accountToBlock: any | undefined;
     public blockIdAccount: number = -1; 
     public accountBlocked: boolean = false; 
 
+    // Za vidljivost lozinke: 
     public showPassword: boolean = true; 
     public iconType: boolean = false; 
 
@@ -59,28 +64,33 @@ export class AdministratorComponent implements OnInit {
 
     constructor(private adminstratorService: AdministratorService, private dezurniRadnikService: DezurniRadnikService, 
       private upravnikService: UpravnikService, private messageService: MessageService,
-      private dvoranaService: DvoranaService) {}
+      private dvoranaService: DvoranaService, private klijentService: KlijentService) {}
 
     ngOnInit(): void {
-      this.getAccounts(); 
-      this.getDvoranas();  
-      // Za pregled tabele: 
-      this.allAccounts = [
-        ...this.administrators, 
-        ...this.dezurniRadniks, 
-        ...this.upravniks
-      ].filter(account => account.korisnickoIme !== this.currentUser?.korisnickoIme);
+      this.getAccounts();
+      this.getDvoranas(); 
     }
 
     public getAccounts(): void {
-      this.getAdministrators(); 
-      this.getDezurniRadniks(); 
-      this.getUpravniks(); 
-      this.allAccounts = [
-        ...this.administrators,
-        ...this.dezurniRadniks,
-        ...this.upravniks
-      ].filter(account => account.korisnickoIme !== this.currentUser?.korisnickoIme);
+      forkJoin([
+        this.adminstratorService.getAdministrators(),
+        this.dezurniRadnikService.getDezurniRadniks(),
+        this.upravnikService.getUpravniks()
+      ]).subscribe({
+        next: ([administrators, dezurniRadniks, upravniks]) => {
+          this.administrators = administrators;
+          this.dezurniRadniks = dezurniRadniks;
+          this.upravniks = upravniks;
+          this.allAccounts = [
+            ...this.administrators,
+            ...this.dezurniRadniks,
+            ...this.upravniks
+          ].filter(account => account.korisnickoIme !== this.currentUser?.korisnickoIme);
+        },
+        error: (error) => {
+          this.messageService.add({ severity: 'error', summary: 'Greška', detail: error.message });
+        }
+      });
     }
 
     public getAdministrators(): void {
@@ -382,6 +392,26 @@ export class AdministratorComponent implements OnInit {
         return true; 
       } else {
         return false; 
+      }
+    }
+
+    public declareAccountIcon(account: any): string {
+      if('idAdministrator' in account) {
+        return 'pi pi-user'; 
+      } else if('idDezurniRadnik' in account) {
+        return 'pi pi-wrench'; 
+      } else {
+        return 'pi pi-book'; 
+      }
+    }
+
+    public checkAccountRole(account: any): string {
+      if('idAdministrator' in account) {
+        return 'Administrator'; 
+      } else if('idDezurniRadnik' in account) {
+        return 'Dežurni radnik'; 
+      } else {
+        return 'Upravnik'; 
       }
     }
 }

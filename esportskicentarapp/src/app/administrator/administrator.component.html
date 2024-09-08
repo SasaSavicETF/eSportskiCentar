@@ -52,7 +52,7 @@
         </span>
     </div>
 
-    <p-table
+    <p-table 
         [value]="allAccounts"
         [paginator]="true"
         [rows]="5"
@@ -64,10 +64,11 @@
     >
     <ng-template pTemplate="header">
         <tr>
-            <th style="width: 25%">Korisničko ime</th>
-            <th style="width: 25%">Ime</th>
-            <th style="width: 25%">Prezime</th>
-            <th style="width: 25%">Opcije</th>
+            <th style="width: 20%">Korisničko ime</th>
+            <th style="width: 20%">Ime</th>
+            <th style="width: 20%">Prezime</th>
+            <th style="width: 20%">Uloga</th>
+            <th style="width: 20%">Opcije</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-account>
@@ -75,6 +76,7 @@
             <td>{{ account.korisnickoIme }}&nbsp;&nbsp;<i [class]="checkIfBlocked(account)? 'pi pi-ban' : ''"></i></td>
             <td>{{ account.ime }}</td>
             <td>{{ account.prezime }}</td>
+            <td><i [class]="declareAccountIcon(account)"></i>&nbsp;&nbsp;{{ checkAccountRole(account) }}</td>
             <td>
                 <p-button icon="pi pi-info-circle" (click)="showUpdateDialog(account)" [rounded]="true" [text]="true" styleClass="p-button-text"></p-button>
                 <p-button icon="pi pi-trash"  (click)="showDeleteDialog(account)" severity="danger" [rounded]="true" [text]="true" [disabled]="isAdministrator(account) ? true : false"></p-button>
@@ -122,8 +124,7 @@
                 <input type="text" pInputText class="textInput" id="broj_telefona" name="brojTelefona" ngModel="{{updateDezurniRadnik?.brojTelefona}}"/>
                 <label for="korisnicko_ime">Korisničko ime:</label>
                 <input type="text" pInputText class="textInput" id="korisnicko_ime" name="korisnickoIme" ngModel="{{updateDezurniRadnik?.korisnickoIme}}" required/>
-                <label for="lozinka">Lozinka:</label>
-                <input type="text" pInputText class="textInput" id="lozinka2" name="lozinka" ngModel="{{updateDezurniRadnik?.lozinka}}" required/>
+                <input type="hidden" id="lozinka" name="lozinka" ngModel="{{updateDezurniRadnik?.lozinka}}"/>
                 <label for="email">Email:</label>
                 <input type="text" pInputText class="textInput" id="email" name="email" ngModel="{{updateDezurniRadnik?.email}}" required/> 
                 <input type="hidden" id="blokiran" name="blokiran" ngModel="{{updateDezurniRadnik?.blokiran}}"/>
@@ -155,8 +156,7 @@
                         optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu:">
                     </p-dropdown>
                 </div>
-                <label for="lozinka">Lozinka:</label>
-                <input type="text" pInputText class="textInput" id="lozinka2" name="lozinka" ngModel="{{updateUpravnik?.lozinka}}" required/>
+                <input type="hidden" id="lozinka" name="lozinka" ngModel="{{updateUpravnik?.lozinka}}"/>
                 <label for="email">Email:</label>
                 <input type="text" pInputText class="textInput" id="email" name="email" ngModel="{{updateUpravnik?.email}}" required/>
                 <input type="hidden" id="blokiran" name="blokiran" ngModel="{{updateUpravnik?.blokiran}}"/> 

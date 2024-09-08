@@ -3,6 +3,7 @@ package tech.esc.esportskicentar.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tech.esc.esportskicentar.PaswordHasher;
 import tech.esc.esportskicentar.model.DezurniRadnik;
 import tech.esc.esportskicentar.repository.DezurniRadnikRepository;
 
@@ -15,9 +16,12 @@ public class DezurniRadnikService {
 
     private final DezurniRadnikRepository dezurniRadnikRepository;
 
+    private final PaswordHasher paswordHasher;
+
     @Autowired
-    public DezurniRadnikService(DezurniRadnikRepository dezurniRadnikRepository) {
+    public DezurniRadnikService(DezurniRadnikRepository dezurniRadnikRepository, PaswordHasher paswordHasher) {
         this.dezurniRadnikRepository = dezurniRadnikRepository;
+        this.paswordHasher = paswordHasher;
     }
 
     public List<DezurniRadnik> findAllDezurniRadniks() {
@@ -29,6 +33,7 @@ public class DezurniRadnikService {
     }
 
     public DezurniRadnik addDezurniRadnik(DezurniRadnik dezurniRadnik){
+        dezurniRadnik.setLozinka(paswordHasher.hashPassword(dezurniRadnik.getLozinka()));
         return dezurniRadnikRepository.save(dezurniRadnik);
     }
 
@@ -36,8 +41,10 @@ public class DezurniRadnikService {
         DezurniRadnik stariDezurniRadnik = dezurniRadnikRepository.findById(dezurniRadnik.getIdDezurniRadnik()).orElse(null);
         if(stariDezurniRadnik == null)
             return null;
-        else
+        else {
+            dezurniRadnik.setLozinka(paswordHasher.hashPassword(dezurniRadnik.getLozinka()));
             return dezurniRadnikRepository.save(dezurniRadnik);
+        }
     }
 
     public boolean deleteDezurniRadnik(Integer id){

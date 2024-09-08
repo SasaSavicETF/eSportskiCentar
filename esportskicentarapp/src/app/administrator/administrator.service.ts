@@ -40,7 +40,7 @@ export class AdministratorService {
     public addAdministrator(administrator: Administrator): Observable<Administrator> {
         return this.validateAdministrator(administrator).pipe(
             switchMap(() => this.http.post<Administrator>(`${this.apiServerUrl}/administrator`, administrator)),
-            catchError((error) => throwError(() => new HttpErrorResponse({ status: 400, statusText: error})))
+            catchError((error) => throwError(() => new HttpErrorResponse({ status: 400, statusText: error.message})))
         ); 
     }
 
