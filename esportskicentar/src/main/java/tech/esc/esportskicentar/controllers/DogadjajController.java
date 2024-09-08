@@ -7,6 +7,7 @@ import tech.esc.esportskicentar.model.Dogadjaj;
 import tech.esc.esportskicentar.service.DogadjajService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/dogadjaj")
@@ -29,6 +30,25 @@ public class DogadjajController {
     public ResponseEntity<Integer> getNumberOfDogadjajs() {
         int numberOfDogadjajs = dogadjajService.getNumberOfDogadjajs();
         return new ResponseEntity<>( numberOfDogadjajs, HttpStatus.OK);
+    }
+
+    @GetMapping("/statistic/reservation/total")
+    public ResponseEntity<Integer> getNumberOfZahtjevs() {
+        int numberOfReservations = dogadjajService.getNumberOfReservations();
+        return new ResponseEntity<>( numberOfReservations, HttpStatus.OK);
+    }
+
+    @GetMapping("/statistic/reservation")
+    public ResponseEntity<Map<String,Integer>> getZahtjevsStats() {
+        Map<String,Integer> reservationStats = dogadjajService.getReservationStats();
+        return new ResponseEntity<>( reservationStats, HttpStatus.OK);
+    }
+
+    @GetMapping("/statistic/for/{period}")
+    public ResponseEntity<List<Dogadjaj>> getAllDogadjajs(@PathVariable("period") String period)
+    {
+        List<Dogadjaj> dogadjajs = dogadjajService.findAllDogadjajsForPeriod(period);
+        return new ResponseEntity<>(dogadjajs, HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")

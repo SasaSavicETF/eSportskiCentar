@@ -14,7 +14,12 @@ import tech.esc.esportskicentar.util.Util;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -44,7 +49,7 @@ public class DogadjajService {
     public List<Dogadjaj> findAllDogadjajsOfUser(Integer id) {
         Klijent klijent = klijentRepository.findById(id).orElse(null);
         if(klijent != null)
-            return dogadjajRepository.findByKlijent(klijent);
+            return dogadjajRepository.findByKlijentAndOdobrenTrue(klijent);
         else
             return null;
     }
@@ -181,5 +186,43 @@ public class DogadjajService {
 
     public int getNumberOfDogadjajs() {
         return dogadjajRepository.countDogadjajs();
+    }
+
+    public List<Dogadjaj> findAllDogadjajsForPeriod(String period) {
+        LocalDate startDate;
+        LocalDate endDate = LocalDate.now();
+
+        switch (period.toLowerCase()) {
+            case "last_seven_days":
+                startDate = endDate.minusDays(6);
+                break;
+            case "this_month":
+                startDate = endDate.with(TemporalAdjusters.firstDayOfMonth());
+                break;
+            case "this_year":
+                startDate = endDate.with(TemporalAdjusters.firstDayOfYear());
+                break;
+            case "all":
+                return dogadjajRepository.findAll();
+            default:
+                throw new IllegalArgumentException("Invalid time range");
+        }
+
+        return dogadjajRepository.findAllByDateRange(startDate, endDate);
+    }
+
+    public int getNumberOfReservations() {
+        return dogadjajRepository.countByOdobrenTrue();
+    }
+
+    public Map<String, Integer> getReservationStats() {
+        Map<String, Integer> result = new HashMap<>();
+        int numberOfClientsWithReservation = dogadjajRepository.countByDistinctClient();
+        int numberOfClientsWithoutReservation = klijentRepository.countKlijents();
+
+        result.put("Klijenti sa rezervacijama", numberOfClientsWithReservation);
+        result.put("Klijenti bez rezervacija", numberOfClientsWithoutReservation);
+
+        return result;
     }
 }

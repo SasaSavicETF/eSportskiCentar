@@ -9,6 +9,7 @@ import tech.esc.esportskicentar.model.Zahtjev;
 import tech.esc.esportskicentar.service.ZahtjevService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/zahtjev")
@@ -30,7 +31,13 @@ public class ZahtjevController {
         int numberOfZahtjevs = zahtjevService.getNumberOfZahtjevs();
         return new ResponseEntity<>( numberOfZahtjevs, HttpStatus.OK);
     }
-    
+
+    @GetMapping("/statistic/reservation")
+    public ResponseEntity<Map<String,Integer>> getZahtjevsStats() {
+        Map<String,Integer> zahtjevsStats = zahtjevService.getZahtjevStats();
+        return new ResponseEntity<>( zahtjevsStats, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Zahtjev> getZahtjevById(@PathVariable Integer id) {
         Zahtjev zahtjev = zahtjevService.getZahtjevById(id);

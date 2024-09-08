@@ -7,4 +7,7 @@ import tech.esc.esportskicentar.model.Zahtjev;
 
 public interface ZahtjevRepository extends JpaRepository<Zahtjev, Integer> {
     int countByOdobrenTrue();
+
+    @Query("SELECT COUNT(DISTINCT z.klijent) FROM Zahtjev z")
+    int countByDistinctClient();
 }

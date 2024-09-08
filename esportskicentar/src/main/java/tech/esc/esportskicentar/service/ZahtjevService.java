@@ -11,9 +11,7 @@ import tech.esc.esportskicentar.repository.ZahtjevRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -92,5 +90,16 @@ public class ZahtjevService {
 
     public int getNumberOfZahtjevs() {
         return zahtjevRepository.countByOdobrenTrue();
+    }
+
+    public Map<String, Integer> getZahtjevStats() {
+        Map<String, Integer> result = new HashMap<>();
+        int numberOfClientsWithReservation = zahtjevRepository.countByDistinctClient();
+        int numberOfClientsWithoutReservation = klijentRepository.countKlijents();
+
+        result.put("Klijenti sa rezervacijama", numberOfClientsWithReservation);
+        result.put("Klijenti bez rezervacija", numberOfClientsWithoutReservation);
+
+        return result;
     }
 }

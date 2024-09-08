@@ -13,25 +13,26 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AdminPanelComponent implements OnInit{
 
   public dogadjajs: Dogadjaj[] = [];
+  public reservationStats: Map<string, number> = new Map();
   public numberOfKlijents: number | undefined;
   public numberOfDogadjajs: number | undefined;
   public numberOfDvoranas: number | undefined;
   public numberOfRezervacija: number | undefined;
 
-
   eventData: any;
-  data: any;
+  sportData: any;
   userdata: any;
   options: any;
-  selectedDate: string = "month";
+  eventChartOptions: any;
+  selectedDate: string = "this_month";
 
   year: number;
   month: number;
 
   dateOptions = [
-    { label: 'Posljednjih sedam dana', value: 'last7Days' },
-    { label: 'Ovaj mjesec', value: 'month' },
-    { label: 'Ova godina', value: 'year' },
+    { label: 'Posljednjih sedam dana', value: 'last_seven_days' },
+    { label: 'Ovaj mjesec', value: 'this_month' },
+    { label: 'Ova godina', value: 'this_year' },
     { label: 'Sve', value: 'all' }
   ];
 
@@ -45,55 +46,17 @@ export class AdminPanelComponent implements OnInit{
     this.getNumberOfKlijents();
     this.getNumberOfDvoranas();
     this.getNumberOfRezervacija();
-    this.updateEventStats();
+    
+    this.loadEventData();
+    this.loadReservationData();
+    //this.updateEventStats();
 
-    this.data = {
-        labels: [
-          'Kosarka', 'Fudbal', 'Odbojka', 'Tenis', 'Hokej', 
-          'Rukomet', 'Biciklizam', 'Stoni Tenis'
-        ],
-        datasets: [
-          {
-            data: [
-              300, 50, 100, 25, 64, 124, 
-              200, 85
-            ],
-            backgroundColor: [
-              "#42A5F5", "#66BB6A", "#FFA726", "#42A545", "#11BB6A", 
-              "#FFAFF6", "#F57C00", "#7E57C2"
-            ],
-            hoverBackgroundColor: [
-              "#64B5F6", "#81C784", "#FFB74D", "#64B522", "#81D784", 
-              "#FAA74D", "#FF8A65", "#B39DDB"
-            ]
-          }
-        ]
-      };
-
-      this.userdata = {
-        labels: ['Korisnici bez rezervacija','Korisnici sa rezervacijama'],
-        datasets: [
-            {
-                data: [300, 100],
-                backgroundColor: [
-                    "#FF6384",
-                    "#36A2EB"
-                   
-                ],
-                hoverBackgroundColor: [
-                    "#FF6384",
-                    "#36A2EB"
-                ]
-            }
-        ]
-    };
-
-  this.options = {
+  this.eventChartOptions = {
     responsive: false,
     maintainAspectRatio: false, // Keep this true to maintain aspect ratio
     plugins: {
         legend: {
-            position: 'right' // Adjust as needed
+          display: false // Adjust as needed
         }
     }
 };
@@ -109,6 +72,32 @@ export class AdminPanelComponent implements OnInit{
 };
 
   }
+
+  loadReservationData() {
+     this.adminPanel.getReservationStatistic().subscribe(
+      (response: {[key: string]: number }) => {
+        this.reservationStats = new Map(Object.entries(response));
+        this.setReservationStats();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  loadEventData() {
+    this.adminPanel.getDogadjajsStatistic(this.selectedDate).subscribe(
+      (response: Dogadjaj[]) => {
+        this.dogadjajs = response;
+        this.updateEventStats();
+        this.updateSportStats();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+ 
   getNumberOfRezervacija() {
     this.adminPanel.getNumberOfRezervacija().subscribe(
       (response: number) => {
@@ -119,7 +108,7 @@ export class AdminPanelComponent implements OnInit{
       }
     );
   }
-  
+
   getNumberOfDvoranas() {
     this.adminPanel.getNumberOfDvoranas().subscribe(
       (response: number) => {
@@ -157,81 +146,161 @@ export class AdminPanelComponent implements OnInit{
         let labels: string[] = [];
         let dataPoints: number[] = [];
     
-        if (this.selectedDate === 'last7Days') {
-            labels = this.getLastSevenDays();
+        if (this.selectedDate === 'last_seven_days') {
+            let daysMap = new Map<number,number>();
+            labels = this.getLastSevenDays(daysMap);
+            const days = new Array(labels.length).fill(0);
+    
+          this.dogadjajs.forEach(entry => {
+            const entryDate = this.getDate(entry.dnevniRaspored.datum); 
+              const day = daysMap.get(entryDate.getDate()) 
+              if(day !== undefined)
+              days[day]++;
+          });
+    
+          dataPoints = days.map(day => day > 0 ? day : null);
 
         }
 
-        if (this.selectedDate === 'month') {
+        if (this.selectedDate === 'this_month') {
           labels = this.getDayLabels(this.year, this.month);
           const days = new Array(labels.length).fill(0);
     
-          // Group by day in the selected month
-   /*       this.dogadjajs.forEach(entry => {
-            const entryDate = new Date(entry.date != null ? entry.date : 0);
-            if (entryDate.getFullYear() === this.year && entryDate.getMonth() + 1 === this.month) {
-              const day = entryDate.getDate() - 1; // Convert to zero-based index
-              days[day] += entry.weight;
-            }
+         
+          this.dogadjajs.forEach(entry => {
+            const entryDate = this.getDate(entry.dnevniRaspored.datum);
+              const day = entryDate.getDate() - 1; 
+              days[day]++;
           });
-    */
+    
           dataPoints = days.map(day => day > 0 ? day : null);
     
-        } else if (this.selectedDate === 'year') {
+        } else if (this.selectedDate === 'this_year') {
           labels = this.getMonthLabels();
           const months = new Array(labels.length).fill(0);
     
-          // Group by month in the selected year
-     /*     this.dogadjajs.forEach(entry => {
-            const entryDate = new Date(entry.date != null ? entry.date : 0);
-            if (entryDate.getFullYear() === this.year) {
-              const month = entryDate.getMonth(); // Zero-based index
-              months[month] += entry.weight;
-            }
-          });*/
+          this.dogadjajs.forEach(entry => {
+            const entryDate =  this.getDate(entry.dnevniRaspored.datum); 
+              const month = entryDate.getMonth(); 
+              months[month]++;
+          });
     
           dataPoints = months;
         } else if(this.selectedDate === 'all') {
-     /*     const dates = data.map(entry => new Date(entry.date != null ? entry.date : new Date().getDate()));
+          const dates = this.dogadjajs.map(entry => this.getDate(entry.dnevniRaspored.datum));
           const oldest = Math.min(...dates.map(date => date.getFullYear()));
           
           labels = this.getYearLabels(oldest); 
           const years = new Array(labels.length).fill(0);
          
           this.dogadjajs.forEach(entry => {
-            const entryDate = new Date(entry.date != null ? entry.date : 0);
+            const entryDate =  this.getDate(entry.dnevniRaspored.datum);
             const year = entryDate.getFullYear();
     
             const yearIndex = labels.indexOf(year.toString());
-            years[yearIndex] += entry.weight;
+            years[yearIndex]++;
            
-          });*/
+          });
     
-         // dataPoints = years;
+          dataPoints = years;
         }
-    
+
         this.eventData = {
             labels: labels,
             datasets: [
                 {
-                    label: 'First Dataset',
-                    data: [65, 59, 80, 81, 56, 55, 40],
+                    data: dataPoints,
                     fill: false,
                     borderColor: '#42A5F5',
                     tension: .4
-                },
-                {
-                    label: 'Second Dataset',
-                    data: [28, 48, 40, 19, 86, 27, 90],
-                    fill: false,
-                    borderColor: '#FFA726',
-                    tension: .4
                 }
-            ]// Keeping the datasets unchanged
+            ]
           };
-       // this.eventData.labels = labels;
-       // this.eventData.datasets[0].data = [];
-         // Refresh the chart with new data
+  }
+
+  updateSportStats() {
+    const topSports = this.getTopSports();
+    let labels: string[] = [];
+    let dataPoints: number[] = [];
+
+    topSports.forEach(([sport, count]) => {
+      labels.push(sport);
+      dataPoints.push(count);
+    })
+
+    this.sportData = {
+      labels: labels,
+      datasets: [
+        {
+          data: dataPoints,
+          backgroundColor: [
+            "#42A5F5", "#66BB6A", "#FFA726", "#42A545", "#11BB6A", 
+            "#FFAFF6", "#F57C00", "#7E57C2"
+          ],
+          hoverBackgroundColor: [
+            "#64B5F6", "#81C784", "#FFB74D", "#64B522", "#81D784", 
+            "#FAA74D", "#FF8A65", "#B39DDB"
+          ]
+        }
+      ]
+    };
+  }
+
+  setReservationStats() {
+    let labels: string[] = [];
+    let dataPoints: number[] = [];
+
+    const reservationArray = Array.from(this.reservationStats.entries());
+
+    reservationArray.forEach(([userType, count]) => {
+      labels.push(userType);
+      dataPoints.push(count);
+    });
+
+    this.userdata = {
+      labels: labels,
+      datasets: [
+          {
+              data: dataPoints,
+              backgroundColor: [
+                  "#FF6384",
+                  "#36A2EB"
+                 
+              ],
+              hoverBackgroundColor: [
+                  "#FF6384",
+                  "#36A2EB"
+              ]
+          }
+      ]
+  };
+
+  }
+
+  getTopSports() {
+    const sportCount = new Map<string, number>();
+
+    this.dogadjajs.forEach(dogadjaj => {
+      if(dogadjaj.sport !== null && dogadjaj.sport.nazivSporta !== null) {
+      const sport = dogadjaj.sport.nazivSporta;
+      if(sportCount.has(sport))
+        sportCount.set(sport, sportCount.get(sport)! + 1);
+      else
+        sportCount.set(sport, 1);
+}
+    });
+
+    const sortedSports = Array.from(sportCount.entries()).sort((a, b) => b[1] - a[1]);
+
+    const topSports = sortedSports.slice(0, 7);
+    const otherSports = sortedSports.slice(7);
+
+    if(otherSports.length > 0) {
+      const otherCount = otherSports.reduce((acc, sport) => acc + sport[1], 0);
+      topSports.push(["Ostali", otherCount]);
+    }
+
+    return topSports;
   }
 
   getYearLabels(startingYear: number): string[] {
@@ -258,7 +327,7 @@ export class AdminPanelComponent implements OnInit{
      return Array.from({ length: daysInMonth }, (_, i) => `${i + 1}`);
    }
 
-   getLastSevenDays(): string[] {
+   getLastSevenDays(daysMap: Map<number, number>): string[] {
     const today = new Date();
     const lastSevenDays: string[] = [];
   
@@ -266,9 +335,53 @@ export class AdminPanelComponent implements OnInit{
       const date = new Date();
       date.setDate(today.getDate() - i);
       
+      daysMap.set(date.getDate(), 6 - i);
       lastSevenDays.push(date.getDate().toString());
     }
   
     return lastSevenDays.reverse(); // To show the days in ascending order
+  }
+
+  getDate(d: string) {
+   
+    const parts = d.split('.');
+
+    let day = parseInt(parts[0],10);
+    let month = parseInt(parts[1],10);
+    let year = parseInt(parts[2],10);
+    
+    if (month === 2) {
+      if (day === 28) {
+          if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+             day = 29;
+          } else {
+              day = 1;
+              month = 3;
+          }
+      } else if (day === 29) {
+        day = 1;
+        month = 3;
+      }
+  }
+  
+  if (day === 30 && (month === 4 || month === 6 || month === 9 || month === 11)) {
+    day = 1;
+    month++;
+  }
+
+  if (day === 31) {
+      if (month === 12) {
+          day = 1;
+          month = 1;
+          year++;
+      } else {
+         day = 1;
+         month++;
+      }
+  }
+  else 
+    day++;
+
+    return new Date(year, month - 1, day);
   }
 }
