@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { KlijentService } from '../services/klijent.service';
+import { AdministratorComponent } from '../administrator/administrator.component';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,15 @@ export class LoginComponent {
           localStorage.setItem('activeUser', JSON.stringify(response));
         }
         this.klijentService.activeUser = response;
-        this.router.navigate(['/teren']); 
+        if(this.klijentService.activeUser.role == 'admin') {
+          this.router.navigate(['/administrator']);
+        } else if(this.klijentService.activeUser.role == 'radnik') {
+          // Potrebna ruta
+        } else if(this.klijentService.activeUser.role == 'upravnik') {
+          // Potrebna ruta
+        } else {
+          this.router.navigate(['/teren']); 
+        }
       },
       error: error => {
         alert("Uneseni kredencijali nisu validni!");

@@ -87,9 +87,10 @@
                     <p>Kapacitet: {{selectedTeren.dvorana.kapacitet}}</p>
                     <div class="flex-container">
                       <div class="info-upravnik">
-                        <h5>Info o upravniku...</h5>
-                        <p>Neki upravnik</p>
-                        <p>555-333</p>
+                        <h5>Svlačionice</h5>
+                        <div *ngFor="let svlacionica of svlacionicas">
+                          <p>{{svlacionica.brojSvlacionice}}</p>
+                        </div>
                       </div>
                       <div class="ulazi">
                         <h5>Ulazi</h5>
@@ -101,10 +102,7 @@
                   </div>
                   
                   <ng-template pTemplate="footer">
-                      <!--<div class="flex gap-3 mt-1">
-                          <p-button label="Cancel" severity="secondary" class="w-full" styleClass="w-full"></p-button>
-                          <p-button label="Save" class="w-full" styleClass="w-full"></p-button>
-                      </div>-->
+                      
                   </ng-template>
               </p-card>
           </div>
@@ -127,6 +125,9 @@
           <p *ngIf="dogadjaj.sport != null">{{dogadjaj.sport.nazivSporta}}</p>
           <p>{{dogadjaj.infoDogadjaja}}</p>
           <!--<p-button label="Procitaj jos" [text]="true" />-->
+          <div *ngIf="ulazniKlijent !== null && ulazniKlijent.role != 'user'" class="flex gap-3 mt-1">
+            <p-button label="Obrisi" (onClick)="onDeleteDogadjaj(dogadjaj)" [style]="{ backgroundColor: '#f44336' }" severity="danger" class="w-full dell"></p-button>
+          </div>
         </p-card>
       </ng-template>
     </p-timeline>
@@ -212,8 +213,9 @@
               <p-button *ngIf="racunanjeVisible" [disabled]="addForm.invalid || false" label="Izracunaj cijenu" icon="pi pi-calculator" severity="help" (click)="izracunajCijenu(tempVrijemeOd, tempVrijemeDo)"></p-button>
             </div>
             <div class="addBtn" *ngIf="izracunataCijena">
-              <h3 class="cijena" *ngIf="izracunataCijena">Cijena: {{ this.cijena }} KM</h3>
-              <p-button *ngIf="izracunataCijena" type="submit" [disabled]="addForm.invalid || false" label="Rezervisi" [raised]="true" severity="help"></p-button>
+              <h3 class="cijena" *ngIf="izracunataCijena && this.cijena != 0">Cijena: {{ this.cijena }} KM</h3>
+              <h3 class="cijena" *ngIf="this.cijena == 0">Termin van radnog vremena!</h3>
+              <p-button *ngIf="izracunataCijena" type="submit" [disabled]="addForm.invalid || false  || this.cijena == 0" label="Rezervisi" [raised]="true" severity="help"></p-button>
             </div>
           </form>
       </div>

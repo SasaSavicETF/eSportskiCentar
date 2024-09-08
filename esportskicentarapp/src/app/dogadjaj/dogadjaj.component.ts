@@ -34,6 +34,8 @@ import { KlijentService } from '../services/klijent.service';
 import { UserDTO } from '../models/user-dto';
 import { EmailService } from '../services/email.service';
 import { Email } from '../models/email';
+import { Svlacionica } from '../models/svlacionica';
+import { SvlacionicaService } from '../svlacionica/svlacionica.service';
 
 
 @Component({
@@ -100,6 +102,7 @@ export class DogadjajComponent implements OnInit{
   cjn: number = 2;
 
   ulazs: Ulaz[] = [];
+  svlacionicas: Svlacionica[] = [];
 
   cjenovniks: Cjenovnik[] = [];
   izracunataCijena: boolean = false;
@@ -112,12 +115,13 @@ export class DogadjajComponent implements OnInit{
     private ekipaService: EkipaService, private terenService: TerenService, private dvoranaService: DvoranaService,
     private rasporedService: RasporedService, private ulazService: UlazService, private takmicenjeService: TakmicenjeService,
     private sportService: SportService, private messageService: MessageService, private cjenovnikService: CjenovnikService,
-    private klijentService: KlijentService, private emailService: EmailService, @Inject(PLATFORM_ID) private platformId: Object) 
+    private klijentService: KlijentService, private emailService: EmailService, private svlacionicaService: SvlacionicaService,
+    @Inject(PLATFORM_ID) private platformId: Object) 
     {
       this.isBrowser = isPlatformBrowser(this.platformId);
       console.log('Is platform browser:', this.isBrowser);
       console.log(this.klijentService.activeUser);
-      if(this.ulazniKlijent !== null)
+      if(this.ulazniKlijent !== null && this.ulazniKlijent.role == 'user')
       {
         this.selectedKlijent = new Klijent(this.ulazniKlijent?.ime || "", this.ulazniKlijent?.prezime || "", this.ulazniKlijent?.korisnickoIme || "", this.ulazniKlijent?.lozinka || "",
           this.ulazniKlijent?.brojTelefona || "", this.ulazniKlijent?.email || "", "klijent");
@@ -149,7 +153,24 @@ export class DogadjajComponent implements OnInit{
           this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
         }, 200);
       }
-      else if(urlParams.get('added') === 'false')
+      else if(urlParams.get('deleted') === 'true')
+      {
+        const email = urlParams.get('email');
+        const teren = urlParams.get('teren');
+        if(email && teren) 
+        {
+          const emailObj = new Email(email, "Vaš događaj zakazan u " + teren + " je otkayan od strane službenog lica.");
+        
+          this.emailService.sendEmail(emailObj).subscribe(response => {
+            console.log('Email sent.');
+          });
+        }
+        history.replaceState(null, '', window.location.pathname);
+        setTimeout(() => {
+          this.messageService.add({ severity: 'success', summary: 'Uspješno brisanje', detail: 'Dogadjaj je obrisan sa sistema!' });
+        }, 200);
+      }
+      else if(urlParams.get('added') === 'false' || urlParams.get('deleted') === 'false')
       {
         const message = urlParams.get('message') || '';
         history.replaceState(null, '', window.location.pathname);
@@ -166,6 +187,7 @@ export class DogadjajComponent implements OnInit{
       this.getDvoranas();
       this.getRasporeds();
       this.getUlazs();
+      this.getSvlacionicas();
       this.getTakmicenjes();
       this.getSports();
       this.getCjenovniks();
@@ -195,7 +217,22 @@ export class DogadjajComponent implements OnInit{
     this.dvoranaService.getDvoranas().subscribe(
       (response: Dvorana[]) =>
       {
-        this.dvoranas = response;
+        if(this.ulazniKlijent?.role !== 'upravnik')
+        {
+          this.dvoranas = response;
+        }
+        else{
+          const filteredDvoranas: Dvorana[] = [];
+          for(let dvorana of response)
+          {
+            if(dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+            {
+              filteredDvoranas.push(dvorana);
+              //break;
+            }
+          }
+          this.dvoranas = filteredDvoranas;
+        }
       },
       (error: HttpErrorResponse) =>
       {
@@ -209,7 +246,22 @@ export class DogadjajComponent implements OnInit{
     this.terenService.getTerens().subscribe(
       (response: Teren[]) =>
       {
-        this.terens = response;
+        if(this.ulazniKlijent?.role !== 'upravnik')
+        {
+          this.terens = response;
+        }
+        else
+        {
+          const filteredTerens: Teren[] = [];
+          for(let teren of response)
+          {
+            if(teren.dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+            {
+              filteredTerens.push(teren);
+            }
+          }
+          this.terens = filteredTerens;
+        }
       },
       (error: HttpErrorResponse) =>
       {
@@ -305,6 +357,18 @@ export class DogadjajComponent implements OnInit{
       },
       (error: HttpErrorResponse) =>
       {
+        alert(error.message);
+      }
+    );
+  }
+
+  public getSvlacionicas(): void
+  {
+    this.svlacionicaService.getSvlacionicas().subscribe(
+      (response: Svlacionica[]) => {
+        this.svlacionicas = response;
+      },
+      (error: HttpErrorResponse) => {
         alert(error.message);
       }
     );
@@ -441,6 +505,19 @@ export class DogadjajComponent implements OnInit{
     this.ulazs = filterUlazs;
   }
 
+  public filterSvlacionicas(): void
+  {
+    let filterSvlacionicas: Svlacionica[] = [];
+    for(const svlacionica of this.svlacionicas)
+    {
+      if(svlacionica.dvorana.idDvorana == this.selectedTeren?.dvorana.idDvorana && svlacionica.dostupna)
+      {
+        filterSvlacionicas.push(svlacionica);
+      }
+    }
+    this.svlacionicas = filterSvlacionicas;
+  }
+
   public filtriraj(): void
   {
       console.log("Klijent: " , this.selectedKlijent?.korisnickoIme);
@@ -490,6 +567,7 @@ export class DogadjajComponent implements OnInit{
       console.log("---" + this.selectedDnevniRaspored)
       this.filterDogadjajs();
       this.filterUlazs();
+      this.filterSvlacionicas();
       this.sortDogadjajs();
       this.isFilterDone = true;
   }
@@ -722,17 +800,32 @@ export class DogadjajComponent implements OnInit{
   }
 
 
-  public onDeleteDogadjaj(idDogadjaj: number): void
+  public onDeleteDogadjaj(dogadjaj: Dogadjaj): void
   {
     this.deleteVisible = false;
-    this.dogadjajService.deleteDogadjaj(idDogadjaj).subscribe(
+    this.dogadjajService.deleteDogadjaj(dogadjaj.idDogadjaj).subscribe(
       (response: void) => {
-        this.messageService.add({ severity: 'success', summary: 'Uspješno brisanje', detail: 'Dogadjaj je obrisan sa sistema!' });
-        this.getDogadjajs();
+        if(dogadjaj.klijent !== null && dogadjaj.klijent.email != null)
+        {
+          this.getDogadjajs();
+          const email = new Email(dogadjaj.klijent.email, "Vaš događaj zakazan za " + dogadjaj.teren.nazivTerena + " je otkazan od strane službenog lica.");
+            
+            // Dodavanje email-a i cijene kao URL parametara
+          const newUrl = `${window.location.href.split('?')[0]}?deleted=true&email=${encodeURIComponent(dogadjaj.klijent.email)}&teren=${dogadjaj.teren.nazivTerena}`;
+            
+            // Postavi novi URL i osveži stranicu
+          window.location.href = newUrl;
+        }
+        else
+        {
+          window.location.href = window.location.href.split('?')[0] + '?deleted=true';
+        }
       },
       (error: HttpErrorResponse) => {
-        this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u brisanju dogadjaja' });
-        alert(error.message);
+        const url = new URL(window.location.href);
+        url.searchParams.set('deleted', 'false');
+        url.searchParams.set('message', error.message);
+        window.location.href = url.toString();
       }
     );
   }

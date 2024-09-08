@@ -10,14 +10,15 @@
             <p-dialog header="Dodavanje inventara" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
                 <div class="container">
                    <form #addForm="ngForm" (ngSubmit)="onAddInventar(addForm)">
+                        <div class="drop card flex justify-content-center">
+                            <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu"></p-dropdown>
+                        </div>
                         <label for="naziv_inventara">Naziv Inventara</label>
                         <input type="text" pInputText class="textInput" id="naziv_inventara" ngModel name="naziv"/>
                         <label for="opis">Opis</label>
                         <input type="text" pInputText class="textInput" id="opis" ngModel name="opis"/>
                     
-                        <div class="drop card flex justify-content-center">
-                            <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu"></p-dropdown>
-                        </div>
+                        
                         <div class="addBtn">
                             <p-button class="main-btn" type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
                         </div>
@@ -73,13 +74,13 @@
     <div class="container">
         <form #editForm="ngForm">
             <input type="hidden" id="id_inventar" ngModel="{{editInventar?.idInventar}}" name="idInventar"/>
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu"></p-dropdown>
+            </div>
             <label for="naziv_inventara">Naziv inventara</label>
             <input type="text" pInputText class="textInput" id="naziv_inventara" ngModel="{{editInventar?.naziv}}" name="naziv"/>
             <label for="opis">Opis</label>
             <input type="text" pInputText class="textInput" id="opis" ngModel="{{editInventar?.opis}}" name="opis"/>
-            <div class="drop card flex justify-content-center">
-                <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu"></p-dropdown>
-            </div>
             <div class="addBtn">
                 <p-button class="main-btn" (onClick)="onUpdateInventar(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
             </div>

@@ -46,7 +46,7 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { ChartModule } from 'primeng/chart';
 import { AdminOdobravanjeComponent } from './admin-odobravanje/admin-odobravanje.component';
 import { IndexComponent } from './index/index.component';
-
+import { AdministratorComponent } from './administrator/administrator.component';
 
 @NgModule({
   declarations: [
@@ -76,8 +76,8 @@ import { IndexComponent } from './index/index.component';
     DogadjajPregledComponent,
     AdminPanelComponent,
     AdminOdobravanjeComponent,
-    IndexComponent
-
+    IndexComponent,
+    AdministratorComponent
   ],
   imports: [
     BrowserModule,

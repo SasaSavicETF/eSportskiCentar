@@ -75,13 +75,13 @@ public class KlijentService {
             return convertKlijentToDTO(klijent);
 
         Administrator admin = administratorRepository.findByKorisnickoImeAndLozinka(
-                        loginRequest.username(), loginRequest.password)
+                        loginRequest.username(), paswordHasher.hashPassword(loginRequest.password))
                 .orElse(null);
         if (admin != null)
             return convertAdminToDTO(admin);
 
         DezurniRadnik radnik = dezurniRadnikRepository.findByKorisnickoImeAndLozinka(
-                        loginRequest.username(), loginRequest.password)
+                        loginRequest.username(), paswordHasher.hashPassword(loginRequest.password))
                 .orElse(null);
         if (radnik != null && radnik.isBlokiran())
             throw new AccountStatusException("Vaš nalog je blokiran!");
@@ -89,7 +89,7 @@ public class KlijentService {
             return convertRadnikToDTO(radnik);
 
         Upravnik upravnik = upravnikRepository.findByKorisnickoImeAndLozinka(
-                        loginRequest.username(), loginRequest.password)
+                        loginRequest.username(), paswordHasher.hashPassword(loginRequest.password))
                 .orElse(null);
         if (upravnik != null && upravnik.isBlokiran())
             throw new AccountStatusException("Vaš nalog je blokiran!");

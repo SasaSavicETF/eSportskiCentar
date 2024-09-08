@@ -101,6 +101,22 @@
   color: white;
 }
 
+::ng-deep .p-button .dell {
+  background-color: #f44336;
+  /*border: 1px solid blueviolet;
+  background: rgba(9, 0, 128, 0.603);
+  border: 1px solid #ddd;*/
+  color: white;
+}
+
+::ng-deep .p-button .dell:hover  {
+  background-color: #d32f2f;
+  /*border: 1px solid blueviolet;
+  background: rgba(9, 0, 128, 0.603);
+  border: 1px solid #ddd;*/
+  color: white;
+}
+
 .add-container 
 {
     padding: 20px;

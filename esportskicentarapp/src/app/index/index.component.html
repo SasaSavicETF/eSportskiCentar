@@ -2,11 +2,11 @@
     <div class="navigacija">
         <h2>eSportskiCentar</h2>
         <div class="nav-opcije">
-            <p-button label="Prijava" severity="secondary"></p-button>
-            <p-button label="Registracija" severity="secondary"></p-button>
+            <p-button label="Prijava" [routerLink]="['/login']" severity="secondary"></p-button>
+            <p-button label="Registracija" [routerLink]="['/register']" severity="secondary"></p-button>
         </div>
     </div>    
-    <div class="naslov">
+    <div class="naslov text-anim">
         <h1>eSportskiCentar</h1>
         <h2>Rezerviši svoj događaj na nikad lakši način!</h2>
     </div>    
@@ -24,4 +24,40 @@
         </div>
     </div>
     <hr>
+    <div class="card-container">
+        <div *ngFor="let selectedTeren of terens" class="card">
+          <p-card header="{{selectedTeren.nazivTerena}}">
+            <ng-template pTemplate="header">
+              <img alt="Card" src="{{selectedTeren.slika}}" />
+            </ng-template>
+            <p>{{selectedTeren.info}}</p>
+            <hr>
+            <div>
+              <h4>Dimenzije</h4>
+              <p>{{selectedTeren.duzina}} m x {{selectedTeren.sirina}}m</p>
+            </div>
+            <hr>
+            <div>
+              <h4>Dvorana {{selectedTeren.dvorana.nazivDvorane}}</h4>
+              <p>Kapacitet: {{selectedTeren.dvorana.kapacitet}}</p>
+              <div class="flex-container">
+                <div class="info-upravnik">
+                  <h5>{{selectedTeren.tipTerena.nazivTipaTerena}}</h5>
+                  <p>{{selectedTeren.tipTerena.info}}</p>
+                </div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+    </div>
+    <hr>
+    <h3 align="center" class="contact-title">Kontakt informacije</h3>
+    <div class="bottom">
+        <div *ngFor="let upravnik of upravniks" class="upravnik">
+          <h4>{{upravnik.ime}}&nbsp;{{upravnik.prezime}}</h4>
+          <p>{{upravnik.dvorana.nazivDvorane}}</p>
+          <p>{{upravnik.email}}</p>
+          <p>{{upravnik.brojTelefona}}</p>
+        </div>
+    </div>
 </div>

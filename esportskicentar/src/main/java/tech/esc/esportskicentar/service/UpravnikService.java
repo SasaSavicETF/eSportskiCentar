@@ -2,6 +2,7 @@ package tech.esc.esportskicentar.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tech.esc.esportskicentar.PaswordHasher;
 import tech.esc.esportskicentar.model.Upravnik;
 import tech.esc.esportskicentar.repository.DvoranaRepository;
 import tech.esc.esportskicentar.repository.UpravnikRepository;
@@ -16,10 +17,13 @@ public class UpravnikService {
     private final UpravnikRepository upravnikRepository;
     private final DvoranaRepository dvoranaRepository;
 
-    public UpravnikService(UpravnikRepository upravnikRepository, DvoranaRepository dvoranaRepository)
+    private final PaswordHasher paswordHasher;
+
+    public UpravnikService(UpravnikRepository upravnikRepository, DvoranaRepository dvoranaRepository, PaswordHasher paswordHasher)
     {
         this.upravnikRepository = upravnikRepository;
         this.dvoranaRepository = dvoranaRepository;
+        this.paswordHasher = paswordHasher;
     }
 
     public List<Upravnik> findAllUpravniks() {
@@ -32,6 +36,7 @@ public class UpravnikService {
 
     public Upravnik addUpravnik(Upravnik upravnik)
     {
+        upravnik.setLozinka(paswordHasher.hashPassword(upravnik.getLozinka()));
         upravnik.setDvorana(dvoranaRepository.findById(upravnik.getDvorana().getIdDvorana()).orElse(null));
         return upravnikRepository.save(upravnik);
     }
@@ -40,8 +45,10 @@ public class UpravnikService {
         Upravnik stariUpravnik = upravnikRepository.findById(upravnik.getIdUpravnik()).orElse(null);
         if(stariUpravnik == null)
             return null;
-        else
+        else {
+            upravnik.setLozinka(paswordHasher.hashPassword(upravnik.getLozinka()));
             return upravnikRepository.save(upravnik);
+        }
     }
 
     public boolean deleteUpravnik(Integer id){

@@ -7,6 +7,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Dvorana } from '../models/dvorana';
 import { DvoranaService } from '../dvorana/dvorana.service';
 import { CheckboxModule } from 'primeng/checkbox';
+import { UserDTO } from '../models/user-dto';
+import { KlijentService } from '../services/klijent.service';
 
 @Component({
   selector: 'app-ulaz',
@@ -29,6 +31,8 @@ export class UlazComponent implements OnInit
 
   public nazivUlazaInput: string = "";
 
+  ulazniKlijent: UserDTO | null = this.klijentService.activeUser;
+
   checkedAdd: boolean = false;
   checkedEdit: boolean = false;
 
@@ -38,7 +42,8 @@ export class UlazComponent implements OnInit
   duzina: string = "";
   duzinaFormControl = new FormControl('', Validators.pattern('[0-9]+([.,][0-9]+)?'));
 
-  constructor(private ulazService: UlazService, private dvoranaService: DvoranaService, private messageService: MessageService) { }
+  constructor(private ulazService: UlazService, private dvoranaService: DvoranaService, private messageService: MessageService,
+    private klijentService: KlijentService) { }
 
 
   ngOnInit(): void 
@@ -52,7 +57,22 @@ export class UlazComponent implements OnInit
     this.dvoranaService.getDvoranas().subscribe(
       (response: Dvorana[]) =>
       {
-        this.dvoranas = response;
+        if(this.ulazniKlijent !== null && this.ulazniKlijent.role == 'upravnik')
+          {
+            const filteredDvoranas: Dvorana[] = [];
+            for(let dvorana of response)
+            {
+              if(dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+              {
+                filteredDvoranas.push(dvorana)
+              }
+            }
+            this.dvoranas = filteredDvoranas
+          }
+          else
+          {
+            this.dvoranas = response;
+          }
       },
       (error: HttpErrorResponse) =>
       {
@@ -66,7 +86,22 @@ export class UlazComponent implements OnInit
     this.ulazService.getUlazs().subscribe(
       (response: Ulaz[]) => 
       {
-        this.ulazs = response;
+        if(this.ulazniKlijent !== null && this.ulazniKlijent.role == 'upravnik')
+        {
+          const filteredUlazs: Ulaz[] = [];
+          for(let ulaz of response)
+          {
+            if(ulaz.dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+            {
+              filteredUlazs.push(ulaz);
+            }
+          }
+          this.ulazs = filteredUlazs;
+        }
+        else
+        {
+          this.ulazs = response;
+        }
       },
       (error: HttpErrorResponse) =>
       {
