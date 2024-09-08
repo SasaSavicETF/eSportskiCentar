@@ -4,6 +4,8 @@ import { ZadatakService } from '../zadatak/zadatak.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CardModule } from 'primeng/card';
 import { MessageService } from 'primeng/api';
+import { UserDTO } from '../models/user-dto';
+import { KlijentService } from '../services/klijent.service';
 
 @Component({
   selector: 'app-dezurni-radnik-index',
@@ -22,8 +24,10 @@ export class DezurniRadnikIndexComponent implements OnInit
 
   public danasnjiDatum: Date = new Date();
 
+  ulazniKlijent: UserDTO | null = this.klijentService.activeUser;
 
-  constructor(private zadatakService: ZadatakService, private messageService: MessageService) { }
+
+  constructor(private zadatakService: ZadatakService, private messageService: MessageService, private klijentService: KlijentService) { }
 
 
   ngOnInit(): void 
@@ -58,20 +62,23 @@ export class DezurniRadnikIndexComponent implements OnInit
       const filteredZadataks: Zadatak[] = [];
       for(let zad of this.zadataks)
       {
-        zad.rokIzvrsenja = this.dateToString(DezurniRadnikIndexComponent.normalizeDate(this.stringToDate(zad.rokIzvrsenja)));
-        zad.datumKreiranja = this.dateToString(DezurniRadnikIndexComponent.normalizeDate(this.stringToDate(zad.datumKreiranja)));
-        console.log(this.selectedOpcija);
-        if(this.selectedOpcija == this.opcijas[0])
+        if(zad.dezurniRadnik.idDezurniRadnik == this.ulazniKlijent?.id)
         {
-          filteredZadataks.push(zad);
-        }
-        else if(this.selectedOpcija == this.opcijas[1] && zad.zavrsen)
-        {
-          filteredZadataks.push(zad);
-        }
-        else if(this.selectedOpcija == this.opcijas[2] && !zad.zavrsen)
-        {
-          filteredZadataks.push(zad);
+          zad.rokIzvrsenja = this.dateToString(DezurniRadnikIndexComponent.normalizeDate(this.stringToDate(zad.rokIzvrsenja)));
+          zad.datumKreiranja = this.dateToString(DezurniRadnikIndexComponent.normalizeDate(this.stringToDate(zad.datumKreiranja)));
+          console.log(this.selectedOpcija);
+          if(this.selectedOpcija == this.opcijas[0])
+          {
+            filteredZadataks.push(zad);
+          }
+          else if(this.selectedOpcija == this.opcijas[1] && zad.zavrsen)
+          {
+            filteredZadataks.push(zad);
+          }
+          else if(this.selectedOpcija == this.opcijas[2] && !zad.zavrsen)
+          {
+            filteredZadataks.push(zad);
+          }
         }
       }
       this.zadataks = filteredZadataks;

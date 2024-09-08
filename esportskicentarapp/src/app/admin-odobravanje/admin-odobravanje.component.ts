@@ -6,6 +6,8 @@ import { DogadjajService } from '../dogadjaj/dogadjaj.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { EmailService } from '../services/email.service';
 import { Email } from '../models/email';
+import { UserDTO } from '../models/user-dto';
+import { KlijentService } from '../services/klijent.service';
 
 @Component({
   selector: 'app-admin-odobravanje',
@@ -24,7 +26,10 @@ export class AdminOdobravanjeComponent implements OnInit
 
   public delIdDogadjaj: number = -1;
 
-  constructor(private dogadjajService: DogadjajService, private messageService: MessageService, private emailService: EmailService) { }
+  ulazniKlijent: UserDTO | null = this.klijentService.activeUser;
+
+  constructor(private dogadjajService: DogadjajService, private messageService: MessageService, private emailService: EmailService,
+    private klijentService: KlijentService) { }
 
   ngOnInit(): void 
   {
@@ -54,7 +59,17 @@ export class AdminOdobravanjeComponent implements OnInit
       {
         if(dog.odobren == false)
         {
-          filteredDogadjajs.push(dog);
+          if(this.ulazniKlijent?.role == 'upravnik')
+          {
+            if(dog.teren.dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+            {
+              filteredDogadjajs.push(dog);
+            }
+          }
+          else
+          {
+            filteredDogadjajs.push(dog);
+          }
         }
       }
       this.dogadjajs = filteredDogadjajs;
