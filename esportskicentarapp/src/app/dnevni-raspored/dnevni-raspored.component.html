@@ -7,7 +7,7 @@
         <!-- Modal za dodavanje -->
         <div class="addDiv">
             <p-button class="main-btn" label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
-            <p-dialog header="Dodavanje dnevnog rasporeda" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+            <p-dialog header="Dodavanje dnevnog rasporeda" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px', height: '600px'}" [draggable]="false" [resizable]="false">
                 <div class="container">
                    <form #addForm="ngForm" (ngSubmit)="onAddDnevniRaspored(addForm)">
                     <div class="drop card flex justify-content-center">
@@ -77,7 +77,7 @@
 </div>
 
 <!--Modal za izmjenu(edit)-->
-<p-dialog header="Izmjena dnevnog rasporeda" [(visible)]="editVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+<p-dialog header="Izmjena dnevnog rasporeda" [(visible)]="editVisible" [modal]="true" [style]="{ width: '500px', height: '600px'}" [draggable]="false" [resizable]="false">
     <div class="container">
         <form #editForm="ngForm">
             <input type="hidden" id="id_dnevniRaspored" ngModel="{{editDnevniRaspored?.idDnevniRaspored}}" name="idDnevniRaspored"/>
