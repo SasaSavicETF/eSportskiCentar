@@ -46,7 +46,7 @@ public class UpravnikService {
         if(stariUpravnik == null)
             return null;
         else {
-            upravnik.setLozinka(paswordHasher.hashPassword(upravnik.getLozinka()));
+            //upravnik.setLozinka(paswordHasher.hashPassword(upravnik.getLozinka()));
             return upravnikRepository.save(upravnik);
         }
     }

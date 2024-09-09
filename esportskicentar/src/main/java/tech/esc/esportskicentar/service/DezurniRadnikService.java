@@ -42,7 +42,7 @@ public class DezurniRadnikService {
         if(stariDezurniRadnik == null)
             return null;
         else {
-            dezurniRadnik.setLozinka(paswordHasher.hashPassword(dezurniRadnik.getLozinka()));
+            //dezurniRadnik.setLozinka(paswordHasher.hashPassword(dezurniRadnik.getLozinka()));
             return dezurniRadnikRepository.save(dezurniRadnik);
         }
     }
