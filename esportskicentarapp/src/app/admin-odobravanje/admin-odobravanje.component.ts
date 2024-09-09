@@ -145,7 +145,7 @@ export class AdminOdobravanjeComponent implements OnInit
   public checkTimeDogadjaj(dogadjaj: Dogadjaj): boolean
   {
     for (let dogadjajLst of this.allDogadjajs) {
-      if (dogadjaj.dnevniRaspored.idDnevniRaspored === dogadjajLst.dnevniRaspored.idDnevniRaspored && dogadjajLst.odobren) {
+      if (dogadjaj.dnevniRaspored.idDnevniRaspored === dogadjajLst.dnevniRaspored.idDnevniRaspored && dogadjajLst.odobren && dogadjaj.teren.idTeren == dogadjajLst.teren.idTeren) {
         if (
           (dogadjaj.vrijemeOd >= dogadjajLst.vrijemeOd && dogadjaj.vrijemeOd < dogadjajLst.vrijemeDo) ||
           (dogadjaj.vrijemeDo > dogadjajLst.vrijemeOd && dogadjaj.vrijemeDo <= dogadjajLst.vrijemeDo) ||
