@@ -12,6 +12,16 @@
     margin-bottom: 10px;
 }
 
+.available 
+{
+    color: green;
+}
+  
+.not-available 
+{
+    color: red;
+}
+
 ::ng-deep .main-btn .p-button{
     background: rgba(50, 0, 128, 0.603) !important;
     /*border: 1px solid blueviolet;

@@ -10,6 +10,9 @@
             <p-dialog header="Dodavanje svlacionice" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
                 <div class="container">
                    <form #addForm="ngForm" (ngSubmit)="onAddSvlacionica(addForm)">
+                        <div class="drop card flex justify-content-center">
+                            <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu"></p-dropdown>
+                        </div>
                         <label for="broj_svlacionice">Broj svlačionice</label>
                         <input type="number" pInputText class="textInput" id="broj_svlacionice" ngModel name="brojSvlacionice"/>
                     
@@ -21,9 +24,6 @@
                                 name="dostupna" 
                                 inputId="dostupna" />
                             <label class="forCheck" for="dostupna">Dostupna</label>
-                        </div>
-                        <div class="drop card flex justify-content-center">
-                            <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu"></p-dropdown>
                         </div>
                         <div class="addBtn">
                             <p-button class="main-btn" type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
@@ -83,6 +83,9 @@
     <div class="container">
         <form #editForm="ngForm">
             <input type="hidden" id="id_svlacionica" ngModel="{{editSvlacionica?.idSvlacionica}}" name="idSvlacionica"/>
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu"></p-dropdown>
+            </div>
             <label for="broj_svlacionice">Broj svlačionice</label>
             <input type="number" pInputText class="textInput" id="broj_svlacionice" ngModel="{{editSvlacionica?.brojSvlacionice}}" name="brojSvlacionice"/>
             <div class="card flex justify-content-center check">
@@ -93,9 +96,7 @@
                     inputId="dostupna" />
                 <label class="forCheck" for="dostupna">Dostupna</label>
             </div>
-            <div class="drop card flex justify-content-center">
-                <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" placeholder="Izaberi dvoranu"></p-dropdown>
-            </div>
+            
             <div class="addBtn">
                 <p-button class="main-btn" (onClick)="onUpdateSvlacionica(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
             </div>
