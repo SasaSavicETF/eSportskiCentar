@@ -25,11 +25,11 @@ export class LoginComponent {
         }
         this.klijentService.activeUser = response;
         if(this.klijentService.activeUser.role == 'admin') {
-          this.router.navigate(['/administrator']);
+          this.router.navigate(['/adminPanel']);
         } else if(this.klijentService.activeUser.role == 'radnik') {
-          // Potrebna ruta
+          this.router.navigate(['/radnik/zadaci']);
         } else if(this.klijentService.activeUser.role == 'upravnik') {
-          // Potrebna ruta
+          this.router.navigate(['/teren']);
         } else {
           this.router.navigate(['/teren']); 
         }
