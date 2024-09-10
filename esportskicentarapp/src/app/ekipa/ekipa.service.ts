@@ -54,9 +54,6 @@ export class EkipaService {
     if (!ekipa.sport) {
       return throwError(() => 'Sport mora biti unesen.');
     }
-    if (!ekipa.takmicenje) {
-      return throwError(() => 'Takmičenje mora biti uneseno.');
-    }
 
     return new Observable<void>((observer) => {
       observer.next();

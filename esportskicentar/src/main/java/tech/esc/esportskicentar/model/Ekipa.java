@@ -24,9 +24,10 @@ public class Ekipa {
     @ManyToOne
     @JoinColumn(name = "id_sport")
     private Sport sport;
+    /*
     @NotNull
     @ManyToOne
     @JoinColumn(name = "id_takmicenje")
     private Takmicenje takmicenje;
-
+    */
 }

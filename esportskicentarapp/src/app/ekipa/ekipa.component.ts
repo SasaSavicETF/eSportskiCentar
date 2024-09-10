@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Ekipa } from '../models/ekipa';
 import { Sport } from '../models/sport';
-import { Takmicenje } from '../models/takmicenje';
 import { EkipaService } from './ekipa.service';
 import { SportService } from '../sport/sport.service';
-import { TakmicenjeService } from '../takmicenje/takmicenje.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 
@@ -33,18 +31,15 @@ export class EkipaComponent implements OnInit
   sports: Sport[] = [];
   selectedSport: Sport | undefined;
 
-  takmicenjes: Takmicenje[] = [];
-  selectedTakmicenje: Takmicenje | undefined;
-
   constructor(private ekipaService: EkipaService, private sportService: SportService, 
-    private takmicenjeService: TakmicenjeService, private messageService: MessageService) { }
+    private messageService: MessageService) { }
 
 
   ngOnInit(): void 
   {
       this.getEkipas();
       this.getSports();
-      this.getTakmicenjes();
+
   }
 
   public getSports(): void
@@ -61,19 +56,6 @@ export class EkipaComponent implements OnInit
     );
   }
 
-  public getTakmicenjes(): void
-  {
-    this.takmicenjeService.getTakmicenjes().subscribe(
-      (response: Takmicenje[]) =>
-      {
-        this.takmicenjes = response;
-      },
-      (error: HttpErrorResponse) =>
-      {
-        alert(error.message);
-      }
-    );
-  }
 
   public getEkipas(): void
   {
@@ -145,8 +127,7 @@ export class EkipaComponent implements OnInit
     for(const ekipa of this.ekipas)
     {
       if((ekipa.nazivEkipe.toLowerCase().indexOf(key.toLowerCase()) !== -1) ||
-        (ekipa.sport.nazivSporta.toLowerCase().indexOf(key.toLowerCase()) !== -1) || 
-        ekipa.takmicenje.vrstaTakmicenja.toLowerCase().indexOf(key.toLowerCase()) !== -1 )
+        (ekipa.sport.nazivSporta.toLowerCase().indexOf(key.toLowerCase()) !== -1))
       {
         results.push(ekipa);
       }
@@ -170,7 +151,6 @@ export class EkipaComponent implements OnInit
       this.editVisible = true;
       this.editEkipa = { ...ekipa };
       this.selectedSport = this.editEkipa.sport;
-      this.selectedTakmicenje = this.editEkipa.takmicenje;
     }
   }
 

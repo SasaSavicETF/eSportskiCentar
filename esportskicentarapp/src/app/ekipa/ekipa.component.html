@@ -15,9 +15,6 @@
                         <div class="drop card flex justify-content-center">
                             <p-dropdown class="custom-dd" [options]="sports" [(ngModel)]="selectedSport" name="sport" optionLabel="nazivSporta" [showClear]="true" placeholder="Izaberi sport"></p-dropdown>
                         </div>
-                        <div class="drop card flex justify-content-center">
-                            <p-dropdown class="custom-dd" [options]="takmicenjes" [(ngModel)]="selectedTakmicenje" name="takmicenje" optionLabel="vrstaTakmicenja" [showClear]="true" placeholder="Izaberi takmičenje"></p-dropdown>
-                        </div>
                         <div class="addBtn">
                             <p-button class="main-btn" type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
                         </div>
@@ -47,17 +44,15 @@
     >
     <ng-template pTemplate="header">
         <tr>
-            <th style="width: 25%">Naziv ekipe</th>
-            <th style="width: 25%">Sport</th>
-            <th style="width: 25%">Takmičenje</th>  
-            <th style="width: 25%">Opcije</th>
+            <th style="width: 33%">Naziv ekipe</th>
+            <th style="width: 33%">Sport</th>
+            <th style="width: 33%">Opcije</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-ekipa>
         <tr>
             <td>{{ ekipa.nazivEkipe }}</td>
             <td>{{ ekipa.sport.nazivSporta }}</td>
-            <td>{{ ekipa.takmicenje.vrstaTakmicenja }}</td>
             <td>
                 <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" styleClass="p-button-text" (click)="showEditDialog(ekipa)"></p-button>
                 <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger " (click)="showDeleteDialog(ekipa)"></p-button>
@@ -77,9 +72,6 @@
             <input type="text" pInputText class="textInput" id="naziv_ekipe" ngModel="{{editEkipa?.nazivEkipe}}" name="nazivEkipe" required/>
             <div class="drop card flex justify-content-center">
                 <p-dropdown class="custom-dd" [options]="sports" [(ngModel)]="selectedSport" name="sport" optionLabel="nazivSporta" [showClear]="true" placeholder="Izaberi sport"></p-dropdown>
-            </div>
-            <div class="drop card flex justify-content-center">
-                <p-dropdown class="custom-dd" [options]="takmicenjes" [(ngModel)]="selectedTakmicenje" name="takmicenje" optionLabel="vrstaTakmicenja" [showClear]="true" placeholder="Izaberi takmičenje"></p-dropdown>
             </div>
             <div class="addBtn">
                 <p-button class="main-btn" (onClick)="onUpdateEkipa(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
