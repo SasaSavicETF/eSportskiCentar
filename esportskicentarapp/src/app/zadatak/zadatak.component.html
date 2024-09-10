@@ -12,21 +12,22 @@
                    <form #addForm="ngForm" (ngSubmit)="onAddZadatak(addForm)">
                     <label for="naslov">Naslov</label>
                     <input type="text" pInputText class="textInput" id="naslov" ngModel name="naslov" required/>
-                    <label for="datum_kreiranja">Datum kreiranja</label>
+                    <!--<label for="datum_kreiranja">Datum kreiranja</label>-->
                     <div class="drop card flex justify-content-center">
                     <p-calendar 
-                    class="main-btn"
-                    id="datum_kreiranja" 
-                    ngModel
-                    name="datumKreiranja" 
-                    [showIcon]="true" 
-                    [showOnFocus]="false" 
-                    [minDate]="datumKreiranja"
-                    [style]="{'minWidth':'100%', 'margin-botom': '20px'}"
-                    inputId="buttondisplay"
-                    dateFormat="dd.mm.yy" 
-                    dataType="string"/>
+                        class="main-btn" 
+                         id="datum_kreiranja" 
+                        [(ngModel)]="datumKreiranja" 
+                        name="datumKreiranja" 
+                        [showIcon]="true" 
+                        [showOnFocus]="false" 
+                        [minDate]="datumKreiranja"
+                        [style]="{'minWidth':'100%', 'margin-botom': '20px', 'display': 'none'}" 
+                        inputId="buttondisplay"
+                        dateFormat="dd.mm.yy" 
+                        dataType="string"/>
                     </div>
+
                     <label for="rok_izvrsenja">Rok izvršenja</label>
                     <div class="drop card flex justify-content-center">
                     <p-calendar 
@@ -46,16 +47,24 @@
                         <label for="info">Info</label>
                         <input type="text" pInputText class="textInput" id="info" ngModel name="info" required/>
                         
-                        <div class="drop card flex justify-content-center">
-                            <p-dropdown class="custom-dd" [options]="upravniks" [(ngModel)]="selectedUpravnik" name="upravnik" [showClear]="true" placeholder="Izaberi upravnika">
-                                <ng-template let-upravnik pTemplate="selectedItem">
-                                  {{ upravnik?.ime }} {{ upravnik?.prezime }}
-                                </ng-template>
-                                <ng-template let-upravnik pTemplate="item">
-                                  {{ upravnik.ime }} {{ upravnik.prezime }}
-                                </ng-template>
+                        <div class="drop card flex justify-content-center" [ngStyle]="{'display': 'none'}">
+                            <p-dropdown class="custom-dd" [options]="upravniks" 
+                                        [(ngModel)]="selectedUpravnikLogin" 
+                                        name="upravnik" 
+                                        [showClear]="true" 
+                                        placeholder="Izaberi upravnika">
+                            
+                              <ng-template let-upravnik pTemplate="selectedItem">
+                                {{ upravnik?.ime }} {{ upravnik?.prezime }}
+                              </ng-template>
+                            
+                              <ng-template let-upravnik pTemplate="item">
+                                {{ upravnik.ime }} {{ upravnik.prezime }}
+                              </ng-template>
+                            
                             </p-dropdown>                              
                         </div>
+                          
                         <div class="drop card flex justify-content-center">
                             <p-dropdown class="custom-dd" [options]="dezurniRadniks" [(ngModel)]="selectedDezurniRadnik" name="dezurniRadnik" [showClear]="true" placeholder="Izaberi dežurnog radnika">
                                 <ng-template let-dezurniRadnik pTemplate="selectedItem">
@@ -129,7 +138,7 @@
             <input type="hidden" id="datum_kreiranja" ngModel="{{editZadatak?.datumKreiranja}}" name="datumKreiranja"/>
             <label for="naslov">Naslov</label>
             <input type="text" pInputText class="textInput" id="naslov" ngModel="{{editZadatak?.naslov}}" name="naslov" required/>
-            <label for="datum_kreiranja">Datum kreiranja</label>
+            <!--<label for="datum_kreiranja">Datum kreiranja</label>
                     <div class="drop card flex justify-content-center">
                     <p-calendar 
                     class="main-btn"
@@ -143,7 +152,7 @@
                     inputId="buttondisplay"
                     dateFormat="dd.mm.yy" 
                     dataType="string"/>
-                    </div>
+                    </div>-->
             <label for="rok_izvrsenja">Rok izvršenja</label>
             <div class="drop card flex justify-content-center">
                 <p-calendar 
@@ -161,15 +170,22 @@
                 </div>
             <label for="info">Info</label>
             <input type="text" pInputText class="textInput" id="info" ngModel="{{editZadatak?.info}}" name="info" required/>
-            <div class="drop card flex justify-content-center">
-                <p-dropdown class="custom-dd" [options]="upravniks" [(ngModel)]="selectedUpravnik" name="upravnik" [showClear]="true" placeholder="Izaberi upravnika">
-                    <ng-template let-upravnik pTemplate="selectedItem">
-                      {{ upravnik?.ime }} {{ upravnik?.prezime }}
-                    </ng-template>
-                    <ng-template let-upravnik pTemplate="item">
-                      {{ upravnik.ime }} {{ upravnik.prezime }}
-                    </ng-template>
-                  </p-dropdown>                  
+            <div class="drop card flex justify-content-center" [ngStyle]="{'display': 'none'}">
+                <p-dropdown class="custom-dd" [options]="upravniks" 
+                            [(ngModel)]="selectedUpravnikLogin" 
+                            name="upravnik" 
+                            [showClear]="true" 
+                            placeholder="Izaberi upravnika">
+                
+                  <ng-template let-upravnik pTemplate="selectedItem">
+                    {{ upravnik?.ime }} {{ upravnik?.prezime }}
+                  </ng-template>
+                
+                  <ng-template let-upravnik pTemplate="item">
+                    {{ upravnik.ime }} {{ upravnik.prezime }}
+                  </ng-template>
+                
+                </p-dropdown>                              
             </div>
             <div class="drop card flex justify-content-center">
                 <p-dropdown class="custom-dd" [options]="dezurniRadniks" [(ngModel)]="selectedDezurniRadnik" name="dezurniRadnik" [showClear]="true" placeholder="Izaberi dežurnog radnika">

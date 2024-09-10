@@ -8,6 +8,8 @@ import { ZadatakService } from './zadatak.service';
 import { DezurniRadnik } from '../models/dezurniRadnik';
 import { UpravnikService } from '../upravnik/upravnik.service';
 import { DezurniRadnikService } from '../dezurni-radnik/dezurni-radnik.service';
+import { UserDTO } from '../models/user-dto';
+import { KlijentService } from '../services/klijent.service';
 
 @Component({
   selector: 'app-zadatak',
@@ -30,6 +32,9 @@ export class ZadatakComponent implements OnInit{
 
   datumKreiranja: Date = new Date();
 
+  ulazniKlijent: UserDTO | null = this.klijentService.activeUser;
+  selectedUpravnikLogin: Upravnik | undefined;
+
   upravniks: Upravnik[] = [];
   selectedUpravnik: Upravnik | undefined;
 
@@ -38,7 +43,9 @@ export class ZadatakComponent implements OnInit{
 
  //upravnik i dezurniradnikservice
   constructor(private zadatakService: ZadatakService, private upravnikService: UpravnikService,
-    private dezurniRadnikService: DezurniRadnikService, private messageService: MessageService) { }
+    private dezurniRadnikService: DezurniRadnikService, private messageService: MessageService,
+    private klijentService: KlijentService) 
+    { }
 
 
   ngOnInit(): void 
@@ -54,12 +61,25 @@ export class ZadatakComponent implements OnInit{
       (response: Upravnik[]) =>
       {
         this.upravniks = response;
+        this.findUpravnik();
       },
       (error: HttpErrorResponse) =>
       {
         alert(error.message);
       }
     );
+  }
+
+  public findUpravnik(): void
+  {
+    for(let upravnik of this.upravniks)
+    {
+      if(this.ulazniKlijent?.id == upravnik.idUpravnik)
+      {
+        this.selectedUpravnikLogin = upravnik;
+        break;
+      }
+    }
   }
 
   public getDezurniRadniks(): void
@@ -92,7 +112,11 @@ export class ZadatakComponent implements OnInit{
 
   public onAddZadatak(addForm: NgForm): void
   {
+    this.findUpravnik();
     this.setDatumKreiranja();
+    addForm.form.get('upravnik')?.setValue(this.selectedUpravnikLogin);
+    console.log(this.dateToString(this.datumKreiranja));
+    addForm.form.get('datumKreiranja')?.setValue(this.dateToString(this.datumKreiranja));
     this.addVisible = false;
     this.zadatakService.addZadatak(addForm.value).subscribe(
       (response: Zadatak) =>
@@ -188,6 +212,72 @@ export class ZadatakComponent implements OnInit{
   closeDeleteDialog()
   {
     this.deleteVisible = false;
+  }
+
+  public stringToDate(dateString: string): Date 
+  {
+    const [day, month, year] = dateString.split('.').map(Number);
+    return new Date(year, month - 1, day); // Mjeseci su 0-indeksirani u JavaScriptu
+  }
+
+
+  public dateToString(date: Date): string 
+  {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Mjeseci su 0-indeksirani u JavaScriptu
+    const year = date.getFullYear();
+    
+    return `${day}.${month}.${year}`;
+  }
+
+
+
+  public static normalizeDate(date1: Date): Date
+  {
+    let dan: number = date1.getDate();
+    let mjesec: number = date1.getMonth();
+    let godina: number = date1.getFullYear();
+
+    if (date1.getMonth() == 1) 
+    {
+      if (date1.getDate() == 28) {
+          if ((date1.getFullYear() % 4 == 0 && date1.getFullYear() % 100 != 0) || date1.getFullYear() % 400 == 0) {
+            dan = 29;
+          } else {
+            dan = 1;
+            mjesec = 2;
+          }
+      } else if (date1.getDate() == 29) {
+          dan = 1;
+          mjesec = 2;
+      }
+    }
+    else if (date1.getDate() == 30 && (date1.getMonth() == 3 || date1.getMonth() == 5 || date1.getMonth() == 8 || date1.getMonth() == 10)) 
+    {
+      dan = 1;
+      mjesec = date1.getMonth() + 1;
+    }
+    else if (date1.getDate() == 31) 
+    {
+      if (date1.getMonth() == 11) {
+          dan = 1;
+          mjesec = 0;
+          godina = date1.getFullYear();
+      } else {
+        dan = 1;
+        mjesec = date1.getMonth() + 1;
+      }
+    }
+    else
+    {
+      dan = date1.getDate() + 1;
+    }
+
+    date1.setDate(dan);
+    date1.setMonth(mjesec);
+    date1.setFullYear(godina);
+
+    return date1;
   }
 
   fixDate(d: string | undefined) {
