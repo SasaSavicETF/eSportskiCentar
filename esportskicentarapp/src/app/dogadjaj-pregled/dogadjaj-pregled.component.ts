@@ -94,4 +94,39 @@ export class DogadjajPregledComponent implements OnInit{
     this.paginatedDogadjajs = this.dogadjajs.slice(startIndex, endIndex);
 }
 
+fixDate(d: string | undefined) {
+  if(typeof d === 'undefined' || d === null)
+    return;
+ 
+  const parts = d.split('.');
+
+  const day = parseInt(parts[0],10);
+  const month = parseInt(parts[1],10);
+  const year = parseInt(parts[2],10);
+
+  if (month === 2) {
+    if (day === 28) {
+        if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+            return `29.02.${year}`;
+        } else {
+            return `01.03.${year}`;
+        }
+    } else if (day === 29) {
+        return `01.03.${year}`;
+    }
+}
+
+if (day === 30 && (month === 4 || month === 6 || month === 9 || month === 11)) {
+    return `01.${String(month + 1).padStart(2, '0')}.${year}`;
+}
+
+if (day === 31) {
+    if (month === 12) {
+        return `01.01.${year + 1}`;
+    } else {
+        return `01.${String(month + 1).padStart(2, '0')}.${year}`;
+    }
+}
+  return (day+1).toString().padStart(2,'0') + "." + month.toString().padStart(2,'0') + "." + year;
+}
 }

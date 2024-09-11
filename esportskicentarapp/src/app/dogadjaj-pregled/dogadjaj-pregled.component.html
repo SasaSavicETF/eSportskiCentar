@@ -8,15 +8,10 @@
             <div *ngFor="let dogadjaj of paginatedDogadjajs" class="card-container">
                 <p-card>
                     <ng-template pTemplate="title">
-                        {{dogadjaj.takmicenje.vrstaTakmicenja}}<br />
-                        {{dogadjaj.domacaEkipa.nazivEkipe}} - {{dogadjaj.gostujucaEkipa.nazivEkipe}}
+                        {{fixDate(dogadjaj.dnevniRaspored.datum)}}<br />
+                        {{dogadjaj.vrijemeOd}} - {{dogadjaj.vrijemeDo}}<br />
+                        Cijena: {{dogadjaj.cijena}} KM
                     </ng-template>
-                    <ng-template pTemplate="subtitle">
-                        {{dogadjaj.vrijemeOd}} - {{dogadjaj.vrijemeDo}}
-                    </ng-template>
-                    <p class="card-content">
-                        {{dogadjaj.infoDogadjaja}}
-                    </p>
                     <ng-template pTemplate="footer">
                         <div class="footer">
                             <p-button (onClick)="showDeleteDialog(dogadjaj)" class="main-btn" label="Otkaži"
