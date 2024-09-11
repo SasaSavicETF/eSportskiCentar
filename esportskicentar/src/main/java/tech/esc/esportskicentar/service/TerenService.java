@@ -52,7 +52,7 @@ public class TerenService {
             Path filePath = Paths.get(System.getProperty("user.dir")+ File.separator + uploadPath + File.separator
                     + teren.getSlika());
             Files.write(filePath, image.getBytes());
-            teren.setSlika("http://localhost:8080/" + teren.getSlika());
+            teren.setSlika("http://localhost:8080/pictures/" + teren.getSlika());
         }
 
         return terenRepository.save(teren);

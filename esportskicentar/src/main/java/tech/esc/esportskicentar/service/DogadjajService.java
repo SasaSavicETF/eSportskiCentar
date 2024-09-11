@@ -218,7 +218,7 @@ public class DogadjajService {
     public Map<String, Integer> getReservationStats() {
         Map<String, Integer> result = new HashMap<>();
         int numberOfClientsWithReservation = dogadjajRepository.countByDistinctClient();
-        int numberOfClientsWithoutReservation = klijentRepository.countKlijents();
+        int numberOfClientsWithoutReservation = klijentRepository.countKlijents() - numberOfClientsWithReservation;
 
         result.put("Klijenti sa rezervacijama", numberOfClientsWithReservation);
         result.put("Klijenti bez rezervacija", numberOfClientsWithoutReservation);

@@ -122,14 +122,18 @@ export class TerenComponent implements OnInit
     this.terenService.getTerens().subscribe(
       (response: Teren[]) => 
       {
+        response.forEach(teren => {
+          
+        });
         if(this.ulazniKlijent !== null && this.ulazniKlijent.role == 'upravnik')
           {
             const filteredTerens: Teren[] = [];
             for(let teren of response)
-            {
+            {  
               if(teren.dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
               {
                 filteredTerens.push(teren);
+               
               }
             }
             this.terens = filteredTerens;
