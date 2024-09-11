@@ -4,6 +4,7 @@ import { Klijent } from '../models/klijent';
 import { Router } from '@angular/router';
 import { UserDTO } from '../models/user-dto';
 import { isPlatformBrowser } from '@angular/common';
+import { EncryptionService } from './encryption.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,12 @@ export class KlijentService {
   private url = 'http://localhost:8080/klijent';
   public activeUser: UserDTO | null = null;
 
-  constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) private platformId: Object, private encryption: EncryptionService) {
     if (isPlatformBrowser(this.platformId) && localStorage !== undefined){
       const storedUser = localStorage.getItem('activeUser');
-      if (storedUser)
-        this.activeUser = JSON.parse(storedUser);
+      if (storedUser){
+        this.activeUser = this.encryption.decryptData(storedUser);
+      }
     }
   }
 

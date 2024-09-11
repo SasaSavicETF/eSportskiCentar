@@ -14,18 +14,7 @@
 </header>
 
 <div class="sidenav" *ngIf="showSidenav">
-    <a routerLink="/dogadjaj" routerLinkActive="active" (click)="toggleSidenav()">
-        <div class="content">
-            <div class="column">
-                <i class="pi pi-server"></i>
-            </div>
-            <div class="column">
-                <p class="title">Dodavanje događaja</p>
-                <p class="description">Unos podataka o događaju</p>
-            </div>
-        </div>
-    </a>
-    <a routerLink="/dogadjajPregled" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/dogadjajPregled" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showPregledDogadjaja">
         <div class="content">
             <div class="column">
                 <i class="pi pi-server"></i>
@@ -36,7 +25,18 @@
             </div>
         </div>
     </a>
-    <a routerLink="/admin/odabirDogadjaja" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/dogadjaj" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showDodavanjeDogadjaja">
+        <div class="content">
+            <div class="column">
+                <i class="pi pi-server"></i>
+            </div>
+            <div class="column">
+                <p class="title">Dodavanje događaja</p>
+                <p class="description">Unos podataka o događaju</p>
+            </div>
+        </div>
+    </a>
+    <a routerLink="/admin/odabirDogadjaja" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showOdabirDogadjaja">
         <div class="content">
             <div class="column">
                 <i class="pi pi-server"></i>
@@ -47,7 +47,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/takmicenje" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/takmicenje" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showTurnir">
         <div class="content">
             <div class="column">
                 <img class="pi" src="/assets/img/trophy.png">
@@ -58,7 +58,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/zadatak" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/zadatak" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showSlanjeZadatka">
         <div class="content">
             <div class="column">
                 <i class="pi pi-send"></i>
@@ -69,7 +69,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/radnik/zadaci" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/radnik/zadaci" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showZadatak">
         <div class="content">
             <div class="column">
                 <i class="pi pi-check-square"></i>
@@ -80,7 +80,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/cjenovnik" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/cjenovnik" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showCjenovnik">
         <div class="content">
             <div class="column">
                 <i class="pi pi-calculator"></i> 
@@ -91,7 +91,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/grad" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/grad" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showGrad">
         <div class="content">
             <div class="column">
                 <i class="pi pi-building"></i>
@@ -102,7 +102,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/inventar" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/inventar" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showInventar">
         <div class="content">
             <div class="column">
                 <i class="pi pi-truck"></i>
@@ -113,7 +113,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/raspored" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/raspored" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showRaspored">
         <div class="content">
             <div class="column">
                 <i class="pi pi-calendar"></i> 
@@ -124,7 +124,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/dnevniRaspored" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/dnevniRaspored" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showDnevniRaspored">
         <div class="content">
             <div class="column">
                 <i class="pi pi-calendar"></i> 
@@ -135,7 +135,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/dvorana" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/dvorana" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showDvorana">
         <div class="content">
             <div class="column">
                 <i class="pi pi-home"></i>
@@ -146,7 +146,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/sport" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/sport" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showSport">
         <div class="content">
             <div class="column">
                 <img class="pi" src="/assets/img/sports.png">
@@ -157,7 +157,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/ulaz" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/ulaz" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showUlaz">
         <div class="content">
             <div class="column">
                 <img class="pi" src="/assets/img/double-door.png">
@@ -168,7 +168,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/svlacionica" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/svlacionica" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showSvlacionica">
         <div class="content">
             <div class="column">
                 <img class="pi" src="/assets/img/school.png">
@@ -179,7 +179,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/ekipa" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/ekipa" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showEkipa">
         <div class="content">
             <div class="column">
                 <i class="pi pi-users"></i>
@@ -190,7 +190,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/teren" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/teren" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showTeren">
         <div class="content">
             <div class="column">
                 <img class="pi" src="/assets/img/field.png">
@@ -201,7 +201,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/tipterena" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/tipterena" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showTipterena">
         <div class="content">
             <div class="column">
                 <i class="pi pi-server"></i>
@@ -212,7 +212,7 @@
             </div>
         </div>
     </a>
-    <a routerLink="/administrator" routerLinkActive="active" (click)="toggleSidenav()">
+    <a routerLink="/administrator" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showAdministracija">
         <div class="content">
             <div class="column">
                 <i class="pi pi-user"></i>
@@ -223,10 +223,21 @@
             </div>
         </div>
     </a>
+    <a routerLink="/adminPanel" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showAdminPanel">
+        <div class="content">
+            <div class="column">
+                <i class="pi pi-user"></i>
+            </div>
+            <div class="column">
+                <p class="title">Administratorski panel</p>
+                <p class="description">Prikaz podataka o sistemu</p>
+            </div>
+        </div>
+    </a>
+    
 </div>
 
 <ul [ngClass]="{'visible': showMenu}">
-    <li>Pregled naloga</li>
     <li (click)="logout()">Odjava</li>
 </ul>
 
