@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { KlijentService } from '../services/klijent.service';
-import { AdministratorComponent } from '../administrator/administrator.component';
 
 @Component({
   selector: 'app-login',
@@ -24,14 +23,15 @@ export class LoginComponent {
           localStorage.setItem('activeUser', JSON.stringify(response));
         }
         this.klijentService.activeUser = response;
+
         if(this.klijentService.activeUser.role == 'admin') {
           this.router.navigate(['/adminPanel']);
         } else if(this.klijentService.activeUser.role == 'radnik') {
           this.router.navigate(['/radnik/zadaci']);
         } else if(this.klijentService.activeUser.role == 'upravnik') {
-          this.router.navigate(['/teren']);
+          this.router.navigate(['/dogadjajPregled']);
         } else {
-          this.router.navigate(['/teren']); 
+          this.router.navigate(['/dogadjajPregled']); 
         }
       },
       error: error => {

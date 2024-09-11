@@ -57,15 +57,6 @@ public class KlijentService {
     }
 
     public UserDTO loginKlijent(LoginRequest loginRequest) {
-        /*
-        Klijent klijent = klijentRepository.findByKorisnickoImeAndLozinka(
-                            loginRequest.username(), paswordHasher.hashPassword(loginRequest.password))
-                .orElseThrow(BadCredentialsException::new);
-
-        if (klijent.isBlokiran())
-            throw new AccountStatusException("Vaš nalog je blokiran!");
-
-         */
         Klijent klijent = klijentRepository.findByKorisnickoImeAndLozinka(
                         loginRequest.username(), paswordHasher.hashPassword(loginRequest.password))
                         .orElse(null);
