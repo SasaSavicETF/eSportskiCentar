@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { KlijentService } from '../services/klijent.service';
+import { EncryptionService } from '../services/encryption.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,8 @@ export class LoginComponent {
   username!: string;
   password!: string;
 
-  constructor(private router : Router, private klijentService: KlijentService){}
+  constructor(private router : Router, private klijentService: KlijentService, 
+            private encryptionService: EncryptionService){}
 
   login() {
 
@@ -20,7 +22,8 @@ export class LoginComponent {
       next: response => {
         if (localStorage !== undefined){
           localStorage.removeItem('activeUser');
-          localStorage.setItem('activeUser', JSON.stringify(response));
+          const encryptedData = this.encryptionService.encryptData(response);
+          localStorage.setItem('activeUser', encryptedData);
         }
         this.klijentService.activeUser = response;
 
