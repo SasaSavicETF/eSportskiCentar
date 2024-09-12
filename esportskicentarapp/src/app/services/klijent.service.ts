@@ -37,7 +37,7 @@ export class KlijentService {
 
   logout() {
     this.activeUser = null;
-    if (localStorage !== undefined)
+    if (isPlatformBrowser(this.platformId) && localStorage !== undefined)
       localStorage.removeItem('activeUser');
 
     this.router.navigate(['/index']);

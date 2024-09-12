@@ -31,35 +31,38 @@ import { AdministratorComponent } from './administrator/administrator.component'
 import { adminGuard } from './guards/admin.guard';
 import { dezurniGuard } from './guards/dezurni.guard';
 import { upravnikGuard } from './guards/upravnik.guard';
+import { userGuard } from './guards/user.guard';
+import { comboGuard } from './guards/combo.guard';
+import { adminUpravnikGuard } from './guards/admin-upravnik.guard';
 
 const routes: Routes = [
   //ovo prvo je samo privremeno
-  { path: 'adminPanel', component: AdminPanelComponent, canActivate : [adminGuard]},
   { path: 'cjenovnik', component: CjenovnikComponent, canActivate : [upravnikGuard]},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
   { path: '', redirectTo: '/index', pathMatch: 'full' },
-  { path: 'grad', component: GradComponent, canActivate : [adminGuard]},
+  { path: 'admin/odabirDogadjaja', component: AdminOdobravanjeComponent, canActivate : [upravnikGuard]},
   { path: 'inventar', component: InventarComponent, canActivate : [upravnikGuard]},
-  { path: 'dnevniRaspored', component: DnevniRasporedComponent},
-  { path: 'dogadjaj', component: DogadjajComponent},
-  { path: 'dogadjajPregled', component: DogadjajPregledComponent},
+  { path: 'dnevniRaspored', component: DnevniRasporedComponent, canActivate : [adminUpravnikGuard]},
+  { path: 'raspored', component: RasporedComponent, canActivate : [adminUpravnikGuard]},
+  { path: 'dogadjaj', component: DogadjajComponent, canActivate: [comboGuard]},
+  { path: 'dogadjajPregled', component: DogadjajPregledComponent, canActivate: [userGuard]},
   { path: 'dvorana', component: DvoranaComponent, canActivate : [adminGuard]},
   { path: 'administrator', component: AdministratorComponent, canActivate : [adminGuard]},
-  { path: 'dezurniRadnik', component: DezurniRadnikComponent},
+  { path: 'adminPanel', component: AdminPanelComponent, canActivate : [adminGuard]},
   { path: 'sport', component: SportComponent, canActivate : [adminGuard]},
-  { path: 'ulaz', component: UlazComponent},
-  { path: 'svlacionica', component: SvlacionicaComponent},
-  { path: 'takmicenje', component: TakmicenjeComponent, canActivate : [adminGuard]},
-  { path: 'raspored', component: RasporedComponent},
   { path: 'ekipa', component: EkipaComponent, canActivate : [adminGuard]},
   { path: 'tipterena', component: TipTerenaComponent, canActivate : [adminGuard]},
-  { path: 'teren', component: TerenComponent},
+  { path: 'grad', component: GradComponent, canActivate : [adminGuard]},
+  { path: 'dezurniRadnik', component: DezurniRadnikComponent},
+  { path: 'ulaz', component: UlazComponent, canActivate : [adminUpravnikGuard]},
+  { path: 'svlacionica', component: SvlacionicaComponent, canActivate : [adminUpravnikGuard]},
+  { path: 'takmicenje', component: TakmicenjeComponent, canActivate : [adminUpravnikGuard]},
+  { path: 'teren', component: TerenComponent, canActivate : [adminUpravnikGuard]},
   { path: 'index', component: IndexComponent},
   { path: 'upravnik', component: UpravnikComponent},
   { path: 'zadatak', component: ZadatakComponent},
   { path: 'radnik/zadaci', component: DezurniRadnikIndexComponent, canActivate: [dezurniGuard]},
-  { path: 'admin/odabirDogadjaja', component: AdminOdobravanjeComponent, canActivate : [upravnikGuard]},
   { path: '**', component: PageNotFoundComponent}
 ];
 
