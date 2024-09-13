@@ -193,11 +193,12 @@
 
 
               <div class="drop card flex justify-content-center mob add-form-marg">
-                <p-dropdown class="custom-dd" [options]="ekipas" [(ngModel)]="selectedDomacaEkipa" name="domacaEkipa" optionLabel="nazivEkipe" [showClear]="true" [style]="{'minWidth':'100%', 'margin-botom': '20px'}" placeholder="Izaberi ekipu"></p-dropdown>
+                <p-dropdown class="custom-dd" [options]="ekipas" [(ngModel)]="selectedDomacaEkipa" name="domacaEkipa" optionLabel="nazivEkipe" [showClear]="true" [style]="{'minWidth':'100%', 'margin-botom': '20px'}" placeholder="Izaberi domaću ekipu"></p-dropdown>
               </div>
               <div class="drop card flex justify-content-center mob add-form-marg">
-                <p-dropdown class="custom-dd" [options]="ekipas" [(ngModel)]="selectedGostujucaEkipa" name="gostujucaEkipa" optionLabel="nazivEkipe" [showClear]="true" [style]="{'minWidth':'100%', 'margin-botom': '20px'}" placeholder="Izaberi ekipu"></p-dropdown>
+                <p-dropdown class="custom-dd" [options]="ekipas" [(ngModel)]="selectedGostujucaEkipa" name="gostujucaEkipa" optionLabel="nazivEkipe" [showClear]="true" [style]="{'minWidth':'100%', 'margin-botom': '20px'}" placeholder="Izaberi gostujuću ekipu"></p-dropdown>
               </div>
+            <label for="info">Informacije</label>
             <textarea type="text" pInputText class="add-textInputL add-form-marg" id="info" ngModel name="infoDogadjaja" required></textarea>
             <div class="drop card flex justify-content-center hide">
               <p-dropdown class="custom-dd" [options]="dnevniRasporeds" [(ngModel)]="selectedDnevniRaspored" name="dnevniRaspored" optionLabel="datum" [showClear]="true" placeholder="Izaberi raspored"></p-dropdown>

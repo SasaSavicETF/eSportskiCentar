@@ -30,10 +30,10 @@ CREATE TABLE `administrator` (
   `prezime` varchar(100) NOT NULL,
   `broj_telefona` varchar(20) NOT NULL,
   `korisnicko_ime` varchar(50) NOT NULL,
-  `lozinka` varchar(50) NOT NULL,
+  `lozinka` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
   PRIMARY KEY (`id_administrator`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,7 +52,7 @@ CREATE TABLE `cjenovnik` (
   PRIMARY KEY (`id_cjenovnik`),
   KEY `FK_cjenovnik_teren_idx` (`id_teren`),
   CONSTRAINT `FK_cjenovnik_teren` FOREIGN KEY (`id_teren`) REFERENCES `teren` (`id_teren`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,11 +68,11 @@ CREATE TABLE `dezurni_radnik` (
   `prezime` varchar(100) NOT NULL,
   `broj_telefona` varchar(20) NOT NULL,
   `korisnicko_ime` varchar(50) NOT NULL,
-  `lozinka` varchar(50) NOT NULL,
+  `lozinka` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
   `blokiran` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`id_dezurni_radnik`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,7 +89,7 @@ CREATE TABLE `dnevni_raspored` (
   PRIMARY KEY (`id_dnevni_raspored`),
   KEY `FK_dnevni_raspored_raspored_idx` (`id_raspored`),
   CONSTRAINT `FK_dnevni_raspored_raspored` FOREIGN KEY (`id_raspored`) REFERENCES `raspored` (`id_raspored`)
-) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -112,6 +112,7 @@ CREATE TABLE `dogadjaj` (
   `cijena` decimal(6,2) NOT NULL,
   `id_klijent` int DEFAULT NULL,
   `id_sport` int DEFAULT NULL,
+  `odobren` bit(1) NOT NULL,
   PRIMARY KEY (`id_dogadjaj`),
   KEY `FK_dogadjaj_dnevni_rapored_idx` (`id_dnevni_raspored`),
   KEY `FK_dogadjaj_teren_idx` (`id_teren`),
@@ -125,7 +126,7 @@ CREATE TABLE `dogadjaj` (
   CONSTRAINT `FK_dogadjaj_klijent` FOREIGN KEY (`id_klijent`) REFERENCES `klijent` (`id_klijent`),
   CONSTRAINT `FK_dogadjaj_sport` FOREIGN KEY (`id_sport`) REFERENCES `sport` (`id_sport`),
   CONSTRAINT `FK_dogadjaj_teren` FOREIGN KEY (`id_teren`) REFERENCES `teren` (`id_teren`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +145,7 @@ CREATE TABLE `dvorana` (
   PRIMARY KEY (`id_dvorana`),
   KEY `FK_dvorana_grad_idx` (`id_grad`),
   CONSTRAINT `FK_dvorana_grad` FOREIGN KEY (`id_grad`) REFERENCES `grad` (`id_grad`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,13 +159,10 @@ CREATE TABLE `ekipa` (
   `id_ekipa` int NOT NULL AUTO_INCREMENT,
   `naziv_ekipe` varchar(100) NOT NULL,
   `id_sport` int NOT NULL,
-  `id_takmicenje` int NOT NULL,
   PRIMARY KEY (`id_ekipa`),
   KEY `FK_ekipa_sport_idx` (`id_sport`),
-  KEY `FK_ekipa_takmicenje_idx` (`id_takmicenje`),
-  CONSTRAINT `FK_ekipa_sport` FOREIGN KEY (`id_sport`) REFERENCES `sport` (`id_sport`),
-  CONSTRAINT `FK_ekipa_takmicenje` FOREIGN KEY (`id_takmicenje`) REFERENCES `takmicenje` (`id_takmicenje`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `FK_ekipa_sport` FOREIGN KEY (`id_sport`) REFERENCES `sport` (`id_sport`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,7 +176,7 @@ CREATE TABLE `grad` (
   `id_grad` int NOT NULL AUTO_INCREMENT,
   `naziv_grada` varchar(100) NOT NULL,
   PRIMARY KEY (`id_grad`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,7 +194,7 @@ CREATE TABLE `inventar` (
   PRIMARY KEY (`id_inventar`),
   KEY `FK_inventar_dvorana_idx` (`id_dvorana`),
   CONSTRAINT `FK_inventar_dvorana` FOREIGN KEY (`id_dvorana`) REFERENCES `dvorana` (`id_dvorana`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -216,7 +214,7 @@ CREATE TABLE `klijent` (
   `email` varchar(100) NOT NULL,
   `blokiran` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`id_klijent`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -230,7 +228,7 @@ CREATE TABLE `raspored` (
   `id_raspored` int NOT NULL AUTO_INCREMENT,
   `tip_rasporeda` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_raspored`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -249,7 +247,7 @@ CREATE TABLE `sport` (
   PRIMARY KEY (`id_sport`),
   KEY `FK_sport_tip_terena_idx` (`id_tip_terena`),
   CONSTRAINT `FK_sport_tip_terena` FOREIGN KEY (`id_tip_terena`) REFERENCES `tip_terena` (`id_tip_terena`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,7 +265,7 @@ CREATE TABLE `svlacionica` (
   PRIMARY KEY (`id_svlacionica`),
   KEY `FK_svlacionica_dvorana_idx` (`id_dvorana`),
   CONSTRAINT `FK_svlacionica_dvorana` FOREIGN KEY (`id_dvorana`) REFERENCES `dvorana` (`id_dvorana`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -281,7 +279,7 @@ CREATE TABLE `takmicenje` (
   `id_takmicenje` int NOT NULL AUTO_INCREMENT,
   `vrsta_takmicenja` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_takmicenje`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -306,7 +304,7 @@ CREATE TABLE `teren` (
   KEY `FK_teren_dvorana_idx` (`id_dvorana`),
   CONSTRAINT `FK_teren_dvorana` FOREIGN KEY (`id_dvorana`) REFERENCES `dvorana` (`id_dvorana`),
   CONSTRAINT `FK_teren_tip_terena` FOREIGN KEY (`id_tip_terena`) REFERENCES `tip_terena` (`id_tip_terena`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -321,7 +319,7 @@ CREATE TABLE `tip_terena` (
   `naziv_tipa_terena` varchar(100) NOT NULL,
   `info` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id_tip_terena`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -340,7 +338,7 @@ CREATE TABLE `ulaz` (
   PRIMARY KEY (`id_ulaz`),
   KEY `FK_ulaz_dvorana_idx` (`id_dvorana`),
   CONSTRAINT `FK_ulaz_dvorana` FOREIGN KEY (`id_dvorana`) REFERENCES `dvorana` (`id_dvorana`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -356,14 +354,14 @@ CREATE TABLE `upravnik` (
   `prezime` varchar(100) NOT NULL,
   `broj_telefona` varchar(20) NOT NULL,
   `korisnicko_ime` varchar(50) NOT NULL,
-  `lozinka` varchar(50) NOT NULL,
+  `lozinka` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
   `blokiran` bit(1) NOT NULL DEFAULT b'0',
   `id_dvorana` int NOT NULL,
   PRIMARY KEY (`id_upravnik`),
   KEY `fk_upravnik_dvorana_idx` (`id_dvorana`),
   CONSTRAINT `fk_upravnik_dvorana` FOREIGN KEY (`id_dvorana`) REFERENCES `dvorana` (`id_dvorana`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -375,43 +373,19 @@ DROP TABLE IF EXISTS `zadatak`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `zadatak` (
   `id_zadatak` int NOT NULL AUTO_INCREMENT,
+  `naslov` varchar(100) NOT NULL,
   `datum_kreiranja` date NOT NULL,
   `rok_izvrsenja` date DEFAULT NULL,
   `info` varchar(500) DEFAULT NULL,
   `id_upravnik` int NOT NULL,
   `id_dezurni_radnik` int NOT NULL,
+  `zavrsen` bit(1) NOT NULL,
   PRIMARY KEY (`id_zadatak`),
   KEY `FK_zadatak_dezurni_radnik_idx` (`id_dezurni_radnik`),
   KEY `FK_zadatak_upravnik_idx` (`id_upravnik`),
   CONSTRAINT `FK_zadatak_dezurni_radnik` FOREIGN KEY (`id_dezurni_radnik`) REFERENCES `dezurni_radnik` (`id_dezurni_radnik`),
   CONSTRAINT `FK_zadatak_upravnik` FOREIGN KEY (`id_upravnik`) REFERENCES `upravnik` (`id_upravnik`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `zahtjev`
---
-
-DROP TABLE IF EXISTS `zahtjev`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `zahtjev` (
-  `id_zahtjev` int NOT NULL AUTO_INCREMENT,
-  `id_klijent` int NOT NULL,
-  `id_teren` int NOT NULL,
-  `id_dnevni_raspored` int NOT NULL,
-  `vrijeme_pocetka` time NOT NULL,
-  `vrijeme_kraja` time NOT NULL,
-  `poruka` varchar(200) DEFAULT NULL,
-  `odobren` bit(1) NOT NULL DEFAULT b'0',
-  PRIMARY KEY (`id_zahtjev`),
-  KEY `FK_zahtjev_klijent_idx` (`id_klijent`),
-  KEY `FK_zahtjev_dnevni_raspored_idx` (`id_dnevni_raspored`),
-  KEY `FK_zahtjev_teren_idx` (`id_teren`),
-  CONSTRAINT `FK_zahtjev_dnevni_raspored` FOREIGN KEY (`id_dnevni_raspored`) REFERENCES `dnevni_raspored` (`id_dnevni_raspored`),
-  CONSTRAINT `FK_zahtjev_klijent` FOREIGN KEY (`id_klijent`) REFERENCES `klijent` (`id_klijent`),
-  CONSTRAINT `FK_zahtjev_teren` FOREIGN KEY (`id_teren`) REFERENCES `teren` (`id_teren`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -423,4 +397,4 @@ CREATE TABLE `zahtjev` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-28 19:52:37
+-- Dump completed on 2024-09-13 12:39:07

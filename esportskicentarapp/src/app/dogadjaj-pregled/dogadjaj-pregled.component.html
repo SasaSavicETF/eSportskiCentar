@@ -10,8 +10,9 @@
                     <ng-template pTemplate="title">
                         {{fixDate(dogadjaj.dnevniRaspored.datum)}}<br />
                         {{dogadjaj.vrijemeOd}} - {{dogadjaj.vrijemeDo}}<br />
-                        Cijena: {{dogadjaj.cijena}} KM
                     </ng-template>
+                    <h3>Teren: {{dogadjaj.teren.nazivTerena}}</h3>
+                    <h3>Cijena: {{dogadjaj.cijena}} KM</h3>
                     <ng-template pTemplate="footer">
                         <div class="footer">
                             <p-button (onClick)="showDeleteDialog(dogadjaj)" class="main-btn" label="Otkaži"

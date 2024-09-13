@@ -62,7 +62,7 @@ CREATE TABLE `cjenovnik` (
   PRIMARY KEY (`id_cjenovnik`),
   KEY `FK_cjenovnik_teren_idx` (`id_teren`),
   CONSTRAINT `FK_cjenovnik_teren` FOREIGN KEY (`id_teren`) REFERENCES `teren` (`id_teren`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +71,7 @@ CREATE TABLE `cjenovnik` (
 
 LOCK TABLES `cjenovnik` WRITE;
 /*!40000 ALTER TABLE `cjenovnik` DISABLE KEYS */;
-INSERT INTO `cjenovnik` VALUES (6,'07:30:00','12:30:00',300.00,11),(7,'12:30:00','23:30:00',700.00,11),(8,'07:30:00','23:30:00',200.00,13);
+INSERT INTO `cjenovnik` VALUES (6,'07:30:00','12:30:00',300.00,11),(7,'12:30:00','23:30:00',700.00,11),(8,'07:30:00','23:30:00',200.00,13),(9,'04:30:00','06:30:00',10.00,11);
 /*!40000 ALTER TABLE `cjenovnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +92,7 @@ CREATE TABLE `dezurni_radnik` (
   `email` varchar(100) NOT NULL,
   `blokiran` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`id_dezurni_radnik`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +101,7 @@ CREATE TABLE `dezurni_radnik` (
 
 LOCK TABLES `dezurni_radnik` WRITE;
 /*!40000 ALTER TABLE `dezurni_radnik` DISABLE KEYS */;
-INSERT INTO `dezurni_radnik` VALUES (4,'Stevan','Stevanov','065444333','stevan','dcbd07ea0c46ea5fbcb552cdd76da3bf1a65a8603fa5a23fe61dfc37aaec5f25','stevan@email.com',_binary '\0');
+INSERT INTO `dezurni_radnik` VALUES (5,'a','a','123456789','a','ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb','a@email.com',_binary '\0'),(6,'Pero','Peric','065777888','pero','0db9df7d8e7ff24ae5980d8862caf37b60f0e3ef9165630a8d64247c9d42cfd3','pero@email.com',_binary '\0');
 /*!40000 ALTER TABLE `dezurni_radnik` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,7 +119,7 @@ CREATE TABLE `dnevni_raspored` (
   PRIMARY KEY (`id_dnevni_raspored`),
   KEY `FK_dnevni_raspored_raspored_idx` (`id_raspored`),
   CONSTRAINT `FK_dnevni_raspored_raspored` FOREIGN KEY (`id_raspored`) REFERENCES `raspored` (`id_raspored`)
-) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=159 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +128,7 @@ CREATE TABLE `dnevni_raspored` (
 
 LOCK TABLES `dnevni_raspored` WRITE;
 /*!40000 ALTER TABLE `dnevni_raspored` DISABLE KEYS */;
-INSERT INTO `dnevni_raspored` VALUES (156,'2024-09-09',13),(157,'2024-09-10',13);
+INSERT INTO `dnevni_raspored` VALUES (156,'2024-09-09',13),(157,'2024-09-10',13),(158,'2024-09-13',13);
 /*!40000 ALTER TABLE `dnevni_raspored` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -166,7 +166,7 @@ CREATE TABLE `dogadjaj` (
   CONSTRAINT `FK_dogadjaj_klijent` FOREIGN KEY (`id_klijent`) REFERENCES `klijent` (`id_klijent`),
   CONSTRAINT `FK_dogadjaj_sport` FOREIGN KEY (`id_sport`) REFERENCES `sport` (`id_sport`),
   CONSTRAINT `FK_dogadjaj_teren` FOREIGN KEY (`id_teren`) REFERENCES `teren` (`id_teren`)
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -175,7 +175,7 @@ CREATE TABLE `dogadjaj` (
 
 LOCK TABLES `dogadjaj` WRITE;
 /*!40000 ALTER TABLE `dogadjaj` DISABLE KEYS */;
-INSERT INTO `dogadjaj` VALUES (109,4,NULL,NULL,'11:30:00','14:30:00','Trening omladinaca',156,11,1700.00,NULL,16,_binary ''),(110,5,4,5,'18:30:00','23:30:00','UEFA utakmica lige konferencija',156,11,3500.00,NULL,16,_binary ''),(112,4,NULL,NULL,'20:30:00','21:30:00','licni termin',156,13,200.00,3,17,_binary ''),(113,4,NULL,NULL,'11:30:00','15:30:00','Trening FK Naprijed',157,11,2400.00,3,16,_binary '\0');
+INSERT INTO `dogadjaj` VALUES (109,4,NULL,NULL,'11:30:00','14:30:00','Trening omladinaca',156,11,1700.00,NULL,16,_binary ''),(110,5,4,5,'18:30:00','23:30:00','UEFA utakmica lige konferencija',156,11,3500.00,NULL,16,_binary ''),(112,4,NULL,NULL,'20:30:00','21:30:00','licni termin',156,13,200.00,3,17,_binary ''),(113,4,NULL,NULL,'11:30:00','15:30:00','Trening FK Naprijed',157,11,2400.00,3,16,_binary ''),(114,4,NULL,NULL,'10:30:00','12:30:00','Lični tening',158,11,600.00,3,22,_binary '\0');
 /*!40000 ALTER TABLE `dogadjaj` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,13 +219,10 @@ CREATE TABLE `ekipa` (
   `id_ekipa` int NOT NULL AUTO_INCREMENT,
   `naziv_ekipe` varchar(100) NOT NULL,
   `id_sport` int NOT NULL,
-  `id_takmicenje` int NOT NULL,
   PRIMARY KEY (`id_ekipa`),
   KEY `FK_ekipa_sport_idx` (`id_sport`),
-  KEY `FK_ekipa_takmicenje_idx` (`id_takmicenje`),
-  CONSTRAINT `FK_ekipa_sport` FOREIGN KEY (`id_sport`) REFERENCES `sport` (`id_sport`),
-  CONSTRAINT `FK_ekipa_takmicenje` FOREIGN KEY (`id_takmicenje`) REFERENCES `takmicenje` (`id_takmicenje`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `FK_ekipa_sport` FOREIGN KEY (`id_sport`) REFERENCES `sport` (`id_sport`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -234,7 +231,7 @@ CREATE TABLE `ekipa` (
 
 LOCK TABLES `ekipa` WRITE;
 /*!40000 ALTER TABLE `ekipa` DISABLE KEYS */;
-INSERT INTO `ekipa` VALUES (4,'Borac Banja Luka',16,5),(5,'Lask Linc',16,5),(6,'Radnik Bijeljina',16,5);
+INSERT INTO `ekipa` VALUES (4,'Borac Banja Luka',16),(5,'Lask Linc',16),(6,'Radnik Bijeljina',16);
 /*!40000 ALTER TABLE `ekipa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -307,7 +304,7 @@ CREATE TABLE `klijent` (
   `email` varchar(100) NOT NULL,
   `blokiran` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`id_klijent`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -316,7 +313,7 @@ CREATE TABLE `klijent` (
 
 LOCK TABLES `klijent` WRITE;
 /*!40000 ALTER TABLE `klijent` DISABLE KEYS */;
-INSERT INTO `klijent` VALUES (3,'Milan','I','066555333','milan','efee614420c57ddd2a8e91eeef6f6b83d5356c2288155be0f273bef986e3b850','mica.ignjatic01@gmail.com',_binary '\0');
+INSERT INTO `klijent` VALUES (3,'Milan','I','066555333','milan','efee614420c57ddd2a8e91eeef6f6b83d5356c2288155be0f273bef986e3b850','mica.ignjatic01@gmail.com',_binary '\0'),(4,'Stojan','Stojan','066777888','stojan','bed85a5c17800dd8adcdcf05ca89da4c79d156a98f58832c1f6a029b5259ae8a','stojan@email.com',_binary '\0');
 /*!40000 ALTER TABLE `klijent` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -331,7 +328,7 @@ CREATE TABLE `raspored` (
   `id_raspored` int NOT NULL AUTO_INCREMENT,
   `tip_rasporeda` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_raspored`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -360,7 +357,7 @@ CREATE TABLE `sport` (
   PRIMARY KEY (`id_sport`),
   KEY `FK_sport_tip_terena_idx` (`id_tip_terena`),
   CONSTRAINT `FK_sport_tip_terena` FOREIGN KEY (`id_tip_terena`) REFERENCES `tip_terena` (`id_tip_terena`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -369,7 +366,7 @@ CREATE TABLE `sport` (
 
 LOCK TABLES `sport` WRITE;
 /*!40000 ALTER TABLE `sport` DISABLE KEYS */;
-INSERT INTO `sport` VALUES (16,'Fudbal',105.00,68.00,4),(17,'Košarka',45.00,25.00,5),(18,'Rukomet',50.00,30.00,5),(19,'Sprint 100m',120.00,20.00,6);
+INSERT INTO `sport` VALUES (16,'Fudbal',105.00,68.00,4),(17,'Košarka',45.00,25.00,5),(18,'Rukomet',50.00,30.00,5),(19,'Sprint 100m',120.00,20.00,6),(21,'Bacanje kugle',30.00,20.00,4),(22,'Bacanje koplja',100.00,50.00,4),(23,'Futsal',50.00,20.00,5),(24,'Mali fudbal',80.00,50.00,4);
 /*!40000 ALTER TABLE `sport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -388,7 +385,7 @@ CREATE TABLE `svlacionica` (
   PRIMARY KEY (`id_svlacionica`),
   KEY `FK_svlacionica_dvorana_idx` (`id_dvorana`),
   CONSTRAINT `FK_svlacionica_dvorana` FOREIGN KEY (`id_dvorana`) REFERENCES `dvorana` (`id_dvorana`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -412,7 +409,7 @@ CREATE TABLE `takmicenje` (
   `id_takmicenje` int NOT NULL AUTO_INCREMENT,
   `vrsta_takmicenja` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_takmicenje`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -447,7 +444,7 @@ CREATE TABLE `teren` (
   KEY `FK_teren_dvorana_idx` (`id_dvorana`),
   CONSTRAINT `FK_teren_dvorana` FOREIGN KEY (`id_dvorana`) REFERENCES `dvorana` (`id_dvorana`),
   CONSTRAINT `FK_teren_tip_terena` FOREIGN KEY (`id_tip_terena`) REFERENCES `tip_terena` (`id_tip_terena`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -472,7 +469,7 @@ CREATE TABLE `tip_terena` (
   `naziv_tipa_terena` varchar(100) NOT NULL,
   `info` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id_tip_terena`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -534,7 +531,7 @@ CREATE TABLE `upravnik` (
   PRIMARY KEY (`id_upravnik`),
   KEY `fk_upravnik_dvorana_idx` (`id_dvorana`),
   CONSTRAINT `fk_upravnik_dvorana` FOREIGN KEY (`id_dvorana`) REFERENCES `dvorana` (`id_dvorana`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -568,7 +565,7 @@ CREATE TABLE `zadatak` (
   KEY `FK_zadatak_upravnik_idx` (`id_upravnik`),
   CONSTRAINT `FK_zadatak_dezurni_radnik` FOREIGN KEY (`id_dezurni_radnik`) REFERENCES `dezurni_radnik` (`id_dezurni_radnik`),
   CONSTRAINT `FK_zadatak_upravnik` FOREIGN KEY (`id_upravnik`) REFERENCES `upravnik` (`id_upravnik`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -577,7 +574,7 @@ CREATE TABLE `zadatak` (
 
 LOCK TABLES `zadatak` WRITE;
 /*!40000 ALTER TABLE `zadatak` DISABLE KEYS */;
-INSERT INTO `zadatak` VALUES (5,'Zamjeniti sijalicu','2024-09-09','2024-09-14','Staviti novu sijalivu na poziciju E55',5,4,_binary '\0');
+INSERT INTO `zadatak` VALUES (6,'Testni lol','2024-09-09','2024-09-17','asaaa',5,5,_binary '\0'),(7,'Montiranje lcd displeja','2024-09-13','2024-09-20','Montirati lcd displeje za reklame',5,6,_binary '\0'),(8,'Montiranje točilice','2024-09-13','2024-09-14','Montirati točilicu na ulazu',5,6,_binary '');
 /*!40000 ALTER TABLE `zadatak` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -590,4 +587,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-09-09 11:15:39
+-- Dump completed on 2024-09-13 13:25:18

@@ -17,7 +17,7 @@ export class DezurniRadnikIndexComponent implements OnInit
 {
   public zadataks: Zadatak[] = [];
 
-  public opcijas: string[] = ['Svi', 'Zavrseni', 'Potrebno uraditi'];
+  public opcijas: string[] = ['Svi', 'Završeni', 'Potrebno uraditi'];
   public selectedOpcija = "";
 
   //public mainContentVisible: boolean = false;
