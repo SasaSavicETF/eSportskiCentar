@@ -29,7 +29,7 @@
                 </div>
                 <div class="status-card-info">
                     <h3> {{numberOfDogadjajs}} </h3>
-                    <span>Broj dogadjaja</span>
+                    <span>Broj događaja</span>
                 </div>
             </div>
 
@@ -46,7 +46,7 @@
 
         <div class="event-card">
             <div class="event-info">
-            <h3 class="chart-name">Dogadjaji</h3>
+            <h3 class="chart-name">Događaji</h3>
             <div class="drop card flex justify-content-center">
                 <p-dropdown class="custom-dd" [options]="dateOptions" name="eventDate" [(ngModel)]="selectedDate" (onChange)="loadEventData()" [showClear]="false"></p-dropdown>
             </div>
@@ -63,7 +63,7 @@
             </div>
 
             <div class="card-body">
-                <h3 class="chart-name">Rezervacije vs bez rezervacija</h3>
+                <h3 class="chart-name">Rezervacije / bez rezervacija</h3>
                 <p-chart type="doughnut" [data]="userdata" [options]="options" width="350" height="200"></p-chart>
             </div>
         </div>

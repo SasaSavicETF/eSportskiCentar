@@ -28,7 +28,7 @@
                 dataType="string" />
             </div>
             <div class="button-container mob">
-              <p-button label="Pretrazi" icon="pi pi-filter-fill" severity="help" (click)="filtriraj()"></p-button>
+              <p-button label="Pretraži" icon="pi pi-filter-fill" severity="help" (click)="filtriraj()"></p-button>
             </div>
           </div>
     </form>
@@ -126,7 +126,7 @@
           <p>{{dogadjaj.infoDogadjaja}}</p>
           <!--<p-button label="Procitaj jos" [text]="true" />-->
           <div *ngIf="ulazniKlijent !== null && ulazniKlijent.role != 'user'" class="flex gap-3 mt-1">
-            <p-button label="Obrisi" (onClick)="onDeleteDogadjaj(dogadjaj)" [style]="{ backgroundColor: '#f44336' }" severity="danger" class="w-full dell"></p-button>
+            <p-button label="Obriši" (onClick)="onDeleteDogadjaj(dogadjaj)" [style]="{ backgroundColor: '#f44336' }" severity="danger" class="w-full dell"></p-button>
           </div>
         </p-card>
       </ng-template>
@@ -151,7 +151,7 @@
             <div class="drop card flex justify-content-center add-form-marg">
               <p-dropdown class="custom-dd" [options]="sports" [(ngModel)]="selectedSport" [style]="{'minWidth':'100%', 'margin-botom': '20px'}" name="sport" optionLabel="nazivSporta" [showClear]="true" placeholder="Izaberi sport"></p-dropdown>
             </div>
-            <label for="vrijeme_od">Vrijeme od</label>
+            <label for="vrijeme_od">Vrijeme početka</label>
             <div class="drop card flex justify-content-center add-form-marg">
               <p-calendar 
                 id="vrijeme_od" 
@@ -167,7 +167,7 @@
                 dataType="string">
               </p-calendar>
             </div>
-            <label for="vrijeme_do">Vrijeme do</label>
+            <label for="vrijeme_do">Vrijeme kraja</label>
             <div class="drop card flex justify-content-center add-form-marg">
               <p-calendar 
                 id="vrijeme_do" 

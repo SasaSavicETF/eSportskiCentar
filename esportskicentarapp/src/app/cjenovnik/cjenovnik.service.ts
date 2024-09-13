@@ -63,9 +63,26 @@ export class CjenovnikService {
             return throwError(() => "Teren mora biti unesen.");
         }
 
-        return new Observable<void>((observer) => {
-            observer.next();
-            observer.complete();
-          });
+        return this.getCjenovniks().pipe(
+            switchMap((response: Cjenovnik[]) =>{
+                for(let c of response)
+                {
+                    if(c.teren.idTeren === cjenovnik.teren.idTeren)
+                    {
+                        if(
+                            (cjenovnik.vrijemeOd >= c.vrijemeOd && cjenovnik.vrijemeOd < c.vrijemeDo) ||
+                            (cjenovnik.vrijemeDo > c.vrijemeOd && cjenovnik.vrijemeDo <= c.vrijemeDo) ||
+                            (cjenovnik.vrijemeOd <= c.vrijemeOd && cjenovnik.vrijemeDo >= c.vrijemeDo)
+                        ) {
+                            return throwError(() => new Error('Cjenovnik se ne može dodati zbog sukoba u vremenskim intervalima.'));
+                        }
+                    }
+                }
+                return new Observable<void>((observer) => {
+                    observer.next();
+                    observer.complete();
+                  });
+            }) 
+        );
     }
 }

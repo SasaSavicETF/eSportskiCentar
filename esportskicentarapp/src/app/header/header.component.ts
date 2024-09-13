@@ -82,7 +82,7 @@ export class HeaderComponent implements OnInit {
       }
       else if (this.userService.activeUser?.role === 'upravnik'){
         this.showDodavanjeDogadjaja = true;
-        this.showPregledDogadjaja = true;
+        //this.showPregledDogadjaja = true;
         this.showOdabirDogadjaja = true;
         this.showTurnir = true;
         this.showSlanjeZadatka = true;

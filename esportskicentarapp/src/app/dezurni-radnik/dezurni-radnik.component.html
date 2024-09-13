@@ -2,7 +2,7 @@
 <div class="sadrzaj">
     <div class="parent">
         <div>
-            <h1>DezurniRadnik</h1>
+            <h1>Dežurni Radnik</h1>
         </div>
         <!-- Modal za dodavanje -->
         <div class="addDiv">
@@ -20,7 +20,7 @@
                             <label for="broj_telefona">Broj telefona</label>
                             <input type="tel" pInputText class="textInput" pattern="^\+?[0-9]{9,15}$" id="broj_telefona" ngModel name="brojTelefona" required/>
                         </div>
-                        <label for="korisncko_ime">Korisnicko ime</label>
+                        <label for="korisncko_ime">Korisničko ime</label>
                         <input type="text" pInputText class="textInput" id="korisncko_ime" ngModel name="korisnickoIme" required/>
                         <label for="lozinka">Lozinka</label>
                         <input type="text" pInputText class="textInput" id="lozinka" ngModel name="lozinka" required/>
@@ -65,7 +65,7 @@
             <th style="width: 16.5%">Ime i prezime</th>
             <th style="width: 16.5%">Broj telefona</th>
             <th style="width: 16.5%">Email</th> 
-            <th style="width: 16.5%">Korisnicko ime</th>
+            <th style="width: 16.5%">Korisničko ime</th>
             <th style="width: 16.5%">Lozinka</th>
             <th style="width: 16.5%">Blokiran</th>  
             <th style="width: 16.5%">Opcije</th>
@@ -104,7 +104,7 @@
                 <label for="broj_telefona">Broj telefona</label>
                 <input type="tel" pInputText class="textInput" pattern="^\+?[0-9]{9,15}$" id="broj_telefona" ngModel="{{editDezurniRadnik?.brojTelefona}}" name="brojTelefona" required/>
             </div>
-            <label for="korisncko_ime">Korisnicko ime</label>
+            <label for="korisncko_ime">Korisničko ime</label>
             <input type="text" pInputText class="textInput" id="korisncko_ime" ngModel="{{editDezurniRadnik?.korisnickoIme}}" name="korisnickoIme" required/>
             <label for="lozinka">Lozinka</label>
             <input type="text" pInputText class="textInput" id="lozinka" ngModel="{{editDezurniRadnik?.lozinka}}" name="lozinka" required/>

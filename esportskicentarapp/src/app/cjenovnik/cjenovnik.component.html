@@ -10,7 +10,7 @@
             <p-dialog header="Dodavanje cjenovnika" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
                 <div class="container">
                    <form #addForm="ngForm" (ngSubmit)="onAddCjenovnik(addForm)">
-                    <label for="vrijeme_od">Vrijeme od</label>
+                    <label for="vrijeme_od">Vrijeme početka</label>
                     <div class="drop card flex justify-content-center">
                     <p-calendar 
                     id="vrijeme_od" 
@@ -26,7 +26,7 @@
                     dataType="string">
                     </p-calendar>
                     </div>
-                        <label for="vrijeme_do">Vrijeme do</label>
+                        <label for="vrijeme_do">Vrijeme kraja</label>
                         <div class="drop card flex justify-content-center">
                             <p-calendar 
                             id="vrijeme_do" 
@@ -105,7 +105,7 @@
     <div class="container">
         <form #editForm="ngForm">
             <input type="hidden" id="id_cjenovnik" ngModel="{{editCjenovnik?.idCjenovnik}}" name="idCjenovnik"/>
-            <label for="vrijeme_od">Vrijeme od</label>
+            <label for="vrijeme_od">Vrijeme početka</label>
             <div class="drop card flex justify-content-center">
                 <p-calendar 
                 id="vrijeme_od" 
@@ -120,7 +120,7 @@
                 dataType="string">
                 </p-calendar>
                 </div>
-            <label for="vrijeme_do">Vrijeme do</label>
+            <label for="vrijeme_do">Vrijeme kraja</label>
             <div class="drop card flex justify-content-center">
                 <p-calendar 
                 id="vrijeme_do" 
