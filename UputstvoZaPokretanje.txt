@@ -1,0 +1,26 @@
+Prvo je neophodno izvršiti jednu od sql skripti koje se nalaze u folderu "baza". Jedna skripta sadrži osnovne podatke, druga ne.
+
+Nakon kreiranja baze podataka, potrebno je u fajlu ./esportskicentar/src/main/resources/application.properties da podesite username i
+password za pristup vašem lokalnom MySQL serveru (takođe, obratite pažnju da je korišten port 3306 koji je difoltni)
+
+backend aplikaciju "esportskicentar" možete otvoriti i pokrenuti preko IntelliJ IDEA
+
+Unutar direktorijuma frontend aplikacije, neophodno je prvo na komandnoj liniji pokrenuti komandu "npm install" kako bi se instalirale neophodne biblioteke
+
+Frontend aplikacija se pokreće komandom ng serve
+
+Nakon što izvršite opisane korake, aplikacija je dostupna na: http://localhost:4200
+
+Ukoliko ste za bazu izvršili skriptu sa podacima, dostupni su već registrovani nalozi:
+
+Klijent
+uname: milan, pass: milan
+
+Administrator
+uname: zarko, pass: zarko
+
+Dežurni radnik
+uname: pero, pass: pero
+
+Upravnik:
+uname: slavko, pass: slavko

@@ -1,0 +1,90 @@
+Članovi tima:
+1.) Milan Aleksić
+2.) Aldin Tursić
+3.) Igor Grubiša
+4.) Saša Savić
+5.) Milan Ignjatić
+
+
+1.) Relaciona baza podataka i podizanje projekta:
+	Milan Aleksić
+	Milan Ignjatić
+
+2.) Backend dio aplikacije
+	Igor Grubiša
+		-Autentikacija
+		-Slanje mejlova
+		-Teren komponenta
+		-Administrator komponenta
+		-Ekipa komponenta
+		-Dvorana komponenta
+		-Klijent
+		-Raspored
+		-Sport
+		-Takmičenje
+		-TipTerena
+		-Ulaz
+		-Zahtjev
+	Aldin Tursić
+		-Ekipa komponenta
+		-Događaj
+		-Dnevni raspored
+		-Dežurni radnik
+		-Inventar
+		-Raspored
+		-Svlačionica
+		-Upravnik
+		-Zadatak
+	Milan Ignjatić
+		-Dvorana
+		-Događaj
+		-Grad
+
+3.) Frontend dio aplikacije
+	Igor Grubiša
+		-navbar
+		-sidebar
+		-login stranica
+		-register stranica
+	Saša Savić
+		-navbar
+		-administratorska komponenta:
+			-upravljanje nalozima upravnika
+			-upravljanje dežurnim radnicima
+		-slanje zadataka dežurnim radnicima
+		-grad
+		-cjenovnik
+		-svlačionica
+	Milan Aleksić
+		-dvorana
+		-teren
+		-ekipa
+		-raspored
+		-svlačionice
+		-tip terena
+		-ulaz
+		-index page
+	Aldin Tursić
+		-inventar
+		-administratorski panel za statistiku
+		-pregled događaja korisnika
+		-servisi za upravljanje nalozima: 
+			-dežurni radnik
+			-administrator
+			-upravnik
+	Milan Ignjatić
+		-turnir
+		-prihvatanje zadataka - upravnik
+		-pregled zadataka - radnik
+		-dodavanje događaja
+		-pregled događaja
+		-timeline
+		
+4.) Testiranje
+	Milan Aleksić
+	Saša Savić
+	
+/* NAPOMENA */
+
+-Ako je komponenta navedena kod više članova tima to znači da su zajedno radili na njenoj realizaciji
+-Svi članovi tima su radili zadatke koji su im povjereni, tako da je postignut ravnomjeran rad čitavog tima

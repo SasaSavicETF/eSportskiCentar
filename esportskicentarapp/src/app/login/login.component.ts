@@ -32,7 +32,7 @@ export class LoginComponent {
         } else if(this.klijentService.activeUser.role == 'radnik') {
           this.router.navigate(['/radnik/zadaci']);
         } else if(this.klijentService.activeUser.role == 'upravnik') {
-          this.router.navigate(['/dogadjajPregled']);
+          this.router.navigate(['/teren']);
         } else {
           this.router.navigate(['/dogadjajPregled']); 
         }
