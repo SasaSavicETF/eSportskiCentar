@@ -143,6 +143,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.showMenu = false;
     this.userService.logout();
+    this.router.navigate(['/index']);
   }
 
   @HostListener('window:resize')

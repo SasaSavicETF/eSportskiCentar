@@ -37,11 +37,11 @@ import { adminUpravnikGuard } from './guards/admin-upravnik.guard';
 
 const routes: Routes = [
   //ovo prvo je samo privremeno
-  { path: 'cjenovnik', component: CjenovnikComponent, canActivate : [upravnikGuard]},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
   { path: '', redirectTo: '/index', pathMatch: 'full' },
   { path: 'admin/odabirDogadjaja', component: AdminOdobravanjeComponent, canActivate : [upravnikGuard]},
+  { path: 'cjenovnik', component: CjenovnikComponent, canActivate : [upravnikGuard]},
   { path: 'inventar', component: InventarComponent, canActivate : [upravnikGuard]},
   { path: 'dnevniRaspored', component: DnevniRasporedComponent, canActivate : [adminUpravnikGuard]},
   { path: 'raspored', component: RasporedComponent, canActivate : [adminUpravnikGuard]},

@@ -3,7 +3,7 @@
 
 <div class="background-image">
 
-    <form method="post" (ngSubmit)="login()" ngNativeValidate>
+    <form method="post" (ngSubmit)="login()">
         <div class="row">
             <img class="rounded-image" src="/assets/img/logo.png">
         </div>
@@ -12,10 +12,16 @@
         <p>Unesite Vaše podatke kako biste se prijavili u odgovarajuću aplikaciju</p>
     
         <label>Korisničko ime: </label>
-        <input type="text" [(ngModel)]="username" name="username" required autofocus>
+        <input type="text" [(ngModel)]="username" name="username" autofocus>
+        <div class="error" [ngClass]="{ hidden: showUsernameError }">
+            Obavezno popunite ovo polje!
+        </div>
     
         <label>Lozinka: </label>
-        <input type="password" [(ngModel)]="password" name="password" required>
+        <input type="password" [(ngModel)]="password" name="password">
+        <div class="error" [ngClass]="{ hidden: showPasswordError }">
+            Obavezno popunite ovo polje!
+        </div>
         
         <input type="submit" value="Prijava">  
         <input type="button" value="Registracija" (click)="register()">

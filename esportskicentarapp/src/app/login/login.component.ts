@@ -12,11 +12,24 @@ import { EncryptionService } from '../services/encryption.service';
 export class LoginComponent {
   username!: string;
   password!: string;
+  showUsernameError:boolean = true;
+  showPasswordError: boolean = true;
 
   constructor(private router : Router, private klijentService: KlijentService, 
             private encryptionService: EncryptionService){}
 
   login() {
+    if (this.username == null){
+      this.showUsernameError = false;
+      return;
+    }
+    this.showUsernameError = true;
+
+    if (this.password == null){
+      this.showPasswordError = false;
+      return;
+    }
+    this.showPasswordError = true;
 
     this.klijentService.loginUser(this.username, this.password).subscribe({
       next: response => {

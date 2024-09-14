@@ -1,6 +1,6 @@
 <div class="background-image">
 
-    <form #registerForm="ngForm" method="post" (ngSubmit)="register(registerForm)" ngNativeValidate>
+    <form #registerForm="ngForm" method="post" (ngSubmit)="register(registerForm)">
         <div class="row">
             <img class="rounded-image" src="/assets/img/logo.png">
         </div>
@@ -11,23 +11,47 @@
         <div class="row">
             <div class="column" style="margin-right: 20px;">
                 <label>Ime: </label>
-                <input type="text" [(ngModel)]="name" name="name" required autofocus>
+                <input type="text" [(ngModel)]="name" name="name" autofocus>
+                <div class="error" [ngClass]="{ hidden: showNameError }">
+                    Obavezno popunite ovo polje!
+                </div>
 
                 <label>Korisničko ime: </label>
-                <input type="text" [(ngModel)]="username" name="username" required>
+                <input type="text" [(ngModel)]="username" name="username">
+                <div class="error" [ngClass]="{ hidden: showUsernameError }">
+                    Obavezno popunite ovo polje!
+                </div>
 
                 <label>Broj telefona: </label>
-                <input type="text" [(ngModel)]="phoneNumber" name="phoneNumber" pattern="0[0-9]{8}" required >
+                <input type="text" [(ngModel)]="phoneNumber" name="phoneNumber" pattern="0[0-9]{8}" >
+                <div class="error" [ngClass]="{ hidden: showPhoneNumberError }">
+                    Obavezno popunite ovo polje!
+                </div>
+                <div class="error" [ngClass]="{ hidden: showPhonePatternError }">
+                    Unesite validan broj telefona!
+                </div>
             </div>
             <div class="column">
                 <label>Prezime: </label>
-                <input type="text" [(ngModel)]="lastname" name="lastname" required>
+                <input type="text" [(ngModel)]="lastname" name="lastname">
+                <div class="error" [ngClass]="{ hidden: showLastnameError }">
+                    Obavezno popunite ovo polje!
+                </div>
 
                 <label>Lozinka: </label>
-                <input type="password" [(ngModel)]="password" name="password" required>
+                <input type="password" [(ngModel)]="password" name="password">
+                <div class="error" [ngClass]="{ hidden: showPasswordError }">
+                    Obavezno popunite ovo polje!
+                </div>
 
                 <label>Email: </label>
-                <input type="email" [(ngModel)]="email" name="email" required>
+                <input type="email" [(ngModel)]="email" name="email">
+                <div class="error" [ngClass]="{ hidden: showEmailError }">
+                    Obavezno popunite ovo polje!
+                </div>
+                <div class="error" [ngClass]="{ hidden: showEmailPatternError }">
+                    Unesite validnu email adresu!
+                </div>
             </div>
         </div>
         

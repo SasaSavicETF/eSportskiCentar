@@ -40,7 +40,7 @@ export class KlijentService {
     if (isPlatformBrowser(this.platformId) && localStorage !== undefined)
       localStorage.removeItem('activeUser');
 
-    this.router.navigate(['/index']);
+    //this.router.navigate(['/index']);
   }
 
 }

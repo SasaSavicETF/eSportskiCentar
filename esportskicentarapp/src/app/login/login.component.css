@@ -41,7 +41,6 @@ form {
 
 input {
     padding: 10px;
-    margin-bottom: 20px;
     border-radius: 8px;
     border-color: lightslategray;
 }
@@ -72,4 +71,16 @@ h1{
     p{
         font-size: 2vw;
     }
+    .error{
+        font-size: 2vw;
+    }
+}
+
+.error{
+    color: red;
+    margin-bottom: 5px;
+}
+
+.hidden {
+    visibility: hidden;
 }
