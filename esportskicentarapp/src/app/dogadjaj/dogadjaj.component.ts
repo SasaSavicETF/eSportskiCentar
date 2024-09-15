@@ -46,6 +46,7 @@ import { SvlacionicaService } from '../svlacionica/svlacionica.service';
 })
 export class DogadjajComponent implements OnInit{
   isBrowser: boolean = true;
+  infoDogadjaja!: string | null;
 
   public dogadjajs: Dogadjaj[] = [];
   public sortedDogadjajs: Dogadjaj[] = [];
@@ -728,8 +729,8 @@ export class DogadjajComponent implements OnInit{
     }
 
     this.cijena = cijenaTemp;
-    this.racunanjeVisible = false;
     this.izracunataCijena = true;
+    this.racunanjeVisible = !this.izracunataCijena;
   }
 
   public static timeToMillis(time: string): number 
@@ -864,6 +865,18 @@ export class DogadjajComponent implements OnInit{
   closeDeleteDialog()
   {
     this.deleteVisible = false;
+  }
+
+  resetAddDialog(){
+    this.selectedTakmicenje = undefined;
+    this.selectedSport = undefined;
+    this.tempVrijemeOd = "";
+    this.tempVrijemeDo = "";
+    this.selectedDomacaEkipa = undefined;
+    this.selectedGostujucaEkipa = undefined;
+    this.infoDogadjaja = null;
+    this.izracunataCijena = false;
+    this.racunanjeVisible = true;
   }
 }
 
