@@ -6,7 +6,7 @@ export const userGuard: CanActivateFn = (route, state) => {
   const userService = inject(KlijentService);
   const router = inject(Router);
 
-  if (userService.activeUser != null && (userService.activeUser.role === 'user' 
+  if (userService.activeUser != null && userService.checkExpiry() && (userService.activeUser.role === 'user' 
                   || userService.activeUser.role === 'upravnik'))
       return true;
   else{

@@ -20,11 +20,8 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { Ulaz } from '../models/ulaz';
 import { UlazService } from '../ulaz/ulaz.service';
-import { response } from 'express';
 import { Takmicenje } from '../models/takmicenje';
 import { TakmicenjeService } from '../takmicenje/takmicenje.service';
-import { Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 import { Sport } from '../models/sport';
 import { SportService } from '../sport/sport.service';
 import { Cjenovnik } from '../models/cjenovnik';
@@ -45,153 +42,86 @@ import { SvlacionicaService } from '../svlacionica/svlacionica.service';
   providers: [MessageService, CheckboxModule, TimelineModule, CardModule, ButtonModule]
 })
 export class DogadjajComponent implements OnInit{
-  isBrowser: boolean = true;
   infoDogadjaja!: string | null;
+  activeUser!: UserDTO | null;
+  selectedKlijent!: Klijent | null;
+  isPretraziDisabled = true;
+  isOdobren: boolean = true;
+  showDogadjajs = false;
+  icon: string = "pi pi-ticket";
+  tempVrijemeDo: string = "";
+  tempVrijemeOd: string = "";
 
-  public dogadjajs: Dogadjaj[] = [];
-  public sortedDogadjajs: Dogadjaj[] = [];
-  addVisible: boolean = false;
-  deleteVisible: boolean = false;
+  dvoranas: Dvorana[] = [];
+  selectedDvorana: Dvorana | undefined;
+  terens: Teren[] = [];
+  dostupniTerens : Teren [] = [];
+  filteredTerens : Teren [] = [];
+  selectedTeren: Teren | undefined;
+  sports: Sport[] = [];
+  filteredSports: Sport[] = [];
+  selectedSport: Sport | undefined;
 
-  public delDogadjaj: Dogadjaj | undefined;
-  public delIdDogadjaj: number = -1;
-
+  danasnjiDatum: Date = new Date();
+  selectedDatum: Date = new Date();
+  earliestDate = new Date(-8640000000000000);
   defaultDate: Date = new Date("January 31 1980 12:30");
 
   dnevniRasporeds: DnevniRaspored[] = [];
   dnevniRasporedsAsc: DnevniRaspored[] = [];
   selectedDnevniRaspored: DnevniRaspored | undefined;
-
-  terens: Teren[] = [];
-  selectedTeren: Teren | undefined;
-
-  sports: Sport[] = [];
-  selectedSport: Sport | undefined;
-
-  takmicenjes: Takmicenje[] = [];
-  selectedTakmicenje: Takmicenje | undefined;
-
-  dvoranas: Dvorana[] = [];
-  selectedDvorana: Dvorana | undefined;
-
-  ekipas: Ekipa[] = [];
-  selectedDomacaEkipa: Ekipa | undefined;
-  selectedGostujucaEkipa: Ekipa | undefined;
-
   selectedRaspored: Raspored | undefined;
   rasporeds: Raspored[] = [];
-
-
-  ulazniKlijent: UserDTO | null = this.klijentService.activeUser;
-  selectedKlijent: Klijent| null = null;
-  
-
-  //selectedKlijent: Klijent | null = this.klijentService.activeUser;
-  klijentZaMail: string | null = null;
-
-
-  danasnjiDatum: Date = new Date();
-  selectedDatum: Date = new Date();
-  earliestDate = new Date(-8640000000000000);
-
-  isFilterDone: boolean = false;
-
-  isOdobren: boolean = true;
-
-  icon: string = "pi pi-ticket";
-
-  cjn: number = 2;
-
+  public dogadjajs: Dogadjaj[] = [];
+  public sortedDogadjajs: Dogadjaj[] = [];
   ulazs: Ulaz[] = [];
   svlacionicas: Svlacionica[] = [];
 
-  cjenovniks: Cjenovnik[] = [];
-  izracunataCijena: boolean = false;
+  cjn: number = 2;
   racunanjeVisible: boolean = true;
-  tempVrijemeDo: string = "";
-  tempVrijemeOd: string = "";
+  izracunataCijena: boolean = false;
   cijena: number = 15;
+  addVisible: boolean = false;
+  deleteVisible: boolean = false;
 
-  constructor(private dogadjajService: DogadjajService, private dnevniRasporedService: DnevniRasporedService,
-    private ekipaService: EkipaService, private terenService: TerenService, private dvoranaService: DvoranaService,
-    private rasporedService: RasporedService, private ulazService: UlazService, private takmicenjeService: TakmicenjeService,
-    private sportService: SportService, private messageService: MessageService, private cjenovnikService: CjenovnikService,
-    private klijentService: KlijentService, private emailService: EmailService, private svlacionicaService: SvlacionicaService,
-    @Inject(PLATFORM_ID) private platformId: Object) 
-    {
-      this.isBrowser = isPlatformBrowser(this.platformId);
-      console.log('Is platform browser:', this.isBrowser);
-      console.log(this.klijentService.activeUser);
-      if(this.ulazniKlijent !== null && this.ulazniKlijent.role == 'user')
-      {
-        this.selectedKlijent = new Klijent(this.ulazniKlijent?.ime || "", this.ulazniKlijent?.prezime || "", this.ulazniKlijent?.korisnickoIme || "", this.ulazniKlijent?.lozinka || "",
-          this.ulazniKlijent?.brojTelefona || "", this.ulazniKlijent?.email || "", "klijent");
-        this.selectedKlijent.idKlijent = this.ulazniKlijent.id;
-        this.klijentZaMail = this.selectedKlijent?.email || "";
-        console.log(this.klijentZaMail);
-      }
-    }
+
+  public delDogadjaj: Dogadjaj | undefined;
+  public delIdDogadjaj: number = -1;
+
+  takmicenjes: Takmicenje[] = [];
+  selectedTakmicenje: Takmicenje | undefined;
+  ekipas: Ekipa[] = [];
+  selectedDomacaEkipa: Ekipa | undefined;
+  selectedGostujucaEkipa: Ekipa | undefined;
+  cjenovniks: Cjenovnik[] = [];
+
+  constructor(private userService: KlijentService, private ekipaService: EkipaService, private dvoranaService: DvoranaService, 
+    private terenService: TerenService, private takmicenjeService: TakmicenjeService, private sportService: SportService,
+    private cjenovnikService: CjenovnikService, private dnevniRasporedService: DnevniRasporedService,
+    private dogadjajService: DogadjajService, private rasporedService: RasporedService, private ulazService: UlazService,
+    private svlacionicaService: SvlacionicaService, private messageService: MessageService, private emailService: EmailService) { 
+        this.activeUser = userService.activeUser;
+        if(this.activeUser?.role == 'user'){
+            this.selectedKlijent = new Klijent(this.activeUser.ime, this.activeUser.prezime, this.activeUser.korisnickoIme, this.activeUser.lozinka,
+              this.activeUser.brojTelefona, this.activeUser.email, "klijent");
+            this.selectedKlijent.idKlijent = this.activeUser.id;
+        }
+  }
 
 
   ngOnInit(): void 
   {
-    if (this.isBrowser) {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('added') === 'true') {
-        console.log("Dogadjaj je uspješno dodan.");
-        const email = urlParams.get('email');
-        const cijena = urlParams.get('cijena');
-
-        if (email && cijena) {
-          const emailObj = new Email(email, `Zahtjev za rezervaciju dogadjaja je uspjesno prosljedjen. Cijena usluge je: ${cijena} KM`);
-    
-          this.emailService.sendEmail(emailObj).subscribe(response => {
-          console.log('Email sent.');
-          });
-        }
-        history.replaceState(null, '', window.location.pathname);
-        setTimeout(() => {
-          this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
-        }, 200);
-      }
-      else if(urlParams.get('deleted') === 'true')
-      {
-        const email = urlParams.get('email');
-        const teren = urlParams.get('teren');
-        if(email && teren) 
-        {
-          const emailObj = new Email(email, "Vaš događaj zakazan u " + teren + " je otkayan od strane službenog lica.");
-        
-          this.emailService.sendEmail(emailObj).subscribe(response => {
-            console.log('Email sent.');
-          });
-        }
-        history.replaceState(null, '', window.location.pathname);
-        setTimeout(() => {
-          this.messageService.add({ severity: 'success', summary: 'Uspješno brisanje', detail: 'Dogadjaj je obrisan sa sistema!' });
-        }, 200);
-      }
-      else if(urlParams.get('added') === 'false' || urlParams.get('deleted') === 'false')
-      {
-        const message = urlParams.get('message') || '';
-        history.replaceState(null, '', window.location.pathname);
-        setTimeout(() => {
-          this.messageService.add({ severity: 'error', summary: 'Greška', detail: message });
-        }, 200);
-      }
-    }
-    
-      this.getDogadjajs();
-      this.getDnevniRasporeds();
-      this.getEkipas();
-      this.getTerens();
-      this.getDvoranas();
-      this.getRasporeds();
-      this.getUlazs();
-      this.getSvlacionicas();
-      this.getTakmicenjes();
-      this.getSports();
-      this.getCjenovniks();
+        this.getDvoranas();
+        //this.getTerens();
+        this.getDnevniRasporeds();
+        this.getRasporeds();
+        //this.getDogadjajs();
+        this.getUlazs();
+        this.getSvlacionicas();
+        //this.getSports();
+        this.getEkipas();
+        this.getTakmicenjes();
+        this.getCjenovniks();
   }
 
   show()
@@ -199,26 +129,12 @@ export class DogadjajComponent implements OnInit{
     this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
   }
 
-  public getEkipas(): void
-  {
-    this.ekipaService.getEkipas().subscribe(
-      (response: Ekipa[]) =>
-      {
-        this.ekipas = response;
-      },
-      (error: HttpErrorResponse) =>
-      {
-        alert(error.message);
-      }
-    );
-  }
-
   public getDvoranas(): void
   {
     this.dvoranaService.getDvoranas().subscribe(
       (response: Dvorana[]) =>
       {
-        if(this.ulazniKlijent?.role !== 'upravnik')
+        if(this.activeUser?.role !== 'upravnik')
         {
           this.dvoranas = response;
         }
@@ -226,7 +142,7 @@ export class DogadjajComponent implements OnInit{
           const filteredDvoranas: Dvorana[] = [];
           for(let dvorana of response)
           {
-            if(dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+            if(dvorana.idDvorana == this.activeUser.dvorana?.idDvorana)
             {
               filteredDvoranas.push(dvorana);
               //break;
@@ -244,10 +160,11 @@ export class DogadjajComponent implements OnInit{
 
   public getTerens(): void
   {
+    this.terens = [];
     this.terenService.getTerens().subscribe(
       (response: Teren[]) =>
       {
-        if(this.ulazniKlijent?.role !== 'upravnik')
+        if(this.activeUser?.role !== 'upravnik')
         {
           this.terens = response;
         }
@@ -256,13 +173,76 @@ export class DogadjajComponent implements OnInit{
           const filteredTerens: Teren[] = [];
           for(let teren of response)
           {
-            if(teren.dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+            if(teren.dvorana.idDvorana == this.activeUser.dvorana?.idDvorana)
             {
               filteredTerens.push(teren);
             }
           }
           this.terens = filteredTerens;
         }
+
+        this.filterTerens();        
+      },
+      (error: HttpErrorResponse) =>
+      {
+        alert(error.message);
+      }
+    );
+  }
+
+  public filterTerens(): void {
+    this.dostupniTerens = [];
+    for(let teren of this.terens){
+        if(teren.dostupan)
+            this.dostupniTerens.push(teren);
+    }
+
+    this.filteredTerens = [];
+    for(const teren of this.dostupniTerens){
+      console.log(teren.dvorana.idDvorana + " - " + this.selectedDvorana?.idDvorana);
+      if(teren.dvorana.idDvorana == this.selectedDvorana?.idDvorana)
+      this.filteredTerens.push(teren);
+    }
+}
+
+  public getDnevniRasporeds(): void
+  {
+    this.dnevniRasporedService.getDnevniRasporeds().subscribe(
+      (response: DnevniRaspored[]) =>
+      {
+        this.dnevniRasporeds = response;
+      },
+      (error: HttpErrorResponse) =>
+      {
+        alert(error.message);
+      }
+    );
+  }
+
+  public getRasporeds(): void
+  {
+    this.rasporedService.getRasporeds().subscribe(
+      (response: Raspored[]) =>
+      {
+        this.rasporeds = response;
+      },
+      (error: HttpErrorResponse) =>
+      {
+        alert(error.message);
+      }
+    );
+  }
+
+  public getDogadjajs(): void
+  {
+    this.dogadjajs = [];
+    this.dogadjajService.getDogadjajs().subscribe(
+      (response: Dogadjaj[]) => 
+      {
+        this.dogadjajs = response;
+        this.filterDogadjajs();
+        this.sortDogadjajs();
+        this.showDogadjajs = true;
       },
       (error: HttpErrorResponse) =>
       {
@@ -285,11 +265,39 @@ export class DogadjajComponent implements OnInit{
 
   public getSports(): void 
   {
+    this.sports = [];
     this.sportService.getSports().subscribe(
       (response: Sport[]) => {
         this.sports = response;
+        this.filterSports();
       },
       (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  public filterSports(){
+    this.filteredSports = [];
+    for(let sport of this.sports)
+      if(this.selectedTeren !== undefined){
+          if(sport.duzina <= this.selectedTeren?.duzina && sport.sirina <= this.selectedTeren.sirina 
+            && sport.tipTerena.nazivTipaTerena == this.selectedTeren.tipTerena.nazivTipaTerena)
+          {
+                this.filteredSports.push(sport);
+          }
+      }
+  }
+
+  public getEkipas(): void
+  {
+    this.ekipaService.getEkipas().subscribe(
+      (response: Ekipa[]) =>
+      {
+        this.ekipas = response;
+      },
+      (error: HttpErrorResponse) =>
+      {
         alert(error.message);
       }
     );
@@ -305,48 +313,6 @@ export class DogadjajComponent implements OnInit{
         alert(error.message);
       }
     )
-  }
-
-  public getDnevniRasporeds(): void
-  {
-    this.dnevniRasporedService.getDnevniRasporeds().subscribe(
-      (response: DnevniRaspored[]) =>
-      {
-        this.dnevniRasporeds = response;
-      },
-      (error: HttpErrorResponse) =>
-      {
-        alert(error.message);
-      }
-    );
-  }
-
-  public getDogadjajs(): void
-  {
-    this.dogadjajService.getDogadjajs().subscribe(
-      (response: Dogadjaj[]) => 
-      {
-        this.dogadjajs = response;
-      },
-      (error: HttpErrorResponse) =>
-      {
-        alert(error.message);
-      }
-    );
-  }
-
-  public getRasporeds(): void
-  {
-    this.rasporedService.getRasporeds().subscribe(
-      (response: Raspored[]) =>
-      {
-        this.rasporeds = response;
-      },
-      (error: HttpErrorResponse) =>
-      {
-        alert(error.message);
-      }
-    );
   }
 
   public getUlazs(): void
@@ -375,154 +341,49 @@ export class DogadjajComponent implements OnInit{
     );
   }
 
-  public async loadTerens(): Promise<void> {
-    try {
-      this.terens = await this.terenService.getTerens().toPromise() || [];
-      const filteredTerens : Teren [] = [];
-      for(let teren of this.terens)
-      {
-        if(teren.dostupan)
-        {
-          filteredTerens.push(teren);
-        }
-      }
-      this.terens = filteredTerens;
-    } catch (error) {
-      console.error('Greška pri učitavanju terena:', error);
-    }
-  }
-
-  public async loadSports(): Promise<void> {
-    try{
-      this.sports = await this.sportService.getSports().toPromise() || [];
-      const filteredSports: Sport[] = [];
-      for(let sport of this.sports)
-      {
-        if(this.selectedTeren !== undefined)
-        {
-          if(sport.duzina <= this.selectedTeren?.duzina && sport.sirina <= this.selectedTeren.sirina 
-            && sport.tipTerena.nazivTipaTerena == this.selectedTeren.tipTerena.nazivTipaTerena)
-          {
-            filteredSports.push(sport);
-          }
-        }
-      }
-      this.sports = filteredSports;
-    } catch (error) {
-      console.error('Greška pri učitavanju sportova:', error);
-    }
-  }
-
-  public async loadDnevniRasporeds(): Promise<void> {
-    try {
-      this.dnevniRasporedsAsc = await this.dnevniRasporedService.getDnevniRasporeds().toPromise() || [];
-    } catch (error) {
-      console.error('Greška pri učitavanju terena:', error);
-    }
-  }
-
-  public async loadDogadjajs(): Promise<void> 
-  {
-    try{
-      this.dogadjajs = await this.dogadjajService.getDogadjajs().toPromise() || [];
-    } catch(error)
-    {
-      console.log('Greska pri ucitavanju dogadjaja');
-    }
-  }
-  
-
   public async onDvoranaChange(event: any) {
     console.log(this.selectedDvorana?.nazivDvorane);
-    await this.loadTerens();
-    this.filterTerens();
-  }
+    this.getTerens();
 
-  public async onStartFilter()
-  {
-    await this.loadDogadjajs();
-    console.log(this.dogadjajs);
-  }
-
-  public async onRasporedSelected()
-  {
-    await this.loadDnevniRasporeds();
+    if (this.selectedDvorana != undefined && this.selectedTeren != undefined){
+      this.isPretraziDisabled = false;
+      this.showDogadjajs = false;
+    }
+    else{
+        this.isPretraziDisabled = true;
+        this.selectedTeren = undefined;
+        this.showDogadjajs = false;
+    }
   }
 
   public async onTerenChange(event: any) {
     console.log(this.selectedTeren?.nazivTerena);
-    await this.loadSports();
-    this.isFilterDone = false;
+    this.getSports();
+  
+    if (this.selectedDvorana != undefined && this.selectedTeren != undefined){
+      this.isPretraziDisabled = false;
+      this.showDogadjajs = false;
+    }
+    else{
+      this.isPretraziDisabled = true;
+      this.showDogadjajs = false;
+    }
   }
 
   public onDateSelect(event: any): void {
     if (typeof event === 'string') {
       this.selectedDatum = new Date(event);
+      this.isPretraziDisabled = false;
+      this.showDogadjajs = false;
     } else if (event instanceof Date) {
       this.selectedDatum = event;
+      this.isPretraziDisabled = false;
+      this.showDogadjajs = false;
     }
-  }
-    
-
-  public filterTerens(): void
-  {
-    let filteredTerens: Teren[] = [];
-    for(const teren of this.terens)
-    {
-      console.log(teren.dvorana.idDvorana + " - " + this.selectedDvorana?.idDvorana);
-      if(teren.dvorana.idDvorana == this.selectedDvorana?.idDvorana)
-      {
-        filteredTerens.push(teren);
-      }
-    }
-    this.terens = filteredTerens;
-  }
-
-  public filterDogadjajs(): void
-  {
-    let filterDogadjajs: Dogadjaj[] = [];
-    for(const dogadjaj of this.dogadjajs)
-    {
-      console.log(this.selectedTeren?.idTeren);
-      if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored == this.selectedDnevniRaspored?.idDnevniRaspored && dogadjaj.odobren)
-      //if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren)
-      {
-        filterDogadjajs.push(dogadjaj);
-      }
-    }
-    this.dogadjajs = filterDogadjajs;
-  }
-
-  public filterUlazs(): void
-  {
-    let filterUlazs: Ulaz[] = [];
-    for(const ulaz of this.ulazs)
-    {
-      if(ulaz.dvorana.idDvorana == this.selectedTeren?.dvorana.idDvorana && ulaz.dostupan)
-      {
-        filterUlazs.push(ulaz);
-      }
-    }
-    this.ulazs = filterUlazs;
-  }
-
-  public filterSvlacionicas(): void
-  {
-    let filterSvlacionicas: Svlacionica[] = [];
-    for(const svlacionica of this.svlacionicas)
-    {
-      if(svlacionica.dvorana.idDvorana == this.selectedTeren?.dvorana.idDvorana && svlacionica.dostupna)
-      {
-        filterSvlacionicas.push(svlacionica);
-      }
-    }
-    this.svlacionicas = filterSvlacionicas;
   }
 
   public filtriraj(): void
   {
-      console.log("Klijent: " , this.selectedKlijent?.korisnickoIme);
-      this.onStartFilter();
       let postojiDnevniRaspored : boolean = false;
       for(const dnevniRaspored of this.dnevniRasporeds)
       {
@@ -534,9 +395,9 @@ export class DogadjajComponent implements OnInit{
           break;
         }
       }
+
       if(!postojiDnevniRaspored)
       {
-        
         if(this.rasporeds.length === 0)
         {
           this.rasporedService.addRaspored({tipRasporeda: 'Automatski'}).subscribe(
@@ -566,11 +427,227 @@ export class DogadjajComponent implements OnInit{
       }
       //pronaci odgovarajuci raspored
       console.log("---" + this.selectedDnevniRaspored)
-      this.filterDogadjajs();
       this.filterUlazs();
       this.filterSvlacionicas();
-      this.sortDogadjajs();
-      this.isFilterDone = true;
+      this.getDogadjajs();
+  }
+
+  public filterDogadjajs(): void
+  {
+    let filterDogadjajs: Dogadjaj[] = [];
+    for(const dogadjaj of this.dogadjajs)
+    {
+      console.log(this.selectedTeren?.idTeren);
+      if(dogadjaj.teren.idTeren == this.selectedTeren?.idTeren && dogadjaj.dnevniRaspored.idDnevniRaspored == this.selectedDnevniRaspored?.idDnevniRaspored && dogadjaj.odobren)
+        filterDogadjajs.push(dogadjaj);
+    }
+    this.dogadjajs = filterDogadjajs;
+  }
+
+  public sortDogadjajs(): void {
+    this.sortedDogadjajs = [];
+    this.sortedDogadjajs = this.dogadjajs.sort((a, b) => {
+        const timeA = a.vrijemeOd.split(':').map(Number);
+        const timeB = b.vrijemeOd.split(':').map(Number);
+        
+        const dateA = new Date(0, 0, 0, timeA[0], timeA[1], timeA[2]);
+        const dateB = new Date(0, 0, 0, timeB[0], timeB[1], timeB[2]);
+
+        return dateA.getTime() - dateB.getTime();
+    });
+  }
+
+  public filterUlazs(): void
+  {
+    let filterUlazs: Ulaz[] = [];
+    for(const ulaz of this.ulazs)
+    {
+      if(ulaz.dvorana.idDvorana == this.selectedTeren?.dvorana.idDvorana && ulaz.dostupan)
+      {
+        filterUlazs.push(ulaz);
+      }
+    }
+    this.ulazs = filterUlazs;
+  }
+
+  public filterSvlacionicas(): void
+  {
+    let filterSvlacionicas: Svlacionica[] = [];
+    for(const svlacionica of this.svlacionicas)
+    {
+      if(svlacionica.dvorana.idDvorana == this.selectedTeren?.dvorana.idDvorana && svlacionica.dostupna)
+      {
+        filterSvlacionicas.push(svlacionica);
+      }
+    }
+    this.svlacionicas = filterSvlacionicas;
+  }
+
+  showAddDialog() 
+  {
+    this.addVisible = true;
+  }
+
+  resetAddDialog(){
+    this.selectedTakmicenje = undefined;
+    this.selectedSport = undefined;
+    this.tempVrijemeOd = "";
+    this.tempVrijemeDo = "";
+    this.selectedDomacaEkipa = undefined;
+    this.selectedGostujucaEkipa = undefined;
+    this.infoDogadjaja = null;
+    this.izracunataCijena = false;
+    this.racunanjeVisible = true;
+  }
+
+  public onAddDogadjaj(addForm: NgForm): void
+  {
+    this.addVisible = false;
+    if (this.activeUser?.role == 'user')
+      addForm.form.get('odobren')?.setValue(false);
+    addForm.form.get('dnevniRaspored')?.setValue(this.selectedDnevniRaspored);
+
+    this.dogadjajService.addDogadjaj(addForm.value).subscribe(
+      (response: Dogadjaj) =>
+      {
+        this.getDogadjajs();
+        if (this.activeUser?.role === 'user' && this.activeUser.email){
+          const emailObj = new Email(this.activeUser.email, `Zahtjev za rezervaciju događaja je uspješno proslijeđen. Cijena usluge je: ${this.cijena} KM`);
+          this.emailService.sendEmail(emailObj).subscribe(response => {
+            console.log('Email sent.');
+          });
+        }
+        setTimeout(() => {
+          this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Događaj je dodan u sistem!' });
+        }, 200);
+      },
+      (error: HttpErrorResponse) =>
+      {
+        alert('Greška u dodavanju događaja');
+      }
+    );
+    this.resetAddDialog();
+    //addForm.reset();
+  }
+
+  public async onRasporedSelected()
+  {
+    await this.loadDnevniRasporeds();
+  }
+
+  public async loadDnevniRasporeds(): Promise<void> {
+    try {
+      this.dnevniRasporedsAsc = await this.dnevniRasporedService.getDnevniRasporeds().toPromise() || [];
+    } catch (error) {
+      console.error('Greška pri učitavanju terena:', error);
+    }
+  }
+
+  public izracunajCijenu(vrijemeOd: string, vrijemeDo: string): void
+  {
+    let vrijemeOdMillis: number = DogadjajComponent.timeToMillis(vrijemeOd);
+    let vrijemeDoMillis: number = DogadjajComponent.timeToMillis(vrijemeDo);
+
+    let diffMillis: number = vrijemeDoMillis - vrijemeOdMillis;
+    let diffHours: number = 0.0;
+    let cijenaTemp: number = 0.0
+
+    let kraj: boolean = false;
+
+    for(let c of this.cjenovniks)
+    {
+      if(c.teren.idTeren == this.selectedTeren?.idTeren)
+      {
+        if((vrijemeOd >= c.vrijemeOd && vrijemeOd <= c.vrijemeDo) && (vrijemeDo >= c.vrijemeOd && vrijemeDo <= c.vrijemeDo))
+        {
+          diffHours = diffMillis / 3600000.0;
+          cijenaTemp = diffHours * c.cijena;
+        }
+        else if((vrijemeOd >= c.vrijemeOd && vrijemeOd <= c.vrijemeDo) && (vrijemeDo >= c.vrijemeDo))
+        {
+          let first: boolean = true;
+          let rad: boolean = false;
+          for(let temp of this.cjenovniks)
+          {
+            if(!kraj)
+            {
+              if(vrijemeOd >= temp.vrijemeOd && vrijemeOd < temp.vrijemeDo)
+              {
+                rad = true;
+              }
+              if(rad)
+              {
+                if(first)
+                {
+                  diffMillis = DogadjajComponent.timeToMillis(temp.vrijemeDo) - vrijemeOdMillis;
+                  diffHours = diffMillis / 3600000.0;
+                  cijenaTemp += diffHours * temp.cijena;
+                  console.log("1.", cijenaTemp);
+                  first = false;
+                }
+                else if(!first && vrijemeDo >= temp.vrijemeDo)
+                {
+                  diffMillis = DogadjajComponent.timeToMillis(temp.vrijemeDo) - DogadjajComponent.timeToMillis(temp.vrijemeOd);
+                  diffHours = diffMillis / 3600000.0;
+                  cijenaTemp += diffHours * temp.cijena;
+                  console.log("2.", cijenaTemp);
+                }
+                else if(!first && vrijemeDo <= temp.vrijemeDo)
+                {
+                  diffMillis = vrijemeDoMillis - DogadjajComponent.timeToMillis(temp.vrijemeOd);
+                  diffHours = diffMillis / 3600000.0;
+                  cijenaTemp += diffHours * temp.cijena;
+                  console.log("3.", cijenaTemp);
+                  kraj = true;
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    this.cijena = cijenaTemp;
+    this.izracunataCijena = true;
+    this.racunanjeVisible = !this.izracunataCijena;
+  }
+
+  public onDeleteDogadjaj(dogadjaj: Dogadjaj): void
+  {
+    this.deleteVisible = false;
+    this.dogadjajService.deleteDogadjaj(dogadjaj.idDogadjaj).subscribe(
+      (response: void) => {
+        //this.getDogadjajs();
+        this.dogadjajs = this.dogadjajs.filter(item => item.idDogadjaj !== dogadjaj.idDogadjaj);        
+        this.sortedDogadjajs = this.sortedDogadjajs.filter(item => item.idDogadjaj !== dogadjaj.idDogadjaj);    
+        setTimeout(() => {
+          this.messageService.add({ severity: 'success', summary: 'Uspješno brisanje', detail: 'Događaj je obrisan sa sistema!' });
+        }, 200);
+
+        if(dogadjaj.klijent !== null && dogadjaj.klijent.email != null){
+          const email = new Email(dogadjaj.klijent.email, "Vaš događaj zakazan za " + dogadjaj.teren.nazivTerena + " je otkazan od strane službenog lica.");
+          this.emailService.sendEmail(email).subscribe(response => {
+            console.log('Email sent.');
+          });
+        }
+      },
+      (error: HttpErrorResponse) => {
+        alert('greška u brisanju događaja')
+      }
+    );
+  }
+
+  showDeleteDialog(dogadjaj: Dogadjaj) 
+  {
+    this.deleteVisible = true;
+    this.delDogadjaj = { ...dogadjaj };
+    this.delIdDogadjaj = this.delDogadjaj.idDogadjaj;
+  }
+
+  closeDeleteDialog()
+  {
+    this.deleteVisible = false;
   }
 
   setDnevniRaspored(dnevniRaspored: DnevniRaspored): void
@@ -651,184 +728,10 @@ export class DogadjajComponent implements OnInit{
     );
   }
 
-  public sortDogadjajs(): void {
-    this.sortedDogadjajs = this.dogadjajs.sort((a, b) => {
-        const timeA = a.vrijemeOd.split(':').map(Number);
-        const timeB = b.vrijemeOd.split(':').map(Number);
-        
-        const dateA = new Date(0, 0, 0, timeA[0], timeA[1], timeA[2]);
-        const dateB = new Date(0, 0, 0, timeB[0], timeB[1], timeB[2]);
-
-        return dateA.getTime() - dateB.getTime();
-    });
-  }
-
-  public izracunajCijenu(vrijemeOd: string, vrijemeDo: string): void
-  {
-    let vrijemeOdMillis: number = DogadjajComponent.timeToMillis(vrijemeOd);
-    let vrijemeDoMillis: number = DogadjajComponent.timeToMillis(vrijemeDo);
-
-    let diffMillis: number = vrijemeDoMillis - vrijemeOdMillis;
-    let diffHours: number = 0.0;
-    let cijenaTemp: number = 0.0
-
-    let kraj: boolean = false;
-
-    for(let c of this.cjenovniks)
-    {
-      if(c.teren.idTeren == this.selectedTeren?.idTeren)
-      {
-        if((vrijemeOd >= c.vrijemeOd && vrijemeOd <= c.vrijemeDo) && (vrijemeDo >= c.vrijemeOd && vrijemeDo <= c.vrijemeDo))
-        {
-          diffHours = diffMillis / 3600000.0;
-          cijenaTemp = diffHours * c.cijena;
-        }
-        else if((vrijemeOd >= c.vrijemeOd && vrijemeOd <= c.vrijemeDo) && (vrijemeDo >= c.vrijemeDo))
-        {
-          let first: boolean = true;
-          let rad: boolean = false;
-          for(let temp of this.cjenovniks)
-          {
-            if(!kraj)
-            {
-              if(vrijemeOd >= temp.vrijemeOd && vrijemeOd < temp.vrijemeDo)
-              {
-                rad = true;
-              }
-              if(rad)
-              {
-                if(first)
-                {
-                  diffMillis = DogadjajComponent.timeToMillis(temp.vrijemeDo) - vrijemeOdMillis;
-                  diffHours = diffMillis / 3600000.0;
-                  cijenaTemp += diffHours * temp.cijena;
-                  console.log("1.", cijenaTemp);
-                  first = false;
-                }
-                else if(!first && vrijemeDo >= temp.vrijemeDo)
-                {
-                  diffMillis = DogadjajComponent.timeToMillis(temp.vrijemeDo) - DogadjajComponent.timeToMillis(temp.vrijemeOd);
-                  diffHours = diffMillis / 3600000.0;
-                  cijenaTemp += diffHours * temp.cijena;
-                  console.log("2.", cijenaTemp);
-                }
-                else if(!first && vrijemeDo <= temp.vrijemeDo)
-                {
-                  diffMillis = vrijemeDoMillis - DogadjajComponent.timeToMillis(temp.vrijemeOd);
-                  diffHours = diffMillis / 3600000.0;
-                  cijenaTemp += diffHours * temp.cijena;
-                  console.log("3.", cijenaTemp);
-                  kraj = true;
-                  break;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    this.cijena = cijenaTemp;
-    this.izracunataCijena = true;
-    this.racunanjeVisible = !this.izracunataCijena;
-  }
-
   public static timeToMillis(time: string): number 
   {
     const [hours, minutes, seconds] = time.split(':').map(Number);
     return (hours * 3600000) + (minutes * 60000) + (seconds * 1000);
-  }
-
-
-
-  public onAddDogadjaj(addForm: NgForm): void
-  {
-    this.addVisible = false;
-    if(this.selectedKlijent !== null)
-    {
-      addForm.form.get('odobren')?.setValue(false);
-    }
-    else
-    {
-      addForm.form.get('odobren')?.setValue(true);
-      console.log('SSSSSSSSSSSSSSSSS');
-    }
-    console.log(this.isOdobren);
-    console.log(this.selectedKlijent?.email);
-    //this.klijentZaMail = this.selectedKlijent?.email || "";
-    addForm.form.get('dnevniRaspored')?.setValue(this.selectedDnevniRaspored);
-    this.dogadjajService.addDogadjaj(addForm.value).subscribe(
-      (response: Dogadjaj) =>
-      {
-        //this.messageService.add({ severity: 'success', summary: 'Uspješno dodavanje', detail: 'Dogadjaj je dodan u sistem!' });
-        this.getDogadjajs();
-        console.log(this.klijentZaMail);
-        /*if(this.klijentZaMail !== null)
-        {
-          console.log('BBBBB');
-          const email = new Email(this.klijentZaMail, "Zahtjev za rezervaciju dogadjaja je uspjesno prosljedjen. Cijena usluge je: " + this.cijena + "KM");
-          this.emailService.sendEmail(email).subscribe(response => {
-            console.log('Email sent.');
-            window.location.href = window.location.href.split('?')[0] + '?added=true';
-          });
-        }*/
-          if(this.klijentZaMail !== null) {
-            console.log('BBBBB');
-            const email = new Email(this.klijentZaMail, "Zahtjev za rezervaciju dogadjaja je uspjesno prosljedjen. Cijena usluge je: " + this.cijena + "KM");
-            
-            // Dodavanje email-a i cijene kao URL parametara
-            const newUrl = `${window.location.href.split('?')[0]}?added=true&email=${encodeURIComponent(this.klijentZaMail)}&cijena=${this.cijena}`;
-            
-            // Postavi novi URL i osveži stranicu
-            window.location.href = newUrl;
-          }
-          
-        else {
-          window.location.href = window.location.href.split('?')[0] + '?added=true';
-        }
-      },
-      (error: HttpErrorResponse) =>
-      {
-        const url = new URL(window.location.href);
-        url.searchParams.set('added', 'false');
-        url.searchParams.set('message', error.message);
-        window.location.href = url.toString();
-
-        //this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u dodavanju dogadjaja' });
-      }
-    );
-    addForm.reset();
-  }
-
-
-  public onDeleteDogadjaj(dogadjaj: Dogadjaj): void
-  {
-    this.deleteVisible = false;
-    this.dogadjajService.deleteDogadjaj(dogadjaj.idDogadjaj).subscribe(
-      (response: void) => {
-        if(dogadjaj.klijent !== null && dogadjaj.klijent.email != null)
-        {
-          this.getDogadjajs();
-          const email = new Email(dogadjaj.klijent.email, "Vaš događaj zakazan za " + dogadjaj.teren.nazivTerena + " je otkazan od strane službenog lica.");
-            
-            // Dodavanje email-a i cijene kao URL parametara
-          const newUrl = `${window.location.href.split('?')[0]}?deleted=true&email=${encodeURIComponent(dogadjaj.klijent.email)}&teren=${dogadjaj.teren.nazivTerena}`;
-            
-            // Postavi novi URL i osveži stranicu
-          window.location.href = newUrl;
-        }
-        else
-        {
-          window.location.href = window.location.href.split('?')[0] + '?deleted=true';
-        }
-      },
-      (error: HttpErrorResponse) => {
-        const url = new URL(window.location.href);
-        url.searchParams.set('deleted', 'false');
-        url.searchParams.set('message', error.message);
-        window.location.href = url.toString();
-      }
-    );
   }
 
   public searchDogadjajs(key: string): void
@@ -836,9 +739,9 @@ export class DogadjajComponent implements OnInit{
     const results: Dogadjaj[] = [];
     for(const dogadjaj of this.dogadjajs)
     {
-      if((dogadjaj.domacaEkipa.nazivEkipe.toLowerCase().indexOf(key.toLowerCase()) !== -1) ||
-        (dogadjaj.gostujucaEkipa.nazivEkipe.toLowerCase().indexOf(key.toLowerCase()) !== -1) ||
-        (dogadjaj.teren.nazivTerena.toLowerCase().indexOf(key.toLowerCase()) !== -1) )
+      if((dogadjaj.domacaEkipa != undefined && dogadjaj.domacaEkipa.nazivEkipe.toLowerCase().indexOf(key.toLowerCase()) !== -1) ||
+        (dogadjaj.gostujucaEkipa != undefined && dogadjaj.gostujucaEkipa.nazivEkipe.toLowerCase().indexOf(key.toLowerCase()) !== -1) ||
+        (dogadjaj.teren != undefined && dogadjaj.teren.nazivTerena.toLowerCase().indexOf(key.toLowerCase()) !== -1) )
       {
         results.push(dogadjaj);
       }
@@ -850,33 +753,5 @@ export class DogadjajComponent implements OnInit{
     }
   }
 
-  showAddDialog() 
-  {
-    this.addVisible = true;
-  }
-
-  showDeleteDialog(dogadjaj: Dogadjaj) 
-  {
-    this.deleteVisible = true;
-    this.delDogadjaj = { ...dogadjaj };
-    this.delIdDogadjaj = this.delDogadjaj.idDogadjaj;
-  }
-
-  closeDeleteDialog()
-  {
-    this.deleteVisible = false;
-  }
-
-  resetAddDialog(){
-    this.selectedTakmicenje = undefined;
-    this.selectedSport = undefined;
-    this.tempVrijemeOd = "";
-    this.tempVrijemeDo = "";
-    this.selectedDomacaEkipa = undefined;
-    this.selectedGostujucaEkipa = undefined;
-    this.infoDogadjaja = null;
-    this.izracunataCijena = false;
-    this.racunanjeVisible = true;
-  }
 }
 

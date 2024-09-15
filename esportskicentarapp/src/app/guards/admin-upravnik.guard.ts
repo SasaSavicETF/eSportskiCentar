@@ -6,7 +6,7 @@ export const adminUpravnikGuard: CanActivateFn = (route, state) => {
   const userService = inject(KlijentService);
   const router = inject(Router);
 
-  if (userService.activeUser != null && (userService.activeUser.role === 'upravnik' 
+  if (userService.activeUser != null && userService.checkExpiry() && (userService.activeUser.role === 'upravnik' 
                                 || userService.activeUser.role === 'admin'))
       return true;
   else{

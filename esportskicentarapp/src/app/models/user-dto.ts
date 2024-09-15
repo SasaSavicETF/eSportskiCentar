@@ -11,6 +11,7 @@ export class UserDTO {
     role : string | null;
     blokiran : boolean;
     dvorana : Dvorana | null;
+    expiry: number = -1;
 
     constructor(ime:string | null, prezime:string | null, korisnickoIme:string | null, lozinka:string | null, 
                 brojTelefona:string | null, email : string | null, role : string | null) {

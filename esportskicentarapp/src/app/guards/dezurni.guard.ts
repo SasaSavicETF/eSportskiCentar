@@ -6,7 +6,7 @@ export const dezurniGuard: CanActivateFn = (route, state) => {
   const userService = inject(KlijentService);
   const router = inject(Router);
 
-  if (userService.activeUser != null && userService.activeUser.role === 'radnik')
+  if (userService.activeUser != null && userService.checkExpiry() && userService.activeUser.role === 'radnik')
       return true;
   else{
     userService.logout();

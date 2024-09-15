@@ -7,7 +7,7 @@
               <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" (ngModelChange)="onDvoranaChange($event)" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi dvoranu"></p-dropdown>
             </div>
             <div class="drop card flex justify-content-center mob">
-              <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" (ngModelChange)="onTerenChange($event)" name="teren" optionLabel="nazivTerena" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi teren"></p-dropdown>
+              <p-dropdown class="custom-dd" [options]="filteredTerens" [(ngModel)]="selectedTeren" (ngModelChange)="onTerenChange($event)" name="teren" optionLabel="nazivTerena" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi teren"></p-dropdown>
             </div>
           </div>
         
@@ -28,43 +28,14 @@
                 dataType="string" />
             </div>
             <div class="button-container mob">
-              <p-button label="Pretraži" icon="pi pi-filter-fill" severity="help" (click)="filtriraj()"></p-button>
+              <p-button label="Pretraži" icon="pi pi-filter-fill" severity="help" (click)="filtriraj()" [disabled]="isPretraziDisabled"></p-button>
             </div>
           </div>
     </form>
   </div>
   <hr>
-  <!--
-  <div *ngIf="isFilterDone">
-    
-<div class="card">
-  <p-timeline [value]="sortedDogadjajs" align="alternate" styleClass="customized-timeline">
-      <ng-template pTemplate="marker" let-dogadjaj>
-          <span 
-              class="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-1" 
-              [style]="{ 'background-color': 'white' }">
-                  <i [class]="icon"></i>
-          </span>
-      </ng-template>
-      <ng-template pTemplate="content" let-dogadjaj>
-          <p-card [subheader]="dogadjaj.vrijemeOd + ' - ' + dogadjaj.vrijemeDo">
-              <h5 *ngIf="dogadjaj.domacaEkipa != null && dogadjaj.gostujucaEkipa != null">
-                  {{dogadjaj.domacaEkipa.nazivEkipe}} - {{dogadjaj.gostujucaEkipa.nazivEkipe}}
-              </h5>
-              <p>
-                {{dogadjaj.infoDogadjaja}}
-              </p>
-              <p-button  label="Procitaj jos" [text]="true" />
-          </p-card>
-      </ng-template>
-  </p-timeline>
-</div>
-<div>
-  <p>Lorem ipsum</p>
-</div>
-  </div>
--->
-<div *ngIf="isFilterDone && selectedTeren != undefined" class="container">
+  
+<div *ngIf="showDogadjajs && selectedTeren != undefined" class="container">
   <div class="card-wrapper">
     <div class="text-content dvorana-card">
       <div class="card-container">
@@ -123,10 +94,10 @@
             {{dogadjaj.domacaEkipa.nazivEkipe}} - {{dogadjaj.gostujucaEkipa.nazivEkipe}}
           </h5>
           <p *ngIf="dogadjaj.sport != null">{{dogadjaj.sport.nazivSporta}}</p>
-          <p *ngIf="ulazniKlijent !== null && ulazniKlijent.role != 'user'">Cijena: {{dogadjaj.cijena}} KM</p>
+          <p *ngIf="activeUser?.role != 'user'">Cijena: {{dogadjaj.cijena}} KM</p>
           <p>{{dogadjaj.infoDogadjaja}}</p>
           <!--<p-button label="Procitaj jos" [text]="true" />-->
-          <div *ngIf="ulazniKlijent !== null && ulazniKlijent.role != 'user'" class="flex gap-3 mt-1">
+          <div *ngIf="activeUser?.role != 'user'" class="flex gap-3 mt-1">
             <p-button label="Obriši" (onClick)="onDeleteDogadjaj(dogadjaj)" [style]="{ backgroundColor: '#f44336' }" severity="danger" class="w-full dell"></p-button>
           </div>
         </p-card>
@@ -150,7 +121,7 @@
               <p-dropdown class="custom-dd" [options]="takmicenjes" [(ngModel)]="selectedTakmicenje" [style]="{'minWidth':'100%', 'margin-botom': '20px'}" name="takmicenje" optionLabel="vrstaTakmicenja" [showClear]="true" placeholder="Izaberi takmicenje ili tip"></p-dropdown>
             </div>
             <div class="drop card flex justify-content-center add-form-marg">
-              <p-dropdown class="custom-dd" [options]="sports" [(ngModel)]="selectedSport" [style]="{'minWidth':'100%', 'margin-botom': '20px'}" name="sport" optionLabel="nazivSporta" [showClear]="true" placeholder="Izaberi sport"></p-dropdown>
+              <p-dropdown class="custom-dd" [options]="filteredSports" [(ngModel)]="selectedSport" [style]="{'minWidth':'100%', 'margin-botom': '20px'}" name="sport" optionLabel="nazivSporta" [showClear]="true" placeholder="Izaberi sport"></p-dropdown>
             </div>
             <label for="vrijeme_od">Vrijeme početka</label>
             <div class="drop card flex justify-content-center add-form-marg">

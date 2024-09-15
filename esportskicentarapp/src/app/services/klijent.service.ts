@@ -20,6 +20,10 @@ export class KlijentService {
       const storedUser = localStorage.getItem('activeUser');
       if (storedUser){
         this.activeUser = this.encryption.decryptData(storedUser);
+        if (this.activeUser && new Date().getTime() > this.activeUser?.expiry){
+          this.logout();
+          this.router.navigate(['/index']);
+        }
       }
     }
   }
@@ -33,6 +37,13 @@ export class KlijentService {
       username : username,
       password : password,
     });
+  }
+
+  checkExpiry(): boolean {
+    if (this.activeUser && new Date().getTime() > this.activeUser?.expiry)
+      return false;
+    else
+      return true;
   }
 
   logout() {

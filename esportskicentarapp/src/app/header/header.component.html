@@ -14,6 +14,28 @@
 </header>
 
 <div class="sidenav" *ngIf="showSidenav">
+    <a routerLink="/adminPanel" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showAdminPanel">
+        <div class="content">
+            <div class="column">
+                <i class="pi pi-user"></i>
+            </div>
+            <div class="column">
+                <p class="title">Administratorski panel</p>
+                <p class="description">Prikaz podataka o sistemu</p>
+            </div>
+        </div>
+    </a>
+    <a routerLink="/administrator" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showAdministracija">
+        <div class="content">
+            <div class="column">
+                <i class="pi pi-user"></i>
+            </div>
+            <div class="column">
+                <p class="title">Administracija</p>
+                <p class="description">Prikaz podataka o zaposlenima</p>
+            </div>
+        </div>
+    </a>
     <a routerLink="/dogadjajPregled" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showPregledDogadjaja">
         <div class="content">
             <div class="column">
@@ -211,30 +233,7 @@
                 <p class="description">Prikaz i izmjena tipa terena</p>
             </div>
         </div>
-    </a>
-    <a routerLink="/administrator" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showAdministracija">
-        <div class="content">
-            <div class="column">
-                <i class="pi pi-user"></i>
-            </div>
-            <div class="column">
-                <p class="title">Administracija</p>
-                <p class="description">Prikaz podataka o zaposlenima</p>
-            </div>
-        </div>
-    </a>
-    <a routerLink="/adminPanel" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showAdminPanel">
-        <div class="content">
-            <div class="column">
-                <i class="pi pi-user"></i>
-            </div>
-            <div class="column">
-                <p class="title">Administratorski panel</p>
-                <p class="description">Prikaz podataka o sistemu</p>
-            </div>
-        </div>
-    </a>
-    
+    </a>    
 </div>
 
 <ul [ngClass]="{'visible': showMenu}">

@@ -33,12 +33,14 @@ export class LoginComponent {
 
     this.klijentService.loginUser(this.username, this.password).subscribe({
       next: response => {
+        this.klijentService.activeUser = response;
+
         if (localStorage !== undefined){
           localStorage.removeItem('activeUser');
-          const encryptedData = this.encryptionService.encryptData(response);
+          this.klijentService.activeUser.expiry = new Date().getTime() + 1000*60*20; // 30 min
+          const encryptedData = this.encryptionService.encryptData(this.klijentService.activeUser);
           localStorage.setItem('activeUser', encryptedData);
         }
-        this.klijentService.activeUser = response;
 
         if(this.klijentService.activeUser.role == 'admin') {
           this.router.navigate(['/adminPanel']);
