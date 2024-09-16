@@ -158,7 +158,7 @@ export class AdminPanelComponent implements OnInit{
               days[day]++;
           });
     
-          dataPoints = days.map(day => day > 0 ? day : null);
+          dataPoints = days;
 
         }
 
@@ -173,7 +173,7 @@ export class AdminPanelComponent implements OnInit{
               days[day]++;
           });
     
-          dataPoints = days.map(day => day > 0 ? day : null);
+          dataPoints = days;
     
         } else if (this.selectedDate === 'this_year') {
           labels = this.getMonthLabels();
@@ -279,10 +279,11 @@ export class AdminPanelComponent implements OnInit{
 
   getTopSports() {
     const sportCount = new Map<string, number>();
-
+    
     this.dogadjajs.forEach(dogadjaj => {
       if(dogadjaj.sport !== null && dogadjaj.sport.nazivSporta !== null) {
       const sport = dogadjaj.sport.nazivSporta;
+      console.log(sport);
       if(sportCount.has(sport))
         sportCount.set(sport, sportCount.get(sport)! + 1);
       else
