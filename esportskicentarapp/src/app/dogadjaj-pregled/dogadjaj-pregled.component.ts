@@ -23,6 +23,8 @@ export class DogadjajPregledComponent implements OnInit{
   public delDogadjaj: Dogadjaj | undefined;
   public delIdDogadjaj: number = -1;
 
+  danasnjiDatum: Date = new Date();
+
   constructor(private dogadjajService: DogadjajService, private messageService: MessageService,
   private klijentService: KlijentService) {}
 
@@ -36,7 +38,15 @@ export class DogadjajPregledComponent implements OnInit{
    this.dogadjajService.getDogadjajsOfUser(this.klijentService.activeUser.id).subscribe(
       (response: Dogadjaj[]) => 
       {
-        this.dogadjajs = response;
+        const updatedDogadjajs: Dogadjaj[] = [];
+        for(let dogadjaj of response)
+        {
+          if(this.compareDates(dogadjaj.dnevniRaspored.datum, this.danasnjiDatum))
+          {
+            updatedDogadjajs.push(dogadjaj);
+          }
+        }
+        this.dogadjajs = updatedDogadjajs;
         this.updatePaginatedDogadjajs();
       },
       (error: HttpErrorResponse) =>
@@ -92,6 +102,66 @@ export class DogadjajPregledComponent implements OnInit{
     const startIndex = this.currentPage;
     const endIndex = startIndex + this.rowsPerPage;
     this.paginatedDogadjajs = this.dogadjajs.slice(startIndex, endIndex);
+}
+
+public compareDates(date1: any, date2: any): boolean {
+  if (!(date1 instanceof Date)) {
+    const [day, month, year] = date1.split('.').map(Number);
+    date1 = new Date(year, month - 1, day);
+  }
+  if (!(date2 instanceof Date)) {
+    const [day, month, year] = date2.split('.').map(Number);
+    date2 = new Date(year, month - 1, day);
+  }
+  console.log(date1, date2);
+
+  let dan: number = date1.getDate();
+  let mjesec: number = date1.getMonth();
+  let godina: number = date1.getFullYear();
+
+  if (date1.getMonth() == 1) 
+  {
+    if (date1.getDate() == 28) {
+        if ((date1.getFullYear() % 4 == 0 && date1.getFullYear() % 100 != 0) || date1.getFullYear() % 400 == 0) {
+          dan = 29;
+        } else {
+          dan = 1;
+          mjesec = 2;
+        }
+    } else if (date1.getDate() == 29) {
+        dan = 1;
+        mjesec = 2;
+    }
+  }
+  else if (date1.getDate() == 30 && (date1.getMonth() == 3 || date1.getMonth() == 5 || date1.getMonth() == 8 || date1.getMonth() == 10)) 
+  {
+    dan = 1;
+    mjesec = date1.getMonth() + 1;
+  }
+  else if (date1.getDate() == 31) 
+  {
+    if (date1.getMonth() == 11) {
+        dan = 1;
+        mjesec = 0;
+        godina = date1.getFullYear();
+    } else {
+      dan = 1;
+      mjesec = date1.getMonth() + 1;
+    }
+  }
+  else
+  {
+    dan = date1.getDate() + 1;
+  }
+
+  if(godina >= date2.getFullYear() && mjesec >= date2.getMonth() && dan >= date2.getDate())
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
 
 fixDate(d: string | undefined) {
