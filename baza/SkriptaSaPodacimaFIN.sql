@@ -453,7 +453,10 @@ CREATE TABLE `teren` (
 
 LOCK TABLES `teren` WRITE;
 /*!40000 ALTER TABLE `teren` DISABLE KEYS */;
-INSERT INTO `teren` VALUES (11,4,'Glavni teren','Glavni teren Gradskog stadiona, pogodan za igranje profesionalnih utakmica',14,'http://localhost:8080/gradski.jpg',105.00,68.00,_binary ''),(12,4,'Pomoćni teren','Pomoćni teren Gradskog stadiona, pogodan za juniorske i amaterske mečeve.',14,'http://localhost:8080/pomocni.jpg',100.00,50.00,_binary ''),(13,5,'Glavni teren','Glavni teren Dvorane Borik, pogadan za igranje svih dvoranskih sportova.',13,'http://localhost:8080/Dvorana-Borik.jpg',60.00,30.00,_binary ''),(14,6,'Atletska staza','Moderna atletska staza pogodna za treninge, kao i atletska takmičenja',14,'http://localhost:8080/atletska.jpg',400.00,20.00,_binary '');
+INSERT INTO `teren` VALUES (11,4,'Glavni teren','Glavni teren Gradskog stadiona, pogodan za igranje profesionalnih utakmica',14,'http://localhost:8080/pictures/gradski.jpg',105.00,68.00,_binary ''),
+(12,4,'Pomoćni teren','Pomoćni teren Gradskog stadiona, pogodan za juniorske i amaterske mečeve.',14,'http://localhost:8080/pictures/pomocni.jpg',100.00,50.00,_binary ''),
+(13,5,'Glavni teren','Glavni teren Dvorane Borik, pogadan za igranje svih dvoranskih sportova.',13,'http://localhost:8080/pictures/Dvorana-Borik.jpg',60.00,30.00,_binary ''),
+(14,6,'Atletska staza','Moderna atletska staza pogodna za treninge, kao i atletska takmičenja',14,'http://localhost:8080/pictures/atletska.jpg',400.00,20.00,_binary '');
 /*!40000 ALTER TABLE `teren` ENABLE KEYS */;
 UNLOCK TABLES;
 

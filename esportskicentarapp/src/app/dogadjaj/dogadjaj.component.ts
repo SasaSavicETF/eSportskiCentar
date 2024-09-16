@@ -545,6 +545,7 @@ export class DogadjajComponent implements OnInit{
 
   public izracunajCijenu(vrijemeOd: string, vrijemeDo: string): void
   {
+    /*
     let vrijemeOdMillis: number = DogadjajComponent.timeToMillis(vrijemeOd);
     let vrijemeDoMillis: number = DogadjajComponent.timeToMillis(vrijemeDo);
 
@@ -611,6 +612,48 @@ export class DogadjajComponent implements OnInit{
     this.cijena = cijenaTemp;
     this.izracunataCijena = true;
     this.racunanjeVisible = !this.izracunataCijena;
+    */
+
+    let totalSum = 0;
+    let clientStartTime: number =this.convertToMillis(vrijemeOd);
+    let clientEndTime: number = this.convertToMillis(vrijemeDo);
+
+    this.cjenovniks.forEach(cjenovnik => {
+      if (cjenovnik.teren.idTeren == this.selectedTeren?.idTeren){
+        const terminStartTime = this.convertToMillis(cjenovnik.vrijemeOd);
+        const terminEndTime = this.convertToMillis(cjenovnik.vrijemeDo);
+
+        // Check if there's an overlap between client time and price slot
+        const overlapStart = clientStartTime > terminStartTime ? clientStartTime : terminStartTime; // latest start time
+        const overlapEnd = clientEndTime < terminEndTime ? clientEndTime : terminEndTime; // earliest end time
+            // Calculate the overlap duration in hours
+        if (overlapStart < overlapEnd) { // There is an overlap
+            const overlapDurationHours = (overlapEnd - overlapStart) / (1000 * 60 * 60);
+                // Add the cost for this overlapping duration to the total sum
+            totalSum += overlapDurationHours * cjenovnik.cijena;
+        }
+      }
+    })
+
+    this.cijena = totalSum;
+    this.izracunataCijena = true;
+    this.racunanjeVisible = !this.izracunataCijena;
+    //alert(totalSum)
+  }
+
+  convertToMillis(timeString: string){
+    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, seconds);
+    const milliseconds = date.getTime();
+
+    return milliseconds;
+  }
+
+  public static timeToMillis(timeString: string): number 
+  {
+    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+    return (hours * 3600000) + (minutes * 60000) + (seconds * 1000);
   }
 
   public onDeleteDogadjaj(dogadjaj: Dogadjaj): void
@@ -726,12 +769,6 @@ export class DogadjajComponent implements OnInit{
       mjesec == date2.getMonth() &&
       dan == date2.getDate()
     );
-  }
-
-  public static timeToMillis(time: string): number 
-  {
-    const [hours, minutes, seconds] = time.split(':').map(Number);
-    return (hours * 3600000) + (minutes * 60000) + (seconds * 1000);
   }
 
   public searchDogadjajs(key: string): void
