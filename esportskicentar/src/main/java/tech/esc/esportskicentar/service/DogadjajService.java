@@ -14,6 +14,7 @@ import tech.esc.esportskicentar.util.Util;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
@@ -124,13 +125,14 @@ public class DogadjajService {
 
                     for(Cjenovnik temp : cjenovnici)
                     {
-                        if(!kraj)
+                        if(!kraj && temp.getTeren().getIdTeren() == dogadjaj.getTeren().getIdTeren())
                         {
                             if((dogadjaj.getVrijemeOd().compareTo(temp.getVrijemeOd()) >= 0 && dogadjaj.getVrijemeOd().compareTo(temp.getVrijemeDo()) < 0)){
                                 rad = true;
                             }
                             if(rad)
                             {
+                                Time time = Time.valueOf("00:00:00");
                                 if(first)
                                 {
                                     diffMillis = temp.getVrijemeDo().getTime() - vrijemeOdMillis;
@@ -138,21 +140,43 @@ public class DogadjajService {
                                     cijena += diffHours * temp.getCijena().doubleValue();
                                     System.out.println("1." + cijena);
                                     first = false;
+                                    if(temp.getVrijemeDo().equals(time))
+                                    {
+
+                                        kraj = true;
+                                    }
                                 }
-                                else if(!first && dogadjaj.getVrijemeDo().compareTo(temp.getVrijemeDo()) >= 0)
+                                else if(!first && dogadjaj.getVrijemeDo().compareTo(temp.getVrijemeDo()) >= 0 && temp.getTeren().getIdTeren() == dogadjaj.getTeren().getIdTeren())
                                 {
+                                    if(temp.getVrijemeDo().equals(time))
+                                    {
+                                        System.out.println("AAAAAAAAAA");
+                                        kraj = true;
+                                        break;
+                                    }
                                     diffMillis = temp.getVrijemeDo().getTime() - temp.getVrijemeOd().getTime();
                                     diffHours = ((double)diffMillis) / 3600000.0D;
                                     cijena += diffHours * temp.getCijena().doubleValue();
                                     System.out.println("2." + cijena);
+                                    System.out.println(time.getTime());
                                 }
                                 else if(!first && dogadjaj.getVrijemeDo().compareTo(temp.getVrijemeDo()) <= 0)
                                 {
+                                    if(temp.getVrijemeDo().equals(time))
+                                    {
+                                        System.out.println("AAAAAAAAAA");
+                                        kraj = true;
+                                        break;
+                                    }
                                     diffMillis = dogadjaj.getVrijemeDo().getTime() - temp.getVrijemeOd().getTime();
                                     diffHours = ((double)diffMillis) / 3600000.0D;
                                     cijena += diffHours * temp.getCijena().doubleValue();
                                     System.out.println("3." + cijena);
                                     kraj = true;
+                                    if(temp.getVrijemeDo().equals(time))
+                                    {
+                                        kraj = true;
+                                    }
                                     break;
                                 }
                             }
