@@ -635,10 +635,9 @@ export class DogadjajComponent implements OnInit{
       }
     })
 
-    this.cijena = totalSum;
+    this.cijena = Math.round(totalSum);
     this.izracunataCijena = true;
     this.racunanjeVisible = !this.izracunataCijena;
-    //alert(totalSum)
   }
 
   convertToMillis(timeString: string){
