@@ -283,7 +283,6 @@ export class AdminPanelComponent implements OnInit{
     this.dogadjajs.forEach(dogadjaj => {
       if(dogadjaj.sport !== null && dogadjaj.sport.nazivSporta !== null) {
       const sport = dogadjaj.sport.nazivSporta;
-      console.log(sport);
       if(sportCount.has(sport))
         sportCount.set(sport, sportCount.get(sport)! + 1);
       else
