@@ -72,7 +72,7 @@ export class DogadjajComponent implements OnInit{
   selectedRaspored: Raspored | undefined;
   rasporeds: Raspored[] = [];
   public dogadjajs: Dogadjaj[] = [];
-  public sortedDogadjajs: Dogadjaj[] = [];
+  //public sortedDogadjajs: Dogadjaj[] = [];
   ulazs: Ulaz[] = [];
   svlacionicas: Svlacionica[] = [];
 
@@ -165,22 +165,7 @@ export class DogadjajComponent implements OnInit{
     this.terenService.getTerensByDostupanAndDvorana(this.selectedDvorana?.idDvorana || 1).subscribe(
       (response: Teren[]) =>
       {
-        if(this.activeUser?.role !== 'upravnik')
-        {
-          this.terens = response;
-        }
-        else
-        {
-          const filteredTerens: Teren[] = [];
-          for(let teren of response)
-          {
-            if(teren.dvorana.idDvorana == this.activeUser.dvorana?.idDvorana)
-            {
-              filteredTerens.push(teren);
-            }
-          }
-          this.terens = filteredTerens;
-        }      
+        this.terens = response;
       },
       (error: HttpErrorResponse) =>
       {
@@ -220,12 +205,12 @@ export class DogadjajComponent implements OnInit{
   public getDogadjajs(): void
   {
     this.dogadjajs = [];
-    this.dogadjajService.getDogadjajs().subscribe(
+    this.dogadjajService.getAllFilteredDogadjajs(this.selectedDnevniRaspored?.idDnevniRaspored || 1, this.selectedTeren?.idTeren || 1).subscribe(
       (response: Dogadjaj[]) => 
       {
         this.dogadjajs = response;
-        this.filterDogadjajs();
-        this.sortDogadjajs();
+        /*this.filterDogadjajs();
+        this.sortDogadjajs();*/
         this.showDogadjajs = true;
       },
       (error: HttpErrorResponse) =>
@@ -416,7 +401,7 @@ export class DogadjajComponent implements OnInit{
       this.getDogadjajs();
   }
 
-  public filterDogadjajs(): void
+  /*public filterDogadjajs(): void
   {
     let filterDogadjajs: Dogadjaj[] = [];
     for(const dogadjaj of this.dogadjajs)
@@ -439,7 +424,7 @@ export class DogadjajComponent implements OnInit{
 
         return dateA.getTime() - dateB.getTime();
     });
-  }
+  }*/
 
   public filterUlazs(): void
   {
@@ -655,8 +640,7 @@ export class DogadjajComponent implements OnInit{
     this.dogadjajService.deleteDogadjaj(dogadjaj.idDogadjaj).subscribe(
       (response: void) => {
         //this.getDogadjajs();
-        this.dogadjajs = this.dogadjajs.filter(item => item.idDogadjaj !== dogadjaj.idDogadjaj);        
-        this.sortedDogadjajs = this.sortedDogadjajs.filter(item => item.idDogadjaj !== dogadjaj.idDogadjaj);    
+        this.dogadjajs = this.dogadjajs.filter(item => item.idDogadjaj !== dogadjaj.idDogadjaj);           
         setTimeout(() => {
           this.messageService.add({ severity: 'success', summary: 'Uspješno brisanje', detail: 'Događaj je obrisan sa sistema!' });
         }, 200);

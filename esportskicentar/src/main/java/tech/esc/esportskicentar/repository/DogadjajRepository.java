@@ -2,6 +2,7 @@ package tech.esc.esportskicentar.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import tech.esc.esportskicentar.model.Dogadjaj;
 import tech.esc.esportskicentar.model.Klijent;
@@ -23,4 +24,7 @@ public interface DogadjajRepository extends JpaRepository<Dogadjaj, Integer> {
 
     @Query("SELECT COUNT(DISTINCT d.klijent) FROM Dogadjaj d")
     int countByDistinctClient();
+
+    @Query(value = "SELECT * FROM dogadjaj d WHERE d.id_dnevni_raspored = :idDnevniR AND d.id_teren = :idTeren AND d.odobren = 1", nativeQuery = true)
+    List<Dogadjaj> findAllFilteredDogadjajs(@Param("idDnevniR") Integer idDnevniR, @Param("idTeren") Integer idTeren);
 }

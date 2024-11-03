@@ -26,6 +26,13 @@ public class DogadjajController {
         return new ResponseEntity<>(dogadjajs, HttpStatus.OK);
     }
 
+    @GetMapping("/filtered/{idDR}/{idT}")
+    public ResponseEntity<List<Dogadjaj>> getAllFilteredDogadjajs(@PathVariable Integer idDR, @PathVariable Integer idT)
+    {
+        List<Dogadjaj> dogadjajs = dogadjajService.findAllFilteredDogadjajs(idDR, idT);
+        return new ResponseEntity<>(dogadjajs, HttpStatus.OK);
+    }
+
     @GetMapping("/statistic/total")
     public ResponseEntity<Integer> getNumberOfDogadjajs() {
         int numberOfDogadjajs = dogadjajService.getNumberOfDogadjajs();

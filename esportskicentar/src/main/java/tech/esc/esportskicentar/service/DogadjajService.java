@@ -1,6 +1,7 @@
 package tech.esc.esportskicentar.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.esc.esportskicentar.model.Cjenovnik;
@@ -18,10 +19,8 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 //@Transactional
@@ -45,6 +44,13 @@ public class DogadjajService {
 
     public List<Dogadjaj> findAllDogadjajs(){
         return dogadjajRepository.findAll();
+    }
+
+    public List<Dogadjaj> findAllFilteredDogadjajs(Integer idDnevniR, Integer idTeren)
+    {
+        return dogadjajRepository.findAllFilteredDogadjajs(idDnevniR, idTeren).stream()
+                .sorted(Comparator.comparing(Dogadjaj::getVrijemeOd))
+                .collect(Collectors.toList());
     }
 
     public List<Dogadjaj> findAllDogadjajsOfUser(Integer id) {

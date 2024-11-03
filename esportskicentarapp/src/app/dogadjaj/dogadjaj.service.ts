@@ -18,6 +18,11 @@ export class DogadjajService {
     return this.http.get<Dogadjaj[]>(`${this.apiServerUrl}/dogadjaj`);
   }
 
+  public getAllFilteredDogadjajs(idDR: number, idT: number): Observable<Dogadjaj[]>
+  {
+    return this.http.get<Dogadjaj[]>(`${this.apiServerUrl}/dogadjaj/filtered/${idDR}/${idT}`);
+  }
+
   public getDogadjajsOfUser(userId: number): Observable<Dogadjaj[]>
   {
     return this.http.get<Dogadjaj[]>(`${this.apiServerUrl}/dogadjaj/user/${userId}`);
