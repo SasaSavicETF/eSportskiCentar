@@ -7,7 +7,7 @@
               <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" (ngModelChange)="onDvoranaChange($event)" name="dvorana" optionLabel="nazivDvorane" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi dvoranu"></p-dropdown>
             </div>
             <div class="drop card flex justify-content-center mob">
-              <p-dropdown class="custom-dd" [options]="filteredTerens" [(ngModel)]="selectedTeren" (ngModelChange)="onTerenChange($event)" name="teren" optionLabel="nazivTerena" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi teren"></p-dropdown>
+              <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" (ngModelChange)="onTerenChange($event)" name="teren" optionLabel="nazivTerena" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi teren"></p-dropdown>
             </div>
           </div>
         

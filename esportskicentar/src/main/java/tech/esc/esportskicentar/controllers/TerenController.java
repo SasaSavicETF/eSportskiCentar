@@ -31,6 +31,13 @@ public class TerenController {
         return new ResponseEntity<>(terens, HttpStatus.OK);
     }
 
+    @GetMapping("/dostupan/{idD}")
+    public ResponseEntity<List<Teren>> getTerensByDostupanAndDvorana(@PathVariable Integer idD)
+    {
+        List<Teren> terens = terenService.getTerensByDostupan(idD);
+        return new ResponseEntity<>(terens, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Teren> getTerenById(@PathVariable Integer id) {
         Teren teren = terenService.getTerenById(id);

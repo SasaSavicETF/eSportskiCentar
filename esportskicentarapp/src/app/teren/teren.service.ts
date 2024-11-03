@@ -20,6 +20,11 @@ export class TerenService {
     return this.http.get<Teren[]>(`${this.apiServerUrl}/teren`);
   }
 
+  public getTerensByDostupanAndDvorana(idD: number): Observable<Teren[]>
+  {
+    return this.http.get<Teren[]>(`${this.apiServerUrl}/teren/dostupan/${idD}`);
+  }
+
   public getTerenById(terenId: number): Observable<Teren>
   {
     return this.http.get<Teren>(`${this.apiServerUrl}/teren/${terenId}`);

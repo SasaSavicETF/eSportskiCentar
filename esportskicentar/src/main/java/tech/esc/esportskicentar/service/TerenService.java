@@ -95,4 +95,9 @@ public class TerenService {
         }
     }
 
+    public List<Teren> getTerensByDostupan(Integer idDvorana)
+    {
+        return terenRepository.findTerensByDostupanAndDvorana(idDvorana);
+    }
+
 }

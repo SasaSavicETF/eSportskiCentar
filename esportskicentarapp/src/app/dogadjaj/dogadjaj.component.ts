@@ -56,7 +56,6 @@ export class DogadjajComponent implements OnInit{
   selectedDvorana: Dvorana | undefined;
   terens: Teren[] = [];
   dostupniTerens : Teren [] = [];
-  filteredTerens : Teren [] = [];
   selectedTeren: Teren | undefined;
   sports: Sport[] = [];
   filteredSports: Sport[] = [];
@@ -163,7 +162,7 @@ export class DogadjajComponent implements OnInit{
   public getTerens(): void
   {
     this.terens = [];
-    this.terenService.getTerens().subscribe(
+    this.terenService.getTerensByDostupanAndDvorana(this.selectedDvorana?.idDvorana || 1).subscribe(
       (response: Teren[]) =>
       {
         if(this.activeUser?.role !== 'upravnik')
@@ -181,9 +180,7 @@ export class DogadjajComponent implements OnInit{
             }
           }
           this.terens = filteredTerens;
-        }
-
-        this.filterTerens();        
+        }      
       },
       (error: HttpErrorResponse) =>
       {
@@ -191,21 +188,6 @@ export class DogadjajComponent implements OnInit{
       }
     );
   }
-
-  public filterTerens(): void {
-    this.dostupniTerens = [];
-    for(let teren of this.terens){
-        if(teren.dostupan)
-            this.dostupniTerens.push(teren);
-    }
-
-    this.filteredTerens = [];
-    for(const teren of this.dostupniTerens){
-      console.log(teren.dvorana.idDvorana + " - " + this.selectedDvorana?.idDvorana);
-      if(teren.dvorana.idDvorana == this.selectedDvorana?.idDvorana)
-      this.filteredTerens.push(teren);
-    }
-}
 
   public getDnevniRasporeds(): void
   {
