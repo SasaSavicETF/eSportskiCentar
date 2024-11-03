@@ -59,6 +59,37 @@ public class DogadjajService {
         return dogadjajRepository.findById(id).orElse(null);
     }
 
+    public boolean vremenskiSukob(Dogadjaj dogadjaj)
+    {
+        if(dogadjaj.getVrijemeOd().compareTo(dogadjaj.getVrijemeDo()) >= 0)
+        {
+            System.out.println("1");
+            return true;
+        }
+        List<Dogadjaj> dogadjajs = dogadjajRepository.findAll();
+        int idDR = dogadjaj.getDnevniRaspored().getIdDnevniRaspored();
+        Date dateDodgadjaj = dnevniRasporedRepository.findById(idDR).orElse(dogadjaj.getDnevniRaspored()).getDatum();
+        for (Dogadjaj d : dogadjajs)
+        {
+            if(Util.equalsYearMonthDay(dateDodgadjaj, d.getDnevniRaspored().getDatum()) && d.isOdobren() && dogadjaj.getTeren().getIdTeren() == d.getTeren().getIdTeren())
+            {
+                if((dogadjaj.getVrijemeOd().compareTo(d.getVrijemeOd()) >= 0 && dogadjaj.getVrijemeOd().compareTo(d.getVrijemeDo()) < 0) ||
+                        (dogadjaj.getVrijemeDo().compareTo(d.getVrijemeOd()) > 0  && dogadjaj.getVrijemeDo().compareTo(d.getVrijemeDo()) <= 0))
+                {
+                    System.out.println("2");
+                    return true;
+                }
+                else if( (dogadjaj.getVrijemeOd().compareTo(d.getVrijemeOd()) <= 0 && dogadjaj.getVrijemeOd().compareTo(d.getVrijemeDo()) < 0) &&
+                        (dogadjaj.getVrijemeDo().compareTo(d.getVrijemeOd()) > 0 && dogadjaj.getVrijemeDo().compareTo(d.getVrijemeDo()) >= 0) )
+                {
+                    System.out.println("3");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public Dogadjaj addDogadjaj(Dogadjaj dogadjaj)
     {
         //System.out.println(dogadjaj.getKlijent().getIdKlijent());

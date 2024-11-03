@@ -182,13 +182,14 @@
               <p-dropdown class="custom-dd" [(ngModel)]="selectedKlijent" name="klijent" optionLabel="korisnickoIme" [showClear]="true" placeholder="Izaberi"></p-dropdown>
             </div>
             <input type="hidden" pInputText class="textInput1" pattern="[0-9]+([.,][0-9]+)?" id="cijena" ngModel="{{cjn}}" name="cijena" required/>
-            <div class="addBtnCount" *ngIf="racunanjeVisible">
-              <p-button *ngIf="racunanjeVisible" [disabled]="addForm.invalid || false" label="Izracunaj cijenu" icon="pi pi-calculator" severity="help" (click)="izracunajCijenu(tempVrijemeOd, tempVrijemeDo)"></p-button>
+            <div class="addBtnCount" *ngIf="racunanjeVisible || vremenskiSukob || this.cijena == 0">
+              <p-button *ngIf="racunanjeVisible || vremenskiSukob || this.cijena == 0" [disabled]="addForm.invalid || false" label="Izracunaj cijenu" icon="pi pi-calculator" severity="help" (click)="izracunajCijenu(tempVrijemeOd, tempVrijemeDo, addForm)"></p-button>
             </div>
             <div class="addBtn" *ngIf="izracunataCijena">
-              <h3 class="cijena" *ngIf="izracunataCijena && this.cijena != 0">Cijena: {{ this.cijena }} KM</h3>
-              <h3 class="cijena" *ngIf="this.cijena == 0">Termin van radnog vremena!</h3>
-              <p-button *ngIf="izracunataCijena" type="submit" [disabled]="addForm.invalid || false  || this.cijena == 0" label="Rezervisi" [raised]="true" severity="help"></p-button>
+              <h3 class="cijena" *ngIf="this.vremenskiSukob == true">Birani termin je već zauzet</h3>
+              <h3 class="cijena" *ngIf="this.vremenskiSukob == false && izracunataCijena && this.cijena != 0">Cijena: {{ this.cijena }} KM</h3>
+              <h3 class="cijena" *ngIf="this.vremenskiSukob == false && this.cijena == 0">Termin van radnog vremena!</h3>
+              <p-button *ngIf="izracunataCijena && this.vremenskiSukob == false" type="submit" [disabled]="addForm.invalid || false  || this.cijena == 0" label="Rezervisi" [raised]="true" severity="help"></p-button>
             </div>
           </form>
       </div>

@@ -111,4 +111,12 @@ public class DogadjajController {
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @PostMapping("/sukob")
+    public boolean vremenskiSukob(@Valid @RequestBody Dogadjaj dogadjaj)
+    {
+        boolean a = dogadjajService.vremenskiSukob(dogadjaj);
+        System.out.println(a);
+        return a;
+    }
 }

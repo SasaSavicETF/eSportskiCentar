@@ -35,6 +35,10 @@ export class DogadjajService {
       );
     }
   
+
+  public vremenskiSukob(dogadjaj: Dogadjaj): Observable<boolean>{
+    return this.http.post<boolean>(`${this.apiServerUrl}/dogadjaj/sukob`, dogadjaj);
+  }
     
 
   public updateDogadjaj(dogadjaj: Dogadjaj): Observable<Dogadjaj>

@@ -95,6 +95,8 @@ export class DogadjajComponent implements OnInit{
   selectedGostujucaEkipa: Ekipa | undefined;
   cjenovniks: Cjenovnik[] = [];
 
+  vremenskiSukob: boolean | undefined; 
+
   constructor(private userService: KlijentService, private ekipaService: EkipaService, private dvoranaService: DvoranaService, 
     private terenService: TerenService, private takmicenjeService: TakmicenjeService, private sportService: SportService,
     private cjenovnikService: CjenovnikService, private dnevniRasporedService: DnevniRasporedService,
@@ -543,7 +545,17 @@ export class DogadjajComponent implements OnInit{
     }
   }
 
-  public izracunajCijenu(vrijemeOd: string, vrijemeDo: string): void
+  public async checkVremenskiSukob(addForm: NgForm): Promise<void> {
+    try{
+      this.vremenskiSukob = await this.dogadjajService.vremenskiSukob(addForm.value).toPromise();
+      console.log(this.vremenskiSukob);
+    } catch (error)
+    {
+      console.error('Greška pri provjeri vremena:', error);
+    }
+  }
+
+  public izracunajCijenu(vrijemeOd: string, vrijemeDo: string, addForm: NgForm): void
   {
     /*
     let vrijemeOdMillis: number = DogadjajComponent.timeToMillis(vrijemeOd);
@@ -613,7 +625,7 @@ export class DogadjajComponent implements OnInit{
     this.izracunataCijena = true;
     this.racunanjeVisible = !this.izracunataCijena;
     */
-
+    this.checkVremenskiSukob(addForm);
     let totalSum = 0;
     let clientStartTime: number =this.convertToMillis(vrijemeOd);
     let clientEndTime: number = this.convertToMillis(vrijemeDo);
