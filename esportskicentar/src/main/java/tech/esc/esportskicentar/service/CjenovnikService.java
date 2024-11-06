@@ -50,4 +50,8 @@ public class CjenovnikService {
         }
     }
 
+    public List<Cjenovnik> findCjenovnikByTerenId(Integer terenId) {
+        return cjenovnikRepository.findByTerenId(terenId);
+    }
+
 }

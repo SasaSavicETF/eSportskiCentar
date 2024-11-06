@@ -1,0 +1,274 @@
+.content{
+    border: #ddd 1px solid;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-left: 15%;
+}
+  
+.row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.drop {
+    flex: 1;
+    min-width: 200px; /* Adjust as necessary */
+  }
+  
+.calendar-container,
+.button-container {
+    flex: 1;
+    min-width: 200px; /* Adjust as necessary */
+}
+
+hr {
+    border: 0; /* Uklanja defaultni border */
+    height: 1px; /* Debljina linije */
+    background-color: #ddd; /* Boja linije, možete koristiti bilo koju boju */
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px; /* Razmak između divova */
+    margin: 10px;
+    padding: 10px;
+}
+
+.card-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+  
+  
+  .text-content, .card {
+    flex: 1;
+  }
+  
+  .card {
+    min-width: 0; /* Osigurava da se div može smanjivati */
+  }
+  
+  .text-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Da centrirate vertikalno, koristite visinu od 100% pregleda */
+  }
+
+  .card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .flex-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+.info-upravnik, .ulazi {
+  width: 48%; /* Podešavanje širine da bi oba div-a stala jedan pored drugog */
+}
+
+
+/*
+  ::ng-deep .p-datepicker table td > span {
+    background-color: blueviolet;
+    color: white;
+  }
+  
+  ::ng-deep .p-datepicker table td.p-datepicker-today > span {
+    background-color: rgb(80, 31, 255);
+  }
+*/
+::ng-deep .p-button {
+  background-color: rgba(50, 0, 128, 0.603);
+  /*border: 1px solid blueviolet;
+  background: rgba(9, 0, 128, 0.603);
+  border: 1px solid #ddd;*/
+  color: white;
+}
+
+::ng-deep .p-button .dell {
+  background-color: #f44336;
+  /*border: 1px solid blueviolet;
+  background: rgba(9, 0, 128, 0.603);
+  border: 1px solid #ddd;*/
+  color: white;
+}
+
+::ng-deep .p-button .dell:hover  {
+  background-color: #d32f2f;
+  /*border: 1px solid blueviolet;
+  background: rgba(9, 0, 128, 0.603);
+  border: 1px solid #ddd;*/
+  color: white;
+}
+
+.add-container 
+{
+    padding: 20px;
+}
+
+.addDiv
+{
+    margin-top: 15px;
+}
+
+.add-textInput
+{
+    width: 100%; /* Full width */
+    padding: 12px; /* Some padding */ 
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 4px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 20px; /* Bottom margin */
+    resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+.add-flex-row {
+  display: flex;
+  align-items: center; /* Centriranje elemenata po vertikalnoj osi */
+  gap: 1rem; /* Razmak između elemenata */
+}
+
+
+.add-form-group {
+  display: grid;
+  grid-template-rows: min-content auto; /* Prvi red je za labelu, drugi red je za input */
+  gap: 0.5rem; /* Prostor između labela i input polja */
+}
+
+.add-textInput1
+{
+    width: 100%; /* Full width */
+    padding: 12px; /* Some padding */ 
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 4px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    /*margin-top: 6px;*/
+    margin-bottom: 20px; /* Bottom margin */
+    resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+.add-textInputL
+{
+    width: 100%; /* Full width */
+    height: 80px;
+    padding: 12px; /* Some padding */ 
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 4px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 20px; /* Bottom margin */
+    resize: vertical; /* Allow the user to vertically resize the textarea (not horizontally) */
+    overflow: auto; /* Postavite overflow kako biste omogućili pomicanje teksta ako premaši visinu */
+    word-wrap: break-word;
+}
+
+.addBtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.addBtnCount
+{
+    float: right;
+    margin-top: 8px;
+}
+
+.add-form-marg{
+  margin-bottom: 20px;
+}
+
+.hide{
+  display: none;
+}
+
+.cijena{
+  color: red;
+}
+
+.dvorana-card {
+  margin-top: 20px;
+}
+
+/*:host ::ng-deep .custom-dd .p-dropdown { 
+  width: 100%; 
+}*/
+  
+  @media (max-width: 768px) {
+    .row {
+      flex-direction: column;
+      margin-bottom: 0px;
+    }
+
+    .form-container{
+      margin-left: 0%;
+    }
+  
+    .drop,
+    .calendar-container,
+    .button-container {
+      align-items: center;
+      width: 100%;
+    }
+
+    .mob
+    {
+      display: flex;
+      justify-content: center; /* Horizontalno centriranje */
+      margin-bottom: 20px;
+    }
+    .container {
+      flex-direction: column;
+    }
+    
+    .card-wrapper {
+      flex-direction: column;
+    }
+    
+    
+    .card, .text-content {
+      width: 100%;
+      margin-bottom: 20px; /* Razmak između elemenata na mobilnim uređajima */
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    border: 1px solid black; /* Adds border to each cell */
+    text-align: center; 
+  }
+
+  th, .first-column {
+    background-color: rgba(50, 0, 128, 0.603); 
+    padding: 8px; 
+  }
+
+  .zauzet-termin{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+

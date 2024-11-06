@@ -85,4 +85,9 @@ export class CjenovnikService {
             }) 
         );
     }
+
+    public getCjenovnikByTerenId(terenId: number) : Observable<Cjenovnik[]> 
+    {
+        return this.http.get<Cjenovnik[]>(`${this.apiServerUrl}/cjenovnik/teren/${terenId}`)
+    }
 }

@@ -27,4 +27,10 @@ public interface DogadjajRepository extends JpaRepository<Dogadjaj, Integer> {
 
     @Query(value = "SELECT * FROM dogadjaj d WHERE d.id_dnevni_raspored = :idDnevniR AND d.id_teren = :idTeren AND d.odobren = 1", nativeQuery = true)
     List<Dogadjaj> findAllFilteredDogadjajs(@Param("idDnevniR") Integer idDnevniR, @Param("idTeren") Integer idTeren);
+
+    @Query("SELECT d FROM Dogadjaj d " +
+            "JOIN d.dnevniRaspored dr " +
+            "WHERE d.teren.idTeren = :idTeren AND d.odobren = true AND dr.datum = :date")
+    List<Dogadjaj> findByTerenAndDate(int idTeren, LocalDate date);
+
 }

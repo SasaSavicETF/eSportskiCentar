@@ -1,0 +1,59 @@
+<div class="content">
+    <div class="form-container">
+      <form>
+          <div class="row">
+              <div class="drop card flex justify-content-center mob">
+                <p-dropdown class="custom-dd" [options]="dvoranas" [(ngModel)]="selectedDvorana" (ngModelChange)="onDvoranaChange($event)" name="dvorana" 
+                        optionLabel="nazivDvorane" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi dvoranu">
+                </p-dropdown>
+              </div>
+              <div class="drop card flex justify-content-center mob">
+                <p-dropdown class="custom-dd" [options]="terens" [(ngModel)]="selectedTeren" (ngModelChange)="onTerenChange($event)" name="teren" 
+                        optionLabel="nazivTerena" [showClear]="true" [style]="{'minWidth':'300px'}" placeholder="Izaberi teren">
+                </p-dropdown>
+              </div>
+            </div>
+          
+            <div class="row">
+              <div class="calendar-container mob">
+                  <p-calendar id="datum" [(ngModel)]="selectedDatum" name="datum" [showIcon]="true" [showOnFocus]="false" [style]="{'minWidth':'300px'}"
+                  [minDate]="earliestDate" inputId="buttondisplay" (onSelect)="onDateSelect($event)" dateFormat="dd.mm.yy" dataType="string" />
+              </div>
+              <div class="button-container mob">
+                <p-button label="Pretraži" icon="pi pi-filter-fill" severity="help" (click)="pretrazi()" [disabled]="isPretraziDisabled"></p-button>
+              </div>
+            </div>
+      </form>
+    </div>
+    <hr>
+
+    <div *ngIf="showCalendar" class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th *ngFor="let date of headerDates">
+                      {{ date }}
+                    </th>
+                  </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let hour of times">
+                <td class="first-column">{{ hour }}</td>
+                <td *ngFor="let date of headerDates">
+                  <ng-container *ngIf="isDateTimeEqual(date, hour) as event">
+                    <div class="zauzet-termin" [ngStyle]="{'background-color': event.vrstaTakmicenja === 'Rekreativni termin' ? 'green' : 'red'}">
+                        <p> Vrsta termina: {{ event.vrstaTakmicenja }} </p>
+                        <p> Info: {{ event.infoDogadjaja }} </p>
+                        <p> Sport: {{ event.nazivSporta }} </p>
+                        <p> Domaća ekipa: {{ event.domacaEkipa }} </p>
+                        <p> Gostujuća ekipa: {{ event.gostujucaEkipa }} </p>
+                    </div>
+                </ng-container>
+                </td>
+              </tr>
+                
+            </tbody>
+        </table>
+    </div>
+  </div>

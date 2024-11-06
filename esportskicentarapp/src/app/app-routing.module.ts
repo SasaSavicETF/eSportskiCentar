@@ -34,6 +34,7 @@ import { upravnikGuard } from './guards/upravnik.guard';
 import { userGuard } from './guards/user.guard';
 import { comboGuard } from './guards/combo.guard';
 import { adminUpravnikGuard } from './guards/admin-upravnik.guard';
+import { CalendarComponent } from './calendar/calendar.component';
 
 const routes: Routes = [
   //ovo prvo je samo privremeno
@@ -63,6 +64,7 @@ const routes: Routes = [
   { path: 'upravnik', component: UpravnikComponent},
   { path: 'zadatak', component: ZadatakComponent},
   { path: 'radnik/zadaci', component: DezurniRadnikIndexComponent, canActivate: [dezurniGuard]},
+  { path: 'calendar', component: CalendarComponent, canActivate: [comboGuard]},
   { path: '**', component: PageNotFoundComponent}
 ];
 

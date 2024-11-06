@@ -1,11 +1,14 @@
 package tech.esc.esportskicentar.service;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.esc.esportskicentar.model.Cjenovnik;
 import tech.esc.esportskicentar.model.Dogadjaj;
+import tech.esc.esportskicentar.model.DogadjajDTO;
 import tech.esc.esportskicentar.model.Klijent;
 import tech.esc.esportskicentar.repository.CjenovnikRepository;
 import tech.esc.esportskicentar.repository.DnevniRasporedRepository;
@@ -285,5 +288,17 @@ public class DogadjajService {
         result.put("Klijenti bez rezervacija", numberOfClientsWithoutReservation);
 
         return result;
+    }
+
+    public List<DogadjajDTO> findWeeklyEvents(@NotNull int terenId, @NotBlank List<LocalDate> dates) {
+        List<DogadjajDTO> weeklyEvents = new ArrayList<>();
+        dates.forEach(date -> {
+            List<Dogadjaj> temp = dogadjajRepository.findByTerenAndDate(terenId, date);
+            temp.forEach(event -> {
+                weeklyEvents.add(new DogadjajDTO(event));
+            });
+        });
+
+        return weeklyEvents;
     }
 }

@@ -47,6 +47,7 @@ import { ChartModule } from 'primeng/chart';
 import { AdminOdobravanjeComponent } from './admin-odobravanje/admin-odobravanje.component';
 import { IndexComponent } from './index/index.component';
 import { AdministratorComponent } from './administrator/administrator.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { AdministratorComponent } from './administrator/administrator.component'
     AdminPanelComponent,
     AdminOdobravanjeComponent,
     IndexComponent,
-    AdministratorComponent
+    AdministratorComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,

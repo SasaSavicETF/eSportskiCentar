@@ -58,6 +58,17 @@
             </div>
         </div>
     </a>
+    <a routerLink="/calendar" routerLinkActive="active" (click)="toggleSidenav()">
+        <div class="content">
+            <div class="column">
+                <i class="pi pi-calendar"></i>
+            </div>
+            <div class="column">
+                <p class="title">Sedmični kalendar</p>
+                <p class="description">Sedmični pregled događaja</p>
+            </div>
+        </div>
+    </a>
     <a routerLink="/admin/odabirDogadjaja" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showOdabirDogadjaja">
         <div class="content">
             <div class="column">

@@ -62,4 +62,14 @@ public class CjenovnikController {
            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/teren/{terenId}")
+    public ResponseEntity<List<Cjenovnik>> getCjenovnikByTerenId(@PathVariable("terenId") Integer terenId)
+    {
+        List<Cjenovnik> cjenovniks = cjenovnikService.findCjenovnikByTerenId(terenId);
+        if(cjenovniks == null)
+            return ResponseEntity.notFound().build();
+        else
+            return new ResponseEntity<>(cjenovniks, HttpStatus.OK);
+    }
+
 }

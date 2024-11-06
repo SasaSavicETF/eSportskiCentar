@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { Dogadjaj } from '../models/dogadjaj';
+import { DogadjajDTO } from '../models/dogadjaj-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -93,6 +94,11 @@ export class DogadjajService {
         return of(undefined); // Vraća Observable<void> koji emituje undefined i zatvara se
       })
     );
+  }
+
+  public getWeeklyEvents(idTeren: number | undefined, nextSevenDaysSQL: (string | null)[]): Observable<DogadjajDTO[]>{
+    const payload = { "idTeren": idTeren, "dates": nextSevenDaysSQL };
+    return this.http.post<DogadjajDTO[]>(`${this.apiServerUrl}/dogadjaj`, payload);
   }
   
 
