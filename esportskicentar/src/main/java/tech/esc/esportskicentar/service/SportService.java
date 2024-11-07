@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import tech.esc.esportskicentar.model.Sport;
 import tech.esc.esportskicentar.repository.SportRepository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +58,11 @@ public class SportService {
             sportRepository.deleteById(id);
             return true;
         }
+    }
+
+    public List<Sport> findSportsByTeren(BigDecimal tDuzina, BigDecimal tSirina, Integer tipTerena)
+    {
+        return sportRepository.findSportsByTeren(tDuzina, tSirina, tipTerena);
     }
 
 }

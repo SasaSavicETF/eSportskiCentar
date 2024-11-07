@@ -18,6 +18,11 @@ export class SportService {
     return this.http.get<Sport[]>(`${this.apiServerUrl}/sport`);
   }
 
+  public getSportsByTeren(td: number, ts: number, tt: number): Observable<Sport[]>
+  {
+    return this.http.get<Sport[]>(`${this.apiServerUrl}/sport/${td}/${ts}/${tt}`);
+  }
+
   public getSportById(sportId: number): Observable<Sport>
   {
     return this.http.get<Sport>(`${this.apiServerUrl}/sport/${sportId}`);

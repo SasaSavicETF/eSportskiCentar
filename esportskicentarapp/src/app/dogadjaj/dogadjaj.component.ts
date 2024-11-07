@@ -235,10 +235,10 @@ export class DogadjajComponent implements OnInit{
   public getSports(): void 
   {
     this.sports = [];
-    this.sportService.getSports().subscribe(
+    this.sportService.getSportsByTeren(this.selectedTeren?.duzina || 1, this.selectedTeren?.sirina || 1, this.selectedTeren?.tipTerena.idTipTerena || 1).subscribe(
       (response: Sport[]) => {
         this.sports = response;
-        this.filterSports();
+        //this.filterSports();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -246,7 +246,7 @@ export class DogadjajComponent implements OnInit{
     );
   }
 
-  public filterSports(){
+  /*public filterSports(){
     this.filteredSports = [];
     for(let sport of this.sports)
       if(this.selectedTeren !== undefined){
@@ -256,7 +256,7 @@ export class DogadjajComponent implements OnInit{
                 this.filteredSports.push(sport);
           }
       }
-  }
+  }*/
 
   public getEkipas(): void
   {
