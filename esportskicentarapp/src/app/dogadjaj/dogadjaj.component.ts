@@ -117,7 +117,7 @@ export class DogadjajComponent implements OnInit{
         this.getDnevniRasporeds();
         this.getRasporeds();
         //this.getDogadjajs();
-        this.getUlazs();
+        //this.getUlazs();
         this.getSvlacionicas();
         //this.getSports();
         this.getEkipas();
@@ -286,7 +286,7 @@ export class DogadjajComponent implements OnInit{
 
   public getUlazs(): void
   {
-    this.ulazService.getUlazs().subscribe(
+    this.ulazService.getUlazsByDvorana(this.selectedDvorana?.idDvorana || 1).subscribe(
       (response: Ulaz[]) =>
       {
         this.ulazs = response;
@@ -297,6 +297,19 @@ export class DogadjajComponent implements OnInit{
       }
     );
   }
+
+  /*public filterUlazs(): void
+  {
+    let filterUlazs: Ulaz[] = [];
+    for(const ulaz of this.ulazs)
+    {
+      if(ulaz.dvorana.idDvorana == this.selectedTeren?.dvorana.idDvorana && ulaz.dostupan)
+      {
+        filterUlazs.push(ulaz);
+      }
+    }
+    this.ulazs = filterUlazs;
+  }*/
 
   public getSvlacionicas(): void
   {
@@ -313,6 +326,7 @@ export class DogadjajComponent implements OnInit{
   public async onDvoranaChange(event: any) {
     console.log(this.selectedDvorana?.nazivDvorane);
     this.getTerens();
+    this.getUlazs();
 
     if (this.selectedDvorana != undefined && this.selectedTeren != undefined){
       this.isPretraziDisabled = false;
@@ -396,7 +410,7 @@ export class DogadjajComponent implements OnInit{
       }
       //pronaci odgovarajuci raspored
       console.log("---" + this.selectedDnevniRaspored)
-      this.filterUlazs();
+      //this.filterUlazs();
       this.filterSvlacionicas();
       this.getDogadjajs();
   }
@@ -426,18 +440,6 @@ export class DogadjajComponent implements OnInit{
     });
   }*/
 
-  public filterUlazs(): void
-  {
-    let filterUlazs: Ulaz[] = [];
-    for(const ulaz of this.ulazs)
-    {
-      if(ulaz.dvorana.idDvorana == this.selectedTeren?.dvorana.idDvorana && ulaz.dostupan)
-      {
-        filterUlazs.push(ulaz);
-      }
-    }
-    this.ulazs = filterUlazs;
-  }
 
   public filterSvlacionicas(): void
   {

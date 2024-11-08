@@ -27,6 +27,14 @@ public class UlazController {
         return new ResponseEntity<>(ulazi, HttpStatus.OK);
     }
 
+    @GetMapping("/dvorana/{idD}")
+    public ResponseEntity<List<Ulaz>> getUlazsByDvorana(@PathVariable Integer idD)
+    {
+        List<Ulaz> ulazs = ulazService.findUlazsByDvorana(idD);
+        //ulazs.forEach(System.out::println);
+        return new ResponseEntity<>(ulazs, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Ulaz> getUlazById(@PathVariable Integer id) {
         Ulaz ulaz = ulazService.getUlazById(id);

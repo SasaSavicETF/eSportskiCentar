@@ -67,4 +67,9 @@ public class UlazService {
     public Ulaz findParent(Integer id) {
         return ulazRepository.findChildByIdWithParent(id);
     }
+
+    public List<Ulaz> findUlazsByDvorana(Integer idD)
+    {
+        return ulazRepository.findUlazsByDvorana(idD);
+    }
 }

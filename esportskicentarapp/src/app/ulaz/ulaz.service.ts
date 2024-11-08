@@ -18,6 +18,11 @@ export class UlazService {
     return this.http.get<Ulaz[]>(`${this.apiServerUrl}/ulaz`);
   }
 
+  public getUlazsByDvorana(idD: number): Observable<Ulaz[]>
+  {
+    return this.http.get<Ulaz[]>(`${this.apiServerUrl}/ulaz/dvorana/${idD}`);
+  }
+
   public getUlazById(ulazId: number): Observable<Ulaz>
   {
     return this.http.get<Ulaz>(`${this.apiServerUrl}/ulaz/${ulazId}`);
