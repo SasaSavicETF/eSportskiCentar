@@ -136,7 +136,8 @@ public class DogadjajService {
                 }
             }
         }
-        List<Cjenovnik> cjenovnici = cjenovnikRepository.findAll();
+        List<Cjenovnik> cjenovnici = cjenovnikRepository.findByTerenId(dogadjaj.getTeren().getIdTeren());
+        List<Cjenovnik> cjenovnici2 = cjenovnikRepository.findByTerenId(dogadjaj.getTeren().getIdTeren());
         long vrijemeOdMillis = dogadjaj.getVrijemeOd().getTime();
         long vrijemeDoMillis = dogadjaj.getVrijemeDo().getTime();
 
@@ -163,7 +164,7 @@ public class DogadjajService {
                     boolean first = true;
                     boolean rad = false;
 
-                    for(Cjenovnik temp : cjenovnici)
+                    for(Cjenovnik temp : cjenovnici2)
                     {
                         if(!kraj && temp.getTeren().getIdTeren() == dogadjaj.getTeren().getIdTeren())
                         {
@@ -180,11 +181,6 @@ public class DogadjajService {
                                     cijena += diffHours * temp.getCijena().doubleValue();
                                     System.out.println("1." + cijena);
                                     first = false;
-                                    if(temp.getVrijemeDo().equals(time))
-                                    {
-
-                                        kraj = true;
-                                    }
                                 }
                                 else if(!first && dogadjaj.getVrijemeDo().compareTo(temp.getVrijemeDo()) >= 0 && temp.getTeren().getIdTeren() == dogadjaj.getTeren().getIdTeren())
                                 {

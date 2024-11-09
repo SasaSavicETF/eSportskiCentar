@@ -118,7 +118,7 @@ export class DogadjajComponent implements OnInit{
         this.getRasporeds();
         //this.getDogadjajs();
         //this.getUlazs();
-        this.getSvlacionicas();
+        //this.getSvlacionicas();
         //this.getSports();
         //this.getEkipas();
         this.getTakmicenjes();
@@ -313,7 +313,7 @@ export class DogadjajComponent implements OnInit{
 
   public getSvlacionicas(): void
   {
-    this.svlacionicaService.getSvlacionicas().subscribe(
+    this.svlacionicaService.getSvlacionicasByDvorana(this.selectedDvorana?.idDvorana || 1).subscribe(
       (response: Svlacionica[]) => {
         this.svlacionicas = response;
       },
@@ -323,7 +323,7 @@ export class DogadjajComponent implements OnInit{
     );
   }
 
-  public filterSvlacionicas(): void
+  /*public filterSvlacionicas(): void
   {
     let filterSvlacionicas: Svlacionica[] = [];
     for(const svlacionica of this.svlacionicas)
@@ -334,12 +334,13 @@ export class DogadjajComponent implements OnInit{
       }
     }
     this.svlacionicas = filterSvlacionicas;
-  }
+  }*/
 
   public async onDvoranaChange(event: any) {
     console.log(this.selectedDvorana?.nazivDvorane);
     this.getTerens();
     this.getUlazs();
+    this.getSvlacionicas();
 
     if (this.selectedDvorana != undefined && this.selectedTeren != undefined){
       this.isPretraziDisabled = false;
@@ -430,7 +431,7 @@ export class DogadjajComponent implements OnInit{
       //pronaci odgovarajuci raspored
       console.log("---" + this.selectedDnevniRaspored)
       //this.filterUlazs();
-      this.filterSvlacionicas();
+      //this.filterSvlacionicas();
       this.getDogadjajs();
   }
 
@@ -534,6 +535,7 @@ export class DogadjajComponent implements OnInit{
 
   public izracunajCijenu(vrijemeOd: string, vrijemeDo: string, addForm: NgForm): void
   {
+    this.checkVremenskiSukob(addForm);
     let vrijemeOdMillis: number = DogadjajComponent.timeToMillis(vrijemeOd);
     let vrijemeDoMillis: number = DogadjajComponent.timeToMillis(vrijemeDo);
 

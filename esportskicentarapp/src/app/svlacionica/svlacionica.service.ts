@@ -18,6 +18,11 @@ export class SvlacionicaService {
     return this.http.get<Svlacionica[]>(`${this.apiServerUrl}/svlacionica`);
   }
 
+  public getSvlacionicasByDvorana(idD: number): Observable<Svlacionica[]>
+  {
+    return this.http.get<Svlacionica[]>(`${this.apiServerUrl}/svlacionica/dvorana/${idD}`);
+  }
+
   public getSvlacionicaById(svlacionicaId: number): Observable<Svlacionica>
   {
     return this.http.get<Svlacionica>(`${this.apiServerUrl}/svlacionica/${svlacionicaId}`);

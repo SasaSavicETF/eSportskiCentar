@@ -27,6 +27,13 @@ public class SvlacionicaController {
         return new ResponseEntity<>(svlacionicas, HttpStatus.OK);
     }
 
+    @GetMapping("/dvorana/{idD}")
+    public ResponseEntity<List<Svlacionica>> getSvlacionicasByDvorana(@PathVariable Integer idD)
+    {
+        List<Svlacionica> svlacionicas = svlacionicaService.findSvlacionicasByDvorana(idD);
+        return new ResponseEntity<>(svlacionicas, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Svlacionica> getSvlacionicaById(@PathVariable Integer id) {
         Svlacionica svlacionica = svlacionicaService.getSvlacionicaById(id);

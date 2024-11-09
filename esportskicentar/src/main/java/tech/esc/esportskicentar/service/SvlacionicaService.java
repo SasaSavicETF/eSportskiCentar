@@ -63,4 +63,9 @@ public class SvlacionicaService {
         }
     }
 
+    public List<Svlacionica> findSvlacionicasByDvorana(Integer idD)
+    {
+        return svlacionicaRepository.findSvlacionicasByDvorana(idD);
+    }
+
 }
