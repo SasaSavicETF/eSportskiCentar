@@ -38,21 +38,25 @@
                   </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let hour of times">
+              <tr *ngFor="let hour of times; let rowIndex = index">
                 <td class="first-column">{{ hour }}</td>
-                <td *ngFor="let date of headerDates">
-                  <ng-container *ngIf="isDateTimeEqual(date, hour) as event">
-                    <div class="zauzet-termin" [ngStyle]="{'background-color': event.vrstaTakmicenja === 'Rekreativni termin' ? 'green' : 'red'}">
-                        <p> Vrsta termina: {{ event.vrstaTakmicenja }} </p>
-                        <p> Info: {{ event.infoDogadjaja }} </p>
-                        <p> Sport: {{ event.nazivSporta }} </p>
-                        <p> Domaća ekipa: {{ event.domacaEkipa }} </p>
-                        <p> Gostujuća ekipa: {{ event.gostujucaEkipa }} </p>
-                    </div>
+
+                <ng-container *ngFor="let date of headerDates; let colIndex = index" >
+                  <ng-container *ngIf="getMatrixElement(rowIndex, colIndex) as event; else noEvent">
+
+                    <td style="white-space: pre-line;" *ngIf="event.display" [attr.rowspan]="event.rowspan > 0 ? event.rowspan : null">
+                          <div class="filled-cell" 
+                               [ngStyle]="{'background-color': event.vrstaTakmicenja === 'Rekreativni termin' ? 'rgba(6, 143, 68, 0.712)' : 'rgba(197, 44, 6, 0.603)'}">
+                                  <p> {{ showEventInfo(event) }} </p>
+                          </div>
+                    </td>
+                  </ng-container>
+
+                  <ng-template #noEvent>
+                    <td> </td>
+                  </ng-template>
                 </ng-container>
-                </td>
               </tr>
-                
             </tbody>
         </table>
     </div>

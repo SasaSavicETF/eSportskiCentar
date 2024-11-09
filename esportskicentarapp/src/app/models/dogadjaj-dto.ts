@@ -9,7 +9,8 @@ export class DogadjajDTO {
     nazivSporta: string | null;
     domacaEkipa: string | null;
     gostujucaEkipa: string | null;
-
+    rowspan: number;
+    display: boolean = false;
 
     constructor(info: string, datum: string, vrijemeOd: string, vrijemeDo: string, odobren: boolean,
                 vrstaTakmicenja: string, nazivSporta: string | null, domacaEkipa: string | null, gostujucaEkipa: string | null){
@@ -22,5 +23,6 @@ export class DogadjajDTO {
         this.nazivSporta = nazivSporta;
         this.domacaEkipa = domacaEkipa;
         this.gostujucaEkipa = gostujucaEkipa;
+        this.rowspan = 0;
     }
 }

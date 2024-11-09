@@ -259,16 +259,37 @@ hr {
     text-align: center; 
   }
 
-  th, .first-column {
+  th {
     background-color: rgba(50, 0, 128, 0.603); 
-    padding: 8px; 
   }
 
-  .zauzet-termin{
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  .header-dates {
+    background-color: rgba(50, 0, 128, 0.603); 
+    padding: 8px; 
+    width: 10% !important;
   }
+
+  .first-column {
+    background-color: rgba(50, 0, 128, 0.603); 
+    padding: 8px; 
+    width: 5% !important;
+  }
+
+  .filled-cell {
+    display: flex;
+    flex-direction: column; /* Allows inner content to flow vertically */
+    justify-content: center; 
+    text-align: left;
+    height: 100% !important;
+    box-sizing: border-box;
+    border-radius: 10px;
+    margin: 7px;
+    padding: 15px;
+  }
+
+  p {
+    padding: 4px;
+    margin: 0;
+  }
+
 

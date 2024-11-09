@@ -26,12 +26,12 @@ export class CalendarComponent {
   selectedTeren: Teren | undefined;
   priceLists: Cjenovnik[] | undefined;
   weeklyEvents: DogadjajDTO[] = [];
+  eventMatrix: (DogadjajDTO | null)[][] = [];
 
   datePipe: DatePipe;
   selectedDatum: Date = new Date();
   headerDates: string[] = [];
   times: string[] = [];
-  //hours: string[] = [];
   earliestDate = new Date(-8640000000000000);
   defaultDate: Date = new Date("January 31 1980 12:30");
 
@@ -101,6 +101,8 @@ export class CalendarComponent {
           this.priceLists = response;
           console.log(this.priceLists);
           this.setTimeIntervals();
+          this.setRowSpan(this.weeklyEvents);
+          this.prepareEventMatrix();
           this.showCalendar = true;
         },
         error: error => {
@@ -210,10 +212,46 @@ export class CalendarComponent {
     return `${hours}:${minutes}`;
   }
 
-  isDateTimeEqual(date: string, hour: string): DogadjajDTO | undefined {
-    return this.weeklyEvents.find(
-      event => event.datum === date && this.isEventInTimeRange(event, hour)
-    );
+  setRowSpan(dogadjaji: DogadjajDTO[]) {
+    let count = 0;
+  
+    for (let i = 0; i < dogadjaji.length; i++) {
+      this.times.forEach(time => {
+        if (this.isEventInTimeRange(dogadjaji[i], time))
+          count++;
+      })
+      dogadjaji[i].rowspan = count;
+      count = 0;
+    }
+  }
+
+  prepareEventMatrix() {
+    this.eventMatrix = [];
+    for (let i = 0; i < this.times.length; i++) {
+      const row = [];
+      
+      for (let j = 0; j < this.headerDates.length; j++) {
+        const event = this.findEventForDateAndHour(this.headerDates[j], this.times[i]);
+        if (event){
+          if (!event.display){
+            event.display = true;
+            row.push(event);
+          }
+          else
+            row.push(new DogadjajDTO(event.infoDogadjaja, event.datum, event.vrijemeOd, event.vrijemeDo, true, event.vrstaTakmicenja, null, null, null))
+        }
+        else
+          row.push(null);
+      }
+      
+      this.eventMatrix.push(row);  // Add row to matrix
+    }
+    console.log(this.eventMatrix)
+  }
+  
+  findEventForDateAndHour(date: string, hour: string): DogadjajDTO | null {
+    // Find the event that matches the date and hour
+    return this.weeklyEvents.find(event => event.datum === date && this.isEventInTimeRange(event, hour)) || null;
   }
 
   isEventInTimeRange(event: DogadjajDTO, hour: string): boolean {
@@ -223,6 +261,19 @@ export class CalendarComponent {
     const eventEndHour = this.convertStringToDate(event.vrijemeDo.match(/^\d{2}:\d{2}/)?.[0].trim() || "");
 
     return startInterval >= eventStartHour && endInterval <= eventEndHour;
+  }
+
+  getMatrixElement(row: number, col: number) : DogadjajDTO | null {
+    return this.eventMatrix[row][col];
+  }  
+
+  showEventInfo(event: DogadjajDTO): string {
+    if (event.vrstaTakmicenja === 'Rekreativni termin')
+      return event.vrstaTakmicenja;
+    else if (event.domacaEkipa != null && event.gostujucaEkipa != null)
+      return event.nazivSporta + '\n' + event.domacaEkipa + ' - ' + event.gostujucaEkipa;
+    else
+      return 'null';
   }
 
 }
