@@ -120,9 +120,9 @@ export class DogadjajComponent implements OnInit{
         //this.getUlazs();
         this.getSvlacionicas();
         //this.getSports();
-        this.getEkipas();
+        //this.getEkipas();
         this.getTakmicenjes();
-        this.getCjenovniks();
+        //this.getCjenovniks();
   }
 
   show()
@@ -260,7 +260,7 @@ export class DogadjajComponent implements OnInit{
 
   public getEkipas(): void
   {
-    this.ekipaService.getEkipas().subscribe(
+    this.ekipaService.getEkipasBySport(this.selectedSport?.idSport || 1).subscribe(
       (response: Ekipa[]) =>
       {
         this.ekipas = response;
@@ -274,7 +274,7 @@ export class DogadjajComponent implements OnInit{
 
   public getCjenovniks(): void
   {
-    this.cjenovnikService.getCjenovniks().subscribe(
+    this.cjenovnikService.getCjenovnikByTerenId(this.selectedTeren?.idTeren || 1).subscribe(
       (response: Cjenovnik[]) => {
         this.cjenovniks = response;
       },
@@ -323,6 +323,19 @@ export class DogadjajComponent implements OnInit{
     );
   }
 
+  public filterSvlacionicas(): void
+  {
+    let filterSvlacionicas: Svlacionica[] = [];
+    for(const svlacionica of this.svlacionicas)
+    {
+      if(svlacionica.dvorana.idDvorana == this.selectedTeren?.dvorana.idDvorana && svlacionica.dostupna)
+      {
+        filterSvlacionicas.push(svlacionica);
+      }
+    }
+    this.svlacionicas = filterSvlacionicas;
+  }
+
   public async onDvoranaChange(event: any) {
     console.log(this.selectedDvorana?.nazivDvorane);
     this.getTerens();
@@ -342,6 +355,7 @@ export class DogadjajComponent implements OnInit{
   public async onTerenChange(event: any) {
     console.log(this.selectedTeren?.nazivTerena);
     this.getSports();
+    this.getCjenovniks();
   
     if (this.selectedDvorana != undefined && this.selectedTeren != undefined){
       this.isPretraziDisabled = false;
@@ -351,6 +365,11 @@ export class DogadjajComponent implements OnInit{
       this.isPretraziDisabled = true;
       this.showDogadjajs = false;
     }
+  }
+
+  public async onSportChange(event: any)
+  {
+    this.getEkipas();
   }
 
   public onDateSelect(event: any): void {
@@ -441,18 +460,7 @@ export class DogadjajComponent implements OnInit{
   }*/
 
 
-  public filterSvlacionicas(): void
-  {
-    let filterSvlacionicas: Svlacionica[] = [];
-    for(const svlacionica of this.svlacionicas)
-    {
-      if(svlacionica.dvorana.idDvorana == this.selectedTeren?.dvorana.idDvorana && svlacionica.dostupna)
-      {
-        filterSvlacionicas.push(svlacionica);
-      }
-    }
-    this.svlacionicas = filterSvlacionicas;
-  }
+  
 
   showAddDialog() 
   {
@@ -526,7 +534,6 @@ export class DogadjajComponent implements OnInit{
 
   public izracunajCijenu(vrijemeOd: string, vrijemeDo: string, addForm: NgForm): void
   {
-    /*
     let vrijemeOdMillis: number = DogadjajComponent.timeToMillis(vrijemeOd);
     let vrijemeDoMillis: number = DogadjajComponent.timeToMillis(vrijemeDo);
 
@@ -593,7 +600,9 @@ export class DogadjajComponent implements OnInit{
     this.cijena = cijenaTemp;
     this.izracunataCijena = true;
     this.racunanjeVisible = !this.izracunataCijena;
-    */
+    
+
+    /*
     this.checkVremenskiSukob(addForm);
     let totalSum = 0;
     let clientStartTime: number =this.convertToMillis(vrijemeOd);
@@ -619,6 +628,7 @@ export class DogadjajComponent implements OnInit{
     this.cijena = Math.round(totalSum);
     this.izracunataCijena = true;
     this.racunanjeVisible = !this.izracunataCijena;
+    */
   }
 
   convertToMillis(timeString: string){

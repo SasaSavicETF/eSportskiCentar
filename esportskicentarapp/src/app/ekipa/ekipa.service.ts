@@ -19,6 +19,11 @@ export class EkipaService {
     return this.http.get<Ekipa[]>(`${this.apiServerUrl}/ekipa`);
   }
 
+  public getEkipasBySport(idS: number): Observable<Ekipa[]>
+  {
+    return this.http.get<Ekipa[]>(`${this.apiServerUrl}/ekipa/sport/${idS}`);
+  }
+
   public getEkipaById(ekipaId: number): Observable<Ekipa>
   {
     return this.http.get<Ekipa>(`${this.apiServerUrl}/ekipa/${ekipaId}`);

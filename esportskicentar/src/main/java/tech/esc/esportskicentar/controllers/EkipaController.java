@@ -25,6 +25,13 @@ public class EkipaController {
         return new ResponseEntity<>(ekipe, HttpStatus.OK);
     }
 
+    @GetMapping("/sport/{idS}")
+    public ResponseEntity<List<Ekipa>> getEkipaBySport(@PathVariable Integer idS)
+    {
+        List<Ekipa> ekipas = ekipaService.findEkipasBySport(idS);
+        return new ResponseEntity<>(ekipas, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Ekipa> getEkipaById(@PathVariable Integer id) {
         Ekipa ekipa = ekipaService.getEkipaById(id);

@@ -67,4 +67,9 @@ public class EkipaService {
         }
     }
 
+    public List<Ekipa> findEkipasBySport(Integer idS)
+    {
+        return ekipaRepository.findEkipasBySport(idS);
+    }
+
 }
