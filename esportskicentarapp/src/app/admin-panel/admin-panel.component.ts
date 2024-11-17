@@ -58,6 +58,14 @@ export class AdminPanelComponent implements OnInit{
         legend: {
           display: false // Adjust as needed
         }
+    },
+    scales: {
+      y: {
+        beginAtZero: true, // ensures the Y-axis starts at zero
+        ticks: {
+          stepSize: 10, // defines the step between each tick mark
+        }
+      }
     }
 };
 
@@ -212,6 +220,7 @@ export class AdminPanelComponent implements OnInit{
                     data: dataPoints,
                     fill: false,
                     borderColor: '#42A5F5',
+                    backgroundColor: '#42A5F5',
                     tension: .4
                 }
             ]
@@ -318,7 +327,7 @@ export class AdminPanelComponent implements OnInit{
    getMonthLabels(): string[] {
      return [
        'Januar', 'Februar', 'Mart', 'April', 'Maj', 'Jun',
-       'Jul', 'Avgust', 'Septembar', 'Octobar', 'Novembar', 'Decembar'
+       'Jul', 'Avgust', 'Septembar', 'Oktobar', 'Novembar', 'Decembar'
      ];
    }
    

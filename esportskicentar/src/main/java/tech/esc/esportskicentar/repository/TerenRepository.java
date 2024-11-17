@@ -12,4 +12,5 @@ public interface TerenRepository extends JpaRepository<Teren, Integer> {
     @Query(value = "SELECT * FROM teren t WHERE t.dostupan = 1 AND t.id_dvorana = :idDvorana", nativeQuery = true)
     List<Teren> findTerensByDostupanAndDvorana(@Param("idDvorana") Integer idDvorana);
 
+    List<Teren> findByDvoranaIdDvorana(Integer idDvorana);
 }

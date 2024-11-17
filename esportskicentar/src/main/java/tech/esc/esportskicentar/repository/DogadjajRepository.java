@@ -33,4 +33,8 @@ public interface DogadjajRepository extends JpaRepository<Dogadjaj, Integer> {
             "WHERE d.teren.idTeren = :idTeren AND d.odobren = true AND dr.datum = :date")
     List<Dogadjaj> findByTerenAndDate(int idTeren, LocalDate date);
 
+    List<Dogadjaj> findAllByTerenIdTerenIn(List<Integer> terensIds);
+
+    @Query("SELECT d FROM Dogadjaj d JOIN d.dnevniRaspored dr WHERE d.teren.idTeren in :terensIds AND dr.datum BETWEEN :startDate AND :endDate")
+    List<Dogadjaj> findAllByTerenIdTerenInAndDatumBetween(List<Integer> terensIds, LocalDate startDate, LocalDate endDate);
 }

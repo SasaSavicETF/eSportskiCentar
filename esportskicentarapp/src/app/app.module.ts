@@ -48,6 +48,7 @@ import { AdminOdobravanjeComponent } from './admin-odobravanje/admin-odobravanje
 import { IndexComponent } from './index/index.component';
 import { AdministratorComponent } from './administrator/administrator.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { UpravnikPanelComponent } from './upravnik-panel/upravnik-panel.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { CalendarComponent } from './calendar/calendar.component';
     AdminOdobravanjeComponent,
     IndexComponent,
     AdministratorComponent,
-    CalendarComponent
+    CalendarComponent,
+    UpravnikPanelComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,26 @@
+<p-toast></p-toast>
+<div class="sadrzaj">
+    <div class="parent">
+
+        <div class="event-card">
+            <div class="event-info">
+            <h2 class="hall-name">{{hallName}}</h2>
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="dateOptions" name="eventDate" [(ngModel)]="selectedDate" (onChange)="loadEventData()" [showClear]="false"></p-dropdown>
+            </div>
+            </div>
+            <div class="event-body">
+                <h3 class="chart-name">Događaji</h3>
+            <p-chart class="event" type="bar" [data]="eventData" [options]="eventChartOptions"  width="833" height="400"></p-chart>
+        </div>
+        </div>
+
+        <div class="card-container">
+            <div class="card-body">
+                <h3 class="chart-name">Sportovi</h3>
+                <p-chart type="pie" [data]="sportData"  [options]="options"  width="700" height="200"></p-chart>
+            </div>
+        </div>
+
+    </div>
+</div>
