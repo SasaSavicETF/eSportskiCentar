@@ -7,6 +7,7 @@ import tech.esc.esportskicentar.model.Zadatak;
 import tech.esc.esportskicentar.service.ZadatakService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/zadatak")
@@ -33,6 +34,13 @@ public class ZadatakController {
             return ResponseEntity.notFound().build();
         else
             return new ResponseEntity<>(zadatak, HttpStatus.OK);
+    }
+
+    @GetMapping("/statistic/for/{period}/managed/{userId}")
+    public ResponseEntity<Map<String,Integer>> getZadatakStatsManaged(@PathVariable("period") String period,
+                                                                      @PathVariable("userId") Integer userId) {
+        Map<String,Integer> zadatakStats = zadatakService.getZadatakStatsForPeriodManagedBy(period,userId);
+        return new ResponseEntity<>( zadatakStats, HttpStatus.OK);
     }
 
     @PostMapping("/add")

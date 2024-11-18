@@ -3,6 +3,7 @@ import { MessageService } from 'primeng/api';
 import { Dogadjaj } from '../models/dogadjaj';
 import { AdminPanelService } from './admin-panel.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DogadjajStatsDto } from '../models/dogadjaj-stats-dto';
 
 @Component({
   selector: 'app-admin-panel',
@@ -12,7 +13,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AdminPanelComponent implements OnInit{
 
-  public dogadjajs: Dogadjaj[] = [];
+  public dogadjajs: DogadjajStatsDto[] = [];
   public reservationStats: Map<string, number> = new Map();
   public numberOfKlijents: number | undefined;
   public numberOfDogadjajs: number | undefined;
@@ -95,7 +96,7 @@ export class AdminPanelComponent implements OnInit{
 
   loadEventData() {
     this.adminPanel.getDogadjajsStatistic(this.selectedDate).subscribe(
-      (response: Dogadjaj[]) => {
+      (response: DogadjajStatsDto[]) => {
         this.dogadjajs = response;
         this.updateEventStats();
         this.updateSportStats();
@@ -160,7 +161,7 @@ export class AdminPanelComponent implements OnInit{
             const days = new Array(labels.length).fill(0);
     
           this.dogadjajs.forEach(entry => {
-            const entryDate = this.getDate(entry.dnevniRaspored.datum); 
+            const entryDate = this.getDate(entry.datum); 
               const day = daysMap.get(entryDate.getDate()) 
               if(day !== undefined)
               days[day]++;
@@ -176,7 +177,7 @@ export class AdminPanelComponent implements OnInit{
     
          
           this.dogadjajs.forEach(entry => {
-            const entryDate = this.getDate(entry.dnevniRaspored.datum);
+            const entryDate = this.getDate(entry.datum);
               const day = entryDate.getDate() - 1; 
               days[day]++;
           });
@@ -188,21 +189,21 @@ export class AdminPanelComponent implements OnInit{
           const months = new Array(labels.length).fill(0);
     
           this.dogadjajs.forEach(entry => {
-            const entryDate =  this.getDate(entry.dnevniRaspored.datum); 
+            const entryDate =  this.getDate(entry.datum); 
               const month = entryDate.getMonth(); 
               months[month]++;
           });
     
           dataPoints = months;
         } else if(this.selectedDate === 'all') {
-          const dates = this.dogadjajs.map(entry => this.getDate(entry.dnevniRaspored.datum));
+          const dates = this.dogadjajs.map(entry => this.getDate(entry.datum));
           const oldest = Math.min(...dates.map(date => date.getFullYear()));
           
           labels = this.getYearLabels(oldest); 
           const years = new Array(labels.length).fill(0);
          
           this.dogadjajs.forEach(entry => {
-            const entryDate =  this.getDate(entry.dnevniRaspored.datum);
+            const entryDate =  this.getDate(entry.datum);
             const year = entryDate.getFullYear();
     
             const yearIndex = labels.indexOf(year.toString());
@@ -290,8 +291,8 @@ export class AdminPanelComponent implements OnInit{
     const sportCount = new Map<string, number>();
     
     this.dogadjajs.forEach(dogadjaj => {
-      if(dogadjaj.sport !== null && dogadjaj.sport.nazivSporta !== null) {
-      const sport = dogadjaj.sport.nazivSporta;
+      if(dogadjaj.sport !== null && dogadjaj.sport !== null) {
+      const sport = dogadjaj.sport;
       if(sportCount.has(sport))
         sportCount.set(sport, sportCount.get(sport)! + 1);
       else

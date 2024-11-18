@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Dogadjaj } from '../models/dogadjaj';
+import { DogadjajStatsDto } from '../models/dogadjaj-stats-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +29,8 @@ export class AdminPanelService {
     return this.http.get<number>(`${this.apiServerUrl}/dogadjaj/statistic/reservation/total`);
   }
 
-  public getDogadjajsStatistic(period: string) : Observable<Dogadjaj[]> {
-    return this.http.get<Dogadjaj[]>(`${this.apiServerUrl}/dogadjaj/statistic/for/${period}`);
+  public getDogadjajsStatistic(period: string) : Observable<DogadjajStatsDto[]> {
+    return this.http.get<DogadjajStatsDto[]>(`${this.apiServerUrl}/dogadjaj/statistic/for/${period}`);
   }
 
   public getReservationStatistic(): Observable<{ [key: string]: number }> {

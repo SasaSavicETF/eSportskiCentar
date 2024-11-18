@@ -15,7 +15,7 @@ import { DogadjajStatsDto } from '../models/dogadjaj-stats-dto';
 export class UpravnikPanelComponent implements OnInit {
 
   public dogadjajs: DogadjajStatsDto[] = [];
-  public reservationStats: Map<string, number> = new Map();
+  public zadatakStats: Map<string, number> = new Map();
   public hallName: string = "";
 
   eventData: any;
@@ -43,7 +43,7 @@ export class UpravnikPanelComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHallName()
-    this.loadEventData();
+    this.loadStatsData();
 
     this.eventChartOptions = {
       responsive: false,
@@ -85,12 +85,29 @@ export class UpravnikPanelComponent implements OnInit {
     );
   }
 
+  loadStatsData() {
+    this.loadEventData();
+    this.loadZadatakData();
+  }
+
   loadEventData() {
     this.upravnikService.getDogadjajsStatistic(this.selectedDate, this.klijentService.activeUser!.id).subscribe(
       (response: DogadjajStatsDto[]) => {
         this.dogadjajs = response;
         this.updateEventStats();
         this.updateSportStats();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+  loadZadatakData() {
+    this.upravnikService.getZadatakStatistic(this.selectedDate, this.klijentService.activeUser!.id).subscribe(
+      (response: {[key: string]: number }) => { console.log(response);
+        this.zadatakStats = new Map(Object.entries(response));
+        this.setReservationStats();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -201,6 +218,39 @@ export class UpravnikPanelComponent implements OnInit {
         }
       ]
     };
+  }
+
+  setReservationStats() {
+    let labels: string[] = [];
+    let dataPoints: number[] = [];
+
+    const zadatakStatsArray = Array.from(this.zadatakStats.entries());
+
+    zadatakStatsArray.forEach(([zadatakStatus, count]) => {
+      labels.push(zadatakStatus);
+      dataPoints.push(count);
+    });
+
+    this.userdata = {
+      labels: labels,
+      datasets: [
+          {
+              data: dataPoints,
+              backgroundColor: [
+                  "#FF6384",
+                  "#36A2EB",
+                  "#FFCE56" 
+                 
+              ],
+              hoverBackgroundColor: [
+                  "#FF6384",
+                  "#36A2EB",
+                  "#FFCE56" 
+              ]
+          }
+      ]
+  };
+
   }
 
   getTopSports() {

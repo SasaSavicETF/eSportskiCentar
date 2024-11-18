@@ -78,9 +78,8 @@ public class DvoranaService
         List<Integer> terensIds = terensOfDvorana.stream()
                 .map(Teren::getIdTeren).toList();
 
-        LocalDate startDate = null;
+        LocalDate startDate;
         LocalDate endDate = LocalDate.now();
-        List<Dogadjaj> dogadjajs = null;
 
         switch (period.toLowerCase()) {
             case "last_seven_days":
@@ -93,16 +92,14 @@ public class DvoranaService
                 startDate = endDate.with(TemporalAdjusters.firstDayOfYear());
                 break;
             case "all":
-                dogadjajs = dogadjajRepository.findAllByTerenIdTerenIn(terensIds);
-                break;
+                return dogadjajRepository.findAllByTerenIdTerenIn(terensIds).stream().map(DogadjajStatsDTO::new).toList();
             default:
                 throw new IllegalArgumentException("Invalid time range");
         }
 
-        if(startDate != null)
-            dogadjajs = dogadjajRepository.findAllByTerenIdTerenInAndDatumBetween(terensIds, startDate, endDate);
+            return dogadjajRepository.findAllByTerenIdTerenInAndDatumBetween(terensIds, startDate, endDate)
+                    .stream().map(DogadjajStatsDTO::new).toList();
 
-       return dogadjajs.stream().map(DogadjajStatsDTO::new).toList();
     }
 
     public String getNameOfDvoranaManagedBy(Integer userId) {

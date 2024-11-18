@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tech.esc.esportskicentar.model.Cjenovnik;
-import tech.esc.esportskicentar.model.Dogadjaj;
-import tech.esc.esportskicentar.model.DogadjajDTO;
-import tech.esc.esportskicentar.model.Klijent;
+import tech.esc.esportskicentar.model.*;
 import tech.esc.esportskicentar.repository.CjenovnikRepository;
 import tech.esc.esportskicentar.repository.DnevniRasporedRepository;
 import tech.esc.esportskicentar.repository.DogadjajRepository;
@@ -248,7 +245,7 @@ public class DogadjajService {
         return dogadjajRepository.countDogadjajs();
     }
 
-    public List<Dogadjaj> findAllDogadjajsForPeriod(String period) {
+    public List<DogadjajStatsDTO> findAllDogadjajsForPeriod(String period) {
         LocalDate startDate;
         LocalDate endDate = LocalDate.now();
 
@@ -263,12 +260,13 @@ public class DogadjajService {
                 startDate = endDate.with(TemporalAdjusters.firstDayOfYear());
                 break;
             case "all":
-                return dogadjajRepository.findAll();
+                return dogadjajRepository.findAll().stream().map(DogadjajStatsDTO::new).toList();
             default:
                 throw new IllegalArgumentException("Invalid time range");
         }
 
-        return dogadjajRepository.findAllByDateRange(startDate, endDate);
+        return dogadjajRepository.findAllByDateRange(startDate, endDate)
+                .stream().map(DogadjajStatsDTO::new).toList();
     }
 
     public int getNumberOfReservations() {

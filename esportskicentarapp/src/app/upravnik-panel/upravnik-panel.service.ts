@@ -20,4 +20,8 @@ export class UpravnikPanelService {
   public getHallName(userId: number) :Observable<string> {
     return this.http.get<string>(`${this.apiServerUrl}/dvorana/name/managed/${userId}`, { responseType: 'text' as 'json' });
   }
+
+  public getZadatakStatistic(period: string, userId: number) :  Observable<{ [key: string]: number }>{
+    return this.http.get<{ [key: string]: number }>(`${this.apiServerUrl}/zadatak/statistic/for/${period}/managed/${userId}`);
+  }
 }

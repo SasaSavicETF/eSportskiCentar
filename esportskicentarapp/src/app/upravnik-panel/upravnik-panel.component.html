@@ -6,7 +6,7 @@
             <div class="event-info">
             <h2 class="hall-name">{{hallName}}</h2>
             <div class="drop card flex justify-content-center">
-                <p-dropdown class="custom-dd" [options]="dateOptions" name="eventDate" [(ngModel)]="selectedDate" (onChange)="loadEventData()" [showClear]="false"></p-dropdown>
+                <p-dropdown class="custom-dd" [options]="dateOptions" name="eventDate" [(ngModel)]="selectedDate" (onChange)="loadStatsData()" [showClear]="false"></p-dropdown>
             </div>
             </div>
             <div class="event-body">
@@ -18,7 +18,11 @@
         <div class="card-container">
             <div class="card-body">
                 <h3 class="chart-name">Sportovi</h3>
-                <p-chart type="pie" [data]="sportData"  [options]="options"  width="700" height="200"></p-chart>
+                <p-chart type="pie" [data]="sportData"  [options]="options"  width="350" height="200"></p-chart>
+            </div>
+            <div class="card-body">
+                <h3 class="chart-name">Zadaci</h3>
+                <p-chart type="doughnut" [data]="userdata" [options]="options" width="350" height="200"></p-chart>
             </div>
         </div>
 

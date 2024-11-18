@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.esc.esportskicentar.model.Dogadjaj;
 import tech.esc.esportskicentar.model.DogadjajDTO;
+import tech.esc.esportskicentar.model.DogadjajStatsDTO;
 import tech.esc.esportskicentar.service.DogadjajService;
 
 import java.time.LocalDate;
@@ -56,9 +57,9 @@ public class DogadjajController {
     }
 
     @GetMapping("/statistic/for/{period}")
-    public ResponseEntity<List<Dogadjaj>> getAllDogadjajs(@PathVariable("period") String period)
+    public ResponseEntity<List<DogadjajStatsDTO>> getAllDogadjajsForPeriod(@PathVariable("period") String period)
     {
-        List<Dogadjaj> dogadjajs = dogadjajService.findAllDogadjajsForPeriod(period);
+        List<DogadjajStatsDTO> dogadjajs = dogadjajService.findAllDogadjajsForPeriod(period);
         return new ResponseEntity<>(dogadjajs, HttpStatus.OK);
     }
 
