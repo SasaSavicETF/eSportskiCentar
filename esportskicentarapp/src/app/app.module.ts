@@ -49,6 +49,7 @@ import { IndexComponent } from './index/index.component';
 import { AdministratorComponent } from './administrator/administrator.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { UpravnikPanelComponent } from './upravnik-panel/upravnik-panel.component';
+import { TransakcijaComponent } from './transakcija/transakcija.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { UpravnikPanelComponent } from './upravnik-panel/upravnik-panel.componen
     IndexComponent,
     AdministratorComponent,
     CalendarComponent,
-    UpravnikPanelComponent
+    UpravnikPanelComponent,
+    TransakcijaComponent,
   ],
   imports: [
     BrowserModule,
