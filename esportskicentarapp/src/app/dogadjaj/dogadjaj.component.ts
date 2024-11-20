@@ -33,6 +33,8 @@ import { EmailService } from '../services/email.service';
 import { Email } from '../models/email';
 import { Svlacionica } from '../models/svlacionica';
 import { SvlacionicaService } from '../svlacionica/svlacionica.service';
+import { TransakcijaService } from '../transakcija/transakcija.service';
+import { Transakcija } from '../models/transakcija';
 
 
 @Component({
@@ -98,7 +100,7 @@ export class DogadjajComponent implements OnInit{
 
   constructor(private userService: KlijentService, private ekipaService: EkipaService, private dvoranaService: DvoranaService, 
     private terenService: TerenService, private takmicenjeService: TakmicenjeService, private sportService: SportService,
-    private cjenovnikService: CjenovnikService, private dnevniRasporedService: DnevniRasporedService,
+    private cjenovnikService: CjenovnikService, private dnevniRasporedService: DnevniRasporedService, private transakcijaService: TransakcijaService,
     private dogadjajService: DogadjajService, private rasporedService: RasporedService, private ulazService: UlazService,
     private svlacionicaService: SvlacionicaService, private messageService: MessageService, private emailService: EmailService) { 
         this.activeUser = userService.activeUser;
@@ -485,6 +487,18 @@ export class DogadjajComponent implements OnInit{
     this.addVisible = false;
     if (this.activeUser?.role == 'user')
       addForm.form.get('odobren')?.setValue(false);
+    /*else
+    {
+      this.transakcijaService.addTransakcijaJSON(`{ "svrhaDoznake": "Zakup terena", "prihod": 1, "iznos": ${this.cijena}}`).subscribe(
+        (response: Transakcija) => {
+          console.log('API response:', response); 
+          //this.selectedDnevniRaspored = response;
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
+    }*/
     addForm.form.get('dnevniRaspored')?.setValue(this.selectedDnevniRaspored);
 
     this.dogadjajService.addDogadjaj(addForm.value).subscribe(

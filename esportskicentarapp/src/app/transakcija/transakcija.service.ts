@@ -30,7 +30,21 @@ export class TransakcijaService
           switchMap(() => this.http.post<Transakcija>(`${this.apiServerUrl}/transakcija`, transakcija)),
           catchError((error) => throwError(() => new HttpErrorResponse({ status: 400, statusText: error })))
         );
+    }
+
+    public addTransakcijaJSON(transakcija: string): Observable<Transakcija> {
+        //console.log(transakcija); // Ispisuje JSON string
+      
+        return this.validateTransakcija(JSON.parse(transakcija)).pipe(
+          switchMap(() => 
+            this.http.post<Transakcija>(`${this.apiServerUrl}/transakcija`, transakcija, {
+              headers: { 'Content-Type': 'application/json' } // Postavlja Content-Type na application/json
+            })
+          ),
+          catchError((error) => throwError(() => new HttpErrorResponse({ status: 400, statusText: error })))
+        );
       }
+      
     
       
   

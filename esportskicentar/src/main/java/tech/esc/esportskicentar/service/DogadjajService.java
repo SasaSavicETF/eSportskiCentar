@@ -29,17 +29,20 @@ public class DogadjajService {
     private final DogadjajRepository dogadjajRepository;
     private final CjenovnikRepository cjenovnikRepository;
     private final DnevniRasporedRepository dnevniRasporedRepository;
+    private final TransakcijaService transakcijaService;
 
     private final KlijentRepository klijentRepository;
 
     @Autowired
     public DogadjajService(DogadjajRepository dogadjajRepository, CjenovnikRepository cjenovnikRepository,
-                           DnevniRasporedRepository dnevniRasporedRepository, KlijentRepository klijentRepository)
+                           DnevniRasporedRepository dnevniRasporedRepository, KlijentRepository klijentRepository,
+                           TransakcijaService transakcijaService)
     {
         this.dogadjajRepository = dogadjajRepository;
         this.cjenovnikRepository = cjenovnikRepository;
         this.dnevniRasporedRepository = dnevniRasporedRepository;
         this.klijentRepository = klijentRepository;
+        this.transakcijaService = transakcijaService;
     }
 
     public List<Dogadjaj> findAllDogadjajs(){
@@ -220,6 +223,10 @@ public class DogadjajService {
         }
         dogadjaj.setCijena(BigDecimal.valueOf(cijena));
         System.out.println(cijena);
+        if(dogadjaj.isOdobren())
+        {
+            transakcijaService.createTransakcija(new Transakcija("Iznajmljivanje terena", true, BigDecimal.valueOf(cijena)));
+        }
         return dogadjajRepository.save(dogadjaj);
     }
 
@@ -228,7 +235,13 @@ public class DogadjajService {
         if(stariDogadjaj == null)
             return null;
         else
+        {
+            if(!stariDogadjaj.isOdobren() && dogadjaj.isOdobren())
+            {
+                transakcijaService.createTransakcija(new Transakcija("Iznajmljivanje terena", true, dogadjaj.getCijena()));
+            }
             return dogadjajRepository.save(dogadjaj);
+        }
     }
 
     public boolean deleteDogadjaj(Integer id){
@@ -236,6 +249,10 @@ public class DogadjajService {
         if(dogadjaj.isEmpty())
             return false;
         else {
+            if(dogadjaj.get().isOdobren())
+            {
+                transakcijaService.createTransakcija(new Transakcija("Otkazivanje iznajmljivanja terena", false, dogadjaj.get().getCijena()));
+            }
             dogadjajRepository.deleteById(id);
             return true;
         }
