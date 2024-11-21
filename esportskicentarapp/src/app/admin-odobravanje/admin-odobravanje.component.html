@@ -3,7 +3,13 @@
     <hr>
     <!--*ngIf="mainContentVisible"-->
     <div>
-        <div *ngFor="let dog of dogadjajs" class="card flex justify-content-center">
+        <p-paginator 
+            [rows]="rowsPerPage" 
+            [totalRecords]="totalRecords" 
+            [rowsPerPageOptions]="[5, 10, 20]" 
+            (onPageChange)="onPageChange($event)">
+        </p-paginator>
+        <div *ngFor="let dog of dogadjajsPaginated" class="card flex justify-content-center">
             <p-card class="main-card" header="{{dateToString(normalizeDate(stringToDate(dog.dnevniRaspored.datum)))}}">
                 <div class="task-card-container">
                     <div class="task-card-content">

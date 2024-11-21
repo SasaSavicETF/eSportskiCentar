@@ -1,5 +1,7 @@
 package tech.esc.esportskicentar.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -37,4 +39,15 @@ public interface DogadjajRepository extends JpaRepository<Dogadjaj, Integer> {
 
     @Query("SELECT d FROM Dogadjaj d JOIN d.dnevniRaspored dr WHERE d.teren.idTeren in :terensIds AND dr.datum BETWEEN :startDate AND :endDate")
     List<Dogadjaj> findAllByTerenIdTerenInAndDatumBetween(List<Integer> terensIds, LocalDate startDate, LocalDate endDate);
+
+    @Query(value = "SELECT d.* " +
+            "FROM dogadjaj d " +
+            "JOIN dnevni_raspored dr ON d.id_dnevni_raspored = dr.id_dnevni_raspored " +
+            "JOIN teren t ON d.id_teren = t.id_teren " +
+            "WHERE d.odobren = 0 " +
+            "AND dr.datum >= CURDATE() " +
+            "AND t.id_dvorana = :idDvorana",
+            nativeQuery = true)
+    Page<Dogadjaj> findAllNeodobreniPaginated(@Param("idDvorana") Integer idDvorana, Pageable pageable);
+
 }

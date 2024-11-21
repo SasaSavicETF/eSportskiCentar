@@ -2,6 +2,8 @@ package tech.esc.esportskicentar.controllers;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -144,4 +146,10 @@ public class DogadjajController {
             @NotBlank
             List<LocalDate> dates)
     {}
+
+    @GetMapping("/paginated/{idD}")
+    public Page<Dogadjaj> getNeodobreniDogadjajiPaginated(@PathVariable("idD") Integer idD, Pageable pageable)
+    {
+        return  dogadjajService.getNeodabraniDogadjajiPaginated(idD, pageable);
+    }
 }
