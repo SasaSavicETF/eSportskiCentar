@@ -3,21 +3,16 @@ package tech.esc.esportskicentar.service;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import tech.esc.esportskicentar.exception.UserNotFoundException;
 import tech.esc.esportskicentar.model.*;
-import tech.esc.esportskicentar.repository.CjenovnikRepository;
-import tech.esc.esportskicentar.repository.DnevniRasporedRepository;
-import tech.esc.esportskicentar.repository.DogadjajRepository;
-import tech.esc.esportskicentar.repository.KlijentRepository;
+import tech.esc.esportskicentar.repository.*;
 import tech.esc.esportskicentar.util.Util;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,14 +27,21 @@ public class DogadjajService {
 
     private final KlijentRepository klijentRepository;
 
+    private final SportRepository sportRepository;
+    private final DvoranaRepository dvoranaRepository;
+    private static LocalDate START_DATE_FOR_ALL = LocalDate.of(2000,1,1);
+
     @Autowired
     public DogadjajService(DogadjajRepository dogadjajRepository, CjenovnikRepository cjenovnikRepository,
-                           DnevniRasporedRepository dnevniRasporedRepository, KlijentRepository klijentRepository)
+                           DnevniRasporedRepository dnevniRasporedRepository, KlijentRepository klijentRepository,
+                           SportRepository sportRepository, DvoranaRepository dvoranaRepository)
     {
         this.dogadjajRepository = dogadjajRepository;
         this.cjenovnikRepository = cjenovnikRepository;
         this.dnevniRasporedRepository = dnevniRasporedRepository;
         this.klijentRepository = klijentRepository;
+        this.sportRepository = sportRepository;
+        this.dvoranaRepository = dvoranaRepository;
     }
 
     public List<Dogadjaj> findAllDogadjajs(){
@@ -246,24 +248,8 @@ public class DogadjajService {
     }
 
     public List<DogadjajStatsDTO> findAllDogadjajsForPeriod(String period) {
-        LocalDate startDate;
         LocalDate endDate = LocalDate.now();
-
-        switch (period.toLowerCase()) {
-            case "last_seven_days":
-                startDate = endDate.minusDays(6);
-                break;
-            case "this_month":
-                startDate = endDate.with(TemporalAdjusters.firstDayOfMonth());
-                break;
-            case "this_year":
-                startDate = endDate.with(TemporalAdjusters.firstDayOfYear());
-                break;
-            case "all":
-                return dogadjajRepository.findAll().stream().map(DogadjajStatsDTO::new).toList();
-            default:
-                throw new IllegalArgumentException("Invalid time range");
-        }
+        LocalDate startDate = resolveStartDate(period, endDate);
 
         return dogadjajRepository.findAllByDateRange(startDate, endDate)
                 .stream().map(DogadjajStatsDTO::new).toList();
@@ -294,5 +280,86 @@ public class DogadjajService {
         });
 
         return weeklyEvents;
+    }
+
+    public List<ZaradaStatsDTO> getZaradaForPeriodByType(String period) {
+        String groupByPattern = getGroupByPattern(period);
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = resolveStartDate(period, endDate);
+
+        return dogadjajRepository.summarizeRevenueForPeriodByType(groupByPattern,startDate,endDate);
+    }
+
+    public Map<String, Integer> getZaradaForPeriodBySport(String period) {
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = resolveStartDate(period, endDate);
+
+        Map<String, Integer> summary = new HashMap<>();
+        List<Object[]> results = dogadjajRepository.summarizeRevenueForPeriodBySport(startDate,endDate);
+
+        for (Object[] row : results) {
+            String sport = (String) row[0];
+            Integer total = ((Number) row[1]).intValue();
+            summary.put(sport, total);
+        }
+
+        return summary;
+    }
+
+    public List<StatsDTO> getZaradaForPeriodForSport(String period, String sportName) {
+        Sport sport = sportRepository.findByNazivSporta(sportName)
+                .orElseThrow(() -> new UserNotFoundException("Sport with name " + sportName + " doesn't exist."));
+
+        String groupByPattern = getGroupByPattern(period);
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = resolveStartDate(period, endDate);
+
+        return dogadjajRepository.sumarizeRevenueForPeriodForSport(groupByPattern, startDate, endDate, sport.getIdSport());
+    }
+
+    public Map<String, Integer> getZaradaForPeriodByDvorana(String period) {
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = resolveStartDate(period, endDate);
+
+        Map<String, Integer> summary = new HashMap<>();
+        List<Object[]> results = dogadjajRepository.summarizeRevenueForPeriodByDvorana(startDate,endDate);
+
+        for (Object[] row : results) {
+            String dvorana = (String) row[0];
+            Integer total = ((Number) row[1]).intValue();
+            summary.put(dvorana, total);
+        }
+
+        return summary;
+    }
+
+    public List<StatsDTO> getZaradaForPeriodForDvorana(String period, String dvoranaName) {
+        Dvorana dvorana = dvoranaRepository.findByNazivDvorane(dvoranaName)
+                .orElseThrow(() -> new UserNotFoundException("Dvorana with name " + dvoranaName + " doesn't exist."));
+
+        String groupByPattern = getGroupByPattern(period);
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = resolveStartDate(period, endDate);
+
+        return dogadjajRepository.sumarizeRevenueForPeriodForDvorana(groupByPattern, startDate, endDate, dvorana.getIdDvorana());
+    }
+
+    private LocalDate resolveStartDate(String period, LocalDate endDate) {
+        return switch (period.toLowerCase()) {
+            case "last_seven_days" -> endDate.minusDays(6);
+            case "this_month" -> endDate.with(TemporalAdjusters.firstDayOfMonth());
+            case "this_year" -> endDate.with(TemporalAdjusters.firstDayOfYear());
+            case "all" -> START_DATE_FOR_ALL;
+            default -> throw new IllegalArgumentException("Invalid time range");
+        };
+    }
+
+    private String getGroupByPattern(String period) {
+        return switch (period.toLowerCase()) {
+            case "last_seven_days", "this_month" -> "%Y-%m-%d";
+            case "this_year" -> "%Y-%m-01";
+            case "all" -> "%Y-01-01";
+            default -> throw new IllegalArgumentException("Invalid time range");
+        };
     }
 }

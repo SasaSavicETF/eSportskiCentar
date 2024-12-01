@@ -25,6 +25,17 @@
             </div>
         </div>
     </a>
+    <a routerLink="/finansije" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showFinansije">
+        <div class="content">
+            <div class="column">
+                <i class="pi pi-user"></i>
+            </div>
+            <div class="column">
+                <p class="title">Finansije</p>
+                <p class="description">Prikaz podataka o finansijama</p>
+            </div>
+        </div>
+    </a>
     <a routerLink="/upravnikPanel" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showUpravnikPanel">
         <div class="content">
             <div class="column">

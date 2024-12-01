@@ -1,0 +1,43 @@
+<p-toast></p-toast>
+<div class="sadrzaj">
+    <div class="parent">
+
+        <div class="event-card">
+            <div class="event-info">
+            <h3 class="chart-name">Zarada</h3>
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="dateOptions" name="eventDate" [(ngModel)]="selectedDate" (onChange)="loadData()" [showClear]="false"></p-dropdown>
+            </div>
+            </div>
+            <div class="event-body">
+            <p-chart class="event" type="line" [data]="eventData" [options]="eventChartOptions"  width="833" height="400"></p-chart>
+        </div>
+        </div>
+
+        <div class="card-container">
+            <div class="card-body adjustable-height">
+                <div class="event-info">
+                <h3 class="chart-name">Zarada po sportovima</h3>
+                <p-button *ngIf="isBackSportVisible" class="btn-position" (click)="goBackSport()">Nazad</p-button>
+                </div>
+                <p-chart *ngIf="!loadingSport" type="bar" [data]="sportData"  [options]="sportOptions" (onDataSelect)="onSportClick($event)" width="833" height="180"></p-chart>
+                <div *ngIf="loadingSport" class="loading-overlay">
+                    <p-progressSpinner></p-progressSpinner>
+                  </div>
+            </div>
+        </div>
+        <div class="card-container">
+            <div class="card-body">
+                <div class="event-info">
+                    <h3 class="chart-name">Zarada po dvoranama</h3>
+                    <p-button *ngIf="isBackDvoranaVisible" class="btn-position" (click)="goBackDvorana()">Nazad</p-button>
+                    </div>
+                    <p-chart *ngIf="!loadingDvorana" type="bar" [data]="dvoranaData"  [options]="dvoranaOptions" (onDataSelect)="onDvoranaClick($event)" width="833" height="180"></p-chart>
+                    <div *ngIf="loadingDvorana" class="loading-overlay">
+                        <p-progressSpinner></p-progressSpinner>
+                      </div>
+            </div>
+        </div>
+
+    </div>
+</div>

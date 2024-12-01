@@ -1,0 +1,34 @@
+package tech.esc.esportskicentar.model;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class StatsDTO {
+
+    @NotNull
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="dd.MM.yyyy")
+    private LocalDate datum;
+    private BigDecimal zaradaOdSporta;
+
+    public StatsDTO(Object datumString, BigDecimal zaradaOdSporta) {
+        this.zaradaOdSporta = zaradaOdSporta;
+        if(datumString instanceof String)
+            convertDatumStringToDate((String) datumString);
+    }
+
+    public void convertDatumStringToDate(String datumString) {
+        DateTimeFormatter formatter;
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.datum = LocalDate.parse(datumString, formatter);
+    }
+}

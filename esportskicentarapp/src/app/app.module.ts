@@ -49,6 +49,9 @@ import { IndexComponent } from './index/index.component';
 import { AdministratorComponent } from './administrator/administrator.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { UpravnikPanelComponent } from './upravnik-panel/upravnik-panel.component';
+import { FinansijeComponent } from './finansije/finansije.component';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -81,7 +84,8 @@ import { UpravnikPanelComponent } from './upravnik-panel/upravnik-panel.componen
     IndexComponent,
     AdministratorComponent,
     CalendarComponent,
-    UpravnikPanelComponent
+    UpravnikPanelComponent,
+    FinansijeComponent
   ],
   imports: [
     BrowserModule,
@@ -102,7 +106,9 @@ import { UpravnikPanelComponent } from './upravnik-panel/upravnik-panel.componen
     TimelineModule,
     CardModule,
     PaginatorModule,
-    ChartModule
+    ChartModule,
+    SelectButtonModule,
+    ProgressSpinnerModule
   ],
   providers: [
     provideClientHydration()

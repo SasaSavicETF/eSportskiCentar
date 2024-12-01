@@ -5,9 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tech.esc.esportskicentar.model.Dogadjaj;
-import tech.esc.esportskicentar.model.DogadjajDTO;
-import tech.esc.esportskicentar.model.DogadjajStatsDTO;
+import tech.esc.esportskicentar.model.*;
 import tech.esc.esportskicentar.service.DogadjajService;
 
 import java.time.LocalDate;
@@ -61,6 +59,38 @@ public class DogadjajController {
     {
         List<DogadjajStatsDTO> dogadjajs = dogadjajService.findAllDogadjajsForPeriod(period);
         return new ResponseEntity<>(dogadjajs, HttpStatus.OK);
+    }
+
+    @GetMapping("/revenue/for/{period}/byType")
+    public ResponseEntity<List<ZaradaStatsDTO>> getZaradaForPeriodByType(@PathVariable("period") String period) {
+        List<ZaradaStatsDTO> zarada = dogadjajService.getZaradaForPeriodByType(period);
+        return new ResponseEntity<>(zarada, HttpStatus.OK);
+    }
+
+    @GetMapping("/revenue/for/{period}/bySport")
+    public ResponseEntity<Map<String,Integer>> getZaradaForPeriodBySport(@PathVariable("period") String period) {
+        Map<String,Integer> zaradaBySports = dogadjajService.getZaradaForPeriodBySport(period);
+        return new ResponseEntity<>(zaradaBySports, HttpStatus.OK);
+    }
+
+    @GetMapping("/revenue/for/{period}/forSport/{sportName}")
+    public ResponseEntity<List<StatsDTO>> getZaradaForPeriodForSport(@PathVariable("period") String period,
+                                                                     @PathVariable("sportName") String sportName) {
+        List<StatsDTO> zaradaForSport = dogadjajService.getZaradaForPeriodForSport(period, sportName);
+        return new ResponseEntity<>(zaradaForSport, HttpStatus.OK);
+    }
+
+    @GetMapping("/revenue/for/{period}/byDvorana")
+    public ResponseEntity<Map<String,Integer>> getZaradaForPeriodByDvorana(@PathVariable("period") String period) {
+        Map<String,Integer> zaradaByDvoranas = dogadjajService.getZaradaForPeriodByDvorana(period);
+        return new ResponseEntity<>(zaradaByDvoranas, HttpStatus.OK);
+    }
+
+    @GetMapping("/revenue/for/{period}/forDvorana/{dvoranaName}")
+    public ResponseEntity<List<StatsDTO>> getZaradaForPeriodForDvorana(@PathVariable("period") String period,
+                                                                     @PathVariable("dvoranaName") String dvoranaName) {
+        List<StatsDTO> zaradaForDvorana = dogadjajService.getZaradaForPeriodForDvorana(period, dvoranaName);
+        return new ResponseEntity<>(zaradaForDvorana, HttpStatus.OK);
     }
 
     @GetMapping("/user/{id}")

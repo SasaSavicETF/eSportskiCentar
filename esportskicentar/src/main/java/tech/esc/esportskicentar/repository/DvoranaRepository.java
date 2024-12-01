@@ -17,4 +17,6 @@ public interface DvoranaRepository extends JpaRepository<Dvorana, Integer>
 
     @Query("SELECT COUNT(d) FROM Dvorana d")
     int countDvoranas();
+
+    Optional<Dvorana> findByNazivDvorane(String dvoranaName);
 }

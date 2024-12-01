@@ -36,6 +36,7 @@ import { comboGuard } from './guards/combo.guard';
 import { adminUpravnikGuard } from './guards/admin-upravnik.guard';
 import { CalendarComponent } from './calendar/calendar.component';
 import { UpravnikPanelComponent } from './upravnik-panel/upravnik-panel.component';
+import { FinansijeComponent } from './finansije/finansije.component';
 
 const routes: Routes = [
   //ovo prvo je samo privremeno
@@ -53,6 +54,7 @@ const routes: Routes = [
   { path: 'dvorana', component: DvoranaComponent, canActivate : [adminGuard]},
   { path: 'administrator', component: AdministratorComponent, canActivate : [adminGuard]},
   { path: 'adminPanel', component: AdminPanelComponent, canActivate : [adminGuard]},
+  { path: 'finansije', component: FinansijeComponent, canActivate : [adminGuard]},
   { path: 'sport', component: SportComponent, canActivate : [adminGuard]},
   { path: 'ekipa', component: EkipaComponent, canActivate : [adminGuard]},
   { path: 'tipterena', component: TipTerenaComponent, canActivate : [adminGuard]},

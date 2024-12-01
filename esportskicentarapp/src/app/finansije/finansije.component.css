@@ -1,0 +1,142 @@
+.sadrzaj
+{
+    margin: 20px;
+    border: 1px solid #DDDDDD;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.parent {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+}
+
+.status-card {
+    flex: 1 1 calc(25% - 10px);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    margin-bottom: 15px;
+    border: 1px solid #DDDDDD;
+    border-radius: 10px;
+}
+
+.status-card-icon {
+    display: flex;
+    width: 30%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.status-card-info {
+    flex-grow: 1;
+    text-align: center;
+    z-index: 1;
+    text-transform: capitalize;
+}
+
+.event-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.event-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.event-body {
+    flex: 1 1 100%;
+    height: 420px;
+    padding: 10px;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-name {
+    padding-left: 10px;
+}
+
+.event { 
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+} 
+
+.card-container  {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.card-body {
+    flex: 1 1 calc(50% - 20px);
+    flex-direction: column;
+    height: 290px;
+    padding: 10px;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    margin-bottom: 15px;
+    border: 1px solid #DDDDDD;
+    border-radius: 10px;
+    position: relative;
+}
+
+.adjustable-height {
+    height: auto !important;
+}
+
+.loading-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+::ng-deep .p-selectbutton {
+    font-size: 0.75rem; /* Reduce text size */
+    height: 1.75rem; /* Adjust height */
+  }
+  
+  ::ng-deep .p-ripple {
+    padding: 0.25rem 0.5rem; /* Adjust padding */
+    height: 2rem;
+  }
+
+@media (max-width: 768px) {
+    .status-card {
+        flex: 1 1 100%; 
+    }
+
+    .card-body {
+        flex: 1 1 100%; 
+    }
+
+    .event-body {
+        flex: 1 1 100%;
+    }
+}
