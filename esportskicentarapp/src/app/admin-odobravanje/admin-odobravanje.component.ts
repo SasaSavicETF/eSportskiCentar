@@ -20,6 +20,11 @@ export class AdminOdobravanjeComponent implements OnInit
   public dogadjajs: Dogadjaj[] = [];
   public allDogadjajs: Dogadjaj[] = [];
 
+  public dogadjajsPaginated: any[] = [];
+  totalRecords: number = 0;
+  rowsPerPage: number = 5;
+  currentPage: number = 0;
+
   deleteVisible: boolean = false;
 
   public delDogadjaj: Dogadjaj | undefined;
@@ -33,8 +38,44 @@ export class AdminOdobravanjeComponent implements OnInit
 
   ngOnInit(): void 
   {
+    this.loadPaginatedDogadjaji();
+    /*
     this.loadDogadjajs();
     this.getDogadjajs();
+    */
+  }
+
+  loadPaginatedDogadjaji()
+  {
+    if(this.ulazniKlijent?.role == 'upravnik')
+    {
+      this.dogadjajService.getNeodobreniDogadjajiPaginated(this.currentPage, this.rowsPerPage, this.ulazniKlijent.dvorana?.idDvorana || 1).subscribe(data => {
+        /*this.dogadjajsPaginated = [];
+        for (const item of data.content) 
+        {
+          if(this.ulazniKlijent?.role == 'upravnik')
+          {
+            if(item.teren.dvorana.idDvorana == this.ulazniKlijent.dvorana?.idDvorana)
+            {
+              this.dogadjajsPaginated.push(item);
+            }
+          }
+          else
+          {
+            this.dogadjajsPaginated.push(item);
+          }
+        }*/
+       this.dogadjajsPaginated = data.content;
+        this.totalRecords = data.totalElements;
+      });
+    }
+  }
+
+  onPageChange(event: any)
+  {
+    this.currentPage = event.page;
+    this.rowsPerPage = event.rows;
+    this.loadPaginatedDogadjaji();
   }
 
   public getDogadjajs(): void
@@ -49,6 +90,7 @@ export class AdminOdobravanjeComponent implements OnInit
     );
   }
 
+  /*
   public async loadDogadjajs(): Promise<void>
   {
     try
@@ -78,9 +120,10 @@ export class AdminOdobravanjeComponent implements OnInit
     {
       console.log(error);
     }
-  }
+  }*/
 
   //LOGIKA ZA IZMJENU DOZVOLE
+  
 
   public onUpdateDogadjaj(dogadjaj: Dogadjaj): void 
   {
@@ -98,7 +141,7 @@ export class AdminOdobravanjeComponent implements OnInit
             console.log('Email sent.');
           });
         }
-        this.loadDogadjajs();
+        this.loadPaginatedDogadjaji();
       },
       (error: HttpErrorResponse) => {
         this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u odobravanju dogadjaja' });
@@ -121,7 +164,7 @@ export class AdminOdobravanjeComponent implements OnInit
               console.log('Email sent.');
             });
         }
-        this.loadDogadjajs();
+        this.loadPaginatedDogadjaji();
       },
       (error: HttpErrorResponse) => {
         this.messageService.add({ severity: 'error', summary: 'Greška', detail: 'Greška u brisanju događaja' });

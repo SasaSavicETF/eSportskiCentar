@@ -67,10 +67,10 @@ export class TerenService {
     if (!teren.duzina) {
       return throwError(() => 'Dužina mora biti unesena.');
     }
-    if (!teren.duzina) {
+    if (!teren.sirina) {
       return throwError(() => 'Širina mora biti unesena.');
     }
-    if (!teren.duzina) {
+    if (!teren.dostupan) {
       return throwError(() => 'Dostupnost mora biti unesena.');
     }
     return new Observable<void>((observer) => {

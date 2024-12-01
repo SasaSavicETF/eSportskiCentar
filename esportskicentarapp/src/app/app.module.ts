@@ -52,6 +52,7 @@ import { UpravnikPanelComponent } from './upravnik-panel/upravnik-panel.componen
 import { FinansijeComponent } from './finansije/finansije.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { TransakcijaComponent } from './transakcija/transakcija.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
     AdministratorComponent,
     CalendarComponent,
     UpravnikPanelComponent,
-    FinansijeComponent
+    FinansijeComponent,
+    TransakcijaComponent,
   ],
   imports: [
     BrowserModule,

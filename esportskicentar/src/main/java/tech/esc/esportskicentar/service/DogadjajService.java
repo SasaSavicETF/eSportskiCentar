@@ -3,6 +3,9 @@ package tech.esc.esportskicentar.service;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import tech.esc.esportskicentar.exception.UserNotFoundException;
 import tech.esc.esportskicentar.model.*;
@@ -24,6 +27,7 @@ public class DogadjajService {
     private final DogadjajRepository dogadjajRepository;
     private final CjenovnikRepository cjenovnikRepository;
     private final DnevniRasporedRepository dnevniRasporedRepository;
+    private final TransakcijaService transakcijaService;
 
     private final KlijentRepository klijentRepository;
 
@@ -35,6 +39,7 @@ public class DogadjajService {
     public DogadjajService(DogadjajRepository dogadjajRepository, CjenovnikRepository cjenovnikRepository,
                            DnevniRasporedRepository dnevniRasporedRepository, KlijentRepository klijentRepository,
                            SportRepository sportRepository, DvoranaRepository dvoranaRepository)
+                           TransakcijaService transakcijaService)
     {
         this.dogadjajRepository = dogadjajRepository;
         this.cjenovnikRepository = cjenovnikRepository;
@@ -42,6 +47,7 @@ public class DogadjajService {
         this.klijentRepository = klijentRepository;
         this.sportRepository = sportRepository;
         this.dvoranaRepository = dvoranaRepository;
+        this.transakcijaService = transakcijaService;
     }
 
     public List<Dogadjaj> findAllDogadjajs(){
@@ -222,6 +228,10 @@ public class DogadjajService {
         }
         dogadjaj.setCijena(BigDecimal.valueOf(cijena));
         System.out.println(cijena);
+        if(dogadjaj.isOdobren())
+        {
+            transakcijaService.createTransakcija(new Transakcija("Iznajmljivanje terena", true, BigDecimal.valueOf(cijena)));
+        }
         return dogadjajRepository.save(dogadjaj);
     }
 
@@ -230,7 +240,13 @@ public class DogadjajService {
         if(stariDogadjaj == null)
             return null;
         else
+        {
+            if(!stariDogadjaj.isOdobren() && dogadjaj.isOdobren())
+            {
+                transakcijaService.createTransakcija(new Transakcija("Iznajmljivanje terena", true, dogadjaj.getCijena()));
+            }
             return dogadjajRepository.save(dogadjaj);
+        }
     }
 
     public boolean deleteDogadjaj(Integer id){
@@ -238,6 +254,10 @@ public class DogadjajService {
         if(dogadjaj.isEmpty())
             return false;
         else {
+            if(dogadjaj.get().isOdobren())
+            {
+                transakcijaService.createTransakcija(new Transakcija("Otkazivanje iznajmljivanja terena", false, dogadjaj.get().getCijena()));
+            }
             dogadjajRepository.deleteById(id);
             return true;
         }
@@ -361,5 +381,11 @@ public class DogadjajService {
             case "all" -> "%Y-01-01";
             default -> throw new IllegalArgumentException("Invalid time range");
         };
+    }
+
+    public Page<Dogadjaj> getNeodabraniDogadjajiPaginated(Integer dvoranaId, Pageable pageable)
+    {
+        return dogadjajRepository.findAllNeodobreniPaginated(dvoranaId, pageable);
+
     }
 }

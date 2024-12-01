@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { Dogadjaj } from '../models/dogadjaj';
 import { DogadjajDTO } from '../models/dogadjaj-dto';
@@ -58,6 +58,12 @@ export class DogadjajService {
   public deleteDogadjaj(dogadjajId: number): Observable<void>
   {
     return this.http.delete<void>(`${this.apiServerUrl}/dogadjaj/${dogadjajId}`);
+  }
+
+  public getNeodobreniDogadjajiPaginated(page: number, size: number, dvoranaId: number): Observable<any>
+  {
+    let params = new HttpParams().set('page', page).set('size', size);
+    return this.http.get<any>(`${this.apiServerUrl}/dogadjaj/paginated/${dvoranaId}`, { params })
   }
 
   private validateDogadjaj(dogadjaj: Dogadjaj): Observable<void> {

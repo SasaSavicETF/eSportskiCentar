@@ -39,4 +39,11 @@ public class Transakcija
     @Basic
     @Column(name = "iznos")
     private BigDecimal iznos;
+
+    public Transakcija(String svrhaDoznake, boolean prihod, BigDecimal iznos)
+    {
+        this.svrhaDoznake = svrhaDoznake;
+        this.prihod = prihod;
+        this.iznos = iznos;
+    }
 }
