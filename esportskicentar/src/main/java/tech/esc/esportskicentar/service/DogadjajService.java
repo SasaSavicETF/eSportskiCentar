@@ -38,7 +38,7 @@ public class DogadjajService {
     @Autowired
     public DogadjajService(DogadjajRepository dogadjajRepository, CjenovnikRepository cjenovnikRepository,
                            DnevniRasporedRepository dnevniRasporedRepository, KlijentRepository klijentRepository,
-                           SportRepository sportRepository, DvoranaRepository dvoranaRepository)
+                           SportRepository sportRepository, DvoranaRepository dvoranaRepository,
                            TransakcijaService transakcijaService)
     {
         this.dogadjajRepository = dogadjajRepository;

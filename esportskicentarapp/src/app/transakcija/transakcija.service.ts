@@ -70,10 +70,6 @@ export class TransakcijaService
         {
             return throwError(() => 'Nepravilan unos iznosa.');
         }
-        if(!transakcija.prihod)
-        {
-            return throwError(() => 'Vrsta uplate mora biti unesena');
-        }
         return new Observable<void>((observer) => {
             observer.next();
             observer.complete();

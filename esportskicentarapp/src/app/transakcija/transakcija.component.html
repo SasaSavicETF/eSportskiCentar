@@ -1,3 +1,113 @@
-<div *ngFor="let transakcija of transakcijas">
-    <p>{{transakcija.svrhaDoznake}}</p>
+<p-toast></p-toast>
+<div class="sadrzaj">
+    <div class="parent">
+        <div>
+            <h1>Svlačionica</h1>
+        </div>
+        <!-- Modal za dodavanje -->
+        <div class="addDiv">
+            <p-button class="main-btn" label="Dodaj" icon="pi pi-plus" severity="help" (click)="showAddDialog()"></p-button>
+            <p-dialog header="Dodavanje transakcije" [(visible)]="addVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+                <div class="container">
+                   <form #addForm="ngForm" (ngSubmit)="onAddTransakcija(addForm)">
+                        <label for="svrha_doznake">Svrha doznake</label>
+                        <input type="text" pInputText class="textInput" id="svrha_doznake" ngModel name="svrhaDoznake" required>
+                        <div class="card flex justify-content-center check">
+                            <p-checkbox 
+                                [(ngModel)]="checkedAdd"
+                                [binary]="true"
+                                name="prihod" 
+                                inputId="prihod" />
+                            <label class="forCheck" for="prihod">Prihod</label>
+                        </div>                   
+                        <label for="iznos">Iznos</label>
+                        <input type="text" pInputText class="textInput" pattern="[0-9]+([.,][0-9]+)?" id="iznos" ngModel name="iznos" required/>
+                        <div class="addBtn">
+                            <p-button class="main-btn" type="submit" [disabled]="addForm.invalid || false" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+                        </div>
+                    </form>
+                </div>
+            </p-dialog>
+        </div>
+    </div>
+    <div class="search card flex flex-wrap justify-content-center gap-3">
+        <span>
+
+        </span>
+        <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input type="search" pInputText (ngModelChange)="searchTransakcijas(key.value)" #key="ngModel" ngModel/>
+        </span>
+    </div>
+    <p-table
+        [value]="transakcijas"
+        [paginator]="true"
+        [rows]="5"
+        [showCurrentPageReport]="true"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Prikazano od {first}. do {last}. od ukupno {totalRecords} zapisa"
+        [rowsPerPageOptions]="[5, 10, 25, 50]"
+        paginatorLocale="en-US"
+    >
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 50%">Svrha doznake</th>  
+            <th style="width: 25%">Prihod</th>
+            <th style="width: 25%">Opcije</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-transakcija>
+        <tr>
+            <td>{{ transakcija.svrhaDoznake }}</td>
+            <td [ngClass]="transakcija.prihod ? 'available' : 'not-available'">
+                {{ transakcija.prihod ? 'Prihod' : 'Rashod' }}
+              </td>
+            
+            <td>
+                <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" styleClass="p-button-text" (click)="showEditDialog(transakcija)"></p-button>
+                <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger " (click)="showDeleteDialog(transakcija)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+    
+    </p-table>
 </div>
+
+
+<!--Modal za izmjenu(edit)-->
+<p-dialog header="Izmjena transakcije" [(visible)]="editVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="false" [resizable]="false">
+    <div class="container">
+        <form #editForm="ngForm">
+            <input type="hidden" id="id_transakcija" ngModel="{{editTransakcija?.idTransakcija}}" name="idTransakcija"/>
+            <label for="svrha_doznake">Svrha doznake</label>
+            <input type="text" pInputText class="textInput" id="svrha_doznake" ngModel="{{editTransakcija?.svrhaDoznake}}" name="svrhaDoznake" required/>
+            <div class="card flex justify-content-center check">
+                <p-checkbox 
+                    [(ngModel)]="checkedEdit"
+                    [binary]="true"
+                    name="prihod" 
+                    inputId="prihod" />
+                <label class="forCheck" for="prihod">Prihod</label>
+            </div>
+            <label for="iznos">Iznos</label>
+            <input type="text" pInputText class="textInput" pattern="[0-9]+([.,][0-9]+)?" id="iznos" ngModel="{{editTransakcija?.iznos}}" name="iznos" required/>
+            <div class="addBtn">
+                <p-button class="main-btn" (onClick)="onUpdateTransakcija(editForm.value)" [disabled]="editForm.invalid || false" type="submit" label="Sačuvaj" [raised]="true" severity="help"></p-button>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+
+<!--Modal za brisanje-->
+<p-dialog header="Upozorenje" [(visible)]="deleteVisible" [modal]="true" [style]="{ width: '500px'}" [draggable]="true" [resizable]="false">
+    <div class="container">
+        <p>Da li zaista želite da obrišete zapis?</p>
+        <br>
+        <div class="addBtn">
+            <p-button (onClick)="closeDeleteDialog()" class="scndBtn" label="Odustani" severity="secondary"></p-button>
+            <p-button (onClick)="onDeleteTransakcija(delIdTransakcija)" label="Obriši" severity="danger"></p-button>
+        </div>
+    </div>
+</p-dialog>
+
+
