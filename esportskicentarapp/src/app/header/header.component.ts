@@ -39,6 +39,7 @@ export class HeaderComponent implements OnInit {
   showAdminPanel: boolean = false;
   showFinansije: boolean = false;
   showUpravnikPanel: boolean = false; 
+  showTransakcija: boolean = false;
 
   constructor(private router: Router, private userService : KlijentService, @Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -96,6 +97,7 @@ export class HeaderComponent implements OnInit {
         this.showSvlacionica = true;
         this.showTeren = true; 
         this.showUpravnikPanel = true;
+        this.showTransakcija=true;
       }
       else {
         this.showDodavanjeDogadjaja = true;
@@ -113,6 +115,7 @@ export class HeaderComponent implements OnInit {
         this.showAdministracija = true;
         this.showAdminPanel = true;
         this.showFinansije = true;
+        this.showTransakcija=true;
       }
     }
   }
@@ -140,6 +143,7 @@ export class HeaderComponent implements OnInit {
     this.showAdminPanel = false;
     this.showFinansije = false;
     this.showUpravnikPanel = false;
+    this.showTransakcija=false;
   }
 
   showPaddingMenu() {

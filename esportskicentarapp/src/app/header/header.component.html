@@ -102,6 +102,17 @@
             </div>
         </div>
     </a>
+    <a routerLink="/transakcija" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showTransakcija">
+        <div class="content">
+            <div class="column">
+                <i class="pi pi-wallet"></i>
+            </div>
+            <div class="column">
+                <p class="title">Transakcije</p>
+                <p class="description">Pregled prihoda i rashoda</p>
+            </div>
+        </div>
+    </a>
     <a routerLink="/takmicenje" routerLinkActive="active" (click)="toggleSidenav()" *ngIf="showTurnir">
         <div class="content">
             <div class="column">
