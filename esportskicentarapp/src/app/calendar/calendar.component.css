@@ -227,6 +227,9 @@ hr {
       align-items: center;
       width: 100%;
     }
+    .first-column {
+      min-width: 130px !important;
+    }
 
     .mob
     {
@@ -235,7 +238,10 @@ hr {
       margin-bottom: 20px;
     }
     .container {
+      overflow: auto;
       flex-direction: column;
+      max-width: 100%; /* Adjust as needed */
+      max-height: 400px; /* Set desired height */
     }
     
     .card-wrapper {
@@ -261,6 +267,8 @@ hr {
 
   th {
     background-color: rgba(50, 0, 128, 0.603); 
+    top : 0;
+    position: sticky;
   }
 
   .header-dates {
@@ -272,19 +280,21 @@ hr {
   .first-column {
     background-color: rgba(50, 0, 128, 0.603); 
     padding: 8px; 
-    width: 5% !important;
+    width: 150px !important;
+    position: sticky;
+    left: 0;
   }
 
   .filled-cell {
-    display: flex;
-    flex-direction: column; /* Allows inner content to flow vertically */
     justify-content: center; 
     text-align: left;
+
     height: 100% !important;
     box-sizing: border-box;
     border-radius: 10px;
     margin: 7px;
     padding: 15px;
+    border-top: 3px blue solid;
   }
 
   p {
