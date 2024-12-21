@@ -55,7 +55,7 @@ const routes: Routes = [
   { path: 'dvorana', component: DvoranaComponent, canActivate : [adminGuard]},
   { path: 'administrator', component: AdministratorComponent, canActivate : [adminGuard]},
   { path: 'adminPanel', component: AdminPanelComponent, canActivate : [adminGuard]},
-  { path: 'finansije', component: FinansijeComponent, canActivate : [adminGuard]},
+  { path: 'finansije', component: FinansijeComponent, /*canActivate : [adminGuard]*/},
   { path: 'sport', component: SportComponent, canActivate : [adminGuard]},
   { path: 'ekipa', component: EkipaComponent, canActivate : [adminGuard]},
   { path: 'transakcija', component: TransakcijaComponent, canActivate : [adminUpravnikGuard]},

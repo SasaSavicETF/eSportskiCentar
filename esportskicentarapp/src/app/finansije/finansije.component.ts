@@ -4,6 +4,7 @@ import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ZaradaStatsDto } from '../models/zarada-stats-dto';
 import { StatsDto } from '../models/stats-dto';
+import { PrihodiRashodiStatsDto } from '../models/prihodi-rashodi-stats-dto';
 
 @Component({
   selector: 'app-finansije',
@@ -12,6 +13,7 @@ import { StatsDto } from '../models/stats-dto';
   providers: [MessageService]
 })
 export class FinansijeComponent implements OnInit {
+  public prihodiRashodiStats: PrihodiRashodiStatsDto[] = [];
   public zaradaStats: ZaradaStatsDto[] = [];
   public sportStats: Map<string, number> = new Map();
   public dvoranaStats: Map<string, number> = new Map();
@@ -26,6 +28,7 @@ export class FinansijeComponent implements OnInit {
   public isBackDvoranaVisible: boolean = false;
   public isDrillDownDvorana: boolean = false;
 
+  incomeExpensesData: any;
   eventData: any;
   sportData: any;
   dvoranaData: any;
@@ -117,6 +120,7 @@ export class FinansijeComponent implements OnInit {
   }
 
   loadData() {
+    this.loadIncomeExpensesData();
     this.loadProfitData();
     this.loadSportData();
     this.loadDvoranaData();
@@ -158,6 +162,18 @@ export class FinansijeComponent implements OnInit {
     );
   }
 
+  loadIncomeExpensesData() {
+    this.finansijeService.getPrihodiRashodiData(this.selectedDate).subscribe(
+      (response: PrihodiRashodiStatsDto[]) => {
+        this.prihodiRashodiStats = response;
+        this.updatePrihodiRashodiStats();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
   loadDvoranaData() {
     this.finansijeService.getDvoranaData(this.selectedDate).subscribe(
       (response: { [dvorana: string]: number }) => {
@@ -181,6 +197,79 @@ export class FinansijeComponent implements OnInit {
       }
     )
   }
+
+  updatePrihodiRashodiStats() {
+    let prihodiData: number[] = [];
+    let rashodiData: number[] = [];
+
+    if (this.selectedDate === 'last_seven_days') {
+      this.labels = this.getLastSevenDays(this.daysMap);
+    }
+
+    else if (this.selectedDate === 'this_month') {
+      this.labels = this.getDayLabels(this.year, this.month);
+
+    } else if (this.selectedDate === 'this_year') {
+      this.labels = this.getMonthLabels();
+
+    } else if (this.selectedDate === 'all') {
+      const dates = this.prihodiRashodiStats.map(entry => this.getDate(entry.datum));
+      const oldest = Math.min(...dates.map(date => date.getFullYear()));
+
+      this.labels = this.getYearLabels(oldest);
+    }
+
+    const prihodi = new Array(this.labels.length).fill(0);
+    const rashodi = new Array(this.labels.length).fill(0);
+    this.prihodiRashodiStats.forEach(entry => {
+      const entryDate = this.getDate(entry.datum);
+      let dateValue;
+      switch (this.selectedDate) {
+        case 'last_seven_days':
+          dateValue = this.daysMap.get(entryDate.getDate());
+          break;
+        case 'this_month':
+          dateValue = entryDate.getDate()
+          break;
+        case 'this_year':
+          dateValue = entryDate.getMonth();
+          break;
+        case 'all':
+          dateValue = this.labels.indexOf(entryDate.getFullYear().toString());
+          break;
+      }
+      if (dateValue !== undefined) {
+        prihodi[dateValue] = entry.prihodi;
+        rashodi[dateValue] = entry.rashodi;
+      }
+    });
+
+    prihodiData = prihodi;
+    rashodiData = rashodi;
+
+    this.incomeExpensesData = {
+      labels: this.labels,
+      datasets: [
+        {
+          label: "Prihodi",
+          data: prihodiData,
+          fill: false,
+          borderColor: '#42A5F5',
+          backgroundColor: '#42A5F5',
+          tension: .4
+        },
+        {
+          label: "Rashodi",
+          data: rashodiData,
+          fill: false,
+          borderColor: '#FFA500',
+          backgroundColor: '#FFA500',
+          tension: .4
+        }
+      ]
+    };
+  }
+
 
   updateZaradaStats() {
     let sportData: number[] = [];

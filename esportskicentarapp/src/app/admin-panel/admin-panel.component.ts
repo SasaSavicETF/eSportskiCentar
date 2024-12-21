@@ -291,7 +291,7 @@ export class AdminPanelComponent implements OnInit{
     const sportCount = new Map<string, number>();
     
     this.dogadjajs.forEach(dogadjaj => {
-      if(dogadjaj.sport !== null && dogadjaj.sport !== null) {
+      if(dogadjaj.sport !== null) {
       const sport = dogadjaj.sport;
       if(sportCount.has(sport))
         sportCount.set(sport, sportCount.get(sport)! + 1);
