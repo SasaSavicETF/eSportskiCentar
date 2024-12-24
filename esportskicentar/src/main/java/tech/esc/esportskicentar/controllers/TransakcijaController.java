@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tech.esc.esportskicentar.model.PrihodiRashodiStatsDTO;
 import tech.esc.esportskicentar.model.TipTerena;
 import tech.esc.esportskicentar.model.Transakcija;
 import tech.esc.esportskicentar.service.TransakcijaService;
@@ -34,6 +35,12 @@ public class TransakcijaController
         return new ResponseEntity<>(transakcijas, HttpStatus.OK);
     }
 
+    @GetMapping("/financialoverview")
+    public ResponseEntity<PrihodiRashodiStatsDTO> getFinancialOverview() {
+        PrihodiRashodiStatsDTO prihodiRashodiStatsDTO = transakcijaService.getFinancialOverview();
+        return new ResponseEntity<>(prihodiRashodiStatsDTO, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Transakcija> getTransakcijaById(@PathVariable Integer id)
     {
@@ -43,7 +50,6 @@ public class TransakcijaController
         else
             return ResponseEntity.notFound().build();
     }
-
     @PostMapping
     public ResponseEntity<Transakcija> createTransakcija(@Valid @RequestBody Transakcija transakcija) {
         Transakcija newTransakcija = transakcijaService.createTransakcija(transakcija);

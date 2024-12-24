@@ -2,21 +2,34 @@
 <div class="sadrzaj">
     <div class="parent">
         
-        <div class="event-card">
-            <div class="event-info">
-            <h3 class="chart-name">Prihodi/Rashodi</h3>
-            <div class="drop card flex justify-content-center">
-                <p-dropdown class="custom-dd" [options]="dateOptions" name="eventDate" [(ngModel)]="selectedDate" (onChange)="loadData()" [showClear]="false"></p-dropdown>
+        <div class="info">
+            <div class="status-card">
+                <div class="status-card-icon">
+                    <i class="pi pi-plus-circle" style="font-size: 2.5rem"></i>
+                </div>
+                <div class="status-card-info">
+                    <h3>{{totalIncome}}</h3>
+                    <span>Ukupni prihod</span>
+                </div>
             </div>
-            </div>
-            <div class="event-body">
-            <p-chart class="event" type="line" [data]="incomeExpensesData" [options]="eventChartOptions"  width="833" height="400"></p-chart>
+
+            <div class="status-card">
+                <div class="status-card-icon">
+                    <i class="pi pi-minus-circle" style="font-size: 2.5rem"></i>
+                </div>
+                <div class="status-card-info">
+                    <h3>{{totalExpenses}}</h3>
+                    <span>Ukupni rashod</span>
+                </div>
             </div>
         </div>
 
         <div class="event-card">
             <div class="event-info">
             <h3 class="chart-name">Zarada</h3>
+            <div class="drop card flex justify-content-center">
+                <p-dropdown class="custom-dd" [options]="dateOptions" name="eventDate" [(ngModel)]="selectedDate" (onChange)="loadData()" [showClear]="false"></p-dropdown>
+            </div>
             </div>
             <div class="event-body">
             <p-chart class="event" type="line" [data]="eventData" [options]="eventChartOptions"  width="833" height="400"></p-chart>

@@ -15,8 +15,8 @@ export class FinansijeService {
 
   constructor(private http: HttpClient) { }
 
-  getPrihodiRashodiData(period: string) : Observable<PrihodiRashodiStatsDto[]>{
-    return this.http.get<PrihodiRashodiStatsDto[]>(`${this.apiServerUrl}/dogadjaj/financialoverview/for/${period}`);
+  getPrihodiRashodiData() : Observable<PrihodiRashodiStatsDto>{
+    return this.http.get<PrihodiRashodiStatsDto>(`${this.apiServerUrl}/transakcija/financialoverview`);
   }
 
   getZaradaData(period: string) :Observable<ZaradaStatsDto[]>{
