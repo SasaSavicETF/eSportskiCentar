@@ -1,4 +1,4 @@
-Prvo je neophodno izvršiti jednu od sql skripti koje se nalaze u folderu "baza". Jedna skripta sadrži osnovne podatke, druga ne.
+ Prvo je neophodno izvršiti jednu od sql skripti koje se nalaze u folderu "baza". Jedna skripta sadrži osnovne podatke, druga ne.
 
 Nakon kreiranja baze podataka, potrebno je u fajlu ./esportskicentar/src/main/resources/application.properties da podesite username i
 password za pristup vašem lokalnom MySQL serveru (takođe, obratite pažnju da je korišten port 3306 koji je difoltni)
