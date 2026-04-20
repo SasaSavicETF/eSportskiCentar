@@ -517,7 +517,7 @@ export class DogadjajComponent implements OnInit{
       },
       (error: HttpErrorResponse) =>
       {
-        alert('Greška u dodavanju događaja');
+        alert('Greška u dodavanju događaja' + error.status);
       }
     );
     this.resetAddDialog();

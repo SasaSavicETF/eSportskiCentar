@@ -142,7 +142,9 @@ public class DogadjajService {
             }
         }
         List<Cjenovnik> cjenovnici = cjenovnikRepository.findByTerenId(dogadjaj.getTeren().getIdTeren());
-        List<Cjenovnik> cjenovnici2 = cjenovnikRepository.findByTerenId(dogadjaj.getTeren().getIdTeren());
+        double cijena = calculatePrice(dogadjaj.getVrijemeOd().toString(), dogadjaj.getVrijemeDo().toString(),
+                dogadjaj.getTeren().getIdTeren(), new ArrayList<>(cjenovnici));
+        /* List<Cjenovnik> cjenovnici2 = cjenovnikRepository.findByTerenId(dogadjaj.getTeren().getIdTeren());
         long vrijemeOdMillis = dogadjaj.getVrijemeOd().getTime();
         long vrijemeDoMillis = dogadjaj.getVrijemeDo().getTime();
 
@@ -227,12 +229,97 @@ public class DogadjajService {
             }
         }
         dogadjaj.setCijena(BigDecimal.valueOf(cijena));
-        System.out.println(cijena);
+        System.out.println(cijena); */
         if(dogadjaj.isOdobren())
         {
             transakcijaService.createTransakcija(new Transakcija("Iznajmljivanje terena", true, BigDecimal.valueOf(cijena)));
         }
         return dogadjajRepository.save(dogadjaj);
+    }
+
+    public double calculatePrice(String vrijemeOd, String vrijemeDo, int idTerena,
+                                        ArrayList<Cjenovnik> cjenovniks) {
+        double diffHours = 0.0;
+        double cijenaTemp = 0.0;
+        boolean kraj = false;
+
+        long vrijemeOdMillis = timeToMillis(vrijemeOd);
+        long vrijemeDoMillis = timeToMillis(vrijemeDo);
+
+
+        for (Cjenovnik c : cjenovniks) {
+            if(kraj) break;
+
+            long cVrijemeOd = timeToMillis(c.getVrijemeOd().toString());
+            long cVrijemeDo = timeToMillis(c.getVrijemeDo().toString());
+
+            if (c.getTeren().getIdTeren() == idTerena) {
+                if ((vrijemeOdMillis >= cVrijemeOd && vrijemeOdMillis <= cVrijemeDo)
+                        && (vrijemeDoMillis >= cVrijemeOd && vrijemeDoMillis <= cVrijemeDo)) {
+
+                    diffHours = (vrijemeDoMillis - vrijemeOdMillis) / 3600000.0;
+                    cijenaTemp = diffHours * c.getCijena().doubleValue();
+                    break;
+                } else if ((vrijemeOdMillis >= cVrijemeOd && vrijemeOdMillis <= cVrijemeDo)
+                        && (vrijemeDoMillis >= cVrijemeDo)) {
+
+                    boolean first = true;
+                    boolean rad = false;
+
+                    for (Cjenovnik temp : cjenovniks) {
+                        if (temp.getTeren().getIdTeren() != idTerena) {
+                            continue;
+                        }
+                        long tempVrijemeOd = timeToMillis(temp.getVrijemeOd().toString());
+                        long tempVrijemeDo = timeToMillis(temp.getVrijemeDo().toString());
+
+
+                        if (!kraj) {
+                            if (vrijemeOdMillis >= tempVrijemeOd && vrijemeOdMillis < tempVrijemeDo) {
+                                rad = true;
+                            }
+                            if (rad) {
+                                if (first) {
+                                    long diffMillis;
+                                    if(vrijemeDoMillis <= tempVrijemeDo) {
+                                        diffMillis = vrijemeDoMillis - vrijemeOdMillis;
+                                        kraj = true;
+                                        rad = false;
+                                    } else
+                                        diffMillis = tempVrijemeDo - vrijemeOdMillis;
+                                    diffHours = diffMillis / 3600000.0;
+                                    cijenaTemp += diffHours * temp.getCijena().doubleValue();
+                                    first = false;
+                                } else if (!first) {
+                                    long overlapStart = Math.max(tempVrijemeOd, vrijemeOdMillis); // 21h
+                                    long overlapEnd = Math.min(tempVrijemeDo, vrijemeDoMillis); // 23h
+
+                                    if (overlapStart < overlapEnd) {
+                                        long diffMillis = overlapEnd - overlapStart;
+                                        diffHours = diffMillis / 3600000.0;
+                                        cijenaTemp += diffHours * temp.getCijena().doubleValue();
+                                    }
+
+                                    if (vrijemeDoMillis <= tempVrijemeDo) {
+                                        kraj = true;
+                                        rad = false;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return cijenaTemp;
+    }
+
+    private long timeToMillis(String time) {
+        String[] parts = time.split(":");
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
+        return (hours * 3600 + minutes * 60) * 1000;
     }
 
     public Dogadjaj updateDogadjaj(Dogadjaj dogadjaj){

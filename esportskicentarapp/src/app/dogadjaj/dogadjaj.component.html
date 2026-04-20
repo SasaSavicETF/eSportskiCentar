@@ -138,8 +138,7 @@
                 [defaultDate]="defaultDate"      
                 [stepMinute]="30"
                 [stepSecond]="0"
-                [readonlyInput]="true" 
-                [disabled]="izracunataCijena"  
+                [readonlyInput]="true"   
                 dataType="string">
               </p-calendar>
             </div>
@@ -158,7 +157,6 @@
                 [defaultDate]="defaultDate"
                 [stepMinute]="30"
                 [stepSecond]="0" 
-                [disabled]="izracunataCijena" 
                 [readonlyInput]="true"   
                 dataType="string">
               </p-calendar>
@@ -197,7 +195,7 @@
               <h3 class="cijena" *ngIf="this.vremenskiSukob == true">Birani termin je već zauzet</h3>
               <h3 class="cijena" *ngIf="this.vremenskiSukob == false && izracunataCijena && this.cijena != 0">Cijena: {{ this.cijena }} KM</h3>
               <h3 class="cijena" *ngIf="this.vremenskiSukob == false && this.cijena == 0">Termin van radnog vremena!</h3>
-              <p-button *ngIf="izracunataCijena && this.vremenskiSukob == false && this.cijena !== 0" type="submit" [disabled]="addForm.invalid || false  || this.cijena == 0" label="Rezervisi" [raised]="true" severity="help"></p-button>
+              <p-button *ngIf="izracunataCijena && this.vremenskiSukob == false" type="submit" [disabled]="addForm.invalid || false  || this.cijena == 0" label="Rezervisi" [raised]="true" severity="help"></p-button>
             </div>
           </form>
       </div>
